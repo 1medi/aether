@@ -9,7 +9,7 @@ export default function ModalSimpleUsageShowcase() {
     <Icon
       name="settings-outline"  // Changed to gear icon
       {...props}
-      style={{ width: 32, height: 32 }}
+      style={{ width: 40, height: 40, margin: 'auto', color:'#08415C', backgroundColor:'#eef2ff', padding:20, borderRadius: 20, overflow: 'hidden', background: 'transparent', borderWidth: 1.5, borderColor: 'white' }}
     />
   );
 
@@ -45,11 +45,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,  
     justifyContent: 'flex-start', 
+    backgroundColor:'none'
   },
   header: {
     flexDirection: 'row', 
-    justifyContent: 'flex-end',  
-    padding: 20,
+    justifyContent: 'flex-end', 
   },
   modalBackground: {
     flex: 1,

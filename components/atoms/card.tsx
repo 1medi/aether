@@ -23,12 +23,13 @@ export default function CardSimple() {
 
 const styles = StyleSheet.create({
   formCard:{
-    margin:10
+    margin:10,
+    borderRadius: 30,
   },
   CardExample: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderRadius: 20,
+
   },
   title: {
     fontSize: 18,

@@ -2,12 +2,13 @@ module.exports = {
   presets: ['babel-preset-expo'],
   plugins: [
     [
-      'module-resolver',
+      "module-resolver",
       {
+        root: ["./src"],
         alias: {
-          '@components': './path/to/components',
-        },
-      },
-    ],
-  ],
+          "@components": "./src/components"
+        }
+      }
+    ]
+  ]
 };
