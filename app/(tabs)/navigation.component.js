@@ -7,24 +7,31 @@ import { DetailsScreen } from './details.component';
 import { CameraScreen } from './camera.component';
 import { FolderScreen } from './folder.component';
 import { PeopleScreen } from './people.component';
+import { StyleSheet } from 'react-native';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
 const SocialIcon = (props) => (
-  <Icon name="people-outline" {...props} />
+  <Icon name="people-outline" {...props}
+  style={{width: 48, height: 48}}
+  />
 );
 
-const FileIcon = (props) => (
-  <Icon name="file-text-outline" {...props} />
+const BookIcon = (props) => (
+  <Icon name="book-outline" {...props}
+  style={{width: 48, height: 48}}
+  />
 );
 
 const HomeIcon = (props) => (
-  <Icon name="home-outline" {...props} />
+  <Icon name="home-outline" {...props} 
+  style={{width: 48, height: 48}}
+  />
 );
 
 const FolderIcon = (props) => (
-  <Icon name="alert-circle-outline" {...props}
-  
+  <Icon name="folder-outline" {...props}
+  style={{width: 48, height: 48}}
   />
 );
 
@@ -35,21 +42,23 @@ const BottomTabBar = ({ navigation, state }) => (
     onSelect={index => navigation.navigate(state.routeNames[index])}
     style={styles.navBarContainer} 
   >
-    <BottomNavigationTab icon={HomeIcon} title="Home" />
-    <BottomNavigationTab icon={FileIcon} title="Details" />
+    <BottomNavigationTab icon={HomeIcon}/>
+    <BottomNavigationTab icon={FolderIcon}/>
     <BottomNavigationTab
       icon={(props) => (
-        <Icon {...props} name="camera-outline" style={styles.cameraIcon} />
+        <Icon {...props} name="file-outline" style={styles.ScanIcon} />
       )}
       style={styles.cameraTab}  
     />
-    <BottomNavigationTab icon={FolderIcon} title="Folder" />
-    <BottomNavigationTab icon={SocialIcon} title="People" />
+    <BottomNavigationTab icon={BookIcon}/>
+    <BottomNavigationTab icon={SocialIcon}/>
   </BottomNavigation>
 );
 
 const TabNavigator = () => (
-  <Navigator style={styles.navContainer} tabBar={props => <BottomTabBar {...props} />}>
+  <Navigator   screenOptions={{
+    headerShown: false, 
+  }} style={styles.navContainer} tabBar={props => <BottomTabBar {...props} />}>
     <Screen name="Home" component={HomeScreen} options={{ title: 'Aether Home' }} />
     <Screen name="Details" component={DetailsScreen} />
     <Screen name="Camera" component={CameraScreen} />
@@ -64,30 +73,26 @@ export const AppNavigator = () => (
   </NavigationContainer>
 );
 
-const styles = {
+const styles = StyleSheet.create({
   navBarContainer: {
     backgroundColor: '#E0F7FA',  
     borderRadius: 20,  
-    paddingBottom: 10,
+    marginBottom: 40,
     marginHorizontal: 20,
     paddingHorizontal: 10,
     height: 80,
     border: '20px'
   },
   cameraTab: {
-    backgroundColor: '#003366',  
+    backgroundColor: '#2E8BB7',  
     borderRadius: 40,
-    marginTop: -30,
-    elevation: 5,
+    width:100,
   },
-  cameraIcon: {
+  ScanIcon: {
     width: 40,
     height: 40,
     tintColor: '#ffffff', 
   },
-  navContainer: {
-    border: '2px solid red'
-  }
-};
+});
 
 
