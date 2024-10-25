@@ -4,11 +4,11 @@ import { Button, Divider, Layout, TopNavigation, Icon, Input } from '@ui-kitten/
 import Settings from '@/components/atoms/settings.js'
 import CardSimple from '@/components/atoms/card';
 import { StyleSheet, Text, Image } from 'react-native';
+import OptionButton from '@/components/atoms/optionButton';
 import DarkModeIcon from '@/components/atoms/darkMode';
 import FilterIcon from '@/components/atoms/filterButton';
-import HeaderProfile from '@/components/molecules/Header';
-import LibraryButton from '@/components/molecules/FormLibraryButtons'
 
+import HeaderProfile from '@/components/molecules/header';
 import {
   useFonts,
   Inter_100Thin,
@@ -42,6 +42,17 @@ export const FolderScreen = ({ navigation }) => {
   if (!fontsLoaded) {
     return <AppLoading />
   }
+  const SearchIcon = (props) => (
+    <Icon name="search-outline" {...props} />
+  );
+
+  const FileTextIcon = (props) => (
+    <Icon name={"file-text-outline"} {...props} />
+  );
+
+  const UploadIcon = (props) => (
+    <Icon name={"upload-outline"} {...props} />
+  );
 
   const FilterIcon = (props) => (
     <Icon name='options-2-outline' {...props} />
@@ -50,6 +61,8 @@ export const FolderScreen = ({ navigation }) => {
   const navigateDetails = () => {
     navigation.navigate('Details');
   };
+
+
 
   // const [currentDate, setCurrentDate] = useState('')
 
@@ -62,12 +75,15 @@ export const FolderScreen = ({ navigation }) => {
   //   )
   // }, [])
 
+
+
+
   return (
     <>
 
       <SafeAreaView style={styles.homePage}>
-
-          <HeaderProfile/>
+      <HeaderProfile/>
+    
 
           <Layout style={{ backgroundColor: 'none', padding: 20, width: 'auto' }}>
             <Text style={styles.headerText}>Form Library</Text>
@@ -84,10 +100,11 @@ export const FolderScreen = ({ navigation }) => {
 
         <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none', margin: 10  }}>
         <Layout style={{ backgroundColor: 'none', }} >
-           <LibraryButton title='Canadian Pension Plan'/>
-           <LibraryButton title='Old Age Security'/>
-           <LibraryButton title='Pension'/>
-           <LibraryButton title='Pension'/>
+            <CardSimple title='Canadian Pension Plan'/>
+            <CardSimple title='Medical Form'/>
+            <CardSimple title='Medical Form 2'/>
+            <CardSimple title='Tax Form'/>
+
         </Layout>
 
 

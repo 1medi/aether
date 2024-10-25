@@ -6,7 +6,6 @@ import CardSimple from '@/components/atoms/card';
 import { StyleSheet, Text, Image } from 'react-native';
 import OptionButton from '@/components/atoms/optionButton'
 import DarkModeIcon from '@/components/atoms/darkMode'
-import HeaderProfile from '@/components/molecules/Header'
 
 import {
   useFonts,
@@ -76,11 +75,24 @@ export const HomeScreen = ({ navigation }) => {
         style={styles.gradientContainer}
       >
         <SafeAreaView style={styles.homePage}>
-        <HeaderProfile/>
           <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none' }}>
-            
-            
-
+            <Layout style={{ backgroundColor: '', display: 'flex', flexDirection: 'row', padding: 10, }}>
+              <Image
+                style={{ width: 75, height: 75, borderRadius: 100, }}
+                source={require('@/assets/images/lbj.jpg')}
+              />
+              <Layout style={{ backgroundColor: 'none', padding: 10 }}>
+                <Text style={{ fontFamily: 'Inter_600SemiBold', fontSize: 18 }}>Chris Topher</Text>
+                <Text>
+                  October, 20 Wed
+                  {/* {currentDate} */}
+                </Text>
+              </Layout>
+              <Layout style={{ backgroundColor: '', flexDirection: 'row', margin: 'auto', borderLeftWidth: 1.5, borderLeftColor: 'white', height: 40, width: 125 }}>
+                <DarkModeIcon style={{ backgroundColor: '' }} />
+                <Settings style={{}} />
+              </Layout>
+            </Layout>
             <Layout style={{ backgroundColor: 'none', padding: 20, width: 400 }}>
               <Text style={styles.headerText}>Hello Chris!{"\n"}Need help <Text style={{ fontFamily: 'Inter_800ExtraBold', color: '#2E8BB7' }}>Simplifying </Text>{"\n"}a form today?</Text>
             </Layout>

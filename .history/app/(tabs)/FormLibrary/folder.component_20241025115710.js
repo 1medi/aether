@@ -6,8 +6,7 @@ import CardSimple from '@/components/atoms/card';
 import { StyleSheet, Text, Image } from 'react-native';
 import DarkModeIcon from '@/components/atoms/darkMode';
 import FilterIcon from '@/components/atoms/filterButton';
-import HeaderProfile from '@/components/molecules/Header';
-import LibraryButton from '@/components/molecules/FormLibraryButtons'
+import HeaderProfile from '@/components/molecules/header';
 
 import {
   useFonts,
@@ -43,13 +42,12 @@ export const FolderScreen = ({ navigation }) => {
     return <AppLoading />
   }
 
-  const FilterIcon = (props) => (
-    <Icon name='options-2-outline' {...props} />
-  );
 
   const navigateDetails = () => {
     navigation.navigate('Details');
   };
+
+
 
   // const [currentDate, setCurrentDate] = useState('')
 
@@ -61,6 +59,9 @@ export const FolderScreen = ({ navigation }) => {
   //     date + '/' + month + '/' + year
   //   )
   // }, [])
+
+
+
 
   return (
     <>
@@ -84,10 +85,10 @@ export const FolderScreen = ({ navigation }) => {
 
         <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none', margin: 10  }}>
         <Layout style={{ backgroundColor: 'none', }} >
-           <LibraryButton title='Canadian Pension Plan'/>
-           <LibraryButton title='Old Age Security'/>
-           <LibraryButton title='Pension'/>
-           <LibraryButton title='Pension'/>
+            <CardSimple title='Canadian Pension Plan'/>
+            <CardSimple title='Medical Form'/>
+            <CardSimple title='Medical Form 2'/>
+            <CardSimple title='Tax Form'/>
         </Layout>
 
 
