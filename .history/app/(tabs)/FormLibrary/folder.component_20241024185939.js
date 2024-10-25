@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, ScrollView, View } from 'react-native';
 import { Button, Divider, Layout, TopNavigation, Icon, Input } from '@ui-kitten/components';
@@ -6,7 +7,6 @@ import CardSimple from '@/components/atoms/card';
 import { StyleSheet, Text, Image } from 'react-native';
 import OptionButton from '@/components/atoms/optionButton'
 import DarkModeIcon from '@/components/atoms/darkMode'
-import FilterIcon from '@/components/atoms/filterButton'
 
 import {
   useFonts,
@@ -53,13 +53,10 @@ export const FolderScreen = ({ navigation }) => {
     <Icon name={"upload-outline"} {...props} />
   );
 
+
   const navigateDetails = () => {
     navigation.navigate('Details');
   };
-
-  const FilterIcon = (props) => (
-    <Icon name='options-2-outline' {...props} />
-  );
 
   // const [currentDate, setCurrentDate] = useState('')
 
@@ -72,8 +69,10 @@ export const FolderScreen = ({ navigation }) => {
   //   )
   // }, [])
 
+const InputSimpleUsageShowcase = (): React.ReactElement => {
 
-
+    const [value, setValue] = React.useState('');
+};
 
   return (
     <>
@@ -97,22 +96,18 @@ export const FolderScreen = ({ navigation }) => {
               <Settings style={{}} />
             </Layout>
           </Layout>
-
           <Layout style={{ backgroundColor: 'none', padding: 20, width: 400 }}>
             <Text style={styles.headerText}>Form Library</Text>
           </Layout>
 
-          <Layout style={{ backgroundColor:'none', padding: 20, width: 400, display: 'flex' }}>
-          <Input style={{ borderRadius: '20', width: '80%'}}
-              placeholder='Place your Text'
-            />
-            <FilterIcon
-              title="filter"
-              accessory={FilterIcon}
-              style={{}}
-            />
-          </Layout>
+          <Input
+      placeholder='Place your Text'
+      value={value}
+      onChangeText={nextValue => setValue(nextValue)}
+    />
+          <View>
 
+          </View>
 
         </ScrollView>
 

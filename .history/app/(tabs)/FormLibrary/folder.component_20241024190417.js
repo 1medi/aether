@@ -6,7 +6,6 @@ import CardSimple from '@/components/atoms/card';
 import { StyleSheet, Text, Image } from 'react-native';
 import OptionButton from '@/components/atoms/optionButton'
 import DarkModeIcon from '@/components/atoms/darkMode'
-import FilterIcon from '@/components/atoms/filterButton'
 
 import {
   useFonts,
@@ -57,9 +56,9 @@ export const FolderScreen = ({ navigation }) => {
     navigation.navigate('Details');
   };
 
-  const FilterIcon = (props) => (
-    <Icon name='options-2-outline' {...props} />
-  );
+  const InputSimpleUsageShowcase = (): React.ReactElement => {
+
+    const [value, setValue] = React.useState('');
 
   // const [currentDate, setCurrentDate] = useState('')
 
@@ -71,8 +70,6 @@ export const FolderScreen = ({ navigation }) => {
   //     date + '/' + month + '/' + year
   //   )
   // }, [])
-
-
 
 
   return (
@@ -97,22 +94,17 @@ export const FolderScreen = ({ navigation }) => {
               <Settings style={{}} />
             </Layout>
           </Layout>
-
           <Layout style={{ backgroundColor: 'none', padding: 20, width: 400 }}>
             <Text style={styles.headerText}>Form Library</Text>
-          </Layout>
-
-          <Layout style={{ backgroundColor:'none', padding: 20, width: 400, display: 'flex' }}>
-          <Input style={{ borderRadius: '20', width: '80%'}}
+            <Input
               placeholder='Place your Text'
-            />
-            <FilterIcon
-              title="filter"
-              accessory={FilterIcon}
-              style={{}}
+              value={value}
+              onChangeText={nextValue => setValue(nextValue)}
             />
           </Layout>
+          <View>
 
+          </View>
 
         </ScrollView>
 
@@ -121,7 +113,7 @@ export const FolderScreen = ({ navigation }) => {
     </>
 
   );
-};
+}};
 
 const styles = StyleSheet.create(
   {
