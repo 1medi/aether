@@ -1,18 +1,18 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { BottomNavigation, BottomNavigationTab, Icon } from '@ui-kitten/components';
+import { BottomNavigation, BottomNavigationTab, Icon, Layout } from '@ui-kitten/components';
 import { HomeScreen } from './home.component';
-import { DetailsScreen } from './details.component';
-import { CameraScreen } from './camera.component';
-import { FolderScreen } from './folder.component';
-import { PeopleScreen } from './people.component';
+import { DetailsScreen } from './FormHistory/details.component';
+import { CameraScreen } from './CameraForm/camera.component';
+import { FolderScreen } from './FormLibrary/folder.component';
+import { PeopleScreen } from './SavedProfiles/people.component';
 import { StyleSheet } from 'react-native';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
 const SocialIcon = (props) => (
-  <Icon name="people-outline" {...props}
+  <Icon name="person-outline" {...props}
   style={{width: 48, height: 48}}
   />
 );
@@ -36,6 +36,7 @@ const FolderIcon = (props) => (
 );
 
 const BottomTabBar = ({ navigation, state }) => (
+  <Layout style={styles.navOuterContainer}>
   <BottomNavigation
     appearance="noIndicator"
     selectedIndex={state.index}
@@ -53,6 +54,8 @@ const BottomTabBar = ({ navigation, state }) => (
     <BottomNavigationTab icon={BookIcon}/>
     <BottomNavigationTab icon={SocialIcon}/>
   </BottomNavigation>
+  </Layout>
+
 );
 
 const TabNavigator = () => (
@@ -77,11 +80,17 @@ const styles = StyleSheet.create({
   navBarContainer: {
     backgroundColor: '#E0F7FA',  
     borderRadius: 20,  
-    marginBottom: 40,
     marginHorizontal: 20,
-    paddingHorizontal: 10,
     height: 80,
-    border: '20px'
+    border: '20px',
+    tintColor: 'none' 
+  },
+  navOuterContainer: {
+    backgroundColor: 'none',  
+    opacity: 12
+  },
+  navContainer: {
+    backgroundColor: 'none',  
   },
   cameraTab: {
     backgroundColor: '#2E8BB7',  

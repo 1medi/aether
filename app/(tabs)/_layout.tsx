@@ -9,6 +9,7 @@ import { AppNavigator } from './navigation.component';
 import { default as theme } from '@/custom-theme.json'; 
 import { LinearGradient } from 'expo-linear-gradient';
 
+
 export default function App() {
 
   return (
@@ -18,12 +19,8 @@ export default function App() {
         {...eva}
         theme={{ ...eva.light, ...theme }}
       >
-        <LinearGradient
-          colors={['#eef2ff', '#c4d3ff']}
-          style={styles.container} 
-        >
           <AppNavigator />
-        </LinearGradient>
+
       </ApplicationProvider>
     </>
   );
@@ -32,5 +29,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'transparent',
   },
 });

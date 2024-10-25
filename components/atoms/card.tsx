@@ -1,20 +1,26 @@
 import React from 'react';
-import { Card, Text } from '@ui-kitten/components';
+import { Card, Text, Icon } from '@ui-kitten/components';
 import { Image, StyleSheet, View } from 'react-native';
 
+
 export default function CardSimple() {
+
+  const ArrowIcon = (props) => (
+    <Icon name="arrow-up" {...props} 
+    style={styles.arrowIcon}
+    />
+  );
 
   return (
     <Card style={styles.formCard} >
       <View style={styles.CardExample}>
+      <ArrowIcon/>
         <Image
-          source={require('@/assets/images/clipboard-outline.png')}
+          source={require('@/assets/images/form.svg')}
           style={{ width: 64, height: 64, borderRadius: 8, padding:0 }}
         />
       <View style={{ flex: 1 }}>
-        <Text style={styles.title}>Hello</Text>
-        <Text style={styles.subheader}>From Code</Text>
-        <Text style={styles.body}>Here lies some text about the form</Text>
+        <Text style={styles.title}>Candian Pension Plan</Text>
       </View>
       </View>
     </Card>
@@ -23,18 +29,21 @@ export default function CardSimple() {
 
 const styles = StyleSheet.create({
   formCard:{
-    margin:10,
     borderRadius: 30,
+    padding:0,
+    backgroundColor: '#08415C',
+    display: 'flex',
+    flexDirection:'column'
   },
   CardExample: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'center',
 
   },
   title: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: 'black',
+    color: 'white',
   },
   subheader: {
     fontSize: 14,
@@ -42,6 +51,14 @@ const styles = StyleSheet.create({
   },
   body: {
     fontSize: 12
+  },
+  arrowIcon: {
+    maxHeight: 48,
+    maxWidth: 48,
+    transform: [{rotateX: '0deg'}, {rotateZ: '45deg'}],
+    alignItems: 'center',
+    padding: 0,
+    margin: 0
   }
 });
 
