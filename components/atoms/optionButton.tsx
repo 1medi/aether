@@ -13,20 +13,15 @@ interface BuddonProps {
 export default function Buddon({ title, accessory: Accessory }: BuddonProps) {
   return (
 
-    <LinearGradient
-      colors={['#2E8BB7', '#08415C']}
-      start={[0, 0]}
-      end={[1, 1]}
+    <View
       style={styles.buttonGradient}
     >
-      {Accessory && (
         <Accessory style={{
           width: 64,
           height: 64,
           tintColor: '#ffffff'
         }} />
-      )}
-    </LinearGradient>
+    </View>
 
 
   );
@@ -55,5 +50,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     margin: 10,
+    backgroundColor: '#08415C'
   },
 });
