@@ -40,22 +40,7 @@ export const CameraScreen = ({ navigation }) => {
   if (!fontsLoaded) {
     return <AppLoading />
   }
-  const SearchIcon = (props) => (
-    <Icon name="search-outline" {...props} />
-  );
 
-  const FileTextIcon = (props) => (
-    <Icon name={"file-text-outline"} {...props} />
-  );
-
-  const UploadIcon = (props) => (
-    <Icon name={"upload-outline"} {...props} />
-  );
-
-
-  const navigateDetails = () => {
-    navigation.navigate('Details');
-  };
 
   // const [currentDate, setCurrentDate] = useState('')
 
