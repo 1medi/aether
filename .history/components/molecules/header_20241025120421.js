@@ -1,0 +1,32 @@
+import React, { useState, useEffect } from 'react';
+import { SafeAreaView, ScrollView, View } from 'react-native';
+import { Button, Divider, Layout, TopNavigation, Icon } from '@ui-kitten/components';
+import Settings from '@/components/atoms/settings.js'
+import CardSimple from '@/components/atoms/card';
+import { StyleSheet, Text, Image } from 'react-native';
+import OptionButton from '@/components/atoms/optionButton'
+import DarkModeIcon from '@/components/atoms/darkMode'
+
+const HeaderProfile = () => {
+    return (
+<Layout style={{ backgroundColor: '', display: 'flex', flexDirection: 'row', padding: 10, }}>
+<Image
+  style={{ width: 75, height: 75, borderRadius: 100, }}
+  source={require('@/assets/images/lbj.jpg')}
+/>
+<Layout style={{ backgroundColor: 'none', padding: 10 }}>
+  <Text style={{ fontFamily: 'Inter_600SemiBold', fontSize: 18 }}>Chris Topher</Text>
+  <Text>
+    October, 20 Wed
+    {/* {currentDate} */}
+  </Text>
+</Layout>
+<Layout style={{ backgroundColor: '', flexDirection: 'row', margin: 'auto', borderLeftWidth: 1.5, borderLeftColor: 'white', height: 40, width: 125 }}>
+  <DarkModeIcon style={{ backgroundColor: '' }} />
+  <Settings style={{}} />
+</Layout>
+</Layout>
+    );
+};
+
+export default HeaderProfile;
