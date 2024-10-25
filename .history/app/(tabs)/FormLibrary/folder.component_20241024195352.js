@@ -106,7 +106,7 @@ export const FolderScreen = ({ navigation }) => {
           <Input style={{ borderRadius: '20', width: '80%'}}
               placeholder='Place your Text'
             />
-            <FilterIcon
+            <OptionButton
               title="filter"
               accessory={FilterIcon}
               style={{}}
