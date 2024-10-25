@@ -5,20 +5,20 @@ import { useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient'
 
-interface BuddonProps {
+interface ButtonProps {
   title: string,
   accessory: React.ComponentType<any>;
 }
 
-export default function Buddon({ title, accessory: Accessory }: BuddonProps) {
+export default function Buddon({ title, accessory: Accessory }: ButtonProps) {
   return (
 
     <View
       style={styles.buttonGradient}
     >
         <Accessory style={{
-          width: 10,
-          height: 10,
+          width: 64,
+          height: 64,
           tintColor: '#ffffff'
         }} />
     </View>
@@ -34,11 +34,12 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   button: {
-    
+    flexDirection: 'column',
+    alignContent: 'center',
     margin: 10,
     borderRadius: 50,
-    width: 10,
-    height: 10,
+    width: 50,
+    height: 50,
 
   },
   buttonGradient: {
