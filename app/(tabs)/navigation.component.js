@@ -13,25 +13,25 @@ const { Navigator, Screen } = createBottomTabNavigator();
 
 const SocialIcon = (props) => (
   <Icon name="person-outline" {...props}
-  style={{width: 48, height: 48}}
+  style={{width: 48, height: 48,margin: 10}}
   />
 );
 
 const BookIcon = (props) => (
   <Icon name="book-outline" {...props}
-  style={{width: 48, height: 48}}
+  style={{width: 48, height: 48,margin: 10}}
   />
 );
 
 const HomeIcon = (props) => (
   <Icon name="home-outline" {...props} 
-  style={{width: 48, height: 48}}
+  style={{width: 48, height: 48,margin: 10}}
   />
 );
 
 const FolderIcon = (props) => (
   <Icon name="folder-outline" {...props}
-  style={{width: 48, height: 48}}
+  style={{width: 48, height: 48, margin: 10}}
   />
 );
 
@@ -39,7 +39,7 @@ const ScanIcon = (props) => (
   <Image
   {...props}
   source={require('@/assets/images/scanIcon.svg')}
-  style={{ width: 64, height: 64, borderRadius: 8, padding:0 }}
+  style={{ width: 64, height: 64, borderRadius: 8, padding:10 }}
 />
 );
 
@@ -63,7 +63,6 @@ const BottomTabBar = ({ navigation, state }) => (
     <BottomNavigationTab icon={SocialIcon}/>
   </BottomNavigation>
   </Layout>
-
 );
 
 const TabNavigator = () => (
@@ -87,30 +86,22 @@ export const AppNavigator = () => (
 const styles = StyleSheet.create({
   navBarContainer: {
     position:'absolute',
-    backgroundColor: '#E0F7FA',  
+    backgroundColor: 'rgba(255,255,255,0.6)',  
     borderRadius: 20,  
     marginHorizontal: 20,
     border: '20px',
-    bottom:25,
+    bottom:15,
+    zIndex:999
+  },
 
-  },
-  navOuterContainer: {
-    backgroundColor: '#E0F7FA', 
-    borderRadius:30, 
-    opacity: 12,
-  },
-  navContainer: {
-    backgroundColor: '#2E8BB7',  
-    borderRadius:30,
-  },
   cameraTab: {
     backgroundColor: '#2E8BB7',  
     borderRadius: 20,
     width:100,
   },
   ScanIcon: {
-    width: 40,
-    height: 40,
+    width: 48,
+    height: 48,
     tintColor: '#E0F7FA', 
   },
 });

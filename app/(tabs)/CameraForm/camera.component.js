@@ -6,6 +6,10 @@ import CardSimple from '@/components/atoms/card';
 import { StyleSheet, Text, Image } from 'react-native';
 import OptionButton from '@/components/atoms/optionButton'
 import DarkModeIcon from '@/components/atoms/darkMode'
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
 
 import {
   useFonts,
@@ -22,6 +26,8 @@ import {
 import AppLoading from 'expo-app-loading';
 import { LinearGradient } from 'expo-linear-gradient';
 
+const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
 export const CameraScreen = ({ navigation }) => {
 
@@ -79,9 +85,9 @@ export const CameraScreen = ({ navigation }) => {
               <Text style={styles.headerText}>Hello Chris!{"\n"}Need help <Text style={{ fontFamily: 'Inter_800ExtraBold', color: '#2E8BB7' }}>Simplifying </Text>{"\n"}a form today?</Text>
             </Layout>
 
-            <View>
-
-            </View>
+          <Button onPress={() => navigation.navigate('Details')}>
+            HELLO
+          </Button>
 
           </ScrollView>
 
