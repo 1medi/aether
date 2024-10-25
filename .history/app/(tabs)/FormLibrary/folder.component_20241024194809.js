@@ -6,7 +6,6 @@ import CardSimple from '@/components/atoms/card';
 import { StyleSheet, Text, Image } from 'react-native';
 import OptionButton from '@/components/atoms/optionButton'
 import DarkModeIcon from '@/components/atoms/darkMode'
-import FilterIcon from '@/components/atoms/filterButton'
 
 import {
   useFonts,
@@ -102,14 +101,13 @@ export const FolderScreen = ({ navigation }) => {
             <Text style={styles.headerText}>Form Library</Text>
           </Layout>
 
-          <Layout style={{ backgroundColor:'none', padding: 20, width: 400, display: 'flex' }}>
+          <Layout style={{ backgroundColor:'none', padding: 20, width: 400 }}>
           <Input style={{ borderRadius: '20', width: '80%'}}
               placeholder='Place your Text'
             />
-            <FilterIcon
+            <OptionButton
               title="filter"
               accessory={FilterIcon}
-              style={{}}
             />
           </Layout>
 
