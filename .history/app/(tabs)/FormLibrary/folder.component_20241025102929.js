@@ -4,9 +4,9 @@ import { Button, Divider, Layout, TopNavigation, Icon, Input } from '@ui-kitten/
 import Settings from '@/components/atoms/settings.js'
 import CardSimple from '@/components/atoms/card';
 import { StyleSheet, Text, Image } from 'react-native';
-import OptionButton from '@/components/atoms/optionButton';
-import DarkModeIcon from '@/components/atoms/darkMode';
-import FilterIcon from '@/components/atoms/filterButton';
+import OptionButton from '@/components/atoms/optionButton'
+import DarkModeIcon from '@/components/atoms/darkMode'
+import FilterIcon from '@/components/atoms/filterButton'
 
 import {
   useFonts,
@@ -81,7 +81,8 @@ export const FolderScreen = ({ navigation }) => {
     <>
 
       <SafeAreaView style={styles.homePage}>
-      <Layout style={{ backgroundColor: '', display: 'flex', flexDirection: 'row', padding: 10, }}>
+        <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none' }}>
+          <Layout style={{ backgroundColor: '', display: 'flex', flexDirection: 'row', padding: 10, }}>
             <Image
               style={{ width: 75, height: 75, borderRadius: 100, }}
               source={require('@/assets/images/lbj.jpg')}
@@ -99,27 +100,19 @@ export const FolderScreen = ({ navigation }) => {
             </Layout>
           </Layout>
 
-          <Layout style={{ backgroundColor: 'none', padding: 20, width: 'auto' }}>
+          <Layout style={{ backgroundColor: 'none', padding: 20, width: '100%' }}>
             <Text style={styles.headerText}>Form Library</Text>
           </Layout>
 
-          <Layout style={{ backgroundColor: 'none', flexDirection: 'row', alignItems: 'center', margin: 'auto', width: 'auto' }}>
-          <Input style={{ borderRadius: '20', width: 300 }}
-              placeholder='Search For Forms..'
+          <Layout style={{ backgroundColor: 'none', flexDirection: 'row', alignItems: 'center'}}>
+          <Input style={{ borderRadius: '20', width: 400}}
+              placeholder='Place your Text'
             />
             <FilterIcon
-              style={{fontSize: '40', width: 40, height: 40,  color:'#08415C', backgroundColor:'white', padding:20, borderRadius: 20, overflow: 'hidden', background: 'transparent',  borderColor: 'white', margin: '30'}}
+              style={{width: 35,
+                height: 35,}}
             />
           </Layout>
-
-        <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none', margin: 10  }}>
-        <Layout style={{ backgroundColor: 'none', }} >
-            <CardSimple title='Canadian Pension Plan'/>
-            <CardSimple title='Medical Form'/>
-            <CardSimple title='Medical Form 2'/>
-            <CardSimple title='Tax Form'/>
-
-        </Layout>
 
 
         </ScrollView>

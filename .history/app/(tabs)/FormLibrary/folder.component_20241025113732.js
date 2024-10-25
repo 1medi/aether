@@ -112,7 +112,7 @@ export const FolderScreen = ({ navigation }) => {
             />
           </Layout>
 
-        <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none', margin: 10  }}>
+        <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'blue', margin: 20  }}>
         <Layout style={{ backgroundColor: 'none', }} >
             <CardSimple title='Canadian Pension Plan'/>
             <CardSimple title='Medical Form'/>

@@ -81,7 +81,8 @@ export const FolderScreen = ({ navigation }) => {
     <>
 
       <SafeAreaView style={styles.homePage}>
-      <Layout style={{ backgroundColor: '', display: 'flex', flexDirection: 'row', padding: 10, }}>
+        <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none' }}>
+          <Layout style={{ backgroundColor: '', display: 'flex', flexDirection: 'row', padding: 10, }}>
             <Image
               style={{ width: 75, height: 75, borderRadius: 100, }}
               source={require('@/assets/images/lbj.jpg')}
@@ -104,22 +105,13 @@ export const FolderScreen = ({ navigation }) => {
           </Layout>
 
           <Layout style={{ backgroundColor: 'none', flexDirection: 'row', alignItems: 'center', margin: 'auto', width: 'auto' }}>
-          <Input style={{ borderRadius: '20', width: 300 }}
-              placeholder='Search For Forms..'
+          <Input style={{ borderRadius: '20', width: 300, margin: '20' }}
+              placeholder='Place your Text'
             />
             <FilterIcon
               style={{fontSize: '40', width: 40, height: 40,  color:'#08415C', backgroundColor:'white', padding:20, borderRadius: 20, overflow: 'hidden', background: 'transparent',  borderColor: 'white', margin: '30'}}
             />
           </Layout>
-
-        <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none', margin: 10  }}>
-        <Layout style={{ backgroundColor: 'none', }} >
-            <CardSimple title='Canadian Pension Plan'/>
-            <CardSimple title='Medical Form'/>
-            <CardSimple title='Medical Form 2'/>
-            <CardSimple title='Tax Form'/>
-
-        </Layout>
 
 
         </ScrollView>
