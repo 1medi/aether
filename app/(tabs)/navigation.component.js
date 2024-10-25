@@ -7,7 +7,7 @@ import { DetailsScreen } from './FormHistory/details.component';
 import { CameraScreen } from './CameraForm/camera.component';
 import { FolderScreen } from './FormLibrary/folder.component';
 import { PeopleScreen } from './SavedProfiles/people.component';
-import { StyleSheet } from 'react-native';
+import { StyleSheet,Image } from 'react-native';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -33,6 +33,14 @@ const FolderIcon = (props) => (
   <Icon name="folder-outline" {...props}
   style={{width: 48, height: 48}}
   />
+);
+
+const ScanIcon = (props) => (
+  <Image
+  {...props}
+  source={require('@/assets/images/scanIcon.svg')}
+  style={{ width: 64, height: 64, borderRadius: 8, padding:0 }}
+/>
 );
 
 const BottomTabBar = ({ navigation, state }) => (
@@ -78,29 +86,32 @@ export const AppNavigator = () => (
 
 const styles = StyleSheet.create({
   navBarContainer: {
+    position:'absolute',
     backgroundColor: '#E0F7FA',  
     borderRadius: 20,  
     marginHorizontal: 20,
-    height: 80,
     border: '20px',
-    tintColor: 'none' 
+    bottom:25,
+
   },
   navOuterContainer: {
-    backgroundColor: 'none',  
-    opacity: 12
+    backgroundColor: '#E0F7FA', 
+    borderRadius:30, 
+    opacity: 12,
   },
   navContainer: {
-    backgroundColor: 'none',  
+    backgroundColor: '#2E8BB7',  
+    borderRadius:30,
   },
   cameraTab: {
     backgroundColor: '#2E8BB7',  
-    borderRadius: 40,
+    borderRadius: 20,
     width:100,
   },
   ScanIcon: {
     width: 40,
     height: 40,
-    tintColor: '#ffffff', 
+    tintColor: '#E0F7FA', 
   },
 });
 
