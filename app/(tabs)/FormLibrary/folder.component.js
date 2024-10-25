@@ -58,7 +58,9 @@ export const FolderScreen = ({ navigation }) => {
   };
 
   const FilterIcon = (props) => (
-    <Icon name='options-2-outline' {...props} />
+    <Icon name='options-2-outline' {...props} 
+    style={{width:32, height: 32}}
+    />
   );
 
   // const [currentDate, setCurrentDate] = useState('')
@@ -102,7 +104,7 @@ export const FolderScreen = ({ navigation }) => {
             <Text style={styles.headerText}>Form Library</Text>
           </Layout>
 
-          <Layout style={{ backgroundColor:'none', padding: 20, width: 400, display: 'flex' }}>
+          <Layout style={{ backgroundColor:'none', padding: 20, width: 400, display: 'flex', flexDirection:'row' }}>
           <Input style={{ borderRadius: '20', width: '80%'}}
               placeholder='Place your Text'
             />
