@@ -63,9 +63,9 @@ const TabNavigator = () => (
     headerShown: false, 
   }} style={styles.navContainer} tabBar={props => <BottomTabBar {...props} />}>
     <Screen name="Home" component={HomeScreen} options={{ title: 'Aether Home' }} />
-    <Screen name="Details" component={FolderScreen} />
+    <Screen name="Details" component={DetailsScreen} />
     <Screen name="Camera" component={CameraScreen} />
-    <Screen name="Folder" component={DetailsScreen} />
+    <Screen name="Folder" component={FolderScreen} />
     <Screen name="People" component={PeopleScreen} />
   </Navigator>
 );
