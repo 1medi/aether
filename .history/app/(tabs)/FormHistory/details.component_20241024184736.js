@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, ScrollView, View } from 'react-native';
-import { Button, Divider, Layout, TopNavigation, Icon, Input } from '@ui-kitten/components';
+import { Button, Divider, Layout, TopNavigation, Icon } from '@ui-kitten/components';
 import Settings from '@/components/atoms/settings.js'
 import CardSimple from '@/components/atoms/card';
 import { StyleSheet, Text, Image } from 'react-native';
 import OptionButton from '@/components/atoms/optionButton'
 import DarkModeIcon from '@/components/atoms/darkMode'
-import FilterIcon from '@/components/atoms/filterButton'
 
 import {
   useFonts,
@@ -24,7 +23,7 @@ import AppLoading from 'expo-app-loading';
 import { LinearGradient } from 'expo-linear-gradient';
 
 
-export const FolderScreen = ({ navigation }) => {
+export const DetailsScreen = ({ navigation }) => {
 
   let [fontsLoaded] = useFonts({
     Inter_100Thin,
@@ -53,13 +52,10 @@ export const FolderScreen = ({ navigation }) => {
     <Icon name={"upload-outline"} {...props} />
   );
 
+
   const navigateDetails = () => {
     navigation.navigate('Details');
   };
-
-  const FilterIcon = (props) => (
-    <Icon name='options-2-outline' {...props} />
-  );
 
   // const [currentDate, setCurrentDate] = useState('')
 
@@ -72,51 +68,39 @@ export const FolderScreen = ({ navigation }) => {
   //   )
   // }, [])
 
-
-
-
   return (
     <>
 
-      <SafeAreaView style={styles.homePage}>
-        <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none' }}>
-          <Layout style={{ backgroundColor: '', display: 'flex', flexDirection: 'row', padding: 10, }}>
-            <Image
-              style={{ width: 75, height: 75, borderRadius: 100, }}
-              source={require('@/assets/images/lbj.jpg')}
-            />
-            <Layout style={{ backgroundColor: 'none', padding: 10 }}>
-              <Text style={{ fontFamily: 'Inter_600SemiBold', fontSize: 18 }}>Chris Topher</Text>
-              <Text>
-                October, 20 Wed
-                {/* {currentDate} */}
-              </Text>
+        <SafeAreaView style={styles.homePage}>
+          <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none' }}>
+            <Layout style={{ backgroundColor: '', display: 'flex', flexDirection: 'row', padding: 10, }}>
+              <Image
+                style={{ width: 75, height: 75, borderRadius: 100, }}
+                source={require('@/assets/images/lbj.jpg')}
+              />
+              <Layout style={{ backgroundColor: 'none', padding: 10 }}>
+                <Text style={{ fontFamily: 'Inter_600SemiBold', fontSize: 18 }}>Chris Topher</Text>
+                <Text>
+                  October, 20 Wed
+                  {/* {currentDate} */}
+                </Text>
+              </Layout>
+              <Layout style={{ backgroundColor: '', flexDirection: 'row', margin: 'auto', borderLeftWidth: 1.5, borderLeftColor: 'white', height: 40, width: 125 }}>
+                <DarkModeIcon style={{ backgroundColor: '' }} />
+                <Settings style={{}} />
+              </Layout>
             </Layout>
-            <Layout style={{ backgroundColor: '', flexDirection: 'row', margin: 'auto', borderLeftWidth: 1.5, borderLeftColor: 'white', height: 40, width: 125 }}>
-              <DarkModeIcon style={{ backgroundColor: '' }} />
-              <Settings style={{}} />
+            <Layout style={{ backgroundColor: 'none', padding: 20, width: 400 }}>
+              <Text style={styles.headerText}>Hello Chris!{"\n"}Need help <Text style={{ fontFamily: 'Inter_800ExtraBold', color: '#2E8BB7' }}>Simplifying </Text>{"\n"}a form today?</Text>
             </Layout>
-          </Layout>
 
-          <Layout style={{ backgroundColor: 'none', padding: 20, width: 400 }}>
-            <Text style={styles.headerText}>Form Library</Text>
-          </Layout>
+            <View>
 
-          <Layout style={{ backgroundColor:'none', padding: 20, width: 400, display: 'flex' }}>
-          <Input style={{ borderRadius: '20', width: '80%'}}
-              placeholder='Place your Text'
-            />
-            <FilterIcon
-              title="filter"
-              accessory={FilterIcon}
-              style={{}}
-            />
-          </Layout>
+            </View>
 
+          </ScrollView>
 
-        </ScrollView>
-
-      </SafeAreaView>
+        </SafeAreaView>
 
     </>
 
@@ -135,32 +119,32 @@ const styles = StyleSheet.create(
       color: '#08415C'
     },
     numberContainer: {
-      flexDirection: 'row',
-      alignItems: 'flex-end',
+      flexDirection: 'row', 
+      alignItems: 'flex-end', 
       margin: 20,
       backgroundColor: 'none',
-      paddingRight: 50
+      paddingRight:50
     },
     largeNumber: {
-      fontSize: 100,
-      fontWeight: 'bold',
-      color: '#6D96B7',
-      marginRight: 10,
+      fontSize: 100, 
+      fontWeight: 'bold', 
+      color: '#6D96B7', 
+      marginRight: 10, 
     },
     numberTextContainer: {
       flexDirection: 'column',
 
     },
     subText: {
-      fontSize: 16,
-      color: '#6D96B7',
-      marginBottom: 5,
-      width: 100
+      fontSize: 16, 
+      color: '#6D96B7', 
+      marginBottom: 5, 
+      width:100
     },
     formsText: {
-      fontSize: 24,
-      fontWeight: 'bold',
-      color: '#2A374A',
+      fontSize: 24, 
+      fontWeight: 'bold', 
+      color: '#2A374A', 
     },
 
   })

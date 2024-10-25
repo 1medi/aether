@@ -1,12 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { SafeAreaView, ScrollView, View } from 'react-native';
-import { Button, Divider, Layout, TopNavigation, Icon } from '@ui-kitten/components';
-import Settings from '@/components/atoms/settings.js'
-import CardSimple from '@/components/atoms/card';
-import { StyleSheet, Text, Image } from 'react-native';
-import OptionButton from '@/components/atoms/optionButton'
-import DarkModeIcon from '@/components/atoms/darkMode'
-
+import React from 'react';
+import { SafeAreaView, Text } from 'react-native';
+import { Button, Divider, Layout, TopNavigation } from '@ui-kitten/components';
 import {
   useFonts,
   Inter_100Thin,
@@ -91,7 +85,7 @@ export const DetailsScreen = ({ navigation }) => {
               </Layout>
             </Layout>
             <Layout style={{ backgroundColor: 'none', padding: 20, width: 400 }}>
-              <Text style={styles.headerText}>Form History</Text>
+              <Text style={styles.headerText}>Hello Chris!{"\n"}Need help <Text style={{ fontFamily: 'Inter_800ExtraBold', color: '#2E8BB7' }}>Simplifying </Text>{"\n"}a form today?</Text>
             </Layout>
 
             <View>
