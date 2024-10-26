@@ -1,55 +1,43 @@
 import React from 'react';
 import * as eva from '@eva-design/eva';
-import { Button } from '@ui-kitten/components';
-import { useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient'
+import { useNavigation } from '@react-navigation/native';
 
 interface BuddonProps {
-  title: string,
+  title: string;
+  destination: string; // Add the destination prop
   accessory: React.ComponentType<any>;
 }
 
-export default function Buddon({ title, accessory: Accessory }: BuddonProps) {
+export default function Buddon({ title, accessory: Accessory, destination }: BuddonProps) {
+  const navigation = useNavigation();  // Hook to access navigation
+
   return (
-
-    <View
+    <TouchableOpacity
       style={styles.buttonGradient}
+      onPress={() => navigation.navigate(destination)}  // Use the destination prop
     >
-        <Accessory style={{
-          width: 64,
-          height: 64,
-          tintColor: '#ffffff'
-        }} />
-    </View>
-
-
+      <Accessory 
+        style={{
+          width: 40,
+          height: 40,
+          tintColor: '#ffffff',
+        }} 
+      />
+    </TouchableOpacity>
   );
 }
 
-const styles = StyleSheet.create({
-  text: {
-    marginHorizontal: 8,
-    color: 'white',
-    padding: 5,
-  },
-  button: {
-    flexDirection: 'column',
-    alignContent: 'center',
-    margin: 10,
-    borderRadius: 50,
-    width: 100,
-    height: 100,
 
-  },
+const styles = StyleSheet.create({
   buttonGradient: {
     borderRadius: 50,
-    opacity: .65,
-    width: 100,
-    height: 100,
+    width: 75,
+    height: 75,
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 10,
-    backgroundColor: '#08415C'
+    marginLeft: 15,
+    marginRight: 20,
+    backgroundColor: 'rgba(8,65,92,0.8)'
   },
 });

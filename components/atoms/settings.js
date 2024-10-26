@@ -5,24 +5,22 @@ import { Button, Card, Icon, Text, Layout } from '@ui-kitten/components';
 export default function ModalSimpleUsageShowcase() {
   const [visible, setVisible] = useState(false);
 
-  const CameraIcon = (props) => (
+  const SettingsIcon = (props) => (
     <Icon
-      name="settings-outline"  // Changed to gear icon
+      name="settings-outline" 
       {...props}
-      style={{ width: 40, height: 40, margin: 'auto', color:'#08415C', backgroundColor:'#eef2ff', padding:20, borderRadius: 20, overflow: 'hidden', background: 'transparent', borderWidth: 1.5, borderColor: 'white' }}
+      style={styles.settingsIcon}
     />
   );
 
   return (
     <Layout style={styles.container} level="1">
-      {/* Icon in top-right corner using flexbox */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => setVisible(true)}>
-          <CameraIcon />
+          <SettingsIcon />
         </TouchableOpacity>
       </View>
 
-      {/* Modal with Animation */}
       <Modal
         visible={visible}
         animationType="slide"
@@ -43,21 +41,32 @@ export default function ModalSimpleUsageShowcase() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,  
-    justifyContent: 'flex-start', 
-    backgroundColor:'none'
+    flex: 1,
+    justifyContent: 'flex-start',
+    backgroundColor: 'none'
   },
   header: {
-    flexDirection: 'row', 
-    justifyContent: 'flex-end', 
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
   },
   modalBackground: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', 
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   backdrop: {
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',  
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
-});
+  settingsIcon: {
+    width: 12, 
+    height: 12, 
+    tintColor: '#08415C', 
+    backgroundColor: 'white', 
+    padding: 20, 
+    borderRadius: 20, 
+    overflow: 'hidden', 
+    background: 'transparent',
+  }
+}
+);
