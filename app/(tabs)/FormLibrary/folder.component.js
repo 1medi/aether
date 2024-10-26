@@ -51,6 +51,12 @@ export const FolderScreen = ({ navigation }) => {
     navigation.navigate('Details');
   };
 
+  const FilterIcon = (props) => (
+    <Icon name='options-2-outline' {...props} 
+    style={{width:32, height: 32}}
+    />
+  );
+
   // const [currentDate, setCurrentDate] = useState('')
 
   // useEffect(() => {
