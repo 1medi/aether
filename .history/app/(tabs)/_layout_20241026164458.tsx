@@ -5,10 +5,15 @@ import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import AppLoading from 'expo-app-loading'; 
 import * as Font from 'expo-font';      
-import { AppNavigator } from './(tabs)/navigation.component';
+import { AppNavigator } from './navigation.component';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import { default as theme } from '@/custom-theme.json'; 
 import { LinearGradient } from 'expo-linear-gradient';
+import Library from './FormLibrary/library.component';
+import { HomeScreen } from './home.component';
 
+const Stack = createStackNavigator();
 
 export default function App() {
 
@@ -22,6 +27,13 @@ export default function App() {
           <AppNavigator />
 
       </ApplicationProvider>
+
+      <NavigationContainer>
+      <Stack.Navigator>
+      <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Library" component={Library} />
+      </Stack.Navigator>
+    </NavigationContainer>
     </>
   );
 }

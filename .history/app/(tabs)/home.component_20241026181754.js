@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, ScrollView, View } from 'react-native';
-import { Link } from 'expo-router';
+import { SafeAreaView, ScrollView, View, Link } from 'react-native';
 import { Button, Divider, Layout, TopNavigation, Icon } from '@ui-kitten/components';
 import Settings from '@/components/atoms/settings.js'
 import CardSimple from '@/components/atoms/card';

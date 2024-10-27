@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, ScrollView, View } from 'react-native';
-import { Link } from 'expo-router';
 import { Button, Divider, Layout, TopNavigation, Icon } from '@ui-kitten/components';
 import Settings from '@/components/atoms/settings.js'
 import CardSimple from '@/components/atoms/card';
@@ -79,6 +78,8 @@ export const HomeScreen = ({ navigation }) => {
         <SafeAreaView style={styles.homePage}>
         <HeaderProfile/>
           <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none' }}>
+            
+
 
             <Layout style={{ backgroundColor: 'none', padding: 20, width: 400 }}>
               <Text style={styles.headerText}>Hello Chris!{"\n"}Need help <Text style={{ fontFamily: 'Inter_800ExtraBold', color: '#2E8BB7' }}>Simplifying </Text>{"\n"}a form today?</Text>

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, ScrollView, View, } from 'react-native';
-import { Link } from 'expo-router';
+import { SafeAreaView, ScrollView, View } from 'react-native';
 import { Button, Divider, Layout, TopNavigation, Icon, Input } from '@ui-kitten/components';
 import Settings from '@/components/atoms/settings.js'
 import CardSimple from '@/components/atoms/card';
@@ -9,8 +8,6 @@ import DarkModeIcon from '@/components/atoms/darkMode';
 import FilterIcon from '@/components/atoms/filterButton';
 import HeaderProfile from '@/components/molecules/Header';
 import LibraryButton from '@/components/molecules/FormLibraryButtons'
-
-
 
 import {
   useFonts,
@@ -24,7 +21,6 @@ import {
   Inter_800ExtraBold,
   Inter_900Black,
 } from '@expo-google-fonts/inter';
-
 import AppLoading from 'expo-app-loading';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -55,12 +51,6 @@ export const FolderScreen = ({ navigation }) => {
     navigation.navigate('Details');
   };
 
-
-  const handlePress = () => {
-    navigation.navigate('Library'); // Replace with your target screen name
-  };
-
-
   // const [currentDate, setCurrentDate] = useState('')
 
   // useEffect(() => {
@@ -84,7 +74,7 @@ export const FolderScreen = ({ navigation }) => {
           </Layout>
 
           <Layout style={{ backgroundColor: 'none', flexDirection: 'row', alignItems: 'center', margin: 'auto', width: 'auto' }}>
-          <Input style={{ borderRadius: '20', width: 320}}
+          <Input style={{ borderRadius: '20', width: 300 }}
               placeholder='Search For Forms..'
             />
             <FilterIcon
@@ -94,12 +84,10 @@ export const FolderScreen = ({ navigation }) => {
 
         <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none', margin: 10  }}>
         <Layout style={{ backgroundColor: 'none', }} >
-          <Link href='./library.component' asChild>
-           <LibraryButton title='Canadian Pension Plan' subheader='hi guys' />
-          </Link>
-           <LibraryButton title='Old Age Security' subheader='hi guys'/>
-           <LibraryButton title='Pension' subheader='hi guys'/>
-           <LibraryButton title='Pension' subheader='hi guys'/>
+           <LibraryButton title='Canadian Pension Plan' subheader='hi guys'/>
+           <LibraryButton title='Old Age Security'/>
+           <LibraryButton title='Pension'/>
+           <LibraryButton title='Pension'/>
         </Layout>
 
 
