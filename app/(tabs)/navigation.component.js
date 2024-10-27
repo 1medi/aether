@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomNavigation, BottomNavigationTab, Icon, Layout } from '@ui-kitten/components';
 import { HomeScreen } from './home.component';
-import { DetailsScreen } from './FormHistory/details.component';
+import { FormHistoryScreen } from './FormHistory/FormHistory.component';
 import { CameraScreen } from './CameraForm/camera.component';
 import { FolderScreen } from './FormLibrary/folder.component';
 import { PeopleScreen } from './SavedProfiles/people.component';
@@ -72,7 +72,7 @@ const TabNavigator = () => (
     <Screen name="Home" component={HomeScreen} options={{ title: 'Aether Home' }} />
     <Screen name="Details" component={FolderScreen} />
     <Screen name="Camera" component={CameraScreen} />
-    <Screen name="Folder" component={DetailsScreen} />
+    <Screen name="Folder" component={FormHistoryScreen} />
     <Screen name="People" component={PeopleScreen} />
   </Navigator>
 );

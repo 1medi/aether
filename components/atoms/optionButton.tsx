@@ -5,17 +5,17 @@ import { useNavigation } from '@react-navigation/native';
 
 interface BuddonProps {
   title: string;
-  destination: string; // Add the destination prop
+  destination: string; 
   accessory: React.ComponentType<any>;
 }
 
 export default function Buddon({ title, accessory: Accessory, destination }: BuddonProps) {
-  const navigation = useNavigation();  // Hook to access navigation
+  const navigation = useNavigation();  
 
   return (
     <TouchableOpacity
       style={styles.buttonGradient}
-      onPress={() => navigation.navigate(destination)}  // Use the destination prop
+      onPress={() => navigation.navigate(destination)}  
     >
       <Accessory 
         style={{
