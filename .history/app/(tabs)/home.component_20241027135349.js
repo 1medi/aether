@@ -109,17 +109,7 @@ export const HomeScreen = ({ navigation }) => {
               </Layout>
             </Layout>
 
-            <Layout style={styles.numberContainer}>
-
-            <Text style={styles.largeNumber}><Text style={{opacity:.5}}>0</Text>69</Text>
-
-            <View style={styles.numberTextContainer}>
-              <Text style={styles.subText}>Browse from our current library of</Text>
-              <Text style={styles.formsText}>forms</Text>
-            </View>
-            </Layout>
-
-            <Text style={{paddingLeft:10, paddingBottom:10, fontFamily: 'Inter_400Normal',  color: '#2E8BB7', fontSize: 24}}>Most Common</Text>
+            <Text style={{paddingLeft:10, paddingBottom:10, fontFamily: 'Inter_400Normal',  color: '#2E8BB7'}}>Most Common</Text>
             <Layout style={styles.formContainer}>
               <CardSimple title='Canadian Pension Plan'/>
               <CardSimple title='Medical Form'/>
@@ -157,13 +147,13 @@ const styles = StyleSheet.create(
       margin: 'auto',
       maxHeight: 200,
       backgroundColor:'none',
-      maxWidth:'100%',
-      gap: 10
+      maxWidth:'100%'
     },
     homePage: {
       flex: 1,
       backgroundColor: 'none',
       height: '100%',
+      paddingBottom: '20px',
     },
     headerText: {
       fontSize: 32,
@@ -201,18 +191,16 @@ const styles = StyleSheet.create(
       color: '#2A374A', 
     },
     ButtonResent: {
-      width: '95%',
+      width: 412,
       heigh: 60,
       borderRadius: 32,
       backgroundColor: '#08415C',
       fontSize: 20,
       textAlign: 'center',
-      marginTop: 20,
-      marginLeft: 10,
-      marginRight: 10
+      marginTop: 20
     },
     recentform: {
-      width: '100%',
+      width: 430,
       height: 400,
       paddingTop: 30,
       paddingBottom: 100,
@@ -225,12 +213,6 @@ const styles = StyleSheet.create(
       alignItems: 'center',
       backgroundColor: 'none',
       paddingTop: 20,
-      width: '100%'
-    },
-    headline: {
-      color: '#ffffff',
-      fontSize: 24 ,
-      paddingLeft: 20
     }
   })
 

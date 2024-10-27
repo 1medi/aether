@@ -201,15 +201,14 @@ const styles = StyleSheet.create(
       color: '#2A374A', 
     },
     ButtonResent: {
-      width: '95%',
+      width: '100%',
       heigh: 60,
       borderRadius: 32,
       backgroundColor: '#08415C',
       fontSize: 20,
       textAlign: 'center',
       marginTop: 20,
-      marginLeft: 10,
-      marginRight: 10
+      marginHorizontal: 20,
     },
     recentform: {
       width: '100%',
