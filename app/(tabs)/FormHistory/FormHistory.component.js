@@ -170,24 +170,25 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent', 
   },
   formHistoryCard: {
-    width: 100,  
-    height: 130, 
+    width: 110,  
+    height: 140,  
     backgroundColor: 'rgba(8,65,92,0.8)',
-    borderRadius: 20,  
-    margin: 10,
-    alignItems: 'center',
+    borderRadius: 20,   
+    margin: 10,  
+    alignItems: 'center', 
     justifyContent: 'center',
   },
   cardImage: {
-    width: '100%',  
-    maxHeight: '85%',
+    width: '100%',   
+    height: '75%', 
+    marginBottom:12,
     resizeMode: 'cover',  
-    borderRadius: 20,  
+    borderRadius: 20,   
   },
   cardText: {
     textAlign: 'center',
     color: 'white',
-    marginTop: 5,
+    marginBottom: 5,
     fontSize: 14,
   },
   cardContainer: {
@@ -195,6 +196,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',  
     justifyContent: 'center',  
-    backgroundColor: 'rgba(52, 52, 52, 0)'
+    backgroundColor: 'rgba(0,0,0,0)'
   },
 });
+
