@@ -19,7 +19,7 @@ export default function Buddon({ title, accessory: Accessory }: BuddonProps) {
         <Accessory style={{
           width: 10,
           height: 10,
-          tintColor: 'white'
+          tintColor: '#ffffff'
         }} />
     </View>
 

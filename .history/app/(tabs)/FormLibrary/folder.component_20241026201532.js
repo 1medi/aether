@@ -52,12 +52,10 @@ export const FolderScreen = ({ navigation }) => {
   };
 
   const FilterIcon = (props) => (
-    <Icon name='options-2-outline' {...props}
-      style={{ width: 32, height: 32, tint: 'white' }}
+    <Icon name='options-2-outline' {...props} 
+    style={{width:32, height: 32}}
     />
   );
-
-
 
   // const [currentDate, setCurrentDate] = useState('')
 
@@ -75,41 +73,30 @@ export const FolderScreen = ({ navigation }) => {
 
       <SafeAreaView style={styles.homePage}>
 
-        <HeaderProfile />
-        <Layout style={{ backgroundColor: 'none', paddingLeft: 20, paddingTop: 20, width: 'auto' }}>
-          <Text style={styles.headerText}>Form Library</Text>
-        </Layout>
-        <Layout style={styles.numberContainer}>
+          <HeaderProfile/>
 
-          <Text style={styles.largeNumber}><Text style={{ opacity: .5 }}>0</Text>69</Text>
-
-          <View style={styles.numberTextContainer}>
-            <Text style={styles.subText}>Browse from our current library of</Text>
-            <Text style={styles.formsText}>forms</Text>
-          </View>
-        </Layout>
-
-        <Layout style={{ backgroundColor: 'none', flexDirection: 'row', alignItems: 'center', margin: 'auto', width: 'auto' }}>
-          <Input style={{ borderRadius: '20', width: 320 }}
-            placeholder='Search For Forms..'
-          />
-          <FilterIcon
-            style={{ fontSize: '40', width: 40, height: 40, color: '#08415C', backgroundColor: 'white', padding: 20, borderRadius: 20, overflow: 'hidden', background: 'transparent', borderColor: 'white', margin: '30', }}
-          />
-        </Layout>
-
-        <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none', margin: 10 }}>
-          <Layout style={{ backgroundColor: 'none', }} >
-            <Link href='./library.component' asChild>
-              <LibraryButton title='Canadian Pension Plan' subheader='hi guys' />
-            </Link>
-            <LibraryButton title='Old Age Security' subheader='hi guys' />
-            <LibraryButton title='Pension' subheader='hi guys' />
-            <LibraryButton title='Pension' subheader='hi guys' />
-            <LibraryButton title='Old Age Security' subheader='hi guys' />
-            <LibraryButton title='Pension' subheader='hi guys' />
-            <LibraryButton title='Pension' subheader='hi guys' />
+          <Layout style={{ backgroundColor: 'none', padding: 20, width: 'auto' }}>
+            <Text style={styles.headerText}>Form Library</Text>
           </Layout>
+
+          <Layout style={{ backgroundColor: 'none', flexDirection: 'row', alignItems: 'center', margin: 'auto', width: 'auto' }}>
+          <Input style={{ borderRadius: '20', width: 320}}
+              placeholder='Search For Forms..'
+            />
+            <FilterIcon
+              style={{fontSize: '40', width: 40, height: 40,  color:'#08415C', backgroundColor:'white', padding:20, borderRadius: 20, overflow: 'hidden', background: 'transparent',  borderColor: 'white', margin: '30', tint: 'white'}}
+            />
+          </Layout>
+
+        <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none', margin: 10  }}>
+        <Layout style={{ backgroundColor: 'none', }} >
+          <Link href='./library.component' asChild>
+           <LibraryButton title='Canadian Pension Plan' subheader='hi guys' />
+          </Link>
+           <LibraryButton title='Old Age Security' subheader='hi guys'/>
+           <LibraryButton title='Pension' subheader='hi guys'/>
+           <LibraryButton title='Pension' subheader='hi guys'/>
+        </Layout>
 
 
         </ScrollView>
@@ -159,36 +146,6 @@ const styles = StyleSheet.create(
       fontSize: 24,
       fontWeight: 'bold',
       color: '#2A374A',
-    },
-    numberContainer: {
-      flexDirection: 'row', 
-      alignItems: 'flex-end', 
-      margin: 10,
-      backgroundColor: 'none',
-      paddingRight:50,
-      borderTopWidth: 2,
-      borderColor: 'white'
-    },
-    largeNumber: {
-      fontSize: 100, 
-      fontWeight: 'bold', 
-      color: '#6D96B7', 
-      marginRight: 10, 
-    },
-    numberTextContainer: {
-      flexDirection: 'column',
-
-    },
-    subText: {
-      fontSize: 16, 
-      color: '#6D96B7', 
-      marginBottom: 5, 
-      width:100
-    },
-    formsText: {
-      fontSize: 24, 
-      fontWeight: 'bold', 
-      color: '#2A374A', 
     },
 
   })

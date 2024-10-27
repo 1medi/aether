@@ -76,7 +76,7 @@ export const FolderScreen = ({ navigation }) => {
       <SafeAreaView style={styles.homePage}>
 
         <HeaderProfile />
-        <Layout style={{ backgroundColor: 'none', paddingLeft: 20, paddingTop: 20, width: 'auto' }}>
+        <Layout style={{ backgroundColor: 'none', padding: 10, width: 'auto' }}>
           <Text style={styles.headerText}>Form Library</Text>
         </Layout>
         <Layout style={styles.numberContainer}>
@@ -103,9 +103,6 @@ export const FolderScreen = ({ navigation }) => {
             <Link href='./library.component' asChild>
               <LibraryButton title='Canadian Pension Plan' subheader='hi guys' />
             </Link>
-            <LibraryButton title='Old Age Security' subheader='hi guys' />
-            <LibraryButton title='Pension' subheader='hi guys' />
-            <LibraryButton title='Pension' subheader='hi guys' />
             <LibraryButton title='Old Age Security' subheader='hi guys' />
             <LibraryButton title='Pension' subheader='hi guys' />
             <LibraryButton title='Pension' subheader='hi guys' />

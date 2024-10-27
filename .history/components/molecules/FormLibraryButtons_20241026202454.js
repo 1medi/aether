@@ -12,11 +12,11 @@ export default function LibraryButton({ title, subheader }) {
 
   return (
     <Layout style={styles.container}>
-   
+      <Card style={styles.card}>
        <Image 
           style={styles.card}
         source={require('@/assets/images/cardIcon.png')}/>
-    
+      </Card>
       <TouchableOpacity style={styles.formButton}>
         <Layout style={styles.textContainer}>
           <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
