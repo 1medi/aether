@@ -106,9 +106,6 @@ export const FolderScreen = ({ navigation }) => {
             <LibraryButton title='Old Age Security' subheader='hi guys' />
             <LibraryButton title='Pension' subheader='hi guys' />
             <LibraryButton title='Pension' subheader='hi guys' />
-            <LibraryButton title='Old Age Security' subheader='hi guys' />
-            <LibraryButton title='Pension' subheader='hi guys' />
-            <LibraryButton title='Pension' subheader='hi guys' />
           </Layout>
 
 

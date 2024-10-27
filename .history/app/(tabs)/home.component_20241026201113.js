@@ -75,11 +75,14 @@ export const HomeScreen = ({ navigation }) => {
         <HeaderProfile/>
           <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none' }}>
 
-            <Layout style={{ backgroundColor: 'none', padding: 20, width: 400 }}>
-              <Text style={styles.headerText}>Hello Chris!{"\n"}Need help <Text style={{ fontFamily: 'Inter_800ExtraBold', color: '#2E8BB7' }}>Simplifying </Text>{"\n"}a form today?</Text>
+
+            <Layout style={{ backgroundColor: '', display: 'flex', flexDirection: 'row', padding: 10, }}>
+        
             </Layout>
-     
-          
+            <Layout style={{ backgroundColor: 'none', padding: 15, width: 400 }}>
+              <Text style={styles.headerText}>Need help <Text style={{ fontFamily: 'Inter_500Medium', color: '#2E8BB7' }}>Simplifying </Text>{"\n"}a form today?</Text>
+
+            </Layout>
 
             <Layout style={{ flex: 1, textAlign: 'right', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', padding: 15, backgroundColor: 'none',}}>
               <Layout style={{ flexDirection: 'row', backgroundColor: 'none' }}>

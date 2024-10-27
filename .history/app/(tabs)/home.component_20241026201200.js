@@ -78,7 +78,23 @@ export const HomeScreen = ({ navigation }) => {
             <Layout style={{ backgroundColor: 'none', padding: 20, width: 400 }}>
               <Text style={styles.headerText}>Hello Chris!{"\n"}Need help <Text style={{ fontFamily: 'Inter_800ExtraBold', color: '#2E8BB7' }}>Simplifying </Text>{"\n"}a form today?</Text>
             </Layout>
-     
+            <Layout style={{ backgroundColor: '', display: 'flex', flexDirection: 'row', padding: 10, }}>
+              <Image
+                style={{ width: 75, height: 75, borderRadius: 100, }}
+                source={require('@/assets/images/lbj.jpg')}
+              />
+              <Layout style={{ backgroundColor: 'none', padding: 10 }}>
+                <Text style={{ fontFamily: 'Inter_600SemiBold', fontSize: 18 }}>Chris Topher</Text>
+                <Text>
+                  October, 20 Wed
+                  {/* {currentDate} */}
+                </Text>
+              </Layout>
+              <Layout style={{ backgroundColor: '', flexDirection: 'row', margin: 'auto', borderLeftWidth: 1.5, borderLeftColor: 'white', height: 40, width: 125 }}>
+                <DarkModeIcon style={{ backgroundColor: '' }} />
+                <Settings style={{}} />
+              </Layout>
+            </Layout>
           
 
             <Layout style={{ flex: 1, textAlign: 'right', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', padding: 15, backgroundColor: 'none',}}>

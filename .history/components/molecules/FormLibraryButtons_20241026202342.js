@@ -12,11 +12,11 @@ export default function LibraryButton({ title, subheader }) {
 
   return (
     <Layout style={styles.container}>
-   
+      <Card style={styles.card}>
        <Image 
-          style={styles.card}
-        source={require('@/assets/images/cardIcon.png')}/>
-    
+        style={{ objectFit: 'fill'}}
+        source={require('@/assets/images/cardIcon.png')}></Image>
+      </Card>
       <TouchableOpacity style={styles.formButton}>
         <Layout style={styles.textContainer}>
           <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -42,7 +42,6 @@ const styles = StyleSheet.create({
     width: 80,
     borderRadius: 10,
     marginRight: 13,
-    objectFit: 'cover',
   },
   formButton: {
     borderRadius: 10,
