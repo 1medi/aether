@@ -17,7 +17,7 @@ export default function CardSimple() {
       <ArrowIcon/>
         <Image
           source={require('@/assets/images/form.svg')}
-          style={{ width: 64, height: 64, borderRadius: 8, padding:0 }}
+          style={{ width: 32, height: 32, borderRadius: 8, padding:0 }}
         />
       <View style={{ flex: 1 }}>
         <Text style={styles.title}>Candian Pension Plan</Text>
@@ -31,17 +31,19 @@ const styles = StyleSheet.create({
   formCard:{
     borderRadius: 30,
     padding:0,
-    backgroundColor: '#08415C',
+    backgroundColor: 'rgba(8, 65, 92, 0.8)',
     display: 'flex',
     flexDirection:'column'
   },
   CardExample: {
     flexDirection: 'column',
     alignItems: 'center',
+    minWidth: 75,
+    minHeight: 100
 
   },
   title: {
-    fontSize: 18,
+    fontSize: 12,
     fontWeight: 'bold',
     color: 'white',
   },
@@ -56,9 +58,7 @@ const styles = StyleSheet.create({
     maxHeight: 48,
     maxWidth: 48,
     transform: [{rotateX: '0deg'}, {rotateZ: '45deg'}],
-    alignItems: 'center',
-    padding: 0,
-    margin: 0
+
   }
 });
 
