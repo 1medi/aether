@@ -2,7 +2,6 @@ import React from 'react';
 import * as eva from '@eva-design/eva';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import Library from '@/app/(tabs)/FormLibrary/library.component';
 
 interface BuddonProps {
   title: string;
@@ -16,7 +15,7 @@ export default function Buddon({ title, accessory: Accessory, destination }: Bud
   return (
     <TouchableOpacity
       style={styles.buttonGradient}
-      onPress={() => navigation.navigate(Library)}  // Use the destination prop
+      onPress={() => navigation.navigate(destination)}  // Use the destination prop
     >
       <Accessory 
         style={{

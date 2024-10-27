@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, ScrollView, View, } from 'react-native';
-
+import { Link } from 'expo-router';
 import { Button, Divider, Layout, TopNavigation, Icon, Input } from '@ui-kitten/components';
 import Settings from '@/components/atoms/settings.js'
 import CardSimple from '@/components/atoms/card';
@@ -9,7 +9,8 @@ import DarkModeIcon from '@/components/atoms/darkMode';
 import FilterIcon from '@/components/atoms/filterButton';
 import HeaderProfile from '@/components/molecules/Header';
 import LibraryButton from '@/components/molecules/FormLibraryButtons'
-
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
 

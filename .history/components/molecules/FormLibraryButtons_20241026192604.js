@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   textContainer: {
     display: 'flex',
     flexDirection: 'column',
-    padding: 10,
+    padding: 5,
     justifyContent: 'center',
 
   },

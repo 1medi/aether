@@ -5,19 +5,18 @@ import { TouchableOpacity, StyleSheet, Image } from 'react-native';
 export default function LibraryButton({ title, subheader }) {
 
   const ArrowIcon = (props) => (
-    <Icon
-      name="arrow-ios-forward-outline"
-      {...props}
-    />
+
   );
 
   return (
     <Layout style={styles.container}>
        <Image
+          style={{objectFit: 'cover'  }}
           source={require('@/assets/images/cardIcon.png')}
         style={styles.card}/>
       
-      <TouchableOpacity style={styles.formButton} accessory={ArrowIcon}>
+      <TouchableOpacity style={styles.formButton}>
+        
         <Layout style={styles.textContainer}>
           <Text style={styles.title}>{title}</Text>
           {subheader && <Text style={styles.subheader}>{subheader}</Text>}
@@ -39,8 +38,6 @@ const styles = StyleSheet.create({
     width: 80,
     borderRadius: 10,
     marginRight: 13,
-    objectFit: 'cover',
-  
   },
   formButton: {
     borderRadius: 10,
@@ -49,10 +46,7 @@ const styles = StyleSheet.create({
     width: 270,
     height: 80,
     marginBottom: 13,
-    shadowColor: '#000',
-    shadowOpacity: 0.3,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 5,
+    overflow: 'hidden'
   },
   textContainer: {
     display: 'flex',
