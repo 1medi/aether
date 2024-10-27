@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, ScrollView, View } from 'react-native';
+import { SafeAreaView, ScrollView, View, } from 'react-native';
+import { Link } from 'expo-router';
 import { Button, Divider, Layout, TopNavigation, Icon, Input } from '@ui-kitten/components';
 import Settings from '@/components/atoms/settings.js'
 import CardSimple from '@/components/atoms/card';
 import { StyleSheet, Text, Image } from 'react-native';
-import OptionButton from '@/components/atoms/optionButton'
-import DarkModeIcon from '@/components/atoms/darkMode'
-import FilterIcon from '@/components/atoms/filterButton'
+import DarkModeIcon from '@/components/atoms/darkMode';
+import FilterIcon from '@/components/atoms/filterButton';
+import HeaderProfile from '@/components/molecules/Header';
+import LibraryButton from '@/components/molecules/FormLibraryButtons'
+
+
 
 import {
   useFonts,
@@ -20,6 +24,7 @@ import {
   Inter_800ExtraBold,
   Inter_900Black,
 } from '@expo-google-fonts/inter';
+
 import AppLoading from 'expo-app-loading';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -41,17 +46,6 @@ export const FolderScreen = ({ navigation }) => {
   if (!fontsLoaded) {
     return <AppLoading />
   }
-  const SearchIcon = (props) => (
-    <Icon name="search-outline" {...props} />
-  );
-
-  const FileTextIcon = (props) => (
-    <Icon name={"file-text-outline"} {...props} />
-  );
-
-  const UploadIcon = (props) => (
-    <Icon name={"upload-outline"} {...props} />
-  );
 
   const navigateDetails = () => {
     navigation.navigate('Details');
@@ -74,46 +68,35 @@ export const FolderScreen = ({ navigation }) => {
   //   )
   // }, [])
 
-
-
-
   return (
     <>
 
       <SafeAreaView style={styles.homePage}>
-        <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none' }}>
-          <Layout style={{ backgroundColor: '', display: 'flex', flexDirection: 'row', padding: 10, }}>
-            <Image
-              style={{ width: 75, height: 75, borderRadius: 100, }}
-              source={require('@/assets/images/lbj.jpg')}
-            />
-            <Layout style={{ backgroundColor: 'none', padding: 10 }}>
-              <Text style={{ fontFamily: 'Inter_600SemiBold', fontSize: 18 }}>Chris Topher</Text>
-              <Text>
-                October, 20 Wed
-                {/* {currentDate} */}
-              </Text>
-            </Layout>
-            <Layout style={{ backgroundColor: '', flexDirection: 'row', margin: 'auto', borderLeftWidth: 1.5, borderLeftColor: 'white', height: 40, width: 125 }}>
-              <DarkModeIcon style={{ backgroundColor: '' }} />
-              <Settings style={{}} />
-            </Layout>
-          </Layout>
 
-          <Layout style={{ backgroundColor: 'none', padding: 20, width: 400 }}>
+          <HeaderProfile/>
+
+          <Layout style={{ backgroundColor: 'none', padding: 20, width: 'auto' }}>
             <Text style={styles.headerText}>Form Library</Text>
           </Layout>
 
-          <Layout style={{ backgroundColor:'none', padding: 20, width: 400, display: 'flex', flexDirection:'row' }}>
-          <Input style={{ borderRadius: '20', width: '80%'}}
-              placeholder='Place your Text'
+          <Layout style={{ backgroundColor: 'none', flexDirection: 'row', alignItems: 'center', margin: 'auto', width: 'auto' }}>
+          <Input style={{ borderRadius: '20', width: 320}}
+              placeholder='Search For Forms..'
             />
             <FilterIcon
-              title="filter"
-              accessory={FilterIcon}
-              style={{}}
+              style={{fontSize: '40', width: 40, height: 40,  color:'#08415C', backgroundColor:'white', padding:20, borderRadius: 20, overflow: 'hidden', background: 'transparent',  borderColor: 'white', margin: '30'}}
             />
           </Layout>
+
+        <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none', margin: 10  }}>
+        <Layout style={{ backgroundColor: 'none', }} >
+          <Link href='./library.component' asChild>
+           <LibraryButton title='Canadian Pension Plan' subheader='hi guys' />
+          </Link>
+           <LibraryButton title='Old Age Security' subheader='hi guys'/>
+           <LibraryButton title='Pension' subheader='hi guys'/>
+           <LibraryButton title='Pension' subheader='hi guys'/>
+        </Layout>
 
 
         </ScrollView>
