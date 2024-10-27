@@ -72,11 +72,32 @@ export const HomeScreen = ({ navigation }) => {
   return (
     <>
         <SafeAreaView style={styles.homePage}>
-          <HeaderProfile/>
-          <ScrollView style={{ backgroundColor: 'none', minHeigh: 100}}>
+        <HeaderProfile/>
+          <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none', marginBottom: 20 }}>
 
             <Layout style={{ backgroundColor: 'none', padding: 20, width: 400 }}>
               <Text style={styles.headerText}>Hello Chris!{"\n"}Need help <Text style={{ fontFamily: 'Inter_800ExtraBold', color: '#2E8BB7' }}>Simplifying </Text>{"\n"}a form today?</Text>
+            </Layout>
+            <Layout style={{ backgroundColor: '', display: 'flex', flexDirection: 'row', padding: 10, }}>
+              <Image
+                style={{ width: 75, height: 75, borderRadius: 100, }}
+                source={require('@/assets/images/lbj.jpg')}
+              />
+              <Layout style={{ backgroundColor: 'none', padding: 10 }}>
+                <Text style={{ fontFamily: 'Inter_600SemiBold', fontSize: 18 }}>Chris Topher</Text>
+                <Text>
+                  October, 20 Wed
+                  {/* {currentDate} */}
+                </Text>
+              </Layout>
+              <Layout style={{ backgroundColor: '', flexDirection: 'row', margin: 'auto', borderLeftWidth: 1.5, borderLeftColor: 'white', height: 40, width: 125 }}>
+                <DarkModeIcon style={{ backgroundColor: '' }} />
+                <Settings style={{}} />
+              </Layout>
+            </Layout>
+            <Layout style={{ backgroundColor: 'none', padding: 15, width: 400 }}>
+              <Text style={styles.headerText}>Need help <Text style={{ fontFamily: 'Inter_500Medium', color: '#2E8BB7' }}>Simplifying </Text>{"\n"}a form today?</Text>
+
             </Layout>
 
             <Layout style={{ flex: 1, textAlign: 'right', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', padding: 15, backgroundColor: 'none',}}>
@@ -108,37 +129,25 @@ export const HomeScreen = ({ navigation }) => {
                 </Layout>
               </Layout>
             </Layout>
-
             <Layout style={styles.numberContainer}>
 
-            <Text style={styles.largeNumber}><Text style={{opacity:.5}}>0</Text>69</Text>
+              <Text style={styles.largeNumber}><Text style={{opacity:.5}}>0</Text>69</Text>
 
-            <View style={styles.numberTextContainer}>
-              <Text style={styles.subText}>Browse from our current library of</Text>
-              <Text style={styles.formsText}>forms</Text>
-            </View>
-            </Layout>
-
-            <Text style={{paddingLeft:10, paddingBottom:10, fontFamily: 'Inter_400Normal',  color: '#2E8BB7', fontSize: 24}}>Most Common</Text>
-            <Layout style={styles.formContainer}>
-              <CardSimple title='Canadian Pension Plan'/>
-              <CardSimple title='Medical Form'/>
-            </Layout>
-            <Layout style={styles.formContainer}>
-              <CardSimple title='Canadian Pension Plan'/>
-              <CardSimple title='Medical Form'/>
+              <View style={styles.numberTextContainer}>
+                <Text style={styles.subText}>Browse from our current library of</Text>
+                <Text style={styles.formsText}>forms</Text>
+              </View>
             </Layout>
 
-            <Layout style={styles.recentform}>
-              <Text style={styles.headline}>My Resent Forms</Text>
-                <Layout style={styles.recentContent}>
-                <Layout style={styles.formContainer}>
-                <CardSimple title='Canadian Pension Plan'/>
-                <CardSimple title='Medical Form'/>
-                </Layout>
-                <Button style={styles.ButtonResent}>View My Form Library</Button>
-                </Layout>
-            </Layout>
+          <Text style={{paddingLeft:10, paddingBottom:10, fontFamily: 'Inter_400Normal',  color: '#2E8BB7'}}>Most Common</Text>
+          <Layout style={styles.formContainer}>
+            <CardSimple title='Canadian Pension Plan'/>
+            <CardSimple title='Medical Form'/>
+          </Layout>
+          <Layout style={styles.formContainer}>
+            <CardSimple title='Canadian Pension Plan'/>
+            <CardSimple title='Medical Form'/>
+          </Layout>
           </ScrollView>
 
         </SafeAreaView>
@@ -157,13 +166,12 @@ const styles = StyleSheet.create(
       margin: 'auto',
       maxHeight: 200,
       backgroundColor:'none',
-      maxWidth:'100%',
-      gap: 10
+      maxWidth:'100%'
     },
     homePage: {
       flex: 1,
       backgroundColor: 'none',
-      height: '100%',
+      height: '100%'
     },
     headerText: {
       fontSize: 32,
@@ -200,38 +208,5 @@ const styles = StyleSheet.create(
       fontWeight: 'bold', 
       color: '#2A374A', 
     },
-    ButtonResent: {
-      width: '95%',
-      heigh: 60,
-      borderRadius: 32,
-      backgroundColor: '#08415C',
-      fontSize: 20,
-      textAlign: 'center',
-      marginTop: 20,
-      marginLeft: 10,
-      marginRight: 10
-    },
-    recentform: {
-      width: '100%',
-      height: 400,
-      paddingTop: 30,
-      paddingBottom: 100,
-      marginTop: 40,
-      backgroundColor: 'rgba(8, 65, 92, 0.80)',
-      borderTopLeftRadius: 32,
-      borderTopRightRadius: 32
-    },
-    recentContent: {
-      alignItems: 'center',
-      backgroundColor: 'none',
-      paddingTop: 20,
-      width: '100%'
-    },
-    headline: {
-      color: '#ffffff',
-      fontSize: 24 ,
-      paddingLeft: 20
-    }
+
   })
-
-

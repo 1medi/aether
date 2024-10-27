@@ -201,7 +201,7 @@ const styles = StyleSheet.create(
       color: '#2A374A', 
     },
     ButtonResent: {
-      width: '95%',
+      width: 'cal(100vw - 20)',
       heigh: 60,
       borderRadius: 32,
       backgroundColor: '#08415C',
