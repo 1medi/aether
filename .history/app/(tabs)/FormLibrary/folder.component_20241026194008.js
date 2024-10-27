@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, ScrollView, View, } from 'react-native';
-
 import { Button, Divider, Layout, TopNavigation, Icon, Input } from '@ui-kitten/components';
 import Settings from '@/components/atoms/settings.js'
 import CardSimple from '@/components/atoms/card';
@@ -31,6 +30,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 
 export const FolderScreen = ({ navigation }) => {
+  const navigateToLibrary = () => {
+    navigation.navigate('Library');
 
   let [fontsLoaded] = useFonts({
     Inter_100Thin,
@@ -57,7 +58,7 @@ export const FolderScreen = ({ navigation }) => {
     style={{width:32, height: 32}}
     />
   );
-
+  }
   // const [currentDate, setCurrentDate] = useState('')
 
   // useEffect(() => {
@@ -96,7 +97,7 @@ export const FolderScreen = ({ navigation }) => {
         <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none', margin: 10  }}>
         <Layout style={{ backgroundColor: 'none', }} >
           
-           <LibraryButton title='Canadian Pension Plan' subheader='hi guys' onPress={() => navigation.navigate('Library')}/>
+           <LibraryButton title='Canadian Pension Plan' subheader='hi guys' onPress={navigateToLibrary}/>
           
            <LibraryButton title='Old Age Security' subheader='hi guys'/>
            <LibraryButton title='Pension' subheader='hi guys'/>

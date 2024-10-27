@@ -18,6 +18,7 @@ export default function LibraryButton({ title, subheader }) {
         style={styles.card}/>
       
       <TouchableOpacity style={styles.formButton} accessory={ArrowIcon}>
+        
         <Layout style={styles.textContainer}>
           <Text style={styles.title}>{title}</Text>
           {subheader && <Text style={styles.subheader}>{subheader}</Text>}
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
     marginBottom: 13,
     shadowColor: '#000',
     shadowOpacity: 0.3,
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 4, height: 2 },
     shadowRadius: 5,
   },
   textContainer: {

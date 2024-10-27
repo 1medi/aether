@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, ScrollView, View, } from 'react-native';
-
+import { Link } from 'expo-router';
 import { Button, Divider, Layout, TopNavigation, Icon, Input } from '@ui-kitten/components';
 import Settings from '@/components/atoms/settings.js'
 import CardSimple from '@/components/atoms/card';
@@ -9,7 +9,6 @@ import DarkModeIcon from '@/components/atoms/darkMode';
 import FilterIcon from '@/components/atoms/filterButton';
 import HeaderProfile from '@/components/molecules/Header';
 import LibraryButton from '@/components/molecules/FormLibraryButtons'
-
 
 
 
@@ -75,7 +74,7 @@ export const FolderScreen = ({ navigation }) => {
         colors={['#ffff', '#c4d3ff']}
         style={styles.gradientContainer}
       >
-      
+      </LinearGradient>
       <SafeAreaView style={styles.homePage}>
 
           <HeaderProfile/>
@@ -95,9 +94,9 @@ export const FolderScreen = ({ navigation }) => {
 
         <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none', margin: 10  }}>
         <Layout style={{ backgroundColor: 'none', }} >
-          
-           <LibraryButton title='Canadian Pension Plan' subheader='hi guys' onPress={() => navigation.navigate('Library')}/>
-          
+          <Link href='./library.component' asChild>
+           <LibraryButton title='Canadian Pension Plan' subheader='hi guys' />
+          </Link>
            <LibraryButton title='Old Age Security' subheader='hi guys'/>
            <LibraryButton title='Pension' subheader='hi guys'/>
            <LibraryButton title='Pension' subheader='hi guys'/>
@@ -107,7 +106,7 @@ export const FolderScreen = ({ navigation }) => {
         </ScrollView>
 
       </SafeAreaView>
-      </LinearGradient>
+
     </>
 
   );
@@ -117,8 +116,7 @@ const styles = StyleSheet.create(
   {
     homePage: {
       flex: 1,
-      backgroundColor: 'none',
-      height: '100%'
+      backgroundColor: 'none'
     },
     gradientContainer: {
       flex: 1, // Make gradient cover the entire screen

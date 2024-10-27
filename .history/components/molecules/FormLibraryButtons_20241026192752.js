@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   
   },
   formButton: {
-    borderRadius: 10,
+    borderRadius: 5,
     borderColor: 'transparent',
     backgroundColor: 'white',
     width: 270,

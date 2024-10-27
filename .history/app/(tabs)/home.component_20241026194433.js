@@ -24,7 +24,7 @@ import AppLoading from 'expo-app-loading';
 import { LinearGradient } from 'expo-linear-gradient';
 
 
-export const HomeScreen = ({ navigation }) => {
+export const HomeScreen = ({  }) => {
 
   let [fontsLoaded] = useFonts({
     Inter_100Thin,
