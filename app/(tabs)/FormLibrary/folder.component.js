@@ -47,10 +47,6 @@ export const FolderScreen = ({ navigation }) => {
     return <AppLoading />
   }
 
-  const FilterIcon = (props) => (
-    <Icon name='options-2-outline' {...props} />
-  );
-
   const navigateDetails = () => {
     navigation.navigate('Details');
   };

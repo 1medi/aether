@@ -74,13 +74,10 @@ export const HomeScreen = ({ navigation }) => {
         <SafeAreaView style={styles.homePage}>
         <HeaderProfile/>
           <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none' }}>
-<<<<<<< HEAD
 
-=======
->>>>>>> d6ec18590ca65bfd1fb99f5e1cac53778b000c86
             <Layout style={{ backgroundColor: 'none', padding: 20, width: 400 }}>
               <Text style={styles.headerText}>Hello Chris!{"\n"}Need help <Text style={{ fontFamily: 'Inter_800ExtraBold', color: '#2E8BB7' }}>Simplifying </Text>{"\n"}a form today?</Text>
-
+            </Layout>
             <Layout style={{ backgroundColor: '', display: 'flex', flexDirection: 'row', padding: 10, }}>
               <Image
                 style={{ width: 75, height: 75, borderRadius: 100, }}
