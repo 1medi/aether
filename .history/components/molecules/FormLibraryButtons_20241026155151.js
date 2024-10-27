@@ -1,6 +1,6 @@
 import React from 'react';
-import { Card, Text, Icon, Layout, } from '@ui-kitten/components';
-import { TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { Card, Text, Icon, Layout } from '@ui-kitten/components';
+import { TouchableOpacity, StyleSheet } from 'react-native';
 
 export default function LibraryButton({ title, subheader }) {
 
@@ -15,7 +15,7 @@ export default function LibraryButton({ title, subheader }) {
   return (
     <Layout style={styles.container}>
       <Card style={styles.card}>
-       <Image></Image>
+        {/* Additional card content here if needed */}
       </Card>
       <TouchableOpacity style={styles.formButton}>
         <Layout style={styles.textContainer}>
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: 'transparent',
     backgroundColor: 'white',
-    width: 270,
+    width: 250,
     height: 80,
     marginBottom: 13,
     overflow: 'hidden'

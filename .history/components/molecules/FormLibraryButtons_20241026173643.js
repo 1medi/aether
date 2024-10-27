@@ -1,6 +1,6 @@
 import React from 'react';
-import { Card, Text, Icon, Layout, } from '@ui-kitten/components';
-import { TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { Card, Text, Icon, Layout, Image } from '@ui-kitten/components';
+import { TouchableOpacity, StyleSheet } from 'react-native';
 
 export default function LibraryButton({ title, subheader }) {
 

@@ -94,7 +94,7 @@ export const FolderScreen = ({ navigation }) => {
 
         <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none', margin: 10  }}>
         <Layout style={{ backgroundColor: 'none', }} >
-          <Link href='./library.component' asChild>
+          <Link>
            <LibraryButton title='Canadian Pension Plan' subheader='hi guys' />
           </Link>
            <LibraryButton title='Old Age Security' subheader='hi guys'/>

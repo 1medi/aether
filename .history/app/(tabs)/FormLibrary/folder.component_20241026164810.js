@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, ScrollView, View, } from 'react-native';
-import { Link } from 'expo-router';
 import { Button, Divider, Layout, TopNavigation, Icon, Input } from '@ui-kitten/components';
+import { useNavigation } from '@react-navigation/native';
+
 import Settings from '@/components/atoms/settings.js'
 import CardSimple from '@/components/atoms/card';
 import { StyleSheet, Text, Image } from 'react-native';
@@ -29,7 +30,7 @@ import AppLoading from 'expo-app-loading';
 import { LinearGradient } from 'expo-linear-gradient';
 
 
-export const FolderScreen = ({ navigation }) => {
+export const FolderScreen = ({  }) => {
 
   let [fontsLoaded] = useFonts({
     Inter_100Thin,
@@ -55,6 +56,7 @@ export const FolderScreen = ({ navigation }) => {
     navigation.navigate('Details');
   };
 
+  const navigation = useNavigation();
 
   const handlePress = () => {
     navigation.navigate('Library'); // Replace with your target screen name
@@ -94,9 +96,7 @@ export const FolderScreen = ({ navigation }) => {
 
         <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none', margin: 10  }}>
         <Layout style={{ backgroundColor: 'none', }} >
-          <Link href='./library.component' asChild>
-           <LibraryButton title='Canadian Pension Plan' subheader='hi guys' />
-          </Link>
+           <LibraryButton title='Canadian Pension Plan' subheader='hi guys' onPress={() => navigation.navigate('Home')}/>
            <LibraryButton title='Old Age Security' subheader='hi guys'/>
            <LibraryButton title='Pension' subheader='hi guys'/>
            <LibraryButton title='Pension' subheader='hi guys'/>
