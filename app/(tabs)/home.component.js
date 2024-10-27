@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, ScrollView, View } from 'react-native';
+import { Link } from 'expo-router';
 import { Button, Divider, Layout, TopNavigation, Icon } from '@ui-kitten/components';
 import Settings from '@/components/atoms/settings.js'
 import CardSimple from '@/components/atoms/card';
 import { StyleSheet, Text, Image } from 'react-native';
 import OptionButton from '@/components/atoms/optionButton'
 import DarkModeIcon from '@/components/atoms/darkMode'
+import HeaderProfile from '@/components/molecules/Header'
 
 import {
   useFonts,
@@ -70,7 +72,15 @@ export const HomeScreen = ({ navigation }) => {
   return (
     <>
         <SafeAreaView style={styles.homePage}>
+        <HeaderProfile/>
           <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none' }}>
+<<<<<<< HEAD
+
+=======
+>>>>>>> d6ec18590ca65bfd1fb99f5e1cac53778b000c86
+            <Layout style={{ backgroundColor: 'none', padding: 20, width: 400 }}>
+              <Text style={styles.headerText}>Hello Chris!{"\n"}Need help <Text style={{ fontFamily: 'Inter_800ExtraBold', color: '#2E8BB7' }}>Simplifying </Text>{"\n"}a form today?</Text>
+
             <Layout style={{ backgroundColor: '', display: 'flex', flexDirection: 'row', padding: 10, }}>
               <Image
                 style={{ width: 75, height: 75, borderRadius: 100, }}
@@ -90,6 +100,7 @@ export const HomeScreen = ({ navigation }) => {
             </Layout>
             <Layout style={{ backgroundColor: 'none', padding: 15, width: 400 }}>
               <Text style={styles.headerText}>Need help <Text style={{ fontFamily: 'Inter_500Medium', color: '#2E8BB7' }}>Simplifying </Text>{"\n"}a form today?</Text>
+
             </Layout>
 
             <Layout style={{ flex: 1, textAlign: 'right', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', padding: 15, backgroundColor: 'none',}}>
