@@ -80,7 +80,7 @@ export const HomeScreen = ({ navigation }) => {
         <HeaderProfile/>
 
           <ScrollView style={{ backgroundColor: 'none', minHeight: 100,marginHorizontal: 5}}>
-            <Layout style={{ backgroundColor: 'none', paddingLeft: 20, width: 400 }}>
+            <Layout style={{ backgroundColor: 'none', padding: 20, width: 400 }}>
               <Text style={styles.headerText}>Hello Chris!{"\n"}Need help <Text style={{ fontFamily: 'Inter_800ExtraBold', color: '#2E8BB7' }}>Simplifying </Text>{"\n"}a form today?</Text>
             </Layout>
      

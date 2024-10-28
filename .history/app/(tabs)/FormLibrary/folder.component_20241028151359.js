@@ -75,7 +75,7 @@ export const FolderScreen = ({ navigation }) => {
       <SafeAreaView style={styles.homePage}>
 
         <HeaderProfile />
-        <Layout style={{ backgroundColor: 'none', paddingLeft: 20,  marginHorizontal: 5 }}>
+        <Layout style={{ backgroundColor: 'none', paddingLeft: 20, paddingTop: 20, width: 'auto' }}>
           <Text style={styles.headerText}>Form Library</Text>
         </Layout>
         <Layout style={styles.numberContainer}>
@@ -89,7 +89,7 @@ export const FolderScreen = ({ navigation }) => {
         </Layout>
 
 
-        <Layout style={{ backgroundColor: 'none', paddingLeft: 10, paddingRight: 10, width: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+        <Layout style={{ backgroundColor: 'none', padding: 0, width: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
             <Input
               style={{
                 borderRadius: 20,

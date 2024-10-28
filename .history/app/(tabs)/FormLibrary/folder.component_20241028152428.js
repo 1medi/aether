@@ -75,7 +75,7 @@ export const FolderScreen = ({ navigation }) => {
       <SafeAreaView style={styles.homePage}>
 
         <HeaderProfile />
-        <Layout style={{ backgroundColor: 'none', paddingLeft: 20,  marginHorizontal: 5 }}>
+        <Layout style={{ backgroundColor: 'none', paddingLeft: 20, marginTop: 0, width: 'auto' }}>
           <Text style={styles.headerText}>Form Library</Text>
         </Layout>
         <Layout style={styles.numberContainer}>
