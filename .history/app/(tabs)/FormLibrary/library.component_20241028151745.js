@@ -72,12 +72,12 @@ export default function LibraryScreen() {
           <View style={{ backgroundColor: 'none', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingRight: 20, paddingTop: 10 }}>
 
             <Pressable>
-              <BackIcon onPress={() => navigation.navigate('Details')} />
+              <BackIcon onPress={() => navigation.navigate('Library')} />
             </Pressable>
 
             <View style={styles.buttons}>
 
-              <Pressable style={styles.formButton} onPress={() => navigation.navigate('PensionPlan')} >
+              <Pressable style={styles.formButton} onPress={() => navigation.navigate('')}>
                 <Layout style={styles.textContainer}>
                   <View style={styles.viewContainer}>
                     <Text style={styles.title}>Autofill</Text>

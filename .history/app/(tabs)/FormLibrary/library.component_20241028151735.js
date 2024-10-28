@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Pressable, SafeAreaView, ScrollView, View, } from 'react-native';
 import { Button, Divider, Layout, TopNavigation, Icon, Input } from '@ui-kitten/components';
 import { StyleSheet, Text, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import HeaderProfile from '@/components/molecules/Header';
 import LibraryButton from '@/components/molecules/FormLibraryButtons'
 
@@ -72,12 +71,12 @@ export default function LibraryScreen() {
           <View style={{ backgroundColor: 'none', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingRight: 20, paddingTop: 10 }}>
 
             <Pressable>
-              <BackIcon onPress={() => navigation.navigate('Details')} />
+              <BackIcon onPress={() => navigation.navigate('Library')} />
             </Pressable>
 
             <View style={styles.buttons}>
 
-              <Pressable style={styles.formButton} onPress={() => navigation.navigate('PensionPlan')} >
+              <Pressable style={styles.formButton} onPress={() => navigation.navigate('')}>
                 <Layout style={styles.textContainer}>
                   <View style={styles.viewContainer}>
                     <Text style={styles.title}>Autofill</Text>
