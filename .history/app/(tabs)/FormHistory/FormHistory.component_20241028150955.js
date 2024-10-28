@@ -68,12 +68,25 @@ export const FormHistoryScreen = ({ navigation }) => {
     <>
 
       <SafeAreaView style={styles.homePage}>
-        <HeaderProfile/>
-        
         <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none' }}>
           <Layout style={{ backgroundColor: '', display: 'flex', flexDirection: 'row', padding: 10, }}>
+            <Image
+              style={{ width: 75, height: 75, borderRadius: 100, }}
+              source={require('@/assets/images/lbj.jpg')}
+            />
+            <Layout style={{ backgroundColor: 'none', padding: 10 }}>
+              <Text style={{ fontFamily: 'Inter_600SemiBold', fontSize: 18 }}>Chris Topher</Text>
+              <Text>
+                October, 20 Wed
+                {/* {currentDate} */}
+              </Text>
+            </Layout>
+            <Layout style={{ backgroundColor: '', flexDirection: 'row', margin: 'auto', borderLeftWidth: 1.5, borderLeftColor: 'white', height: 40, width: 125 }}>
+              <DarkModeIcon style={{ backgroundColor: '' }} />
+              <Settings style={{}} />
+            </Layout>
           </Layout>
-          <Layout style={{ backgroundColor: 'none', paddingLeft: 20, width: 400 }}>
+          <Layout style={{ backgroundColor: 'none', padding: 20, width: 400 }}>
             <Text style={styles.headerText}>Form History</Text>
           </Layout>
 

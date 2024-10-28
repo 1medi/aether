@@ -7,7 +7,7 @@ import { FormHistoryScreen } from './FormHistory/FormHistory.component';
 import { CameraScreen } from './CameraForm/camera.component';
 import { FolderScreen } from './FormLibrary/folder.component';
 import LibraryScreen, { Library } from './FormLibrary/library.component';
-import AutofilledScreen, { PensionPlan } from './FormLibrary/autofilled.component';
+import AutofilledScreen, { Pension } from './FormLibrary/autofilled.component';
 
 import { PeopleScreen } from './SavedProfiles/people.component';
 import { StyleSheet,Image } from 'react-native';
@@ -79,7 +79,7 @@ const TabNavigator = () => (
     <Screen name="People" component={PeopleScreen} />
     <Screen name="Library" component={LibraryScreen} />
 
-    <Screen name="PensionPlan" component={AutofilledScreen} />
+    <Screen name="Pension" component={AutofilledScreen} />
   </Navigator>
 );
 
