@@ -11,8 +11,9 @@ export const PeopleScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <Divider />
       <HeaderProfile />
+      <Divider />
+      
       <Layout
         style={{
           flex: 1,
