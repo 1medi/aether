@@ -9,6 +9,7 @@ import DarkModeIcon from '@/components/atoms/darkMode'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import DetectObject from '@/src/index'
 
 
 import {
@@ -84,10 +85,14 @@ export const CameraScreen = ({ navigation }) => {
             <Layout style={{ backgroundColor: 'none', padding: 20, width: 400 }}>
               <Text style={styles.headerText}>Hello Chris!{"\n"}Need help <Text style={{ fontFamily: 'Inter_800ExtraBold', color: '#2E8BB7' }}>Simplifying </Text>{"\n"}a form today?</Text>
             </Layout>
+            <Layout style={{paddingBottom: 50}}>
+          <DetectObject/>
+          </Layout>
 
           <Button onPress={() => navigation.navigate('Details')}>
             HELLO
           </Button>
+
 
           </ScrollView>
 
