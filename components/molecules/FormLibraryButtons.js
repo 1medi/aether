@@ -1,25 +1,31 @@
 import React from 'react';
 import { Card, Text, Icon, Layout, } from '@ui-kitten/components';
-import { TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { TouchableOpacity, StyleSheet, Image, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 export default function LibraryButton({ title, subheader }) {
-
+  const navigation = useNavigation();
+  
   const ArrowIcon = (props) => (
-    <Icon
-      name="arrow-ios-forward-outline"
-      {...props}
+    <Icon name='arrow-ios-forward-outline' {...props} 
+    style={{width:32, height: 32, tint: 'white'}}
     />
   );
 
   return (
     <Layout style={styles.container}>
+
        <Image
           source={require('@/assets/images/cardIcon.png')}
         style={styles.card}/>
       
-      <TouchableOpacity style={styles.formButton} accessory={ArrowIcon}>
+       <TouchableOpacity style={styles.formButton}
+      onPress={() => navigation.navigate('Library')}>
         <Layout style={styles.textContainer}>
+          <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
           <Text style={styles.title}>{title}</Text>
+          <ArrowIcon/>
+          </View>
           {subheader && <Text style={styles.subheader}>{subheader}</Text>}
         </Layout>
       </TouchableOpacity>
@@ -40,7 +46,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginRight: 13,
     objectFit: 'cover',
-  
   },
   formButton: {
     borderRadius: 10,

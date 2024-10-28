@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, ScrollView, View } from 'react-native';
+import { Link } from 'expo-router';
 import { Button, Divider, Layout, TopNavigation, Icon } from '@ui-kitten/components';
 import Settings from '@/components/atoms/settings.js'
 import CardSimple from '@/components/atoms/card';
 import { StyleSheet, Text, Image } from 'react-native';
 import OptionButton from '@/components/atoms/optionButton'
 import DarkModeIcon from '@/components/atoms/darkMode'
+import HeaderProfile from '@/components/molecules/Header'
 
 import {
   useFonts,
@@ -20,10 +22,9 @@ import {
   Inter_900Black,
 } from '@expo-google-fonts/inter';
 import AppLoading from 'expo-app-loading';
-import { LinearGradient } from 'expo-linear-gradient';
 
 
-export const DetailsScreen = ({ navigation }) => {
+export const HomeScreen = ({ navigation }) => {
 
   let [fontsLoaded] = useFonts({
     Inter_100Thin,
@@ -70,9 +71,13 @@ export const DetailsScreen = ({ navigation }) => {
 
   return (
     <>
-
         <SafeAreaView style={styles.homePage}>
+        <HeaderProfile/>
           <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none' }}>
+
+            <Layout style={{ backgroundColor: 'none', padding: 20, width: 400 }}>
+              <Text style={styles.headerText}>Hello Chris!{"\n"}Need help <Text style={{ fontFamily: 'Inter_800ExtraBold', color: '#2E8BB7' }}>Simplifying </Text>{"\n"}a form today?</Text>
+            </Layout>
             <Layout style={{ backgroundColor: '', display: 'flex', flexDirection: 'row', padding: 10, }}>
               <Image
                 style={{ width: 75, height: 75, borderRadius: 100, }}
@@ -90,17 +95,60 @@ export const DetailsScreen = ({ navigation }) => {
                 <Settings style={{}} />
               </Layout>
             </Layout>
-            <Layout style={{ backgroundColor: 'none', padding: 20, width: 400 }}>
-              <Text style={styles.headerText}>Form History</Text>
+          
+
+            <Layout style={{ flex: 1, textAlign: 'right', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', padding: 15, backgroundColor: 'none',}}>
+              <Layout style={{ flexDirection: 'row', backgroundColor: 'none' }}>
+                <Layout style={{ flexDirection: 'column', backgroundColor: 'none', }}>
+                  <OptionButton
+                    title="Browse"
+                    accessory={SearchIcon}
+                    destination='Details'
+                  />
+                  <Text style={{ textAlign: 'center', color: '#2E8BB7', fontFamily: 'Inter_400Normal', fontSize: 16 }}>Browse</Text>
+                </Layout>
+
+                <Layout style={{ flexDirection: 'column', backgroundColor: 'none' }}>
+                  <OptionButton
+                    title="Scan"
+                    accessory={FileTextIcon}
+                    destination='Camera'
+                  />
+                  <Text style={{ textAlign: 'center', color: '#2E8BB7', fontFamily: 'Inter_400Normal', fontSize: 16 }}>Scan</Text>
+                </Layout>
+
+                <Layout style={{ flexDirection: 'column', backgroundColor: 'none' }}>
+                  <OptionButton
+                    title="Browse"
+                    accessory={UploadIcon}
+                  />
+                  <Text style={{ textAlign: 'center', color: '#2E8BB7', fontFamily: 'Inter_400Normal', fontSize: 16 }}>Upload</Text>
+                </Layout>
+              </Layout>
+            </Layout>
+            <Layout style={styles.numberContainer}>
+
+              <Text style={styles.largeNumber}><Text style={{opacity:.5}}>0</Text>69</Text>
+
+              <View style={styles.numberTextContainer}>
+                <Text style={styles.subText}>Browse from our current library of</Text>
+                <Text style={styles.formsText}>forms</Text>
+              </View>
             </Layout>
 
-            <View>
-
-            </View>
-
+          <Text style={{paddingLeft:10, paddingBottom:10, fontFamily: 'Inter_400Normal',  color: '#2E8BB7'}}>Most Common</Text>
+          <Layout style={styles.formContainer}>
+            <CardSimple title='Canadian Pension Plan'/>
+            <CardSimple title='Medical Form'/>
+          </Layout>
+          <Layout style={styles.formContainer}>
+            <CardSimple title='Canadian Pension Plan'/>
+            <CardSimple title='Medical Form'/>
+          </Layout>
           </ScrollView>
 
         </SafeAreaView>
+
 
     </>
 
@@ -109,9 +157,18 @@ export const DetailsScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create(
   {
+    formContainer:{
+      display: 'flex',
+      flexDirection: 'row',
+      margin: 'auto',
+      maxHeight: 200,
+      backgroundColor:'none',
+      maxWidth:'100%'
+    },
     homePage: {
       flex: 1,
-      backgroundColor: 'none'
+      backgroundColor: 'none',
+      height: '100%'
     },
     headerText: {
       fontSize: 32,
@@ -123,7 +180,9 @@ const styles = StyleSheet.create(
       alignItems: 'flex-end', 
       margin: 20,
       backgroundColor: 'none',
-      paddingRight:50
+      paddingRight:50,
+      borderTopWidth: 2,
+      borderColor: 'white'
     },
     largeNumber: {
       fontSize: 100, 
