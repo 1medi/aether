@@ -7,6 +7,7 @@ import { StyleSheet, Text, Image } from 'react-native';
 import OptionButton from '@/components/atoms/optionButton'
 import DarkModeIcon from '@/components/atoms/darkMode'
 import { Input } from '@ui-kitten/components';
+
 import {
   useFonts,
   Inter_100Thin,
@@ -92,8 +93,8 @@ export const FormHistoryScreen = ({ navigation }) => {
             <Input
               style={{
                 borderRadius: 20,
-                flex: 1, // Make the input take up available width
-                marginRight: 10, // Add some space between the input and icon
+                flex: 1, 
+                marginRight: 10, 
               }}
               placeholder='Place your Text'
             />
@@ -103,7 +104,9 @@ export const FormHistoryScreen = ({ navigation }) => {
           </Layout>
 
           <Layout style={styles.cardContainer}>
-            <TouchableOpacity>
+            <TouchableOpacity 
+            onPress={() => navigation.navigate('Home')} 
+            >
             <Layout onPress style={styles.formHistoryCard}>
               <Image
               source={require('@/assets/images/lbj.jpg')}
