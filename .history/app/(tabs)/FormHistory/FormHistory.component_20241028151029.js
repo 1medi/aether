@@ -69,11 +69,10 @@ export const FormHistoryScreen = ({ navigation }) => {
 
       <SafeAreaView style={styles.homePage}>
         <HeaderProfile/>
-        
         <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none' }}>
           <Layout style={{ backgroundColor: '', display: 'flex', flexDirection: 'row', padding: 10, }}>
           </Layout>
-          <Layout style={{ backgroundColor: 'none', paddingLeft: 20, width: 400 }}>
+          <Layout style={{ backgroundColor: 'none', padding: 20, width: 400 }}>
             <Text style={styles.headerText}>Form History</Text>
           </Layout>
 

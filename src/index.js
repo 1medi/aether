@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
+import { Button } from "@ui-kitten/components";
 
 const DetectObject = () => {
   const [imageUri, setImageUri] = useState(null);
@@ -133,12 +134,7 @@ const DetectObject = () => {
           style={{ width: 300, height: 300 }}
         />
       )}
-      <TouchableOpacity
-        onPress={pickImage}
-        style={styles.button}
-      >
-        <Text style={styles.text}>Choose an image...</Text>
-      </TouchableOpacity>
+        <Button onPress={pickImage} style={styles.text}>Choose an image...</Button>
       <TouchableOpacity
         onPress={takePhoto}
         style={styles.button}

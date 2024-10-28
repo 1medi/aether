@@ -12,7 +12,7 @@ const HeaderProfile = () => {
         style={{ width: 75, height: 75, borderRadius: 100, }}
         source={require('@/assets/images/lbj.jpg')}
       />
-      <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+      <View style={{display: 'flex', flexDirection: 'row'}}>
         <Layout style={{ backgroundColor: 'none', padding: 10, }}>
           <Text style={{ fontFamily: 'Inter_600SemiBold', fontSize: 18 }}>Chris Topher</Text>
           <Text>
