@@ -7,6 +7,7 @@ import CardSimple from '@/components/atoms/card';
 import { StyleSheet, Text, Image } from 'react-native';
 import OptionButton from '@/components/atoms/optionButton'
 import DarkModeIcon from '@/components/atoms/darkMode'
+import HeaderProfile from '@/components/molecules/Header';
 
 
 import {
