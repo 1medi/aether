@@ -6,19 +6,17 @@ import Library from '@/app/(tabs)/FormLibrary/library.component';
 
 interface BuddonProps {
   title: string;
-  destination: string; 
+  destination: string; // Add the destination prop
   accessory: React.ComponentType<any>;
 }
 
 export default function Buddon({ title, accessory: Accessory, destination }: BuddonProps) {
-  const navigation = useNavigation();  
+  const navigation = useNavigation();  // Hook to access navigation
 
   return (
     <TouchableOpacity
       style={styles.buttonGradient}
-
       onPress={() => navigation.navigate(Library)}  // Use the destination prop
-
     >
       <Accessory 
         style={{

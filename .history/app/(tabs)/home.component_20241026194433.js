@@ -6,8 +6,7 @@ import CardSimple from '@/components/atoms/card';
 import { StyleSheet, Text, Image } from 'react-native';
 import OptionButton from '@/components/atoms/optionButton'
 import DarkModeIcon from '@/components/atoms/darkMode'
-import HeaderProfile from '@/components/molecules/Header';
-
+import HeaderProfile from '@/components/molecules/Header'
 
 import {
   useFonts,
@@ -25,7 +24,7 @@ import AppLoading from 'expo-app-loading';
 import { LinearGradient } from 'expo-linear-gradient';
 
 
-export const HomeScreen = ({ navigation }) => {
+export const HomeScreen = ({  }) => {
 
   let [fontsLoaded] = useFonts({
     Inter_100Thin,
@@ -83,8 +82,6 @@ export const HomeScreen = ({ navigation }) => {
             <Layout style={{ backgroundColor: 'none', padding: 20, width: 400 }}>
               <Text style={styles.headerText}>Hello Chris!{"\n"}Need help <Text style={{ fontFamily: 'Inter_800ExtraBold', color: '#2E8BB7' }}>Simplifying </Text>{"\n"}a form today?</Text>
             </Layout>
-     
-          
 
             <Layout style={{ flex: 1, textAlign: 'right', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', padding: 20, backgroundColor: 'none', borderBottomColor: 'white', borderBottomWidth: 2 }}>
               <Layout style={{ flexDirection: 'row', backgroundColor: 'none' }}>
