@@ -7,7 +7,7 @@ import CardSimple from '@/components/atoms/card';
 import { StyleSheet, Text, Image } from 'react-native';
 import OptionButton from '@/components/atoms/optionButton'
 import DarkModeIcon from '@/components/atoms/darkMode'
-
+import HeaderProfile from '@/components/molecules/Header'
 
 import {
   useFonts,
@@ -72,9 +72,9 @@ export const HomeScreen = ({ navigation }) => {
   return (
     <>
         <SafeAreaView style={styles.homePage}>
-
           <HeaderProfile/>
-          <ScrollView style={{ backgroundColor: 'none', minHeight: 100,marginHorizontal: 5}}>
+          <ScrollView style={{ backgroundColor: 'none', minHeigh: 100}}>
+
             <Layout style={{ backgroundColor: 'none', padding: 20, width: 400 }}>
               <Text style={styles.headerText}>Hello Chris!{"\n"}Need help <Text style={{ fontFamily: 'Inter_800ExtraBold', color: '#2E8BB7' }}>Simplifying </Text>{"\n"}a form today?</Text>
             </Layout>
@@ -201,7 +201,7 @@ const styles = StyleSheet.create(
       color: '#2A374A', 
     },
     ButtonResent: {
-      width: '95%',
+      width: 95%,
       heigh: 60,
       borderRadius: 32,
       backgroundColor: '#08415C',

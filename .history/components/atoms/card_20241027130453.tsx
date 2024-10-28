@@ -17,7 +17,7 @@ export default function CardSimple() {
       <ArrowIcon/>
         <Image
           source={require('@/assets/images/form.svg')}
-          style={{ width: 100, height: 100, borderRadius: 8, padding:0 }}
+          style={{ width: 32, height: 32, borderRadius: 8, padding:0 }}
         />
       <View style={{ flex: 1 }}>
         <Text style={styles.title}>Candian Pension Plan</Text>
