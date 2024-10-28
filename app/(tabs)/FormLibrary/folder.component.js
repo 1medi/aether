@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, ScrollView, View, } from 'react-native';
 import { Button, Divider, Layout, TopNavigation, Icon, Input } from '@ui-kitten/components';
-import { StyleSheet, Text, Image } from 'react-native';
+import { StyleSheet, Text, Image,  SafeAreaView, ScrollView, View, } from 'react-native';
 import HeaderProfile from '@/components/molecules/Header';
 import LibraryButton from '@/components/molecules/FormLibraryButtons'
+
 
 
 
@@ -67,7 +67,11 @@ export const FolderScreen = ({ navigation }) => {
 
   return (
     <>
-
+      <LinearGradient
+        colors={['#ffff', '#c4d3ff']}
+        style={styles.gradientContainer}
+      >
+      
       <SafeAreaView style={styles.homePage}>
 
         <HeaderProfile />
@@ -84,6 +88,7 @@ export const FolderScreen = ({ navigation }) => {
           </View>
         </Layout>
 
+
         <Layout style={{ backgroundColor: 'none', flexDirection: 'row', alignItems: 'center', margin: 'auto', width: 'auto' }}>
           <Input style={{ borderRadius: '20', width: 320 }}
             placeholder='Search For Forms..'
@@ -91,6 +96,8 @@ export const FolderScreen = ({ navigation }) => {
           <FilterIcon
             style={{ fontSize: '40', width: 40, height: 40, color: '#08415C', backgroundColor: 'white', padding: 20, borderRadius: 20, overflow: 'hidden', background: 'transparent', borderColor: 'white', margin: '30', }}
           />
+
+
         </Layout>
 
         <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none', margin: 10 }}>
@@ -108,7 +115,7 @@ export const FolderScreen = ({ navigation }) => {
         </ScrollView>
 
       </SafeAreaView>
-
+      </LinearGradient>
     </>
 
   );
@@ -118,7 +125,11 @@ const styles = StyleSheet.create(
   {
     homePage: {
       flex: 1,
-      backgroundColor: 'none'
+      backgroundColor: 'none',
+      height: '100%'
+    },
+    gradientContainer: {
+      flex: 1, // Make gradient cover the entire screen
     },
     headerText: {
       fontSize: 32,

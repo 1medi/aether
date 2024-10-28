@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import * as eva from '@eva-design/eva';
@@ -16,20 +15,26 @@ import Library from './(tabs)/FormLibrary/library.component';
 
 const Stack = createNativeStackNavigator();
 
-export default function App() {
-
-  return (
-    <>
-      <IconRegistry icons={EvaIconsPack} />
-      <ApplicationProvider
-        {...eva}
-        theme={{ ...eva.light, ...theme }}
-      >
-      <AppNavigator />
-      </ApplicationProvider>
-    </>
-  );
-}
+  export default function App() {
+    return (
+      <>
+        <IconRegistry icons={EvaIconsPack} />
+        <ApplicationProvider {...eva} theme={{ ...eva.light, ...theme }}>
+          <NavigationContainer>
+            
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
+              {/* Main Tab Navigator */}
+              <Stack.Screen name="MainTabs" component={AppNavigator} />
+  
+              {/* Additional screens */}
+              <Stack.Screen name="Library" component={Library} />
+              {/* Add more Stack Screens if needed */}
+            </Stack.Navigator>
+          </NavigationContainer>
+        </ApplicationProvider>
+      </>
+    );
+  }
 
 const styles = StyleSheet.create({
   container: {
