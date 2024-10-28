@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, ScrollView, View } from 'react-native';
+import { Link } from 'expo-router';
 import { Button, Divider, Layout, TopNavigation, Icon } from '@ui-kitten/components';
 import Settings from '@/components/atoms/settings.js'
 import CardSimple from '@/components/atoms/card';
 import { StyleSheet, Text, Image } from 'react-native';
 import OptionButton from '@/components/atoms/optionButton'
 import DarkModeIcon from '@/components/atoms/darkMode'
-import HeaderProfile from '@/components/molecules/Header';
-
+import HeaderProfile from '@/components/molecules/Header'
 
 import {
   useFonts,
@@ -22,7 +22,6 @@ import {
   Inter_900Black,
 } from '@expo-google-fonts/inter';
 import AppLoading from 'expo-app-loading';
-import { LinearGradient } from 'expo-linear-gradient';
 
 
 export const HomeScreen = ({ navigation }) => {
@@ -72,40 +71,53 @@ export const HomeScreen = ({ navigation }) => {
 
   return (
     <>
-      <LinearGradient
-        colors={['#ffff', '#c4d3ff']}
-        style={styles.gradientContainer}
-      >
         <SafeAreaView style={styles.homePage}>
         <HeaderProfile/>
-          <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none' }}>
+          <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none'}}>
 
-
-          <HeaderProfile/>
-          <ScrollView style={{ backgroundColor: 'none', minHeight: 100,marginHorizontal: 5}}>
             <Layout style={{ backgroundColor: 'none', padding: 20, width: 400 }}>
               <Text style={styles.headerText}>Hello Chris!{"\n"}Need help <Text style={{ fontFamily: 'Inter_800ExtraBold', color: '#2E8BB7' }}>Simplifying </Text>{"\n"}a form today?</Text>
             </Layout>
-     
-          
+            <Layout style={{ backgroundColor: '', display: 'flex', flexDirection: 'row', padding: 10, }}>
+              <Image
+                style={{ width: 75, height: 75, borderRadius: 100, }}
+                source={require('@/assets/images/lbj.jpg')}
+              />
+              <Layout style={{ backgroundColor: 'none', padding: 10 }}>
+                <Text style={{ fontFamily: 'Inter_600SemiBold', fontSize: 18 }}>Chris Topher</Text>
+                <Text>
+                  October, 20 Wed
+                  {/* {currentDate} */}
+                </Text>
+              </Layout>
+              <Layout style={{ backgroundColor: '', flexDirection: 'row', margin: 'auto', borderLeftWidth: 1.5, borderLeftColor: 'white', height: 40, width: 125 }}>
+                <DarkModeIcon style={{ backgroundColor: '' }} />
+                <Settings style={{}} />
+              </Layout>
+            </Layout>
+            <Layout style={{ backgroundColor: 'none', padding: 15, width: 400 }}>
+              <Text style={styles.headerText}>Need help <Text style={{ fontFamily: 'Inter_500Medium', color: '#2E8BB7' }}>Simplifying </Text>{"\n"}a form today?</Text>
 
-            <Layout style={{ flex: 1, textAlign: 'right', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', padding: 20, backgroundColor: 'none', borderBottomColor: 'white', borderBottomWidth: 2 }}>
+            </Layout>
 
+            <Layout style={{ flex: 1, textAlign: 'right', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', padding: 15, backgroundColor: 'none',}}>
               <Layout style={{ flexDirection: 'row', backgroundColor: 'none' }}>
                 <Layout style={{ flexDirection: 'column', backgroundColor: 'none', }}>
                   <OptionButton
                     title="Browse"
                     accessory={SearchIcon}
+                    destination='Details'
                   />
-                  <Text style={{ textAlign: 'center', color: '#2E8BB7', fontFamily: 'Inter_300Light ', fontSize: 16 }}>Browse</Text>
+                  <Text style={{ textAlign: 'center', color: '#2E8BB7', fontFamily: 'Inter_400Normal', fontSize: 16 }}>Browse</Text>
                 </Layout>
 
                 <Layout style={{ flexDirection: 'column', backgroundColor: 'none' }}>
                   <OptionButton
                     title="Scan"
                     accessory={FileTextIcon}
+                    destination='Camera'
                   />
-                  <Text style={{ textAlign: 'center', color: '#2E8BB7', fontFamily: 'Inter_300Light', fontSize: 16 }}>Scan</Text>
+                  <Text style={{ textAlign: 'center', color: '#2E8BB7', fontFamily: 'Inter_400Normal', fontSize: 16 }}>Scan</Text>
                 </Layout>
 
                 <Layout style={{ flexDirection: 'column', backgroundColor: 'none' }}>
@@ -113,35 +125,33 @@ export const HomeScreen = ({ navigation }) => {
                     title="Browse"
                     accessory={UploadIcon}
                   />
-                  <Text style={{ textAlign: 'center', color: '#2E8BB7', fontFamily: 'Inter_300Light', fontSize: 16 }}>Upload</Text>
+                  <Text style={{ textAlign: 'center', color: '#2E8BB7', fontFamily: 'Inter_400Normal', fontSize: 16 }}>Upload</Text>
                 </Layout>
               </Layout>
             </Layout>
+            <Layout style={styles.numberContainer}>
 
+              <Text style={styles.largeNumber}><Text style={{opacity:.5}}>0</Text>69</Text>
 
+              <View style={styles.numberTextContainer}>
+                <Text style={styles.subText}>Browse from our current library of</Text>
+                <Text style={styles.formsText}>forms</Text>
+              </View>
+            </Layout>
+
+          <Text style={{paddingLeft:10, paddingBottom:10, fontFamily: 'Inter_400Normal',  color: '#2E8BB7'}}>Most Common</Text>
           <Layout style={styles.formContainer}>
             <CardSimple title='Canadian Pension Plan'/>
             <CardSimple title='Medical Form'/>
-            <CardSimple title='Medical Form 2'/>
-            <CardSimple title='Tax Form'/>
           </Layout>
-
-
-
-            <Text style={{paddingLeft:10, paddingBottom:10, fontFamily: 'Inter_400Normal',  color: '#2E8BB7', fontSize: 24}}>Most Common</Text>
-            <Layout style={styles.formContainer}>
-              <CardSimple title='Canadian Pension Plan'/>
-              <CardSimple title='Medical Form'/>
-            </Layout>
-            <Layout style={styles.formContainer}>
-              <CardSimple title='Canadian Pension Plan'/>
-              <CardSimple title='Medical Form'/>
-            </Layout>
-
+          <Layout style={styles.formContainer}>
+            <CardSimple title='Canadian Pension Plan'/>
+            <CardSimple title='Medical Form'/>
+          </Layout>
           </ScrollView>
 
         </SafeAreaView>
-      </LinearGradient>
+
 
     </>
 
@@ -156,16 +166,12 @@ const styles = StyleSheet.create(
       margin: 'auto',
       maxHeight: 200,
       backgroundColor:'none',
-      maxWidth:'100%',
-      gap: 10
-    },
-    gradientContainer: {
-      flex: 1, // Make gradient cover the entire screen
+      maxWidth:'100%'
     },
     homePage: {
       flex: 1,
       backgroundColor: 'none',
-      height: '100%',
+      height: '100%'
     },
     headerText: {
       fontSize: 32,
@@ -177,7 +183,9 @@ const styles = StyleSheet.create(
       alignItems: 'flex-end', 
       margin: 20,
       backgroundColor: 'none',
-      paddingRight:50
+      paddingRight:50,
+      borderTopWidth: 2,
+      borderColor: 'white'
     },
     largeNumber: {
       fontSize: 100, 
@@ -200,38 +208,5 @@ const styles = StyleSheet.create(
       fontWeight: 'bold', 
       color: '#2A374A', 
     },
-    ButtonResent: {
-      width: '95%',
-      heigh: 60,
-      borderRadius: 32,
-      backgroundColor: '#08415C',
-      fontSize: 20,
-      textAlign: 'center',
-      marginTop: 20,
-      marginLeft: 10,
-      marginRight: 10
-    },
-    recentform: {
-      width: '100%',
-      height: 400,
-      paddingTop: 30,
-      paddingBottom: 100,
-      marginTop: 40,
-      backgroundColor: 'rgba(8, 65, 92, 0.80)',
-      borderTopLeftRadius: 32,
-      borderTopRightRadius: 32
-    },
-    recentContent: {
-      alignItems: 'center',
-      backgroundColor: 'none',
-      paddingTop: 20,
-      width: '100%'
-    },
-    headline: {
-      color: '#ffffff',
-      fontSize: 24 ,
-      paddingLeft: 20
-    }
+
   })
-
-
