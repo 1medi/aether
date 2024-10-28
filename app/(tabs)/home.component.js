@@ -77,10 +77,6 @@ export const HomeScreen = ({ navigation }) => {
         style={styles.gradientContainer}
       >
         <SafeAreaView style={styles.homePage}>
-        <HeaderProfile/>
-          <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none' }}>
-
-
           <HeaderProfile/>
           <ScrollView style={{ backgroundColor: 'none', minHeight: 100,marginHorizontal: 5}}>
             <Layout style={{ backgroundColor: 'none', padding: 20, width: 400 }}>
@@ -143,6 +139,7 @@ export const HomeScreen = ({ navigation }) => {
         </SafeAreaView>
       </LinearGradient>
 
+    
     </>
 
   );
