@@ -7,7 +7,7 @@ import CardSimple from '@/components/atoms/card';
 import { StyleSheet, Text, Image } from 'react-native';
 import OptionButton from '@/components/atoms/optionButton'
 import DarkModeIcon from '@/components/atoms/darkMode'
-import HeaderProfile from '@/components/molecules/Header'
+
 
 import {
   useFonts,
@@ -72,7 +72,7 @@ export const HomeScreen = ({ navigation }) => {
   return (
     <>
         <SafeAreaView style={styles.homePage}>
-        <HeaderProfile/>
+      
           <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none' }}>
 
             <Layout style={{ backgroundColor: 'none', padding: 20, width: 400 }}>
