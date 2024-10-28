@@ -93,3 +93,6 @@ export const PeopleScreen = ({ navigation }) => {
     </SafeAreaView>
   );
 };
+
+
+// adding comment to check something
