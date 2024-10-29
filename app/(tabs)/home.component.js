@@ -79,7 +79,7 @@ export const HomeScreen = ({ navigation }) => {
         <SafeAreaView style={styles.homePage}>
 
           <HeaderProfile/>
-          <ScrollView style={{ backgroundColor: 'none', minHeight: 100,marginHorizontal: 5}}>
+          <ScrollView style={{ backgroundColor: 'none', minHeight: "100%",marginHorizontal: 5}}>
             <Layout style={{ backgroundColor: 'none', paddingLeft: 20, width: 400 }}>
               <Text style={styles.headerText}>Hello Chris!{"\n"}Need help <Text style={{ fontFamily: 'Inter_800ExtraBold', color: '#2E8BB7' }}>Simplifying </Text>{"\n"}a form today?</Text>
             </Layout>
@@ -129,7 +129,7 @@ export const HomeScreen = ({ navigation }) => {
 
 
           <Layout style={styles.recentform}>
-              <Text style={styles.headline}>My Resent Forms</Text>
+              <Text style={styles.headline}>My Recent Forms</Text>
                 <Layout style={styles.recentContent}>
                 <Layout style={styles.formContainer}>
                 <CardSimple title='Canadian Pension Plan'/>
@@ -218,7 +218,7 @@ const styles = StyleSheet.create(
       width: '100%',
       height: 400,
       paddingTop: 30,
-      paddingBottom: 100,
+
       marginTop: 40,
       backgroundColor: 'rgba(8, 65, 92, 0.80)',
       borderTopLeftRadius: 32,
