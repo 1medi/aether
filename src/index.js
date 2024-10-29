@@ -4,11 +4,13 @@ import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
 import { Button } from "@ui-kitten/components";
+import { OPENAI_API_KEY } from '@env';
 
 const DetectObject = () => {
   const [imageUri, setImageUri] = useState(null);
   const [labels, setLabels] = useState([]);
   const [detectedText, setDetectedText] = useState("");
+  const [paraphrasedText, setParaphrasedText] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
 
   const toggleModal = () => {
@@ -81,16 +83,16 @@ const DetectObject = () => {
         alert('Please select an image first!');
         return;
       }
-  
+    
       const apiKey = "AIzaSyAwq5vykHTTxxLgCn9aJ_AX8kYnPyd6OeY";
       const apiURL = `https://vision.googleapis.com/v1/images:annotate?key=${apiKey}`;
-  
+    
       const base64ImageData = await FileSystem.readAsStringAsync(imageUri, {
         encoding: FileSystem.EncodingType.Base64,
       });
-  
+    
       const cleanedBase64ImageData = base64ImageData.replace(/^data:image\/\w+;base64,/, "");
-  
+    
       const requestData = {
         requests: [
           {
@@ -101,23 +103,18 @@ const DetectObject = () => {
           },
         ],
       };
-  
+    
       const apiResponse = await axios.post(apiURL, requestData, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
-  
+    
       if (apiResponse.data.responses[0].fullTextAnnotation) {
         const text = apiResponse.data.responses[0].fullTextAnnotation.text;
-  
-        // Apply regex to filter words longer than 2 characters
-        const filteredWords = text.split(/\s+/).filter(word => word.length >= 2);
-  
-        setDetectedText(filteredWords.join(' ')); // Set filtered words
-        setModalVisible(true); 
-        console.log('Filtered text:', filteredWords.join(' '));
-  
+        setDetectedText(text);
+        console.log('Detected text:', text);
+    
       } else if (apiResponse.data.responses[0].textAnnotations) {
         const text = apiResponse.data.responses[0].textAnnotations[0].description;
         setDetectedText(text);
@@ -125,11 +122,79 @@ const DetectObject = () => {
         alert('No text found in the image.');
       }
     } catch (error) {
-      console.error('Error analyzing image: ', error.response ? error.response.data : error.message);
+      console.error('Error analyzing image:', error.response ? error.response.data : error.message);
       alert('Error analyzing image. Please try again later.');
     }
   };
   
+
+  const extractFieldLabels = (text) => {
+    const cleanedText = text.replace(/\s+/g, ' ').trim(); 
+    const lines = cleanedText.split(/\n/);  
+
+    const fieldLabels = [];
+
+
+    const fieldPatterns = [
+      /Full Name/i,
+      /Place Birth/i,
+      /Birth of Date/i,
+      /Full Address/i,
+      /Nationality/i,
+      /City\/Country/i,
+      /Gander/i, 
+      /Email/i,
+      /Phone Number/i,
+    ];
+
+
+    lines.forEach(line => {
+      fieldPatterns.forEach(pattern => {
+        if (pattern.test(line)) {
+          fieldLabels.push(line.match(pattern)[0]);
+        }
+      });
+    });
+
+    return fieldLabels; 
+  };
+
+
+  const handleParaphrase = async (labels) => {
+    try {
+      const openAIResponse = await axios.post(
+        'https://api.openai.com/v1/chat/completions',
+        {
+          model: 'gpt-3.5-turbo', 
+          messages: [
+            { role: 'system', content: 'You are a paraphrasing assistant.' },
+            { role: 'user', content: `Explain the following personal information labels: ${labels}` }
+          ],
+          max_tokens: 150,
+        },
+        {
+          headers: {
+            'Authorization': `Bearer ${OPENAI_API_KEY}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+  
+      const paraphrased = openAIResponse.data.choices[0].message.content;
+      setParaphrasedText(paraphrased);
+      setModalVisible(true);
+    } catch (error) {
+      console.error('Error paraphrasing text:', error.response ? error.response.data : error.message);
+      alert('Error paraphrasing the text.');
+    }
+  };
+
+  const handleAnalyzeAndParaphrase = async () => {
+    await analyzeImage();
+    const extractedLabels = extractFieldLabels(detectedText);
+    await handleParaphrase(extractedLabels.join(', '));
+  };
+
 
   return (
     <View style={styles.container}>
@@ -140,13 +205,14 @@ const DetectObject = () => {
           style={{ width: 300, height: 300 }}
         />
       )}
-        <Button onPress={pickImage} style={styles.text}>Choose a PDF...</Button>
+      <Button onPress={pickImage} style={styles.text}>Choose a PDF...</Button>
+      <Button onPress={takePhoto} style={styles.text}>Take a Photo of a form...</Button>
+      {detectedText && (
+        <Button onPress={handleAnalyzeAndParaphrase} style={styles.text}>Paraphrase Text</Button>
+      )}
 
-        <Button onPress={takePhoto} style={styles.text}>Take a Photo of a form...</Button>
-
-        <Button onPress={analyzeImage} style={styles.text}>Analyze Image</Button>
-        {
-          <Modal
+      {
+        <Modal
           visible={modalVisible}
           animationType="slide"
           transparent={true}
@@ -155,7 +221,7 @@ const DetectObject = () => {
           <View style={styles.modalOverlay}>
             <View style={styles.modalContent}>
               <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
-                <Text style={styles.modalText}>{detectedText}</Text>
+                <Text style={styles.modalText}>{paraphrasedText || 'No paraphrased text available'}</Text>
                 <TouchableOpacity onPress={toggleModal} style={styles.closeButton}>
                   <Text style={styles.buttonText}>Close</Text>
                 </TouchableOpacity>
@@ -163,12 +229,13 @@ const DetectObject = () => {
             </View>
           </View>
         </Modal>
-        }
+      }
     </View>
   );
-}
+};
 
 export default DetectObject;
+
 
 const styles = StyleSheet.create({
   container: {
@@ -229,15 +296,5 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 18,
     fontWeight: 'bold',
-  },
-    modalText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    lineHeight: 28,
-    color: '#1e90ff', // A blue color for emphasis
-    textAlign: 'justify', // Justify the text for neat alignment
-    padding: 10,
-    backgroundColor: '#f0f8ff', // Light blue background
-    borderRadius: 5,
   },
 });
