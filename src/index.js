@@ -6,6 +6,20 @@ import * as FileSystem from 'expo-file-system';
 import { Button } from "@ui-kitten/components";
 import { OPENAI_API_KEY } from '@env';
 import { GOOGLE_API_KEY } from '@env';
+import AppLoading from 'expo-app-loading';
+
+import {
+  useFonts,
+  Inter_100Thin,
+  Inter_200ExtraLight,
+  Inter_300Light,
+  Inter_400Regular,
+  Inter_500Medium,
+  Inter_600SemiBold,
+  Inter_700Bold,
+  Inter_800ExtraBold,
+  Inter_900Black,
+} from '@expo-google-fonts/inter';
 
 const DetectObject = () => {
   const [imageUri, setImageUri] = useState(null);
@@ -13,6 +27,22 @@ const DetectObject = () => {
   const [detectedText, setDetectedText] = useState("");
   const [paraphrasedText, setParaphrasedText] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
+
+  let [fontsLoaded] = useFonts({
+    Inter_100Thin,
+    Inter_200ExtraLight,
+    Inter_300Light,
+    Inter_400Regular,
+    Inter_500Medium,
+    Inter_600SemiBold,
+    Inter_700Bold,
+    Inter_800ExtraBold,
+    Inter_900Black,
+  });
+
+  if (!fontsLoaded) {
+    return <AppLoading />
+  }
 
   const toggleModal = () => {
     setModalVisible(!modalVisible);
@@ -248,9 +278,10 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 26,
-    fontWeight: 'bold',
     marginBottom: 50,
     marginTop: 100,
+    fontFamily: 'Inter_800ExtraBold',
+    color: '#2E8BB7'
   },
   button: {
     backgroundColor: '#DDDDDD',
