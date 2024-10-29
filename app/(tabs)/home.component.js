@@ -135,9 +135,11 @@ export const HomeScreen = ({ navigation }) => {
                 <CardSimple title='Canadian Pension Plan'/>
                 <CardSimple title='Medical Form'/>
                 </Layout>
-                <Button style={styles.ButtonResent}>View My Form Library</Button>
+                <Button       onPress={() => navigation.navigate("Library")} style={styles.ButtonResent}>View My Form Library</Button>
                 </Layout>
             </Layout>
+
+            <Layout style={{paddingBottom:60}}></Layout>
 
 
           </ScrollView>
