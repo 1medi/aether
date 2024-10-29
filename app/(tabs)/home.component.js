@@ -164,7 +164,7 @@ const styles = StyleSheet.create(
       gap: 10
     },
     gradientContainer: {
-      flex: 1, // Make gradient cover the entire screen
+      flex: 1,
     },
     homePage: {
       flex: 1,
@@ -236,38 +236,7 @@ const styles = StyleSheet.create(
       fontSize: 24 ,
       paddingLeft: 20
     },
-    ButtonResent: {
-      width: '95%',
-      heigh: 60,
-      borderRadius: 32,
-      backgroundColor: '#08415C',
-      fontSize: 20,
-      textAlign: 'center',
-      marginTop: 20,
-      marginLeft: 10,
-      marginRight: 10
-    },
-    recentform: {
-      width: '100%',
-      height: 400,
-      paddingTop: 30,
-      paddingBottom: 100,
-      marginTop: 40,
-      backgroundColor: 'rgba(8, 65, 92, 0.80)',
-      borderTopLeftRadius: 32,
-      borderTopRightRadius: 32
-    },
-    recentContent: {
-      alignItems: 'center',
-      backgroundColor: 'none',
-      paddingTop: 20,
-      width: '100%'
-    },
-    headline: {
-      color: '#ffffff',
-      fontSize: 24 ,
-      paddingLeft: 20
-    }
+    
   })
 
 

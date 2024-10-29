@@ -142,7 +142,7 @@ export const FormHistoryScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   homePage: {
     flex: 1,
-    backgroundColor: 'none',
+    backgroundColor: 'rgba(0, 0, 0, 0)',
   },
   headerText: {
     fontSize: 32,

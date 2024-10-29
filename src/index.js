@@ -5,6 +5,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
 import { Button } from "@ui-kitten/components";
 import { OPENAI_API_KEY } from '@env';
+import { GOOGLE_API_KEY } from '@env';
 
 const DetectObject = () => {
   const [imageUri, setImageUri] = useState(null);
@@ -77,60 +78,9 @@ const DetectObject = () => {
     }
   };
 
-  const analyzeImage = async () => {
-    try {
-      if (!imageUri) {
-        alert('Please select an image first!');
-        return;
-      }
-    
-      const apiKey = "AIzaSyAwq5vykHTTxxLgCn9aJ_AX8kYnPyd6OeY";
-      const apiURL = `https://vision.googleapis.com/v1/images:annotate?key=${apiKey}`;
-    
-      const base64ImageData = await FileSystem.readAsStringAsync(imageUri, {
-        encoding: FileSystem.EncodingType.Base64,
-      });
-    
-      const cleanedBase64ImageData = base64ImageData.replace(/^data:image\/\w+;base64,/, "");
-    
-      const requestData = {
-        requests: [
-          {
-            image: {
-              content: cleanedBase64ImageData,
-            },
-            features: [{ type: 'TEXT_DETECTION', maxResults: 1 }],
-          },
-        ],
-      };
-    
-      const apiResponse = await axios.post(apiURL, requestData, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-    
-      if (apiResponse.data.responses[0].fullTextAnnotation) {
-        const text = apiResponse.data.responses[0].fullTextAnnotation.text;
-        setDetectedText(text);
-        console.log('Detected text:', text);
-    
-      } else if (apiResponse.data.responses[0].textAnnotations) {
-        const text = apiResponse.data.responses[0].textAnnotations[0].description;
-        setDetectedText(text);
-      } else {
-        alert('No text found in the image.');
-      }
-    } catch (error) {
-      console.error('Error analyzing image:', error.response ? error.response.data : error.message);
-      alert('Error analyzing image. Please try again later.');
-    }
-  };
-  
-
   const extractFieldLabels = (text) => {
-    const cleanedText = text.replace(/\s+/g, ' ').trim(); 
-    const lines = cleanedText.split(/\n/);  
+    const cleanedText = text.replace(/\s+/g, ' ').trim(); // Clean up the text first
+    const lines = cleanedText.split(/\n/);  // Split on new lines
 
     const fieldLabels = [];
 
@@ -142,7 +92,7 @@ const DetectObject = () => {
       /Full Address/i,
       /Nationality/i,
       /City\/Country/i,
-      /Gander/i, 
+      /Gander/i, // Assumed typo for Gender
       /Email/i,
       /Phone Number/i,
     ];
@@ -151,7 +101,7 @@ const DetectObject = () => {
     lines.forEach(line => {
       fieldPatterns.forEach(pattern => {
         if (pattern.test(line)) {
-          fieldLabels.push(line.match(pattern)[0]);
+          fieldLabels.push(line.match(pattern)[0]); 
         }
       });
     });
@@ -159,16 +109,76 @@ const DetectObject = () => {
     return fieldLabels; 
   };
 
+  const analyzeAndParaphrase = async () => {
+    try {
+      if (!imageUri) {
+        alert('Please select an image first!');
+        return;
+      }
+
+      const apiKey = GOOGLE_API_KEY;
+      const apiURL = `https://vision.googleapis.com/v1/images:annotate?key=${apiKey}`;
+      console.log(apiKey);
+
+      const base64ImageData = await FileSystem.readAsStringAsync(imageUri, {
+        encoding: FileSystem.EncodingType.Base64,
+      });
+
+      const cleanedBase64ImageData = base64ImageData.replace(/^data:image\/\w+;base64,/, "");
+
+      const requestData = {
+        requests: [
+          {
+            image: {
+              content: cleanedBase64ImageData,
+            },
+            features: [{ type: 'TEXT_DETECTION', maxResults: 1 }],
+          },
+        ],
+      };
+
+      const apiResponse = await axios.post(apiURL, requestData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      let detectedText = '';
+      if (apiResponse.data.responses[0].fullTextAnnotation) {
+        detectedText = apiResponse.data.responses[0].fullTextAnnotation.text;
+        console.log('Detected text:', detectedText);
+      } else if (apiResponse.data.responses[0].textAnnotations) {
+        detectedText = apiResponse.data.responses[0].textAnnotations[0].description;
+        console.log('Detected text:', detectedText);
+      } else {
+        alert('No text found in the image.');
+        return;
+      }
+
+      const extractedLabels = extractFieldLabels(detectedText);
+      console.log('Extracted labels:', extractedLabels);
+
+      let paraphrasedText = await handleParaphrase(extractedLabels.join(', '));
+
+      paraphrasedText = paraphrasedText.replace(/;/g, '\n');
+
+      setParaphrasedText(paraphrasedText);
+      setModalVisible(true);
+    } catch (error) {
+      console.error('Error during OCR or paraphrasing:', error.response ? error.response.data : error.message);
+      alert('Error analyzing image or paraphrasing. Please try again later.');
+    }
+  };
 
   const handleParaphrase = async (labels) => {
     try {
       const openAIResponse = await axios.post(
         'https://api.openai.com/v1/chat/completions',
         {
-          model: 'gpt-3.5-turbo', 
+          model: 'gpt-3.5-turbo',
           messages: [
             { role: 'system', content: 'You are a paraphrasing assistant.' },
-            { role: 'user', content: `Explain the following personal information labels: ${labels}` }
+            { role: 'user', content: `In a few words, explain the following personal information labels: ${labels}` }
           ],
           max_tokens: 150,
         },
@@ -179,22 +189,13 @@ const DetectObject = () => {
           },
         }
       );
-  
-      const paraphrased = openAIResponse.data.choices[0].message.content;
-      setParaphrasedText(paraphrased);
-      setModalVisible(true);
+
+      return openAIResponse.data.choices[0].message.content;
     } catch (error) {
       console.error('Error paraphrasing text:', error.response ? error.response.data : error.message);
-      alert('Error paraphrasing the text.');
+      throw error;
     }
   };
-
-  const handleAnalyzeAndParaphrase = async () => {
-    await analyzeImage();
-    const extractedLabels = extractFieldLabels(detectedText);
-    await handleParaphrase(extractedLabels.join(', '));
-  };
-
 
   return (
     <View style={styles.container}>
@@ -202,34 +203,31 @@ const DetectObject = () => {
       {imageUri && (
         <Image
           source={{ uri: imageUri }}
-          style={{ width: 300, height: 300 }}
+          style={{ width: 300, height: 300, borderRadius: 20 }}
         />
       )}
       <Button onPress={pickImage} style={styles.text}>Choose a PDF...</Button>
       <Button onPress={takePhoto} style={styles.text}>Take a Photo of a form...</Button>
-      {detectedText && (
-        <Button onPress={handleAnalyzeAndParaphrase} style={styles.text}>Paraphrase Text</Button>
-      )}
+      <Button onPress={analyzeAndParaphrase} style={styles.text}>Analyze & Paraphrase</Button>
 
-      {
-        <Modal
-          visible={modalVisible}
-          animationType="slide"
-          transparent={true}
-          onRequestClose={toggleModal}
-        >
-          <View style={styles.modalOverlay}>
-            <View style={styles.modalContent}>
-              <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
-                <Text style={styles.modalText}>{paraphrasedText || 'No paraphrased text available'}</Text>
-                <TouchableOpacity onPress={toggleModal} style={styles.closeButton}>
-                  <Text style={styles.buttonText}>Close</Text>
-                </TouchableOpacity>
-              </ScrollView>
-            </View>
+
+      <Modal
+        visible={modalVisible}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={toggleModal}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
+              <Text style={styles.modalText}>{paraphrasedText || 'No paraphrased text available'}</Text>
+              <TouchableOpacity onPress={toggleModal} style={styles.closeButton}>
+                <Text style={styles.buttonText}>Close</Text>
+              </TouchableOpacity>
+            </ScrollView>
           </View>
-        </Modal>
-      }
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -240,7 +238,7 @@ export default DetectObject;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
   },
