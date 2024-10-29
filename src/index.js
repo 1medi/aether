@@ -178,7 +178,7 @@ const DetectObject = () => {
           model: 'gpt-3.5-turbo',
           messages: [
             { role: 'system', content: 'You are a paraphrasing assistant.' },
-            { role: 'user', content: `In a few words, explain the following personal information labels: ${labels}` }
+            { role: 'user', content: `In a few words and in a numbered format, explain the following personal information labels: ${labels}` }
           ],
           max_tokens: 150,
         },
@@ -190,12 +190,16 @@ const DetectObject = () => {
         }
       );
 
+
+
       return openAIResponse.data.choices[0].message.content;
     } catch (error) {
       console.error('Error paraphrasing text:', error.response ? error.response.data : error.message);
       throw error;
     }
   };
+
+  console.log(OPENAI_API_KEY)
 
   return (
     <View style={styles.container}>
