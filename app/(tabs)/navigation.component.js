@@ -3,18 +3,17 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { BottomNavigation, BottomNavigationTab, Icon, Layout } from '@ui-kitten/components';
-import { StyleSheet, Image } from 'react-native';
+import { HomeScreen } from './home.component';
+import { FormHistoryScreen } from './FormHistory/FormHistory.component';
+import { CameraScreen } from './CameraForm/camera.component';
+import { FolderScreen } from './FormLibrary/folder.component';
+import LibraryScreen, { Library } from './FormLibrary/library.component';
+import AutofilledScreen, { PensionPlan } from './FormLibrary/autofilled.component';
 
-import HomeScreen from '../src/index';  
+import { PeopleScreen } from './SavedProfiles/people.component';
+import { StyleSheet,Image } from 'react-native';
 
-import FormHistoryScreen from './FormHistory/FormHistory.component';
-import CameraScreen from './CameraForm/camera.component';
-import FolderScreen from './FormLibrary/folder.component';
-import PeopleScreen from './SavedProfiles/people.component';
-import SignInScreen from './SignIn/SignInScreen';
-import SignUpScreen from './SignIn/SignUpScreen';
-const Tab = createBottomTabNavigator();
-const Stack = createStackNavigator();
+const { Navigator, Screen } = createBottomTabNavigator();
 
 const SocialIcon = (props) => (
   <Icon name="person-outline" {...props} style={{ width: 48, height: 48, margin: 10 }} />
@@ -53,22 +52,19 @@ const BottomTabBar = ({ navigation, state }) => (
   </Layout>
 );
 
-const MainTabNavigator = () => (
-  <Tab.Navigator screenOptions={{ headerShown: false }} tabBar={props => <BottomTabBar {...props} />}>
-    <Tab.Screen name="Home" component={HomeScreen} />
-    <Tab.Screen name="Details" component={FolderScreen} />
-    <Tab.Screen name="Camera" component={CameraScreen} />
-    <Tab.Screen name="Folder" component={FormHistoryScreen} />
-    <Tab.Screen name="People" component={PeopleScreen} />
-  </Tab.Navigator>
-);
+const TabNavigator = () => (
+  <Navigator   screenOptions={{
+    headerShown: false, 
+  }} style={styles.navContainer} tabBar={props => <BottomTabBar {...props} />}>
+    <Screen name="Home" component={HomeScreen} options={{ title: 'Aether Home' }} />
+    <Screen name="Details" component={FolderScreen} />
+    <Screen name="Camera" component={CameraScreen} />
+    <Screen name="Folder" component={FormHistoryScreen} />
+    <Screen name="People" component={PeopleScreen} />
+    <Screen name="Library" component={LibraryScreen} />
 
-const RootNavigator = () => (
-  <Stack.Navigator initialRouteName="SignIn">
-    <Stack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }} />
-    <Stack.Screen name="SignUp" component={SignUpScreen} options={{ headerShown: false }} />
-    <Stack.Screen name="Main" component={MainTabNavigator} options={{ headerShown: false }} />
-  </Stack.Navigator>
+    <Screen name="PensionPlan" component={AutofilledScreen} />
+  </Navigator>
 );
 
 export const AppNavigator = () => (

@@ -9,7 +9,8 @@ import DarkModeIcon from '@/components/atoms/darkMode'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
+import DetectObject from '@/src/index'
+import HeaderProfile from '@/components/molecules/Header';
 
 import {
   useFonts,
@@ -61,38 +62,26 @@ export const CameraScreen = ({ navigation }) => {
 
   return (
     <>
+      <LinearGradient
+        colors={['#ffff', '#c4d3ff']}
+        style={styles.gradientContainer}
+      >
 
-        <SafeAreaView style={styles.homePage}>
+<SafeAreaView style={styles.homePage}>
           <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none' }}>
-            <Layout style={{ backgroundColor: '', display: 'flex', flexDirection: 'row', padding: 10, }}>
-              <Image
-                style={{ width: 75, height: 75, borderRadius: 100, }}
-                source={require('@/assets/images/lbj.jpg')}
-              />
-              <Layout style={{ backgroundColor: 'none', padding: 10 }}>
-                <Text style={{ fontFamily: 'Inter_600SemiBold', fontSize: 18 }}>Chris Topher</Text>
-                <Text>
-                  October, 20 Wed
-                  {/* {currentDate} */}
-                </Text>
-              </Layout>
-              <Layout style={{ backgroundColor: '', flexDirection: 'row', margin: 'auto', borderLeftWidth: 1.5, borderLeftColor: 'white', height: 40, width: 125 }}>
-                <DarkModeIcon style={{ backgroundColor: '' }} />
-                <Settings style={{}} />
-              </Layout>
-            </Layout>
+            <HeaderProfile/>
             <Layout style={{ backgroundColor: 'none', padding: 20, width: 400 }}>
               <Text style={styles.headerText}>Hello Chris!{"\n"}Need help <Text style={{ fontFamily: 'Inter_800ExtraBold', color: '#2E8BB7' }}>Simplifying </Text>{"\n"}a form today?</Text>
             </Layout>
-
-          <Button onPress={() => navigation.navigate('Details')}>
-            HELLO
-          </Button>
-
+            <Layout style={{paddingBottom: 50, backgroundColor:'rgba(0, 0, 0, 0)'}}>
+          <DetectObject/>
+          </Layout>
           </ScrollView>
 
         </SafeAreaView>
 
+      </LinearGradient>
+        
     </>
 
   );
@@ -137,5 +126,7 @@ const styles = StyleSheet.create(
       fontWeight: 'bold', 
       color: '#2A374A', 
     },
-
+    gradientContainer: {
+      flex: 1,
+    },
   })

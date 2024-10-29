@@ -3,11 +3,15 @@ import React, { useState } from "react";
 import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
+import { Button } from "@ui-kitten/components";
+import { OPENAI_API_KEY } from '@env';
+import { GOOGLE_API_KEY } from '@env';
 
 const DetectObject = () => {
   const [imageUri, setImageUri] = useState(null);
   const [labels, setLabels] = useState([]);
   const [detectedText, setDetectedText] = useState("");
+  const [paraphrasedText, setParaphrasedText] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
 
   const toggleModal = () => {
@@ -74,15 +78,47 @@ const DetectObject = () => {
     }
   };
 
-  const analyzeImage = async () => {
+  const extractFieldLabels = (text) => {
+    const cleanedText = text.replace(/\s+/g, ' ').trim(); // Clean up the text first
+    const lines = cleanedText.split(/\n/);  // Split on new lines
+
+    const fieldLabels = [];
+
+
+    const fieldPatterns = [
+      /Full Name/i,
+      /Place Birth/i,
+      /Birth of Date/i,
+      /Full Address/i,
+      /Nationality/i,
+      /City\/Country/i,
+      /Gander/i, // Assumed typo for Gender
+      /Email/i,
+      /Phone Number/i,
+    ];
+
+
+    lines.forEach(line => {
+      fieldPatterns.forEach(pattern => {
+        if (pattern.test(line)) {
+          fieldLabels.push(line.match(pattern)[0]); 
+        }
+      });
+    });
+
+    return fieldLabels; 
+  };
+
+  const analyzeAndParaphrase = async () => {
     try {
       if (!imageUri) {
         alert('Please select an image first!');
         return;
       }
 
-      const apiKey = "AIzaSyAwq5vykHTTxxLgCn9aJ_AX8kYnPyd6OeY";
+      const apiKey = GOOGLE_API_KEY;
       const apiURL = `https://vision.googleapis.com/v1/images:annotate?key=${apiKey}`;
+      console.log(apiKey);
 
       const base64ImageData = await FileSystem.readAsStringAsync(imageUri, {
         encoding: FileSystem.EncodingType.Base64,
@@ -107,84 +143,107 @@ const DetectObject = () => {
         },
       });
 
+      let detectedText = '';
       if (apiResponse.data.responses[0].fullTextAnnotation) {
-        const text = apiResponse.data.responses[0].fullTextAnnotation.text;
-        setDetectedText(text);
-        setModalVisible(true); // Show the overlay after setting the detected text
-        console.log('Detected text:', text)
-      }else if (apiResponse.data.responses[0].textAnnotations) {
-        const text = apiResponse.data.responses[0].textAnnotations[0].description;
-        setDetectedText(text);
+        detectedText = apiResponse.data.responses[0].fullTextAnnotation.text;
+        console.log('Detected text:', detectedText);
+      } else if (apiResponse.data.responses[0].textAnnotations) {
+        detectedText = apiResponse.data.responses[0].textAnnotations[0].description;
+        console.log('Detected text:', detectedText);
       } else {
         alert('No text found in the image.');
+        return;
       }
+
+      const extractedLabels = extractFieldLabels(detectedText);
+      console.log('Extracted labels:', extractedLabels);
+
+      let paraphrasedText = await handleParaphrase(extractedLabels.join(', '));
+
+      paraphrasedText = paraphrasedText.replace(/;/g, '\n');
+
+      setParaphrasedText(paraphrasedText);
+      setModalVisible(true);
     } catch (error) {
-      console.error('Error analyzing image: ', error.response ? error.response.data : error.message);
-      alert('Error analyzing image. Please try again later.');
+      console.error('Error during OCR or paraphrasing:', error.response ? error.response.data : error.message);
+      alert('Error analyzing image or paraphrasing. Please try again later.');
+    }
+  };
+
+  const handleParaphrase = async (labels) => {
+    try {
+      const openAIResponse = await axios.post(
+        'https://api.openai.com/v1/chat/completions',
+        {
+          model: 'gpt-3.5-turbo',
+          messages: [
+            { role: 'system', content: 'You are a paraphrasing assistant.' },
+            { role: 'user', content: `In a few words, explain the following personal information labels: ${labels}` }
+          ],
+          max_tokens: 150,
+        },
+        {
+          headers: {
+            'Authorization': `Bearer ${OPENAI_API_KEY}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      return openAIResponse.data.choices[0].message.content;
+    } catch (error) {
+      console.error('Error paraphrasing text:', error.response ? error.response.data : error.message);
+      throw error;
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Google Cloud VISION API</Text>
+      <Text style={styles.title}>Upload or Capture your Form</Text>
       {imageUri && (
         <Image
           source={{ uri: imageUri }}
-          style={{ width: 300, height: 300 }}
+          style={{ width: 300, height: 300, borderRadius: 20 }}
         />
       )}
-      <TouchableOpacity
-        onPress={pickImage}
-        style={styles.button}
+      <Button onPress={pickImage} style={styles.text}>Choose a PDF...</Button>
+      <Button onPress={takePhoto} style={styles.text}>Take a Photo of a form...</Button>
+      <Button onPress={analyzeAndParaphrase} style={styles.text}>Analyze & Paraphrase</Button>
+
+
+      <Modal
+        visible={modalVisible}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={toggleModal}
       >
-        <Text style={styles.text}>Choose an image...</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={takePhoto}
-        style={styles.button}
-      >
-        <Text style={styles.text}>Take a Photo...</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={analyzeImage}
-        style={styles.button}
-      >
-        <Text style={styles.text}>Analyze Image</Text>
-      </TouchableOpacity>
-        {
-          <Modal
-          visible={modalVisible}
-          animationType="slide"
-          transparent={true}
-          onRequestClose={toggleModal}
-        >
-          <View style={styles.modalOverlay}>
-            <View style={styles.modalContent}>
-              <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
-                <Text style={styles.modalText}>{detectedText}</Text>
-                <TouchableOpacity onPress={toggleModal} style={styles.closeButton}>
-                  <Text style={styles.buttonText}>Close</Text>
-                </TouchableOpacity>
-              </ScrollView>
-            </View>
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
+              <Text style={styles.modalText}>{paraphrasedText || 'No paraphrased text available'}</Text>
+              <TouchableOpacity onPress={toggleModal} style={styles.closeButton}>
+                <Text style={styles.buttonText}>Close</Text>
+              </TouchableOpacity>
+            </ScrollView>
           </View>
-        </Modal>
-        }
+        </View>
+      </Modal>
     </View>
   );
-}
+};
 
 export default DetectObject;
+
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
   },
   title: {
-    fontSize: 30,
+    fontSize: 26,
     fontWeight: 'bold',
     marginBottom: 50,
     marginTop: 100,
@@ -198,6 +257,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
     fontWeight: 'bold',
+    margin: 10
   },
   label: {
     fontSize: 20,
@@ -234,15 +294,5 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 18,
     fontWeight: 'bold',
-  },
-    modalText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    lineHeight: 28,
-    color: '#1e90ff', // A blue color for emphasis
-    textAlign: 'justify', // Justify the text for neat alignment
-    padding: 10,
-    backgroundColor: '#f0f8ff', // Light blue background
-    borderRadius: 5,
   },
 });
