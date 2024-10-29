@@ -81,16 +81,16 @@ const DetectObject = () => {
         alert('Please select an image first!');
         return;
       }
-
+  
       const apiKey = "AIzaSyAwq5vykHTTxxLgCn9aJ_AX8kYnPyd6OeY";
       const apiURL = `https://vision.googleapis.com/v1/images:annotate?key=${apiKey}`;
-
+  
       const base64ImageData = await FileSystem.readAsStringAsync(imageUri, {
         encoding: FileSystem.EncodingType.Base64,
       });
-
+  
       const cleanedBase64ImageData = base64ImageData.replace(/^data:image\/\w+;base64,/, "");
-
+  
       const requestData = {
         requests: [
           {
@@ -101,19 +101,24 @@ const DetectObject = () => {
           },
         ],
       };
-
+  
       const apiResponse = await axios.post(apiURL, requestData, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
-
+  
       if (apiResponse.data.responses[0].fullTextAnnotation) {
         const text = apiResponse.data.responses[0].fullTextAnnotation.text;
-        setDetectedText(text);
-        setModalVisible(true); // Show the overlay after setting the detected text
-        console.log('Detected text:', text)
-      }else if (apiResponse.data.responses[0].textAnnotations) {
+  
+        // Apply regex to filter words longer than 2 characters
+        const filteredWords = text.split(/\s+/).filter(word => word.length >= 2);
+  
+        setDetectedText(filteredWords.join(' ')); // Set filtered words
+        setModalVisible(true); 
+        console.log('Filtered text:', filteredWords.join(' '));
+  
+      } else if (apiResponse.data.responses[0].textAnnotations) {
         const text = apiResponse.data.responses[0].textAnnotations[0].description;
         setDetectedText(text);
       } else {
@@ -124,6 +129,7 @@ const DetectObject = () => {
       alert('Error analyzing image. Please try again later.');
     }
   };
+  
 
   return (
     <View style={styles.container}>
