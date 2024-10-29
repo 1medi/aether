@@ -78,10 +78,11 @@ export default function AutofilledScreen() {
                     <View style={{ backgroundColor: 'none', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingRight: 20, paddingTop: 10 }}>
 
                         <Pressable>
-                            <BackIcon onPress={() => navigation.navigate('Library')} />
+                            <BackIcon onPress={() => navigation.navigate('Details')} />
                         </Pressable>
 
                         <View style={styles.buttons}>
+
                             <Pressable style={[styles.formButton, { backgroundColor: 'rgba(8, 65, 92, 1)' }]} onPress={() => navigation.navigate('PensionPlan')} >
                                 <Layout style={styles.textContainer}>
                                     <View style={styles.viewContainer}>
@@ -93,7 +94,7 @@ export default function AutofilledScreen() {
                             <Pressable style={[styles.formButton, { marginLeft: 15 }]} onPress={() => navigation.navigate('')}>
                                 <Layout style={styles.textContainer}>
                                     <View style={styles.viewContainer}>
-                                        <Text style={[styles.title, {  color: '#08415C', }]}>Simplify</Text>
+                                        <Text style={styles.title}>Simplify</Text>
                                         <ArrowIcon />
                                     </View>
                                 </Layout>
@@ -109,15 +110,16 @@ export default function AutofilledScreen() {
                         <Layout
                             style={{
                                 width: '100%',
-                                height: '100%',
+                                height: '100%',     
                                 alignItems: 'center',
                                 justifyContent: 'center',
-
+                                
                             }}>
                             <Image
                                 style={{
-                                    width: '100%',
-                                    resizeMode: 'stretch',
+                                    width: '100%',    
+                                          
+                                    resizeMode: 'stretch', 
                                 }}
                                 source={require('@/assets/images/pensionplanform.png')} />
                         </Layout>

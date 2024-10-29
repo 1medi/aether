@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     alignItems: 'center',
-
+    alignContent: 'center'
   },
   card: {
     height: 90,

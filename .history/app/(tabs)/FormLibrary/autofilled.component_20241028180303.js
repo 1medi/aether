@@ -23,7 +23,7 @@ import AppLoading from 'expo-app-loading';
 import { LinearGradient } from 'expo-linear-gradient';
 
 
-export default function LibraryScreen() {
+export default function AutofilledScreen() {
 
   let [fontsLoaded] = useFonts({
     Inter_100Thin,
@@ -65,7 +65,7 @@ export default function LibraryScreen() {
 
         <HeaderProfile />
 
-        <Layout style={{ backgroundColor: 'none', paddingLeft: 20, width: 'auto' }}>
+        <Layout style={{ backgroundColor: 'none', paddingLeft: 20, paddingTop: 20, width: 'auto' }}>
 
           <Text style={styles.headerText}>Canadian Pension Plan </Text>
 
@@ -99,26 +99,11 @@ export default function LibraryScreen() {
         </Layout>
 
         <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none', margin: 10 }}>
-        <Layout style={{ backgroundColor: 'none', }} >
+          <Layout style={{ backgroundColor: 'none', }} >
 
-<Layout
-    style={{
-        width: '100%',
-        height: '100%',     
-        alignItems: 'center',
-        justifyContent: 'center',
-        
-    }}>
-    <Image
-        style={{
-            width: '100%',    
-                  
-            resizeMode: 'stretch', 
-        }}
-        source={require('@/assets/images/pensionplanform.png')} />
-</Layout>
-</Layout>
-
+            <Image source={require('@/assets/images/pensionplanform.png')}/>
+          </Layout>
+          
 
         </ScrollView>
 
@@ -155,7 +140,7 @@ const styles = StyleSheet.create(
       marginBottom: 13,
       overflow: 'hidden',
       alignContent: 'center',
-
+      
     },
 
     textContainer: {
@@ -163,8 +148,8 @@ const styles = StyleSheet.create(
       flexDirection: 'column',
       padding: 5,
       backgroundColor: 'none',
-
-
+      
+    
 
     },
 
@@ -173,7 +158,7 @@ const styles = StyleSheet.create(
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
-
+      
     },
 
     title: {

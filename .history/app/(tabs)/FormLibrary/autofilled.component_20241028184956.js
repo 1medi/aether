@@ -93,7 +93,7 @@ export default function AutofilledScreen() {
                             <Pressable style={[styles.formButton, { marginLeft: 15 }]} onPress={() => navigation.navigate('')}>
                                 <Layout style={styles.textContainer}>
                                     <View style={styles.viewContainer}>
-                                        <Text style={[styles.title, {  color: '#08415C', }]}>Simplify</Text>
+                                        <Text style={[styles.title, { backgroundColor: 'rgba(8, 65, 92, 1)' }]}>Simplify</Text>
                                         <ArrowIcon />
                                     </View>
                                 </Layout>

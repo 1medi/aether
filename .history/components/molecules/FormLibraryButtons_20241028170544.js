@@ -40,15 +40,13 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
-    paddingLeft: 10,
-    paddingRight: 10,
-    alignItems: 'center',
-
+    padding: 10
   },
   card: {
     height: 90,
     width: 90,
     borderRadius: 10,
+    marginRight: 13,
     objectFit: 'cover',
   },
   formButton: {
