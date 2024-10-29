@@ -77,7 +77,7 @@ export default function LibraryScreen() {
 
             <View style={styles.buttons}>
 
-              <Pressable style={styles.formButton} onPress={() => navigation.navigate('PensionPlan')} >
+              <Pressable style={styles.formButton} >
                 <Layout style={styles.textContainer}>
                   <View style={styles.viewContainer}>
                     <Text style={styles.title}>Autofill</Text>

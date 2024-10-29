@@ -12,19 +12,18 @@ const HeaderProfile = () => {
         style={{ width: 75, height: 75, borderRadius: 100, }}
         source={require('@/assets/images/lbj.jpg')}
       />
-      <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-        <Layout style={{ backgroundColor: 'none', padding: 10, }}>
-          <Text style={{ fontFamily: 'Inter_600SemiBold', fontSize: 18 }}>Chris Topher</Text>
-          <Text>
-            October, 20 Wed
-            {/* {currentDate} */}
-          </Text>
-        </Layout>
+      <Layout style={{ backgroundColor: 'none', padding: 10 }}>
+        <Text style={{ fontFamily: 'Inter_600SemiBold', fontSize: 18 }}>Chris Topher</Text>
+        <Text>
+          October, 20 Wed
+          {/* {currentDate} */}
+        </Text>
         <Layout style={{ backgroundColor: '', flexDirection: 'row', margin: 'auto', borderLeftWidth: 1.5, borderLeftColor: 'white', height: 40, width: 125 }}>
-          <DarkModeIcon style={{ backgroundColor: '' }} />
-          <Settings style={{}} />
-        </Layout>
-      </View>
+        <DarkModeIcon style={{ backgroundColor: '' }} />
+        <Settings style={{}} />
+      </Layout>
+      </Layout>
+
     </Layout>
   );
 };

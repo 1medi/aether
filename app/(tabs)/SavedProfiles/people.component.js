@@ -1,6 +1,6 @@
 import React from "react";
 import { SafeAreaView } from "react-native";
-import { Divider, Layout, Text, Input, Button } from "@ui-kitten/components";
+import { Divider, Layout, Text, Input, Button, Icon } from "@ui-kitten/components";
 
 import HeaderProfile from "@/components/molecules/Header";
 
@@ -8,6 +8,12 @@ export const PeopleScreen = ({ navigation }) => {
   const navigateBack = () => {
     navigation.goBack();
   };
+
+  const Trash = (props) => (
+    <Icon name='trash-2-outline' {...props}
+      style={{ width: 25, height: 20, tintColor: 'red' }}
+    />
+  );
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -87,6 +93,7 @@ export const PeopleScreen = ({ navigation }) => {
         <Button
           appearance="ghost"
           style={{ borderWidth: 0, flexDirection: 'row', alignItems: 'center' }} 
+          accessoryLeft={Trash}
         >
           <Text style={{ color: 'red' }}>Delete Account</Text> {/* Don't know why the color won't apply unless i keep this comment here lol */}
         </Button>
