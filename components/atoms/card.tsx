@@ -14,12 +14,11 @@ export default function CardSimple() {
   return (
     <Card style={styles.formCard} >
       <View style={styles.CardExample}>
-      <ArrowIcon/>
         <Image
-          source={require('@/assets/images/form.svg')}
-          style={{ width: 100, height: 100, borderRadius: 8, padding:0 }}
+          source={require('@/assets/images/health.png')}
+          style={{ width: 100, height: 100, borderRadius: 8, padding:0, margin:'auto' }}
         />
-      <View style={{ flex: 1 }}>
+      <View >
         <Text style={styles.title}>Candian Pension Plan</Text>
       </View>
       </View>
