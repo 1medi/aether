@@ -134,19 +134,11 @@ const DetectObject = () => {
           style={{ width: 300, height: 300 }}
         />
       )}
-        <Button onPress={pickImage} style={styles.text}>Choose an image...</Button>
-      <TouchableOpacity
-        onPress={takePhoto}
-        style={styles.button}
-      >
-        <Text style={styles.text}>Take a Photo...</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={analyzeImage}
-        style={styles.button}
-      >
-        <Text style={styles.text}>Analyze Image</Text>
-      </TouchableOpacity>
+        <Button onPress={pickImage} style={styles.text}>Choose a PDF...</Button>
+
+        <Button onPress={takePhoto} style={styles.text}>Take a Photo of a form...</Button>
+
+        <Button onPress={analyzeImage} style={styles.text}>Analyze Image</Button>
         {
           <Modal
           visible={modalVisible}
@@ -194,6 +186,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
     fontWeight: 'bold',
+    margin: 10
   },
   label: {
     fontSize: 20,
