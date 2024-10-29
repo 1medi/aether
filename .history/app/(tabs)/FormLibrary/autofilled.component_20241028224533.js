@@ -78,7 +78,7 @@ export default function AutofilledScreen() {
                     <View style={{ backgroundColor: 'none', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingRight: 20, paddingTop: 10 }}>
 
                         <Pressable>
-                            <BackIcon onPress={() => navigation.navigate('Details')} />
+                            <BackIcon onPress={() => navigation.navigate('Library')} />
                         </Pressable>
 
                         <View style={styles.buttons}>

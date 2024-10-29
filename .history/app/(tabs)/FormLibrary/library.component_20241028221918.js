@@ -5,7 +5,7 @@ import { StyleSheet, Text, Image, TurboModuleRegistry, Alert } from 'react-nativ
 import { useNavigation } from '@react-navigation/native';
 import HeaderProfile from '@/components/molecules/Header';
 import LibraryButton from '@/components/molecules/FormLibraryButtons'
-import PopUp from '@/components/atoms/autofillPopup';
+import PopUp from '@/components/atoms/popup';
 
 import {
   useFonts,
@@ -79,8 +79,21 @@ const [visible, setVisible] = useState(false);
 
             <View style={styles.buttons}>
 
-            <PopUp visible={visible} setVisible={setVisible} />
-
+              <PopUp style={styles.formButton} onPress={() => setVisible(true)} >
+              {visible && (
+          <PopUp
+            visible={visible}
+            onClose={() => setVisible(false)} // Pass a function to close the popup
+          />
+        )}
+                
+                <Layout style={styles.textContainer}>
+                  <View style={styles.viewContainer}>
+                    <Text style={styles.title}>Autofill</Text>
+                    <ArrowIcon />
+                  </View>
+                </Layout>
+              </PopUp>
               <Pressable style={[styles.formButton, { marginLeft: 15 }]} onPress={() => navigation.navigate('')}>
                 <Layout style={styles.textContainer}>
                   <View style={styles.viewContainer}>

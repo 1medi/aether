@@ -5,7 +5,7 @@ import { StyleSheet, Text, Image, TurboModuleRegistry, Alert } from 'react-nativ
 import { useNavigation } from '@react-navigation/native';
 import HeaderProfile from '@/components/molecules/Header';
 import LibraryButton from '@/components/molecules/FormLibraryButtons'
-import PopUp from '@/components/atoms/autofillPopup';
+import PopUp from '@/components/atoms/popup';
 
 import {
   useFonts,
