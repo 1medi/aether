@@ -94,6 +94,7 @@ export const HomeScreen = ({ navigation }) => {
                   <OptionButton
                     title="Browse"
                     accessory={SearchIcon}
+                    destination='Folder'
                   />
                   <Text style={{ textAlign: 'center', color: '#2E8BB7', fontFamily: 'Inter_300Light ', fontSize: 16 }}>Browse</Text>
                 </Layout>
@@ -102,6 +103,7 @@ export const HomeScreen = ({ navigation }) => {
                   <OptionButton
                     title="Scan"
                     accessory={FileTextIcon}
+                    destination='Camera'
                   />
                   <Text style={{ textAlign: 'center', color: '#2E8BB7', fontFamily: 'Inter_300Light', fontSize: 16 }}>Scan</Text>
                 </Layout>
@@ -110,6 +112,7 @@ export const HomeScreen = ({ navigation }) => {
                   <OptionButton
                     title="Browse"
                     accessory={UploadIcon}
+                    destination='Camera'
                   />
                   <Text style={{ textAlign: 'center', color: '#2E8BB7', fontFamily: 'Inter_300Light', fontSize: 16 }}>Upload</Text>
                 </Layout>
