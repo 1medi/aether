@@ -17,7 +17,7 @@ export default function Buddon({ title, accessory: Accessory, destination }: Bud
     <TouchableOpacity
       style={styles.buttonGradient}
 
-      onPress={() => navigation.navigate(Library)}  // Use the destination prop
+      onPress={() => navigation.navigate(destination)} 
 
     >
       <Accessory 
