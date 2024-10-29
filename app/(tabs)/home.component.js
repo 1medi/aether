@@ -128,15 +128,17 @@ export const HomeScreen = ({ navigation }) => {
 
 
 
-            <Text style={{paddingLeft:10, paddingBottom:10, fontFamily: 'Inter_400Normal',  color: '#2E8BB7', fontSize: 24}}>Most Common</Text>
-            <Layout style={styles.formContainer}>
-              <CardSimple title='Canadian Pension Plan'/>
-              <CardSimple title='Medical Form'/>
+          <Layout style={styles.recentform}>
+              <Text style={styles.headline}>My Resent Forms</Text>
+                <Layout style={styles.recentContent}>
+                <Layout style={styles.formContainer}>
+                <CardSimple title='Canadian Pension Plan'/>
+                <CardSimple title='Medical Form'/>
+                </Layout>
+                <Button style={styles.ButtonResent}>View My Form Library</Button>
+                </Layout>
             </Layout>
-            <Layout style={styles.formContainer}>
-              <CardSimple title='Canadian Pension Plan'/>
-              <CardSimple title='Medical Form'/>
-            </Layout>
+
 
           </ScrollView>
          
@@ -200,6 +202,38 @@ const styles = StyleSheet.create(
       fontSize: 24, 
       fontWeight: 'bold', 
       color: '#2A374A', 
+    },
+    ButtonResent: {
+      width: '95%',
+      heigh: 60,
+      borderRadius: 32,
+      backgroundColor: '#08415C',
+      fontSize: 20,
+      textAlign: 'center',
+      marginTop: 20,
+      marginLeft: 10,
+      marginRight: 10
+    },
+    recentform: {
+      width: '100%',
+      height: 400,
+      paddingTop: 30,
+      paddingBottom: 100,
+      marginTop: 40,
+      backgroundColor: 'rgba(8, 65, 92, 0.80)',
+      borderTopLeftRadius: 32,
+      borderTopRightRadius: 32
+    },
+    recentContent: {
+      alignItems: 'center',
+      backgroundColor: 'none',
+      paddingTop: 20,
+      width: '100%'
+    },
+    headline: {
+      color: '#ffffff',
+      fontSize: 24 ,
+      paddingLeft: 20
     },
     ButtonResent: {
       width: '95%',
