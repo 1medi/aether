@@ -127,7 +127,7 @@ const DetectObject = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Google Cloud VISION API</Text>
+      <Text style={styles.title}>Upload or Capture your Form</Text>
       {imageUri && (
         <Image
           source={{ uri: imageUri }}
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    fontSize: 30,
+    fontSize: 26,
     fontWeight: 'bold',
     marginBottom: 50,
     marginTop: 100,
