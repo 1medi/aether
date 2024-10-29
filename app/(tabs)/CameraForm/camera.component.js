@@ -10,6 +10,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import DetectObject from '@/src/index'
+import OpenAI from '@/src/openai'
 
 
 import {
@@ -92,6 +93,7 @@ export const CameraScreen = ({ navigation }) => {
           <Button onPress={() => navigation.navigate('Details')}>
             HELLO
           </Button>
+
 
 
           </ScrollView>
