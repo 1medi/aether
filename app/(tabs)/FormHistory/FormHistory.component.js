@@ -66,7 +66,10 @@ export const FormHistoryScreen = ({ navigation }) => {
 
   return (
     <>
-
+     <LinearGradient
+      colors={['#ffffff', '#c4d3ff']} 
+      style={{ flex: 1 }} 
+    >
       <SafeAreaView style={styles.homePage}>
         <HeaderProfile/>
         
@@ -129,6 +132,7 @@ export const FormHistoryScreen = ({ navigation }) => {
         </ScrollView>
 
       </SafeAreaView>
+      </LinearGradient>
 
     </>
 
