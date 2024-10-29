@@ -16,7 +16,7 @@ const { Navigator, Screen } = createBottomTabNavigator();
 
 const SocialIcon = (props) => (
   <Icon name="person-outline" {...props}
-    style={{ width: 45, height: 48, margin: 10 }}
+    style={{ width: 48, height: 48, margin: 10 }}
   />
 );
 

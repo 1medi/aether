@@ -51,12 +51,6 @@ export default function AutofilledScreen() {
         />
     );
 
-    const ArrowDownIcon = (props) => (
-        <Icon name='arrow-downward-outline' {...props}
-            style={{ width: 25, height: 20, tintColor: 'rgba(236, 254, 232, 1)', }}
-        />
-    );
-
     const BackIcon = (props) => (
         <Icon name='arrow-circle-left-outline' {...props}
             style={{ width: 30, height: 30, tint: 'white' }}
@@ -71,29 +65,30 @@ export default function AutofilledScreen() {
 
                 <HeaderProfile />
 
-                <Layout style={{ backgroundColor: 'none', paddingLeft: 20, width: 'auto' }}>
+                <Layout style={{ backgroundColor: 'none', paddingLeft: 20, paddingTop: 20, width: 'auto' }}>
 
                     <Text style={styles.headerText}>Canadian Pension Plan </Text>
 
                     <View style={{ backgroundColor: 'none', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingRight: 20, paddingTop: 10 }}>
 
                         <Pressable>
-                            <BackIcon onPress={() => navigation.navigate('Library')} />
+                            <BackIcon onPress={() => navigation.navigate('Details')} />
                         </Pressable>
 
                         <View style={styles.buttons}>
-                            <Pressable style={[styles.formButton, { backgroundColor: 'rgba(8, 65, 92, 1)' }]} onPress={() => navigation.navigate('PensionPlan')} >
+
+                            <Pressable style={[styles.formButton, { backgroundColor: 'blue' }]} onPress={() => navigation.navigate('PensionPlan')} >
                                 <Layout style={styles.textContainer}>
                                     <View style={styles.viewContainer}>
                                         <Text style={styles.title}>Autofill</Text>
-                                        <ArrowDownIcon />
+                                        <ArrowIcon />
                                     </View>
                                 </Layout>
                             </Pressable>
                             <Pressable style={[styles.formButton, { marginLeft: 15 }]} onPress={() => navigation.navigate('')}>
                                 <Layout style={styles.textContainer}>
                                     <View style={styles.viewContainer}>
-                                        <Text style={[styles.title, {  color: '#08415C', }]}>Simplify</Text>
+                                        <Text style={styles.title}>Simplify</Text>
                                         <ArrowIcon />
                                     </View>
                                 </Layout>
@@ -106,21 +101,19 @@ export default function AutofilledScreen() {
                 <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none', margin: 10 }}>
                     <Layout style={{ backgroundColor: 'none', }} >
 
-                        <Layout
+                        <View
                             style={{
-                                width: '100%',
-                                height: '100%',
-                                alignItems: 'center',
                                 justifyContent: 'center',
-
+                                alignItems: 'center',
                             }}>
                             <Image
                                 style={{
-                                    width: '100%',
-                                    resizeMode: 'stretch',
+                                    width: '80%',
+                                    height: '60%',
+                                    resizeMode: 'contain',
                                 }}
                                 source={require('@/assets/images/pensionplanform.png')} />
-                        </Layout>
+                        </View>
                     </Layout>
 
 
@@ -184,7 +177,7 @@ const styles = StyleSheet.create(
             fontSize: 10,
             width: 50,
             fontWeight: 'bold',
-            color: 'rgba(236, 254, 232, 1)',
+            color: '#08415C',
         },
 
 

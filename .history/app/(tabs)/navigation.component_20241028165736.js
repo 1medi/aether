@@ -16,25 +16,25 @@ const { Navigator, Screen } = createBottomTabNavigator();
 
 const SocialIcon = (props) => (
   <Icon name="person-outline" {...props}
-    style={{ width: 45, height: 48, margin: 10 }}
+    style={{ width: 48, height: 48, margin: 10 }}
   />
 );
 
 const BookIcon = (props) => (
   <Icon name="book-outline" {...props}
-    style={{ width: 45, height: 48, margin: 10 }}
+    style={{ width: 48, height: 48, margin: 10 }}
   />
 );
 
 const HomeIcon = (props) => (
   <Icon name="home-outline" {...props}
-    style={{ width: 45, height: 48, margin: 10}}
+    style={{ width: 48, height: 48, margin: 10 }}
   />
 );
 
 const FolderIcon = (props) => (
   <Icon name="folder-outline" {...props}
-    style={{ width: 45, height: 48, margin: 10}}
+    style={{ width: 48, height: 48, margin: 10 }}
   />
 );
 
@@ -92,15 +92,14 @@ export const AppNavigator = () => (
 const styles = StyleSheet.create({
   navBarContainer: {
     position: 'absolute',
-    backgroundColor: 'rgba(255,255,255, 0.9)',
+    backgroundColor: 'rgba(255,255,255,0.6)',
     borderRadius: 20,
-    alignSelf: 'center',
-    margin: 20,
-    border: 20,
+    marginHorizontal: 20,
+    border: '20px',
     bottom: 15,
     zIndex: 999,
-    width: 360,
-    height: 75,
+    width: 390,
+    height: 85,
     flexShrink: 0,
   },
 

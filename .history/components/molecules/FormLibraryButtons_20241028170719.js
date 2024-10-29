@@ -42,13 +42,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingLeft: 10,
     paddingRight: 10,
-    alignItems: 'center',
-
+    alignItems: 'center'
   },
   card: {
     height: 90,
     width: 90,
     borderRadius: 10,
+    marginRight: 13,
     objectFit: 'cover',
   },
   formButton: {

@@ -99,7 +99,8 @@ export default function LibraryScreen() {
         </Layout>
 
         <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none', margin: 10 }}>
-        <Layout style={{ backgroundColor: 'none', }} >
+          <Layout style={{ backgroundColor: 'none', }} >
+          <Layout style={{ backgroundColor: 'none', }} >
 
 <Layout
     style={{
@@ -118,6 +119,7 @@ export default function LibraryScreen() {
         source={require('@/assets/images/pensionplanform.png')} />
 </Layout>
 </Layout>
+          </Layout>
 
 
         </ScrollView>
@@ -155,7 +157,7 @@ const styles = StyleSheet.create(
       marginBottom: 13,
       overflow: 'hidden',
       alignContent: 'center',
-
+      
     },
 
     textContainer: {
@@ -163,8 +165,8 @@ const styles = StyleSheet.create(
       flexDirection: 'column',
       padding: 5,
       backgroundColor: 'none',
-
-
+      
+    
 
     },
 
@@ -173,7 +175,7 @@ const styles = StyleSheet.create(
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
-
+      
     },
 
     title: {
