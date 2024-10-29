@@ -109,8 +109,8 @@ const DetectObject = () => {
   };
 
   const extractFieldLabels = (text) => {
-    const cleanedText = text.replace(/\s+/g, ' ').trim(); // Clean up the text first
-    const lines = cleanedText.split(/\n/);  // Split on new lines
+    const cleanedText = text.replace(/\s+/g, ' ').trim(); 
+    const lines = cleanedText.split(/\n/);  
 
     const fieldLabels = [];
 
