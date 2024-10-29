@@ -77,10 +77,11 @@ export const HomeScreen = ({ navigation }) => {
         style={styles.gradientContainer}
       >
         <SafeAreaView style={styles.homePage}>
-
           <HeaderProfile/>
-          <ScrollView style={{ backgroundColor: 'none', minHeight: "100%",marginHorizontal: 5}}>
-            <Layout style={{ backgroundColor: 'none', paddingLeft: 20, width: 400 }}>
+
+          <ScrollView style={{ backgroundColor: 'none', minHeight: "100%" ,marginHorizontal: 5}}>
+            <Layout style={{ backgroundColor: 'none', padding: 20, width: 400 }}>
+
               <Text style={styles.headerText}>Hello Chris!{"\n"}Need help <Text style={{ fontFamily: 'Inter_800ExtraBold', color: '#2E8BB7' }}>Simplifying </Text>{"\n"}a form today?</Text>
             </Layout>
      
@@ -93,7 +94,6 @@ export const HomeScreen = ({ navigation }) => {
                   <OptionButton
                     title="Browse"
                     accessory={SearchIcon}
-                    destination='Folder'
                   />
                   <Text style={{ textAlign: 'center', color: '#2E8BB7', fontFamily: 'Inter_300Light ', fontSize: 16 }}>Browse</Text>
                 </Layout>
@@ -102,7 +102,6 @@ export const HomeScreen = ({ navigation }) => {
                   <OptionButton
                     title="Scan"
                     accessory={FileTextIcon}
-                    destination='Camera'
                   />
                   <Text style={{ textAlign: 'center', color: '#2E8BB7', fontFamily: 'Inter_300Light', fontSize: 16 }}>Scan</Text>
                 </Layout>
@@ -111,7 +110,6 @@ export const HomeScreen = ({ navigation }) => {
                   <OptionButton
                     title="Browse"
                     accessory={UploadIcon}
-                    destination='Camera'
                   />
                   <Text style={{ textAlign: 'center', color: '#2E8BB7', fontFamily: 'Inter_300Light', fontSize: 16 }}>Upload</Text>
                 </Layout>
@@ -141,7 +139,7 @@ export const HomeScreen = ({ navigation }) => {
 
 
           </ScrollView>
-         
+
         </SafeAreaView>
       </LinearGradient>
 
