@@ -68,8 +68,8 @@ export const CameraScreen = ({ navigation }) => {
       >
 
 <SafeAreaView style={styles.homePage}>
+<HeaderProfile/>
           <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none' }}>
-            <HeaderProfile/>
             <Layout style={{ backgroundColor: 'none', padding: 20, width: 400 }}>
               <Text style={styles.headerText}>Hello Chris!{"\n"}Need help <Text style={{ fontFamily: 'Inter_800ExtraBold', color: '#2E8BB7' }}>Simplifying </Text>{"\n"}a form today?</Text>
             </Layout>
