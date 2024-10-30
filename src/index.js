@@ -4,8 +4,6 @@ import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
 import { Button } from "@ui-kitten/components";
-import { OPENAI_API_KEY } from '@env';
-import { GOOGLE_API_KEY } from '@env';
 import AppLoading from 'expo-app-loading';
 
 import {
@@ -146,9 +144,10 @@ const DetectObject = () => {
         return;
       }
 
-      const apiKey = GOOGLE_API_KEY;
-      const apiURL = `https://vision.googleapis.com/v1/images:annotate?key=${apiKey}`;
-      console.log(apiKey);
+      const googleAPIKey = process.env.EXPO_PUBLIC_GOOGLE_KEY;
+      const apiURL = `https://vision.googleapis.com/v1/images:annotate?key=${googleAPIKey}`;
+      console.log(googleAPIKey);
+
 
       const base64ImageData = await FileSystem.readAsStringAsync(imageUri, {
         encoding: FileSystem.EncodingType.Base64,
@@ -214,7 +213,7 @@ const DetectObject = () => {
         },
         {
           headers: {
-            'Authorization': `Bearer ${OPENAI_API_KEY}`,
+            'Authorization': `Bearer ${process.env.EXPO_PUBLIC_OPENAI_API_KEY}`,
             'Content-Type': 'application/json',
           },
         }
@@ -229,7 +228,7 @@ const DetectObject = () => {
     }
   };
 
-  console.log(OPENAI_API_KEY)
+  console.log(process.env.EXPO_PUBLIC_OPENAI_API_KEY)
 
   return (
     <View style={styles.container}>
