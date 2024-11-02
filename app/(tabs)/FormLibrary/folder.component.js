@@ -3,7 +3,7 @@ import { Button, Divider, Layout, TopNavigation, Icon, Input } from '@ui-kitten/
 import { StyleSheet, Text, Image,  SafeAreaView, ScrollView, View, } from 'react-native';
 import HeaderProfile from '@/components/molecules/Header';
 import LibraryButton from '@/components/molecules/FormLibraryButtons'
-
+import { FilterButton } from '@/components/atoms/filterButton';
 
 
 
@@ -88,8 +88,8 @@ export const FolderScreen = ({ navigation }) => {
           </View>
         </Layout>
 
-
-        <Layout style={{ backgroundColor: 'none', paddingLeft: 10, paddingRight: 10, width: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+      <FilterButton/>
+        {/* <Layout style={{ backgroundColor: 'none', paddingLeft: 10, paddingRight: 10, width: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
             <Input
               style={{
                 borderRadius: 20,
@@ -101,7 +101,7 @@ export const FolderScreen = ({ navigation }) => {
             <Layout style={styles.iconContainer}>
             <FilterIcon />
               </Layout>
-          </Layout>
+          </Layout> */}
 
         <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none', margin: 10 }}>
           <Layout style={{ backgroundColor: 'none', }} >
