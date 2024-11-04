@@ -2,9 +2,33 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { IndexPath, Layout, Select, SelectItem } from '@ui-kitten/components';
 
-export const FilterButton = (): React.ReactElement => {
+const data = [
+  {
+     "id": 0, 
+     "name": "All",
+  },
+  {
+     "id": 1, 
+     "name": "Canadian Pension Plan",
+  },
+  {
+     "id": 2, 
+      "name": "Disability Plan",
+  },
+  {
+    "id": 3, 
+    "name": "T4 Statements",
+ },
+];
 
-  const [selectedIndex, setSelectedIndex] = React.useState<IndexPath | IndexPath[]>(new IndexPath(0));
+export const FilterButton = ({ onSelect }) => {
+  const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
+  const selectedTitle = data[selectedIndex.row]?.name || '';
+
+  const handleSelect = (index) => {
+    setSelectedIndex(index);
+    onSelect(index); 
+  };
 
   return (
     <Layout
@@ -13,12 +37,13 @@ export const FilterButton = (): React.ReactElement => {
     >
       <Select
         selectedIndex={selectedIndex}
+        value={selectedTitle}
         style={styles.select}
-        onSelect={index => setSelectedIndex(index)}
+        onSelect={handleSelect}
       >
-        <SelectItem title='Canadian Pension Plan' />
-        <SelectItem title='Disability Plan' />
-        <SelectItem title='T4 Statements' />
+        {data.map((item) => (
+          <SelectItem key={item.id} title={item.name} />
+        ))}
       </Select>
     </Layout>
   );
@@ -31,8 +56,4 @@ const styles = StyleSheet.create({
     display: 'flex',
   },
 
-  select: {
-
-
-  }
 });
