@@ -120,11 +120,10 @@ export const HomeScreen = ({ navigation }) => {
             </Layout>
 
 
-          <Layout style={styles.formContainer}>
+          <Layout style={styles.formGrid}>
             <CardSimple title='Canadian Pension Plan'/>
             <CardSimple title='Medical Form'/>
-            <CardSimple title='Medical Form 2'/>
-            <CardSimple title='Tax Form'/>
+
           </Layout>
 
 
@@ -136,9 +135,11 @@ export const HomeScreen = ({ navigation }) => {
                 <CardSimple title='Canadian Pension Plan'/>
                 <CardSimple title='Medical Form'/>
                 </Layout>
-                <Button style={styles.ButtonResent}>View My Form Library</Button>
+                <Button       onPress={() => navigation.navigate("Library")} style={styles.ButtonResent}>View My Form Library</Button>
                 </Layout>
             </Layout>
+
+            <Layout style={{paddingBottom:60}}></Layout>
 
 
           </ScrollView>
@@ -159,6 +160,17 @@ const styles = StyleSheet.create(
       flexDirection: 'row',
       margin: 'auto',
       maxHeight: 200,
+      backgroundColor:'none',
+      maxWidth:'100%',
+      gap: 10
+    },
+    formGrid:{
+      display: 'flex',
+      paddingTop: 10,
+      flexDirection: 'row',
+      margin: 'auto',
+      maxHeight: 200,
+      maxWidth: '100%',
       backgroundColor:'none',
       maxWidth:'100%',
       gap: 10

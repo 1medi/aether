@@ -4,8 +4,20 @@ import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
 import { Button } from "@ui-kitten/components";
-import { OPENAI_API_KEY } from '@env';
-import { GOOGLE_API_KEY } from '@env';
+import AppLoading from 'expo-app-loading';
+
+import {
+  useFonts,
+  Inter_100Thin,
+  Inter_200ExtraLight,
+  Inter_300Light,
+  Inter_400Regular,
+  Inter_500Medium,
+  Inter_600SemiBold,
+  Inter_700Bold,
+  Inter_800ExtraBold,
+  Inter_900Black,
+} from '@expo-google-fonts/inter';
 
 const DetectObject = () => {
   const [imageUri, setImageUri] = useState(null);
@@ -13,6 +25,22 @@ const DetectObject = () => {
   const [detectedText, setDetectedText] = useState("");
   const [paraphrasedText, setParaphrasedText] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
+
+  let [fontsLoaded] = useFonts({
+    Inter_100Thin,
+    Inter_200ExtraLight,
+    Inter_300Light,
+    Inter_400Regular,
+    Inter_500Medium,
+    Inter_600SemiBold,
+    Inter_700Bold,
+    Inter_800ExtraBold,
+    Inter_900Black,
+  });
+
+  if (!fontsLoaded) {
+    return <AppLoading />
+  }
 
   const toggleModal = () => {
     setModalVisible(!modalVisible);
@@ -79,8 +107,8 @@ const DetectObject = () => {
   };
 
   const extractFieldLabels = (text) => {
-    const cleanedText = text.replace(/\s+/g, ' ').trim(); // Clean up the text first
-    const lines = cleanedText.split(/\n/);  // Split on new lines
+    const cleanedText = text.replace(/\s+/g, ' ').trim(); 
+    const lines = cleanedText.split(/\n/);  
 
     const fieldLabels = [];
 
@@ -116,9 +144,10 @@ const DetectObject = () => {
         return;
       }
 
-      const apiKey = GOOGLE_API_KEY;
-      const apiURL = `https://vision.googleapis.com/v1/images:annotate?key=${apiKey}`;
-      console.log(apiKey);
+      const googleAPIKey = process.env.EXPO_PUBLIC_GOOGLE_KEY;
+      const apiURL = `https://vision.googleapis.com/v1/images:annotate?key=${googleAPIKey}`;
+      console.log(googleAPIKey);
+
 
       const base64ImageData = await FileSystem.readAsStringAsync(imageUri, {
         encoding: FileSystem.EncodingType.Base64,
@@ -178,17 +207,19 @@ const DetectObject = () => {
           model: 'gpt-3.5-turbo',
           messages: [
             { role: 'system', content: 'You are a paraphrasing assistant.' },
-            { role: 'user', content: `In a few words, explain the following personal information labels: ${labels}` }
+            { role: 'user', content: `In a few words and in a numbered format, explain the following personal information labels: ${labels}` }
           ],
           max_tokens: 150,
         },
         {
           headers: {
-            'Authorization': `Bearer ${OPENAI_API_KEY}`,
+            'Authorization': `Bearer ${process.env.EXPO_PUBLIC_OPENAI_API_KEY}`,
             'Content-Type': 'application/json',
           },
         }
       );
+
+
 
       return openAIResponse.data.choices[0].message.content;
     } catch (error) {
@@ -196,6 +227,8 @@ const DetectObject = () => {
       throw error;
     }
   };
+
+  console.log(process.env.EXPO_PUBLIC_OPENAI_API_KEY)
 
   return (
     <View style={styles.container}>
@@ -244,9 +277,10 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 26,
-    fontWeight: 'bold',
     marginBottom: 50,
     marginTop: 100,
+    fontFamily: 'Inter_800ExtraBold',
+    color: '#2E8BB7'
   },
   button: {
     backgroundColor: '#DDDDDD',
