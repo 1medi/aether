@@ -112,7 +112,7 @@ export const FolderScreen = ({ navigation }) => {
   return (
     <>
       <LinearGradient
-        colors={["#ffff", "#c4d3ff"]}
+        colors={["#9FC3E5", "#ffff"]}
         style={styles.gradientContainer}
       >
         <SafeAreaView style={styles.homePage}>
