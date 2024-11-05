@@ -8,7 +8,8 @@ import OptionButton from '@/components/atoms/optionButton';
 import DarkModeIcon from '@/components/atoms/darkMode';
 import { Input } from '@ui-kitten/components';
 import HeaderProfile from '@/components/molecules/Header';
-
+import LibraryButton from '@/components/molecules/FormLibraryButtons';
+import SearchBar from "@/components/molecules/SearchBar"
 import {
   useFonts,
   Inter_100Thin,
@@ -59,34 +60,19 @@ export const FormHistoryScreen = ({ navigation }) => {
 
           <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none' }}>
             <Layout style={styles.sectionTitle}>
-              <Text style={styles.headerText}>Form History</Text>
+              <Text style={styles.headerText}>My Form History</Text>
             </Layout>
 
 
-            <Layout style={styles.searchSection}>
-              <Input
-                style={styles.searchInput}
-                placeholder='Search my form history...'
-              />
-              <Layout style={styles.iconContainer}>
-                <FilterIcon />
-              </Layout>
-            </Layout>
+<SearchBar
+placeholder="Search My Saved Profiles"
+/>
 
 
             <Layout style={styles.cardContainer}>
-
-              {['Chris Topher', 'Sarah O’neil', 'Pat Rick'].map((name, idx) => (
-                <TouchableOpacity key={idx} onPress={() => navigation.navigate('')}>
-                  <Layout style={styles.formHistoryCard}>
-                    <Image
-                      source={require('@/assets/images/lbj.jpg')}
-                      style={styles.cardImage}
-                    />
-                    <Text style={styles.cardText}>{name}</Text>
-                  </Layout>
-                </TouchableOpacity>
-              ))}
+            <Text>October 2024</Text>
+            <LibraryButton title='Crusty Toes' subheader='It’s a taxable benefit that replaces 
+part of your income when you retire.' />
             </Layout>
           </ScrollView>
         </SafeAreaView>
