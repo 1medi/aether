@@ -1,54 +1,59 @@
 import React from 'react';
-import * as eva from '@eva-design/eva';
-import { Button } from '@ui-kitten/components';
-import { useState } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient'
+import { StyleSheet } from 'react-native';
+import { IndexPath, Layout, Select, SelectItem } from '@ui-kitten/components';
 
-interface BuddonProps {
-  title: string,
-  accessory: React.ComponentType<any>;
-}
+const data = [
+  {
+     "id": 0, 
+     "name": "All",
+  },
+  {
+     "id": 1, 
+     "name": "Canadian Pension Plan",
+  },
+  {
+     "id": 2, 
+      "name": "Disability Plan",
+  },
+  {
+    "id": 3, 
+    "name": "T4 Statements",
+ },
+];
 
-export default function Buddon({ title, accessory: Accessory }: BuddonProps) {
+export const FilterButton = ({ onSelect }) => {
+  const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
+  const selectedTitle = data[selectedIndex.row]?.name || '';
+
+  const handleSelect = (index) => {
+    setSelectedIndex(index);
+    onSelect(index); 
+  };
+
   return (
-
-    <View
-      style={styles.buttonGradient}
+    <Layout
+      style={styles.container}
+      level='1'
     >
-        <Accessory style={{
-          width: 10,
-          height: 10,
-          tintColor: 'white'
-        }} />
-    </View>
-
-
+      <Select
+        selectedIndex={selectedIndex}
+        value={selectedTitle}
+        style={styles.select}
+        onSelect={handleSelect}
+      >
+        {data.map((item) => (
+          <SelectItem key={item.id} title={item.name} />
+        ))}
+      </Select>
+    </Layout>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  text: {
-    marginHorizontal: 8,
-    color: 'white',
-    padding: 5,
+  container: {
+    backgroundColor: 'none',
+    paddingLeft: 10, paddingRight: 10, 
+    display: 'flex',
   },
-  button: {
-    
-    margin: 10,
-    borderRadius: 50,
-    width: 10,
-    height: 10,
-  },
-  
-  buttonGradient: {
-    borderRadius: 50,
-    opacity: .65,
-    width: 100,
-    height: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 10,
-    backgroundColor: '#08415C'
-  },
+
 });

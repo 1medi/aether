@@ -77,10 +77,11 @@ export const HomeScreen = ({ navigation }) => {
         style={styles.gradientContainer}
       >
         <SafeAreaView style={styles.homePage}>
-
           <HeaderProfile/>
-          <ScrollView style={{ backgroundColor: 'none', minHeight: 100,marginHorizontal: 5}}>
-            <Layout style={{ backgroundColor: 'none', paddingLeft: 20, width: 400 }}>
+          
+          <ScrollView style={{ backgroundColor: 'none', minHeight: "100%", paddingBottom: 30}}>
+            <Layout style={{ backgroundColor: 'none', padding: 20, width: 400 }}>
+
               <Text style={styles.headerText}>Hello Chris!{"\n"}Need help <Text style={{ fontFamily: 'Inter_800ExtraBold', color: '#2E8BB7' }}>Simplifying </Text>{"\n"}a form today?</Text>
             </Layout>
      
@@ -93,6 +94,7 @@ export const HomeScreen = ({ navigation }) => {
                   <OptionButton
                     title="Browse"
                     accessory={SearchIcon}
+                    destination='Folder'
                   />
                   <Text style={{ textAlign: 'center', color: '#2E8BB7', fontFamily: 'Inter_300Light ', fontSize: 16 }}>Browse</Text>
                 </Layout>
@@ -101,6 +103,7 @@ export const HomeScreen = ({ navigation }) => {
                   <OptionButton
                     title="Scan"
                     accessory={FileTextIcon}
+                    destination='Camera'
                   />
                   <Text style={{ textAlign: 'center', color: '#2E8BB7', fontFamily: 'Inter_300Light', fontSize: 16 }}>Scan</Text>
                 </Layout>
@@ -109,6 +112,7 @@ export const HomeScreen = ({ navigation }) => {
                   <OptionButton
                     title="Browse"
                     accessory={UploadIcon}
+                    destination='Camera'
                   />
                   <Text style={{ textAlign: 'center', color: '#2E8BB7', fontFamily: 'Inter_300Light', fontSize: 16 }}>Upload</Text>
                 </Layout>
@@ -116,27 +120,30 @@ export const HomeScreen = ({ navigation }) => {
             </Layout>
 
 
-          <Layout style={styles.formContainer}>
+          <Layout style={styles.formGrid}>
             <CardSimple title='Canadian Pension Plan'/>
             <CardSimple title='Medical Form'/>
-            <CardSimple title='Medical Form 2'/>
-            <CardSimple title='Tax Form'/>
+
           </Layout>
 
 
 
-            <Text style={{paddingLeft:10, paddingBottom:10, fontFamily: 'Inter_400Normal',  color: '#2E8BB7', fontSize: 24}}>Most Common</Text>
-            <Layout style={styles.formContainer}>
-              <CardSimple title='Canadian Pension Plan'/>
-              <CardSimple title='Medical Form'/>
-            </Layout>
-            <Layout style={styles.formContainer}>
-              <CardSimple title='Canadian Pension Plan'/>
-              <CardSimple title='Medical Form'/>
+          <Layout style={styles.recentform}>
+              <Text style={styles.headline}>My Recent Forms</Text>
+                <Layout style={styles.recentContent}>
+                <Layout style={styles.formContainer}>
+                <CardSimple title='Canadian Pension Plan'/>
+                <CardSimple title='Medical Form'/>
+                </Layout>
+                <Button       onPress={() => navigation.navigate("Library")} style={styles.ButtonResent}>View My Form Library</Button>
+                </Layout>
             </Layout>
 
+            <Layout style={{paddingBottom:60}}></Layout>
+
+
           </ScrollView>
-         
+
         </SafeAreaView>
       </LinearGradient>
 
@@ -157,8 +164,19 @@ const styles = StyleSheet.create(
       maxWidth:'100%',
       gap: 10
     },
+    formGrid:{
+      display: 'flex',
+      paddingTop: 10,
+      flexDirection: 'row',
+      margin: 'auto',
+      maxHeight: 200,
+      maxWidth: '100%',
+      backgroundColor:'none',
+      maxWidth:'100%',
+      gap: 10
+    },
     gradientContainer: {
-      flex: 1, // Make gradient cover the entire screen
+      flex: 1,
     },
     homePage: {
       flex: 1,
@@ -211,9 +229,9 @@ const styles = StyleSheet.create(
     },
     recentform: {
       width: '100%',
-      height: 400,
+      height: 420,
       paddingTop: 30,
-      paddingBottom: 100,
+      paddingBottom: 30,
       marginTop: 40,
       backgroundColor: 'rgba(8, 65, 92, 0.80)',
       borderTopLeftRadius: 32,
@@ -229,7 +247,8 @@ const styles = StyleSheet.create(
       color: '#ffffff',
       fontSize: 24 ,
       paddingLeft: 20
-    }
+    },
+    
   })
 
 

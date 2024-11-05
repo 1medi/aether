@@ -9,7 +9,7 @@ import { FolderScreen } from './FormLibrary/folder.component';
 import LibraryScreen, { Library } from './FormLibrary/library.component';
 import AutofilledScreen, { PensionPlan } from './FormLibrary/autofilled.component';
 
-import { PeopleScreen } from './SavedProfiles/people.component';
+import { PeopleScreen } from './SavedProfiles/people1.component';
 import { StyleSheet, Image } from 'react-native';
 
 const { Navigator, Screen } = createBottomTabNavigator();
