@@ -1,12 +1,45 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Divider, Layout, TopNavigation, Icon, Input } from '@ui-kitten/components';
-import { StyleSheet, Text, Image,  SafeAreaView, ScrollView, View, } from 'react-native';
-import HeaderProfile from '@/components/molecules/Header';
-import LibraryButton from '@/components/molecules/FormLibraryButtons'
-import SearchBar from "@/components/molecules/SearchBar"
-import { FilterButton } from '@/components/atoms/filterButton';
+import React, { useState } from "react";
+import {
+  Button,
+  Divider,
+  Layout,
+  TopNavigation,
+  Icon,
+  Input,
+} from "@ui-kitten/components";
+import {
+  StyleSheet,
+  Text,
+  Image,
+  SafeAreaView,
+  ScrollView,
+  View,
+} from "react-native";
+import HeaderProfile from "@/components/molecules/Header";
+import LibraryButton from "@/components/molecules/FormLibraryButtons";
+import { FilterButton } from "@/components/atoms/filterButton";
 
-
+const formsData = [
+  {
+    id: 1,
+    category: "Pension Plan",
+    title: "Canadian Pension Plan",
+    description:
+      "A taxable benefit that replaces part of your income when you retire.",
+  },
+  {
+    id: 2,
+    category: "Disability Plan",
+    title: "Disability Plan",
+    description: "Helps replace income in case of disability.",
+  },
+  {
+    id: 3,
+    category: "Taxes",
+    title: "T4 Statements",
+    description: "Tax statements related to income.",
+  },
+];
 
 import {
   useFonts,
@@ -19,13 +52,13 @@ import {
   Inter_700Bold,
   Inter_800ExtraBold,
   Inter_900Black,
-} from '@expo-google-fonts/inter';
+} from "@expo-google-fonts/inter";
 
-import AppLoading from 'expo-app-loading';
-import { LinearGradient } from 'expo-linear-gradient';
+import AppLoading from "expo-app-loading";
+import { LinearGradient } from "expo-linear-gradient";
 
-
-export const FolderScreen = ({ navigation   }) => {
+export const FolderScreen = ({ navigation }) => {
+  const [filteredForms, setFilteredForms] = useState(formsData);
 
   let [fontsLoaded] = useFonts({
     Inter_100Thin,
@@ -40,20 +73,30 @@ export const FolderScreen = ({ navigation   }) => {
   });
 
   if (!fontsLoaded) {
-    return <AppLoading />
+    return <AppLoading />;
   }
 
   const navigateDetails = () => {
-    navigation.navigate('Details');
+    navigation.navigate("Details");
   };
 
   const FilterIcon = (props) => (
-    <Icon name='options-2-outline' {...props}
-      style={{ width: 32, height: 32, tint: 'white' }}
+    <Icon
+      name="options-2-outline"
+      {...props}
+      style={{ width: 32, height: 32, tint: "white" }}
     />
   );
 
-
+  const handleFilterChange = (index) => {
+    const selectedCategory =
+      index.row === 0 ? "All" : formsData[index.row - 1].category; // Check if "All" is selected
+    setFilteredForms(
+      selectedCategory === "All"
+        ? formsData
+        : formsData.filter((form) => form.category === selectedCategory)
+    );
+  };
 
   // const [currentDate, setCurrentDate] = useState('')
 
@@ -69,28 +112,35 @@ export const FolderScreen = ({ navigation   }) => {
   return (
     <>
       <LinearGradient
-        colors={['#ffff', '#c4d3ff']}
+        colors={["#ffff", "#c4d3ff"]}
         style={styles.gradientContainer}
       >
-      
-      <SafeAreaView style={styles.homePage}>
+        <SafeAreaView style={styles.homePage}>
+          <HeaderProfile />
+          <Layout
+            style={{
+              backgroundColor: "none",
+              paddingLeft: 20,
+              marginHorizontal: 5,
+            }}
+          >
+            <Text style={styles.headerText}>Form Library</Text>
+          </Layout>
+          <Layout style={styles.numberContainer}>
+            <Text style={styles.largeNumber}>
+              <Text style={{ opacity: 0.5 }}>0</Text>69
+            </Text>
 
-        <HeaderProfile />
-        <Layout style={{ backgroundColor: 'none', paddingLeft: 20,  marginHorizontal: 5 }}>
-          <Text style={styles.headerText}>Form Library</Text>
-        </Layout>
-        <Layout style={styles.numberContainer}>
+            <View style={styles.numberTextContainer}>
+              <Text style={styles.subText}>
+                Browse from our current library of
+              </Text>
+              <Text style={styles.formsText}>forms</Text>
+            </View>
+          </Layout>
 
-          <Text style={styles.largeNumber}><Text style={{ opacity: .5 }}>0</Text>69</Text>
-
-          <View style={styles.numberTextContainer}>
-            <Text style={styles.subText}>Browse from our current library of</Text>
-            <Text style={styles.formsText}>forms</Text>
-          </View>
-        </Layout>
-
-      <FilterButton/>
-        {/* <Layout style={{ backgroundColor: 'none', paddingLeft: 10, paddingRight: 10, width: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+          <FilterButton onSelect={handleFilterChange} />
+          {/* <Layout style={{ backgroundColor: 'none', paddingLeft: 10, paddingRight: 10, width: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
             <Input
               style={{
                 borderRadius: 20,
@@ -104,109 +154,110 @@ export const FolderScreen = ({ navigation   }) => {
               </Layout>
           </Layout> */}
 
-        <ScrollView style={{ marginHorizontal: 5, backgroundColor: 'none', margin: 10 }}>
-          <Layout style={{ backgroundColor: 'none', }} >
-              <LibraryButton title='Canadian Pension Plan' subheader='It’s a taxable benefit that replaces 
-part of your income when you retire.' />
-          </Layout>
-
-        </ScrollView>
-
-      </SafeAreaView>
+          <ScrollView
+            style={{ marginHorizontal: 5, backgroundColor: "none", margin: 10 }}
+          >
+            <Layout style={{ backgroundColor: "none" }}>
+              {filteredForms.map((form) => (
+                <LibraryButton
+                  key={form.id}
+                  title={form.title}
+                  subheader={form.description}
+                  onPress={() => navigateToCategory(form.category)}
+                />
+              ))}
+            </Layout>
+          </ScrollView>
+        </SafeAreaView>
       </LinearGradient>
     </>
-
   );
 };
 
-const styles = StyleSheet.create(
-  {
-    homePage: {
-      flex: 1,
-      backgroundColor: 'none',
-      height: '100%'
-    },
-    gradientContainer: {
-      flex: 1, // Make gradient cover the entire screen
-    },
-    iconContainer: {
-      width: 40,
-      height: 40,  
-      borderRadius: 24, 
-      backgroundColor: 'white', 
-      justifyContent: 'center', 
-      alignItems: 'center',   
-      padding: 5,              
-    },
-    filterIcon: {
-      width: 24,  
-      height: 24,
-      tintColor: '#08415C', 
-      backgroundColor: 'transparent', 
-    },
+const styles = StyleSheet.create({
+  homePage: {
+    flex: 1,
+    backgroundColor: "none",
+    height: "100%",
+  },
+  gradientContainer: {
+    flex: 1, // Make gradient cover the entire screen
+  },
+  iconContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: 24,
+    backgroundColor: "white",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 5,
+  },
+  filterIcon: {
+    width: 24,
+    height: 24,
+    tintColor: "#08415C",
+    backgroundColor: "transparent",
+  },
 
-    headerText: {
-      fontSize: 32,
-      fontFamily: 'Inter_400Regular',
-      color: '#08415C'
-    },
-    numberContainer: {
-      flexDirection: 'row',
-      alignItems: 'flex-end',
-      margin: 20,
-      backgroundColor: 'none',
-      paddingRight: 50
-    },
-    largeNumber: {
-      fontSize: 100,
-      fontWeight: 'bold',
-      color: '#6D96B7',
-      marginRight: 10,
-    },
-    numberTextContainer: {
-      flexDirection: 'column',
-
-    },
-    subText: {
-      fontSize: 16,
-      color: '#6D96B7',
-      marginBottom: 5,
-      width: 100
-    },
-    formsText: {
-      fontSize: 24,
-      fontWeight: 'bold',
-      color: '#2A374A',
-    },
-    numberContainer: {
-      flexDirection: 'row', 
-      alignItems: 'flex-end', 
-      margin: 10,
-      backgroundColor: 'none',
-      paddingRight:50,
-      borderTopWidth: 2,
-      borderColor: 'white'
-    },
-    largeNumber: {
-      fontSize: 100, 
-      fontWeight: 'bold', 
-      color: '#6D96B7', 
-      marginRight: 10, 
-    },
-    numberTextContainer: {
-      flexDirection: 'column',
-
-    },
-    subText: {
-      fontSize: 16, 
-      color: '#6D96B7', 
-      marginBottom: 5, 
-      width:100
-    },
-    formsText: {
-      fontSize: 24, 
-      fontWeight: 'bold', 
-      color: '#2A374A', 
-    },
-
-  })
+  headerText: {
+    fontSize: 32,
+    fontFamily: "Inter_400Regular",
+    color: "#08415C",
+  },
+  numberContainer: {
+    flexDirection: "row",
+    alignItems: "flex-end",
+    margin: 20,
+    backgroundColor: "none",
+    paddingRight: 50,
+  },
+  largeNumber: {
+    fontSize: 100,
+    fontWeight: "bold",
+    color: "#6D96B7",
+    marginRight: 10,
+  },
+  numberTextContainer: {
+    flexDirection: "column",
+  },
+  subText: {
+    fontSize: 16,
+    color: "#6D96B7",
+    marginBottom: 5,
+    width: 100,
+  },
+  formsText: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#2A374A",
+  },
+  numberContainer: {
+    flexDirection: "row",
+    alignItems: "flex-end",
+    margin: 10,
+    backgroundColor: "none",
+    paddingRight: 50,
+    borderTopWidth: 2,
+    borderColor: "white",
+  },
+  largeNumber: {
+    fontSize: 100,
+    fontWeight: "bold",
+    color: "#6D96B7",
+    marginRight: 10,
+  },
+  numberTextContainer: {
+    flexDirection: "column",
+  },
+  subText: {
+    fontSize: 16,
+    color: "#6D96B7",
+    marginBottom: 5,
+    width: 100,
+  },
+  formsText: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#2A374A",
+  },
+});
