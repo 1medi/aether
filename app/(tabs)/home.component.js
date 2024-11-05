@@ -78,8 +78,8 @@ export const HomeScreen = ({ navigation }) => {
       >
         <SafeAreaView style={styles.homePage}>
           <HeaderProfile/>
-
-          <ScrollView style={{ backgroundColor: 'none', minHeight: "100%" ,marginHorizontal: 5}}>
+          
+          <ScrollView style={{ backgroundColor: 'none', minHeight: "100%", paddingBottom: 30}}>
             <Layout style={{ backgroundColor: 'none', padding: 20, width: 400 }}>
 
               <Text style={styles.headerText}>Hello Chris!{"\n"}Need help <Text style={{ fontFamily: 'Inter_800ExtraBold', color: '#2E8BB7' }}>Simplifying </Text>{"\n"}a form today?</Text>
@@ -229,9 +229,9 @@ const styles = StyleSheet.create(
     },
     recentform: {
       width: '100%',
-      height: 400,
+      height: 420,
       paddingTop: 30,
-
+      paddingBottom: 30,
       marginTop: 40,
       backgroundColor: 'rgba(8, 65, 92, 0.80)',
       borderTopLeftRadius: 32,
