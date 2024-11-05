@@ -45,7 +45,7 @@ export const PeopleScreen = ({ navigation }) => {
               paddingLeft: 20,
             }}
           >
-           Saved Profiles
+            Account Information
           </Text>
 
           {/* Email input */}

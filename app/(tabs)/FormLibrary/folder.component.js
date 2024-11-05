@@ -3,7 +3,7 @@ import { Button, Divider, Layout, TopNavigation, Icon, Input } from '@ui-kitten/
 import { StyleSheet, Text, Image,  SafeAreaView, ScrollView, View, } from 'react-native';
 import HeaderProfile from '@/components/molecules/Header';
 import LibraryButton from '@/components/molecules/FormLibraryButtons'
-import { FilterButton } from '@/components/atoms/filterButton';
+import SearchBar from "@/components/molecules/SearchBar"import { FilterButton } from '@/components/atoms/filterButton';
 
 
 
