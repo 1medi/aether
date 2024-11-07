@@ -8,7 +8,9 @@ import { CameraScreen } from './CameraForm/camera.component';
 import { FolderScreen } from './FormLibrary/folder.component';
 import LibraryScreen, { Library } from './FormLibrary/library.component';
 import AutofilledScreen, { PensionPlan } from './FormLibrary/autofilled.component';
-
+import LandingPage from './Auth/index';
+import LogInPage from './Auth/LogInPage';
+import RegisterPage from './Auth/RegisterPage';
 import { PeopleScreen } from './SavedProfiles/people1.component';
 import { StyleSheet, Image } from 'react-native';
 
@@ -46,40 +48,75 @@ const ScanIcon = (props) => (
   />
 );
 
-const BottomTabBar = ({ navigation, state }) => (
-  <Layout style={styles.navOuterContainer}>
-    <BottomNavigation
-      appearance="noIndicator"
-      selectedIndex={state.index}
-      onSelect={index => navigation.navigate(state.routeNames[index])}
-      style={styles.navBarContainer}
-    >
-      <BottomNavigationTab icon={HomeIcon} />
-      <BottomNavigationTab icon={FolderIcon} />
-      <BottomNavigationTab
-        icon={(props) => (
-          <Icon {...props} name="file-outline" style={styles.ScanIcon} />
-        )}
-        style={styles.cameraTab}
-      />
-      <BottomNavigationTab icon={BookIcon} />
-      <BottomNavigationTab icon={SocialIcon} />
-    </BottomNavigation>
-  </Layout>
-);
+// const BottomTabBar = ( { navigation, state } ) => (
+//   <Layout style={styles.navOuterContainer}>
+//     <BottomNavigation
+//       appearance="noIndicator"
+//       selectedIndex={state.index}
+//       onSelect={index => navigation.navigate(state.routeNames[index])}
+//       style={styles.navBarContainer}
+//     >
+//       <BottomNavigationTab icon={HomeIcon} />
+//       <BottomNavigationTab icon={FolderIcon} />
+//       <BottomNavigationTab
+//         icon={(props) => (
+//           <Icon {...props} name="file-outline" style={styles.ScanIcon} />
+//         )}
+//         style={styles.cameraTab}
+//       />
+//       <BottomNavigationTab icon={BookIcon} />
+//       <BottomNavigationTab icon={SocialIcon} />
+//     </BottomNavigation>
+//   </Layout>
+// );
+const BottomTabBar = ( { navigation, state } ) => {
+  // 检查当前页面的名称
+  if (state.routeNames[state.index] === 'LandingPage'||state.routeNames[state.index] === 'LogInPage'||state.routeNames[state.index] === 'RegisterPage') {
+    return null; // 如果当前页面是LandingPage，LogInPage,RegisterPage,则不显示BottomTabBar
+  }
+
+  return (
+    <Layout style={styles.navOuterContainer}>
+      <BottomNavigation
+        appearance="noIndicator"
+        selectedIndex={state.index}
+        onSelect={index => navigation.navigate(state.routeNames[index])}
+        style={styles.navBarContainer}
+      >
+        <BottomNavigationTab icon={HomeIcon} />
+        <BottomNavigationTab icon={FolderIcon} />
+        <BottomNavigationTab
+          icon={(props) => (
+            <Icon {...props} name="file-outline" style={styles.ScanIcon} />
+          )}
+          style={styles.cameraTab}
+        />
+        <BottomNavigationTab icon={BookIcon} />
+        <BottomNavigationTab icon={SocialIcon} />
+      </BottomNavigation>
+    </Layout>
+  );
+};
 
 const TabNavigator = () => (
   <Navigator screenOptions={{
     headerShown: false,
-  }} style={styles.navContainer} tabBar={props => <BottomTabBar {...props} />}>
+  } }
+    initialRouteName="LandingPage"
+    style={ styles.navContainer }
+    tabBar={ props => <BottomTabBar { ...props } />
+    }>
+
     <Screen name="Home" component={HomeScreen} options={{ title: 'Aether Home' }} />
     <Screen name="Details" component={FolderScreen} />
     <Screen name="Camera" component={CameraScreen} />
     <Screen name="Folder" component={FormHistoryScreen} />
     <Screen name="People" component={PeopleScreen} />
     <Screen name="Library" component={LibraryScreen} />
-
-    <Screen name="PensionPlan" component={AutofilledScreen} />
+    <Screen name="PensionPlan" component={ AutofilledScreen } />
+    <Screen name="LandingPage" component={ LandingPage }  />
+    <Screen name="LogInPage" component={LogInPage} />
+    <Screen name="RegisterPage" component={RegisterPage}  />
   </Navigator>
 );
 

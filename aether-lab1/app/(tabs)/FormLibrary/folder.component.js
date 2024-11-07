@@ -116,7 +116,7 @@ export const FolderScreen = ({ navigation }) => {
         style={styles.gradientContainer}
       >
         <SafeAreaView style={styles.homePage}>
-          <HeaderProfile />
+          {/* <HeaderProfile /> */}
           <Layout
             style={{
               backgroundColor: "none",
@@ -163,7 +163,7 @@ export const FolderScreen = ({ navigation }) => {
                   key={form.id}
                   title={form.title}
                   subheader={form.description}
-                  onPress={() => navigateToCategory(form.category)}
+           
                 />
               ))}
             </Layout>

@@ -2,18 +2,23 @@ import React, { useState } from "react";
 import { View, Image, TextInput, Text, Pressable } from "react-native";
 import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
-
+import { useNavigation } from '@react-navigation/native';
 export default function LogInPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
-
+  const navigation = useNavigation();
   const handleLogIn = () => {
-    router.push({ pathname: "/(tabs)/home.component", params: { username } });
+    // router.push({ pathname: "/(tabs)/home.component", params: { username } });
+    // navigation.goBack(); // return to last page
+    // navigation.goBack(); // return to last page
+    navigation.navigate("Home");
   };
 
   const handleContinueAsGuest = () => {
-    router.push("/(tabs)/home.component");
+    // router.push("/(tabs)/home.component");
+    // navigation.goBack() // return to last page
+    // navigation.goBack() // return to last page
   };
 
   return (
@@ -21,11 +26,12 @@ export default function LogInPage() {
       colors={["#88B5DF", "#ffffff"]}
       start={{ x: 0, y: 0 }}
       end={{ x: 0, y: 0.8 }}
-      style={{ flex: 1 }}
+      style={{ flex: 1 ,height:"100%"}}
+      
     >
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center", padding: 16 }}>
         <Image
-          source={require("@/assets/images/aether_logo.png")}
+          source={require("../../../assets/images/aether_logo.png")}
           resizeMode="contain"
           style={{ width: 256, height: 128, marginBottom: 48, marginTop: 48 }}
         />
@@ -54,7 +60,7 @@ export default function LogInPage() {
               Continue as guest
             </Text>
           </Pressable>
-          <Pressable onPress={() => router.push("/(tabs)/Auth/RegisterPage")}>
+          <Pressable onPress={() => navigation.navigate('RegisterPage')}>
             <Text style={{ textAlign: "center", fontSize: 14, marginTop: 8 }}>
               Don't have an account? <Text style={{ fontWeight: "bold", textDecorationLine: "underline" }}>Create one.</Text>
             </Text>

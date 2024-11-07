@@ -20,7 +20,8 @@ export default function LibraryButton({ title, subheader }) {
         source={require('@/assets/images/cardIcon.png')}/>
     
       <TouchableOpacity style={styles.formButton}
-      onPress={() => navigation.navigate('Library')}>
+        // onPress={ () => navigation.navigate( 'Library' ) }
+      >
         
         <Layout style={styles.textContainer}>
           <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>

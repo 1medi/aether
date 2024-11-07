@@ -3,29 +3,31 @@ import { View, Image, TextInput, Text, Pressable } from "react-native";
 import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import axios from "axios";
-
+import { useNavigation } from '@react-navigation/native';
 export default function RegisterPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [birthday, setBirthday] = useState("");
   const [email, setEmail] = useState("");
   const router = useRouter();
-
+  const navigation = useNavigation();
   const handleRegister = () => {
+  navigation.goBack(); 
     const userData = {
       username: username,
       useremail: email,
       userpassword: password,
     };
-    axios
-      .post("http://10.0.0.120:5001/register", userData)
-      .then((res) => {
-        console.log(res.data);
-        router.push({ pathname: "/(tabs)/home.component", params: { username } });
-      })
-      .catch((error) => {
-        console.log("Error during registration:", error);
-      });
+    // axios
+    //   .post("http://10.0.0.120:5001/register", userData)
+    //   .then((res) => {
+    //     console.log( res.data );
+    // router.push({ pathname: "/(tabs)/home.component", params: { username } });
+      navigation.navigate("LogInPage");
+    //   })
+    //   .catch((error) => {
+    //     console.log("Error during registration:", error);
+    //   });
   };
 
   return (
@@ -37,7 +39,7 @@ export default function RegisterPage() {
     >
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center", padding: 16 }}>
         <Image
-          source={require("@/assets/images/aether_logo.png")}
+          source={require("../../../assets/images/aether_logo.png")}
           resizeMode="contain"
           style={{ width: 256, height: 128, marginBottom: 48, marginTop: 48 }}
         />

@@ -14,6 +14,7 @@ import { HomeScreen } from "@/app/(tabs)/home.component";
 import LandingPage from "@/app/(tabs)/Auth/index";
 import LogInPage from "@/app/(tabs)/Auth/LogInPage";
 import RegisterPage from "@/app/(tabs)/Auth/RegisterPage";
+import LibraryScreen, { Library }  from '@/app/(tabs)/FormLibrary/library.component';
 import { name as appName } from "@/app.json";
 import { AppRegistry } from "react-native";
 import {
@@ -139,11 +140,11 @@ export default function App() {
       <ApplicationProvider {...eva} theme={eva.light}>
         <NavigationContainer>
           <Stack.Navigator initialRouteName="LandingPage" screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="LandingPage" component={LandingPage} />
-            <Stack.Screen name="LogInPage" component={LogInPage} />
-            <Stack.Screen name="RegisterPage" component={RegisterPage} />
-            <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="DetectObject" component={DetectObject} />
+            {/* <Stack.Screen name="LandingPage" component={LandingPage} /> */}
+            {/* <Stack.Screen name="LogInPage" component={LogInPage} /> */}
+            {/* <Stack.Screen name="RegisterPage" component={RegisterPage} /> */}
+            {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
+            {/* <Stack.Screen name="DetectObject" component={DetectObject} /> */}
           </Stack.Navigator>
         </NavigationContainer>
       </ApplicationProvider>

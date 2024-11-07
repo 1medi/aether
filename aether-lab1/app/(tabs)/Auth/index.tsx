@@ -2,12 +2,12 @@ import React from "react";
 import { View, Image, Text, Pressable } from "react-native";
 import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
-
+import { useNavigation } from '@react-navigation/native';
 export default function LandingPage() {
   const router = useRouter();
-
+  const navigation = useNavigation();
   const handleGetStarted = () => {
-    router.push("/(tabs)/Auth/LogInPage");
+    navigation.navigate("LogInPage")
   };
 
   return (
@@ -19,7 +19,7 @@ export default function LandingPage() {
     >
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center", padding: 16 }}>
         <Image
-          source={require("@/assets/images/aether_logo.png")}
+          source={require("../../../assets/images/aether_logo.png")}
           resizeMode="contain"
           style={{ width: 256, height: 128 }}
         />

@@ -92,6 +92,7 @@ export const PeopleScreen = ({ navigation }) => {
 
           <Button
             appearance="ghost"
+            onPress={() => navigation.navigate("LogInPage")}
             style={{
               backgroundColor: "rgba(173, 216, 230, 0.5)",
               borderRadius: 15,

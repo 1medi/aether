@@ -89,7 +89,7 @@ export const CameraScreen = ({ navigation }) => {
             <Layout
               style={{ paddingBottom: 50, backgroundColor: "rgba(0, 0, 0, 0)" }}
             >
-              <DetectObject />
+              {/* <DetectObject /> */}
             </Layout>
           </ScrollView>
         </SafeAreaView>
