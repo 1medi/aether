@@ -156,10 +156,11 @@ export const HomeScreen = ({ navigation }) => {
                   style={{ flexDirection: "column", backgroundColor: "none" }}
                 >
                   <OptionButton
-                    title="Browse"
+                    title="Upload"
                     accessory={UploadIcon}
                     destination="Camera"
                   />
+                
                   <Text
                     style={{
                       textAlign: "center",

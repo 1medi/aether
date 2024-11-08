@@ -17,7 +17,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import DetectObject from "@/src/index";
 import HeaderProfile from "@/components/molecules/Header";
-
+import FileUpload from "@/components/molecules/FileUpload";
 import {
   useFonts,
   Inter_100Thin,
@@ -63,6 +63,8 @@ export const CameraScreen = ({ navigation }) => {
   //     date + '/' + month + '/' + year
   //   )
   // }, [])
+  
+  console.log("cameraform!!!!!");
 
   return (
     <>
@@ -89,6 +91,7 @@ export const CameraScreen = ({ navigation }) => {
             <Layout
               style={{ paddingBottom: 50, backgroundColor: "rgba(0, 0, 0, 0)" }}
             >
+              <FileUpload />
               {/* <DetectObject /> */}
             </Layout>
           </ScrollView>
