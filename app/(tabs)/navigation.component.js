@@ -13,6 +13,7 @@ import LogInPage from './Auth/LogInPage';
 import RegisterPage from './Auth/RegisterPage';
 import { PeopleScreen } from './SavedProfiles/people1.component';
 import { StyleSheet, Image } from 'react-native';
+import {ProfileScreen} from './Profile/profile.component';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -31,6 +32,12 @@ const BookIcon = (props) => (
 const HomeIcon = (props) => (
   <Icon name="home-outline" {...props}
     style={{ width: 45, height: 48, margin: 10}}
+  />
+);
+
+const ProfileIcon = (props) => (
+  <Icon name="people-outline" {...props}
+    style={{ width: 45, height: 48, margin: 10 }}
   />
 );
 
@@ -70,7 +77,7 @@ const ScanIcon = (props) => (
 //   </Layout>
 // );
 const BottomTabBar = ( { navigation, state } ) => {
-  // 检查当前页面的名称
+  console.log(state.routeNames[state.index]);
   if (state.routeNames[state.index] === 'LandingPage'||state.routeNames[state.index] === 'LogInPage'||state.routeNames[state.index] === 'RegisterPage') {
     return null; // 如果当前页面是LandingPage，LogInPage,RegisterPage,则不显示BottomTabBar
   }
@@ -92,6 +99,7 @@ const BottomTabBar = ( { navigation, state } ) => {
           style={styles.cameraTab}
         />
         <BottomNavigationTab icon={BookIcon} />
+        <BottomNavigationTab icon={ProfileIcon} />
         <BottomNavigationTab icon={SocialIcon} />
       </BottomNavigation>
     </Layout>
@@ -111,6 +119,7 @@ const TabNavigator = () => (
     <Screen name="Details" component={FolderScreen} />
     <Screen name="Camera" component={CameraScreen} />
     <Screen name="Folder" component={FormHistoryScreen} />
+    <Screen name="Profile" component={ProfileScreen} />
     <Screen name="People" component={PeopleScreen} />
     <Screen name="Library" component={LibraryScreen} />
     <Screen name="PensionPlan" component={ AutofilledScreen } />
