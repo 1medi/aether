@@ -36,8 +36,8 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   fabIcon: {
-    width: 24,
-    height: 24,
+    width: 30,
+    height: 30,
   },
 });
 
