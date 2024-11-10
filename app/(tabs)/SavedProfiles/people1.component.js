@@ -1,16 +1,10 @@
 import React from "react";
 import { SafeAreaView, ScrollView } from "react-native";
-import {
-  Divider,
-  Layout,
-  Text,
-  Input,
-  Button,
-  Icon,
-} from "@ui-kitten/components";
+import { Divider, Layout, Text, Input, Button, Icon} from "@ui-kitten/components";
 import { LinearGradient } from "expo-linear-gradient";
 
 import HeaderProfile from "@/components/molecules/Header";
+import ConsoleScreen from "@/components/atoms/ConsoleScreen"
 
 export const PeopleScreen = ({ navigation }) => {
   const navigateBack = () => {
@@ -159,6 +153,7 @@ export const PeopleScreen = ({ navigation }) => {
           </Layout>
           <Layout style={{height: 100}}></Layout>
         </ScrollView>
+        <ConsoleScreen />
       </SafeAreaView>
     </LinearGradient>
   );
