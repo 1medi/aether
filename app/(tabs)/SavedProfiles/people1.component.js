@@ -76,10 +76,10 @@ export const PeopleScreen = ({ navigation }) => {
   return (
     <LinearGradient colors={["#9FC3E5", "#ffff"]} style={{ flex: 1 }}>
       <SafeAreaView style={{ flex: 1 }}>
-        <ScrollView>
-          <HeaderProfile />
-          <Divider />
+        <HeaderProfile />
+        <Divider />
 
+        <ScrollView>
           <Layout
             style={{
               flex: 1,
