@@ -58,7 +58,7 @@ const BottomTabBar = ({ navigation, state }) => (
       <BottomNavigationTab icon={FolderIcon} />
       <BottomNavigationTab
         icon={(props) => (
-          <Icon {...props} name="file-outline" style={styles.ScanIcon} />
+          <Image {...props} source={require('@/assets/images/health.png')} style={styles.ScanIcon} />
         )}
         style={styles.cameraTab}
       />
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
   ScanIcon: {
     width: 48,
     height: 48,
-    tintColor: '#E0F7FA',
+
   },
 });
 
