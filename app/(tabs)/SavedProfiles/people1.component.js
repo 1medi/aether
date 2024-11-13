@@ -70,7 +70,6 @@ export const PeopleScreen = ({ navigation }) => {
   return (
     <LinearGradient colors={["#9FC3E5", "#ffff"]} style={{ flex: 1 }}>
       <SafeAreaView style={{ flex: 1 }}>
-        <HeaderProfile />
         <Divider />
 
         <ScrollView>
@@ -85,16 +84,16 @@ export const PeopleScreen = ({ navigation }) => {
             <Text
               category="h1"
               style={{
-                fontSize: 24,
-                fontWeight: "bold",
-                marginTop: 20,
+                fontSize: 36,
+                fontWeight: "400",
+                marginTop: 50,
                 marginBottom: 20,
                 alignSelf: "flex-start",
                 width: "100%",
                 paddingLeft: 20,
               }}
             >
-              Account Information
+              Account
             </Text>
 
             <Layout style={styles.section}>
@@ -153,7 +152,6 @@ export const PeopleScreen = ({ navigation }) => {
           </Layout>
           <Layout style={{height: 100}}></Layout>
         </ScrollView>
-        <ConsoleScreen />
       </SafeAreaView>
     </LinearGradient>
   );
@@ -164,13 +162,15 @@ const styles = {
   section: {
     marginTop: 20,
     paddingHorizontal: 20,
-    backgroundColor: "transparent"
+    backgroundColor: "transparent",
+    width: '100vw'
   },
   sectionTitle: {
     fontSize: 16,
     fontWeight: "400",
     color: "rgba(8, 65, 92, 0.60)",
     marginBottom: 8,
+    paddingHorizontal: 10,
   },
   sectionItem: {
     backgroundColor: "rgba(255, 255, 255, 0.6)", // Set background color to semi-transparent white
@@ -236,7 +236,7 @@ const styles = {
   },
   sectionItemText: {
     fontSize: 16,
-    fontWeight: "400",
+    fontWeight: "300",
     color: "#08415C",
   },
 }
