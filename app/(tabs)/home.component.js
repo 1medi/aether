@@ -13,38 +13,34 @@ import { StyleSheet, Text, Image } from "react-native";
 import OptionButton from "@/components/atoms/optionButton";
 import DarkModeIcon from "@/components/atoms/darkMode";
 import HeaderProfile from "@/components/molecules/Header";
+import { colors, typography } from "@/css/globals"
 
 import {
   useFonts,
-  Inter_100Thin,
-  Inter_200ExtraLight,
-  Inter_300Light,
-  Inter_400Regular,
-  Inter_500Medium,
-  Inter_600SemiBold,
-  Inter_700Bold,
-  Inter_800ExtraBold,
-  Inter_900Black,
-} from "@expo-google-fonts/inter";
+  DMSans_400Regular,
+  DMSans_400Regular_Italic,
+  DMSans_500Medium,
+  DMSans_500Medium_Italic,
+  DMSans_700Bold,
+  DMSans_700Bold_Italic
+} from "@expo-google-fonts/dm-sans";
 import AppLoading from "expo-app-loading";
 import { LinearGradient } from "expo-linear-gradient";
 
 export const HomeScreen = ({ navigation }) => {
   let [fontsLoaded] = useFonts({
-    Inter_100Thin,
-    Inter_200ExtraLight,
-    Inter_300Light,
-    Inter_400Regular,
-    Inter_500Medium,
-    Inter_600SemiBold,
-    Inter_700Bold,
-    Inter_800ExtraBold,
-    Inter_900Black,
+    DMSans_400Regular,
+    DMSans_400Regular_Italic,
+    DMSans_500Medium,
+    DMSans_500Medium_Italic,
+    DMSans_700Bold,
+    DMSans_700Bold_Italic
   });
 
   if (!fontsLoaded) {
     return <AppLoading />;
   }
+  const fonts = typography(fontsLoaded); 
   const SearchIcon = (props) => <Icon name="search-outline" {...props} />;
 
   const FileTextIcon = (props) => (
@@ -90,7 +86,7 @@ export const HomeScreen = ({ navigation }) => {
               <Text style={styles.headerText}>
                 Hello Chris!{"\n"}Need help{" "}
                 <Text
-                  style={{ fontFamily: "Inter_800ExtraBold", color: "#2E8BB7" }}
+                  style={{ fontFamily: 'DMSans_700Bold_Italic' , color: "#2E8BB7" }} 
                 >
                   Simplifying{" "}
                 </Text>
