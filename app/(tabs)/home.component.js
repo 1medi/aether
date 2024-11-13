@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
   quickAccessText: {
     color: "rgba(8, 65, 92, 0.6)",
     paddingLeft: 16,
-    fontSize: 16,
+    fontSize: 18,
     fontFamily: "DMSans_400Regular",
   },
   formGrid: {
@@ -203,8 +203,8 @@ const styles = StyleSheet.create({
   headline: {
     color: "rgba(8, 65, 92, 0.6)",
     paddingLeft: 16,
-    fontSize: 16,
-    fontFamily: "DMSans_500Medium",
+    fontSize: 18,
+    fontFamily: "DMSans_400Regular",
   },
   gradientButtonContainer: {
     width: "100%",
@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
     height: 54,
     borderRadius: 24,
     backgroundColor: "transparent",
-    fontSize: 20,
+    fontSize: 18,
     textAlign: "center",
     fontFamily: "DMSans_500Medium",
   },
