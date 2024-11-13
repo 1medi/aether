@@ -1,179 +1,246 @@
-import React, { useState, useEffect } from "react";
-import { SafeAreaView, ScrollView, TouchableOpacity, View } from "react-native";
-import {
-  Button,
-  Divider,
-  Layout,
-  TopNavigation,
-  Icon,
-  Card,
-} from "@ui-kitten/components";
-import Settings from "@/components/atoms/settings.js";
-import CardSimple from "@/components/atoms/card";
-import { StyleSheet, Text, Image } from "react-native";
-import OptionButton from "@/components/atoms/optionButton";
-import DarkModeIcon from "@/components/atoms/darkMode";
-import { Input } from "@ui-kitten/components";
-import HeaderProfile from "@/components/molecules/Header";
+import React, { useState } from "react";
+import { SafeAreaView, ScrollView, TouchableOpacity, View, TextInput, Text, StyleSheet, Image, FlatList } from "react-native";
 import LibraryButton from "@/components/molecules/FormLibraryButtons";
-import SearchBar from "@/components/molecules/SearchBar";
-import {
-  useFonts,
-  Inter_100Thin,
-  Inter_200ExtraLight,
-  Inter_300Light,
-  Inter_400Regular,
-  Inter_500Medium,
-  Inter_600SemiBold,
-  Inter_700Bold,
-  Inter_800ExtraBold,
-  Inter_900Black,
-} from "@expo-google-fonts/inter";
-import AppLoading from "expo-app-loading";
 import { LinearGradient } from "expo-linear-gradient";
 
-export const FormHistoryScreen = ({ navigation }) => {
-  let [fontsLoaded] = useFonts({
-    Inter_100Thin,
-    Inter_200ExtraLight,
-    Inter_300Light,
-    Inter_400Regular,
-    Inter_500Medium,
-    Inter_600SemiBold,
-    Inter_700Bold,
-    Inter_800ExtraBold,
-    Inter_900Black,
-  });
+export const FormHistoryScreen = () => {
+  const [activeTab, setActiveTab] = useState("Forms");
+  const [importantCardId, setImportantCardId] = useState(null); 
+  const [filter, setFilter] = useState("All");
 
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  }
+  const forms = [
+    { id: 1, title: "Pension Plan Application", subheader: "Modified Oct 28, 2024 - Draft", status: "In progress" },
+    { id: 2, title: "Pension Plan Application", subheader: "Modified Oct 16, 2024 - Draft", status: "In progress" },
+    { id: 3, title: "Pension Plan Application", subheader: "Modified Jan 5, 2023 - Complete", status: "Complete" },
+  ];
 
-  const FilterIcon = (props) => (
-    <Icon name="options-2-outline" {...props} style={styles.filterIcon} />
+  const profiles = [
+    { id: 1, name: "Chris Topher", role: "Myself" },
+    { id: 2, name: "Sarah O'Neil", role: "Care Recipient" },
+    { id: 3, name: "Pat Rick", role: "Grandpa" },
+  ];
+
+  const handleCardPress = (id) => {
+    setImportantCardId(id); 
+  };
+
+  const renderForms = () => {
+    // Filter forms based on the selected filter
+    const filteredForms = filter === "In progress" ? forms.filter((form) => form.status === "In progress") : forms;
+
+    return (
+      <ScrollView style={styles.scrollView}>
+        {filteredForms.some((form) => form.status === "In progress") && (
+          <Text style={styles.sectionHeader}>October, 2024</Text>
+        )}
+        {filteredForms
+          .filter((form) => form.status === "In progress")
+          .map((form) => (
+            <LibraryButton
+              key={form.id}
+              title={form.title}
+              subheader={form.subheader}
+              isImportant={importantCardId === form.id}
+              onPress={() => handleCardPress(form.id)}
+            />
+          ))}
+
+        {/* Show the other sections only if the filter is not applied */}
+        {filter !== "In progress" && (
+          <>
+            <Text style={styles.sectionHeader}>September, 2024</Text>
+            <LibraryButton
+              title="Pension Plan Application"
+              subheader="Modified Jan 5, 2023 - Complete"
+              isImportant={importantCardId === 3}
+              onPress={() => handleCardPress(3)}
+            />
+          </>
+        )}
+      </ScrollView>
+    );
+  };
+
+  const renderProfiles = () => (
+    <ScrollView style={styles.scrollView}>
+      <View style={styles.profileContainer}>
+        {profiles.map((profile) => (
+          <View key={profile.id} style={styles.profileCard}>
+            <Text style={styles.profileName}>{profile.name}</Text>
+            <Text style={styles.profileRole}>{profile.role}</Text>
+          </View>
+        ))}
+      </View>
+    </ScrollView>
   );
 
+  const renderChips = () => {
+    const chips = ["Newest", "Important", "In progress", "Complete"];
+
+    return (
+      <FlatList
+        data={chips}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        keyExtractor={(item) => item}
+        renderItem={({ item }) => (
+          <TouchableOpacity style={[styles.chip, filter === item && styles.activeChip]} onPress={() => setFilter(item)}>
+            <Text style={styles.chipText}>{item}</Text>
+          </TouchableOpacity>
+        )}
+      />
+    );
+  };
+
   return (
-    <>
-      <LinearGradient colors={["#9FC3E5", "#ffff"]} style={{ flex: 1 }}>
-        <SafeAreaView style={styles.homePage}>
-          <HeaderProfile />
+    <LinearGradient colors={["#9FC3E5", "#ffff"]} style={{ flex: 1 }}>
+      <SafeAreaView style={styles.container}>
+        {/* Toggle Tabs */}
+        <View style={styles.toggleContainer}>
+          <TouchableOpacity
+            style={[styles.toggleButton, activeTab === "Forms" && styles.activeToggleButton]}
+            onPress={() => setActiveTab("Forms")}
+          >
+            <Text style={[styles.toggleButtonText, activeTab === "Forms" && styles.activeToggleButtonText]}>Forms</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.toggleButton, activeTab === "Profiles" && styles.activeToggleButton]}
+            onPress={() => setActiveTab("Profiles")}
+          >
+            <Text style={[styles.toggleButtonText, activeTab === "Profiles" && styles.activeToggleButtonText]}>Profiles</Text>
+          </TouchableOpacity>
+        </View>
 
-          <ScrollView style={{ marginHorizontal: 5, backgroundColor: "none" }}>
-            <Layout style={styles.sectionTitle}>
-              <Text style={styles.headerText}>My Form History</Text>
-            </Layout>
+        {/* Search Bar */}
+        <View style={styles.searchContainer}>
+          <TextInput
+            style={styles.searchInput}
+            placeholder={`Search ${activeTab === "Forms" ? "forms" : "profiles"}...`}
+          />
+          <Image
+            source={require('@/assets/images/search_icon.png')}  
+            style={styles.searchIcon}
+          />
+        </View>
 
-            <SearchBar placeholder="Search My Saved Profiles" />
+        {/* Chips for Filters */}
+        <View style={styles.chipsContainer}>
+          {renderChips()}
+        </View>
 
-            <Layout style={styles.cardContainer}>
-              <Text>October 2024</Text>
-              <LibraryButton
-                title="Crusty Toes"
-                subheader="It’s a taxable benefit that replaces 
-part of your income when you retire."
-              />
-            </Layout>
-          </ScrollView>
-        </SafeAreaView>
-      </LinearGradient>
-    </>
+        {/* Content */}
+        {activeTab === "Forms" ? renderForms() : renderProfiles()}
+      </SafeAreaView>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
-  homePage: {
+  container: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0)",
+    paddingHorizontal: 16,
+    paddingTop: 16,
   },
-  profileHeader: {
-    display: "flex",
+  toggleContainer: {
     flexDirection: "row",
+    backgroundColor: "rgba(240, 243, 245, 0.6)", 
+    borderRadius: 23.5,
+    width: 187,
+    height: 47,
+    alignSelf: "center",
+    marginBottom: 16,
     alignItems: "center",
   },
-  profileImage: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    marginRight: 15,
-  },
-  headerTextContainer: {
-    display: "flex",
-  },
-  headerName: {
-    fontSize: 18,
-    fontFamily: "Inter_700Bold",
-    color: "#08415C",
-  },
-  headerDate: {
-    fontSize: 14,
-    fontFamily: "Inter_400Regular",
-    color: "#6b7c93",
-  },
-  sectionTitle: {
-    paddingLeft: 20,
-    marginTop: 10,
-    backgroundColor: "rgba(0, 0, 0, 0)",
-  },
-  headerText: {
-    fontSize: 32,
-    fontFamily: "Inter_400Regular",
-    color: "#08415C",
-  },
-  searchSection: {
-    padding: 10,
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0)",
-  },
-  searchInput: {
-    borderRadius: 20,
+  toggleButton: {
     flex: 1,
-    marginRight: 10,
-  },
-  iconContainer: {
-    width: 40,
-    height: 40,
-    borderRadius: 24,
-    backgroundColor: "white",
+    height: 47,
     justifyContent: "center",
     alignItems: "center",
-    padding: 5,
+    borderRadius: 23.5, 
   },
-  filterIcon: {
+  activeToggleButton: {
+    backgroundColor: "#ffffff",
+  },
+  toggleButtonText: {
+    fontSize: 16,
+    color: "#08415C",
+    opacity: 0.6,
+  },
+  activeToggleButtonText: {
+    fontWeight: "bold",
+    opacity: 1,
+  },
+  searchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 10,
+    backgroundColor: "#ffffff",
+    borderRadius: 20,
+    paddingHorizontal: 15,
+    paddingVertical: 5,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 16,
+    color: "#08415C",
+  },
+  searchIcon: {
     width: 24,
     height: 24,
     tintColor: "#08415C",
   },
-  cardContainer: {
-    display: "flex",
+  chipsContainer: {
+    marginTop: 10,
+    marginBottom: 15,
+  },
+  chip: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
+    backgroundColor: "#E6E6E6",
+    marginRight: 8,
+  },
+  activeChip: {
+    backgroundColor: "#2E8BB7",
+  },
+  chipText: {
+    fontSize: 14,
+    color: "#08415C",
+  },
+  scrollView: {
+    flex: 1,
+  },
+  sectionHeader: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginVertical: 10,
+    color: "#08415C",
+    paddingLeft: 10,
+  },
+  profileContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "center",
     marginTop: 10,
-    backgroundColor: "rgba(0, 0, 0, 0)",
   },
-  formHistoryCard: {
+  profileCard: {
     width: 110,
     height: 140,
-    backgroundColor: "rgba(8,65,92,0.8)",
-    borderRadius: 20,
+    backgroundColor: "#e6e6e6",
+    borderRadius: 10,
     margin: 10,
-    alignItems: "center",
     justifyContent: "center",
+    alignItems: "center",
   },
-  cardImage: {
-    width: "100%",
-    height: "75%",
-    marginBottom: 12,
-    resizeMode: "cover",
-    borderRadius: 20,
+  profileName: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#08415C",
   },
-  cardText: {
-    textAlign: "center",
-    color: "white",
-    marginBottom: 5,
+  profileRole: {
     fontSize: 14,
+    color: "gray",
   },
 });
+
+export default FormHistoryScreen;
