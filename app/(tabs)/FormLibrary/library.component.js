@@ -3,38 +3,35 @@ import { TouchableOpacity, StyleSheet, Image, View, Text } from 'react-native';
 import { Icon } from '@ui-kitten/components';
 
 export default function LibraryButton({ title, subheader, isImportant, onPress }) {
-  const StarIcon = () => (
-    <Icon
-      name="star"
-      style={styles.starIcon}
-      fill="#08415C" // Dark blue color for the star icon
-    />
-  );
-
   return (
     <TouchableOpacity style={styles.card} onPress={onPress}>
       <View style={styles.contentContainer}>
-        {/* File Icon Container */}
-        <View style={styles.fileIconContainer}>
-          {isImportant && <StarIcon />}
+        
+        {/* File Icon with Star Overlay */}
+        <View style={styles.iconContainer}>
           <Image
             style={styles.fileIcon}
-            source={require('@/assets/images/file_img.png')} // Replace with your actual file image path
+            source={require('@/assets/images/file_img.png')}  // Replace with your actual image path
           />
+          {isImportant && (
+            <Icon
+              name="star"
+              style={styles.starIcon}
+              fill="#2E8BB7"
+            />
+          )}
         </View>
-
+        
         {/* Text Content */}
         <View style={styles.textContainer}>
-          <View style={styles.headerContainer}>
-            <Text style={styles.title}>{title}</Text>
-          </View>
+          <Text style={styles.title}>{title}</Text>
           <Text style={styles.subheader}>{subheader}</Text>
         </View>
 
         {/* Three-dot Menu Icon */}
         <Image
           style={styles.dotsIcon}
-          source={require('@/assets/images/3_points_icon.png')} // Replace with your actual three-dot icon path
+          source={require('@/assets/images/3_points_icon.png')} // Replace with your actual image path
         />
       </View>
     </TouchableOpacity>
@@ -47,7 +44,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#ffffff',
     borderRadius: 12,
-    paddingVertical: 10,
+    paddingVertical: 15,
     paddingHorizontal: 15,
     marginVertical: 8,
     shadowColor: '#000',
@@ -61,35 +58,28 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
   },
-  fileIconContainer: {
+  iconContainer: {
     position: 'relative',
     marginRight: 10,
   },
   fileIcon: {
-    width: 50,
-    height: 50,
-    borderRadius: 10,
+    width: 45,
+    height: 45,
   },
   starIcon: {
     position: 'absolute',
-    top: -5,   // Adjusted position for top-left alignment
-    left: -5,  // Adjusted position for top-left alignment
+    top: -5,
+    left: -5,
     width: 18,
     height: 18,
   },
   textContainer: {
     flex: 1,
   },
-  headerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
   title: {
     fontSize: 16,
     fontWeight: 'bold',
     color: '#08415C',
-    flex: 1,
   },
   subheader: {
     fontSize: 12,
