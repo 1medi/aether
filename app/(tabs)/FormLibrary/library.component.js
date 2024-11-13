@@ -1,83 +1,72 @@
 import React, { useState } from "react";
-import { Pressable, SafeAreaView, ScrollView, View } from "react-native";
-import {
-  Button,
-  Divider,
-  Layout,
-  TopNavigation,
-  Icon,
-  Input,
-} from "@ui-kitten/components";
-import { StyleSheet, Text, Image, Alert } from "react-native";
+import { Pressable, SafeAreaView, View, Modal, StyleSheet, Text } from "react-native";
+import { Button, Layout, Icon } from "@ui-kitten/components";
 import { useNavigation } from "@react-navigation/native";
 import HeaderProfile from "@/components/molecules/Header";
-import LibraryButton from "@/components/molecules/FormLibraryButtons";
-import PopUp from "@/components/atoms/autofillPopup";
-
-import {
-  useFonts,
-  Inter_100Thin,
-  Inter_200ExtraLight,
-  Inter_300Light,
-  Inter_400Regular,
-  Inter_500Medium,
-  Inter_600SemiBold,
-  Inter_700Bold,
-  Inter_800ExtraBold,
-  Inter_900Black,
-} from "@expo-google-fonts/inter";
-
-import AppLoading from "expo-app-loading";
+import DocView from "@/src/DocView";
 import { LinearGradient } from "expo-linear-gradient";
-import DocView from "@/src/DocView"
-export default function LibraryScreen() {
-  const [visible, setVisible] = useState(false);
 
-  let [fontsLoaded] = useFonts({
-    Inter_100Thin,
-    Inter_200ExtraLight,
-    Inter_300Light,
-    Inter_400Regular,
-    Inter_500Medium,
-    Inter_600SemiBold,
-    Inter_700Bold,
-    Inter_800ExtraBold,
-    Inter_900Black,
+export default function LibraryScreen() {
+    const [formData, setFormData] = useState({
+    Contract_Number: "",
+    Member_ID: "",
+    Sponsor: "",
+    Your_Last_Name: "",
+    Your_First_Name: "",
+    DOB: "",
+    Phone_Number: "",
+    Your_Address: "",
+    Apt_Suite: "",
+    City: "",
+    Province: "",
+    Postal_Code: ""
   });
 
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  }
 
+  const [visible, setVisible] = useState(false); // Modal visibility state
   const navigation = useNavigation();
 
   const ArrowIcon = (props) => (
-    <Icon
-      name="arrow-forward-outline"
-      {...props}
-      style={{ width: 25, height: 20, tint: "white" }}
-    />
+    <Icon name="arrow-forward-outline" {...props} style={{ width: 25, height: 20, tint: "white" }} />
   );
 
   const BackIcon = (props) => (
-    <Icon
-      name="arrow-circle-left-outline"
-      {...props}
-      style={{ width: 30, height: 30, tint: "white" }}
-    />
+    <Icon name="arrow-circle-left-outline" {...props} style={{ width: 30, height: 30, tint: "white" }} />
   );
+
+  // Define the autofill function
+  const handleAutofill = () => {
+    setVisible(true); // Show modal when "Autofill" button is pressed
+  };
+
+  // Function to confirm autofill and close modal
+  const confirmAutofill = () => {
+    const mockData = {
+      Contract_Number: "123456",
+      Member_ID: "789012",
+      Sponsor: "ABC Corp",
+      Your_Last_Name: "Doe",
+      Your_First_Name: "John",
+      DOB: "1990-01-01",
+      Phone_Number: "123-456-7890",
+      Your_Address: "123 Main St",
+      Apt_Suite: "101",
+      City: "Toronto",
+      Province: "ON",
+      Postal_Code: "A1B 2C3"
+  };
+    // Add logic to trigger autofill in DocView if necessary
+    console.log("Setting formData in confirmAutofill:", mockData);
+    setFormData(mockData);
+    setVisible(false);
+  };
 
   return (
     <>
-      <LinearGradient
-        colors={["#9FC3E5", "#ffff"]}
-        style={styles.gradientContainer}
-      />
+      <LinearGradient colors={["#9FC3E5", "#ffff"]} style={styles.gradientContainer} />
       <SafeAreaView style={styles.homePage}>
         <HeaderProfile />
-        <Layout
-          style={{ backgroundColor: "none", paddingLeft: 20, width: "auto" }}
-        >
+        <Layout style={{ backgroundColor: "none", paddingLeft: 20, width: "auto" }}>
           <Text style={styles.headerText}>Canadian Pension Plan</Text>
 
           <View style={styles.buttonsRow}>
@@ -86,15 +75,14 @@ export default function LibraryScreen() {
             </Pressable>
 
             <View style={styles.buttons}>
-              <PopUp visible={visible} setVisible={setVisible} />
-
+              {/* Pressing this button shows the modal */}
               <Pressable
                 style={[styles.formButton, { marginLeft: 15 }]}
-                onPress={() => navigation.navigate("")}
+                onPress={handleAutofill}
               >
                 <Layout style={styles.textContainer}>
                   <View style={styles.viewContainer}>
-                    <Text style={styles.title}>Simplify</Text>
+                    <Text style={styles.title}>Autofill</Text>
                     <ArrowIcon />
                   </View>
                 </Layout>
@@ -103,19 +91,40 @@ export default function LibraryScreen() {
           </View>
         </Layout>
 
-
-            <Layout style={styles.imageContainer}>
-            <DocView/>
-            </Layout>
+        <Layout style={styles.imageContainer}>
+          <DocView formData={formData} setFormData={setFormData}/>
+        </Layout>
       </SafeAreaView>
+
+      {/* Modal for Autofill Confirmation */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={visible}
+        onRequestClose={() => setVisible(false)} // Allow closing by tapping outside
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalText}>Would you like to autofill the form with mock data?</Text>
+            <View style={styles.modalButtons}>
+              <Button onPress={confirmAutofill} style={styles.modalButton}>
+                Yes
+              </Button>
+              <Button onPress={() => setVisible(false)} style={styles.modalButton} appearance="ghost">
+                No
+              </Button>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </>
   );
 }
 
 const styles = StyleSheet.create({
   gradientContainer: {
-    ...StyleSheet.absoluteFillObject, // Make gradient cover the whole screen
-    zIndex: -1, // Send the gradient to the back
+    ...StyleSheet.absoluteFillObject,
+    zIndex: -1,
   },
   homePage: {
     flex: 1,
@@ -168,15 +177,37 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#08415C",
   },
-
   imageContainer: {
     width: "100%",
     height: 500,
     alignItems: "center",
     justifyContent: "center",
   },
-  image: {
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    width: "80%",
+    padding: 20,
+    backgroundColor: "white",
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  modalText: {
+    fontSize: 18,
+    marginBottom: 20,
+    textAlign: "center",
+  },
+  modalButtons: {
+    flexDirection: "row",
+    justifyContent: "space-between",
     width: "100%",
-    resizeMode: "stretch",
+  },
+  modalButton: {
+    flex: 1,
+    marginHorizontal: 5,
   },
 });
