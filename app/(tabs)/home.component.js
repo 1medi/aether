@@ -40,7 +40,7 @@ export const HomeScreen = ({ navigation }) => {
   if (!fontsLoaded) {
     return <AppLoading />;
   }
-  const fonts = typography(fontsLoaded); 
+
   const SearchIcon = (props) => <Icon name="search-outline" {...props} />;
 
   const FileTextIcon = (props) => (

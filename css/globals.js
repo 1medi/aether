@@ -53,22 +53,22 @@ export const colors = {
   }
 };
 
-export const typography = (fontsLoaded) => ({
-  display: {
-    fontSize: 136,
-    fontFamily: fontsLoaded ? "DMSans_700Bold" : "System", // Assuming bold display
-    color: colors.dark.black,
-  },
-  displaySubhead: {
-    fontSize: 32,
-    fontFamily: fontsLoaded ? "DMSans_400Regular" : "System", 
-    color: colors.dark.black,
-  },
-  h1: {
-    fontSize: 36,
-    fontFamily: fontsLoaded ? "DMSans_700Bold" : "System", 
-    color: colors.other.black,
-  },
+// export const typography = (fontsLoaded) => ({
+//   display: {
+//     fontSize: 136,
+//     fontFamily: fontsLoaded ? "DMSans_700Bold" : "System", // Assuming bold display
+//     color: colors.dark.black,
+//   },
+//   displaySubhead: {
+//     fontSize: 32,
+//     fontFamily: fontsLoaded ? "DMSans_400Regular" : "System", 
+//     color: colors.dark.black,
+//   },
+//   h1: {
+//     fontSize: 36,
+//     fontFamily: fontsLoaded ? "DMSans_700Bold" : "System", 
+//     color: colors.other.black,
+//   },
   // h2: {
   //   fontSize: 24,
   //   fontFamily: "DMSans_700Bold",
@@ -163,7 +163,7 @@ export const typography = (fontsLoaded) => ({
   //   textDecorationLine: "line-through",
   // },
   // // Add more if needed
-}) 
+// }) 
 
 
 
