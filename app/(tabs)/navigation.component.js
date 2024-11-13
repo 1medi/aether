@@ -84,9 +84,7 @@ const TabNavigator = () => (
 );
 
 export const AppNavigator = () => (
-  <NavigationContainer independent={true} >
     <TabNavigator />
-  </NavigationContainer>
 );
 
 const styles = StyleSheet.create({

@@ -23,7 +23,7 @@ export default function LibraryScreen() {
   });
 
 
-  const [visible, setVisible] = useState(false); // Modal visibility state
+  const [visible, setVisible] = useState(false); 
   const navigation = useNavigation();
 
   const ArrowIcon = (props) => (
@@ -34,12 +34,12 @@ export default function LibraryScreen() {
     <Icon name="arrow-circle-left-outline" {...props} style={{ width: 30, height: 30, tint: "white" }} />
   );
 
-  // Define the autofill function
+
   const handleAutofill = () => {
-    setVisible(true); // Show modal when "Autofill" button is pressed
+    setVisible(true);
   };
 
-  // Function to confirm autofill and close modal
+
   const confirmAutofill = () => {
     const mockData = {
       Contract_Number: "123456",
@@ -55,8 +55,8 @@ export default function LibraryScreen() {
       Province: "ON",
       Postal_Code: "A1B 2C3"
   };
-    // Add logic to trigger autofill in DocView if necessary
-    console.log("Setting formData in confirmAutofill:", mockData);
+
+    console.log("Setting formData:", mockData);
     setFormData(mockData);
     setVisible(false);
   };
@@ -75,7 +75,7 @@ export default function LibraryScreen() {
             </Pressable>
 
             <View style={styles.buttons}>
-              {/* Pressing this button shows the modal */}
+
               <Pressable
                 style={[styles.formButton, { marginLeft: 15 }]}
                 onPress={handleAutofill}
@@ -96,12 +96,11 @@ export default function LibraryScreen() {
         </Layout>
       </SafeAreaView>
 
-      {/* Modal for Autofill Confirmation */}
       <Modal
         animationType="slide"
         transparent={true}
         visible={visible}
-        onRequestClose={() => setVisible(false)} // Allow closing by tapping outside
+        onRequestClose={() => setVisible(false)} 
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
