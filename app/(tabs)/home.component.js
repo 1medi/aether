@@ -8,7 +8,7 @@ import DarkModeIcon from "@/components/atoms/darkMode";
 import HeaderProfile from "@/components/molecules/Header";
 import LibraryButton from "@/components/molecules/FormLibraryButtons";
 import { LinearGradient } from "expo-linear-gradient";
-import { colors, typography } from "@/css/globals"; 
+import { colors, typography } from "@/css/globals";
 import {
   useFonts,
   DMSans_400Regular,
@@ -48,7 +48,7 @@ export const HomeScreen = ({ navigation }) => {
         <SafeAreaView style={styles.homePage}>
           <HeaderProfile />
 
-          <ScrollView contentContainerStyle={styles.scrollContainer} style={styles.scrollView}>
+          <ScrollView contentContainerStyle={styles.scrollContainer} style={styles.scrollView} showsVerticalScrollIndicator={false}>
             <Layout style={styles.headerLayout}>
               <Text style={styles.headerText}>
                 Need help{" "}
@@ -79,7 +79,11 @@ export const HomeScreen = ({ navigation }) => {
             </Layout>
 
             <Layout style={styles.formGrid}>
-              <ScrollView horizontal contentContainerStyle={styles.cardScrollContainer}>
+              <ScrollView
+                horizontal
+                contentContainerStyle={styles.cardScrollContainer}
+                showsHorizontalScrollIndicator={false} // Hide horizontal scroll bar
+              >
                 <CardSimple title="Pension Plan Application" />
                 <CardSimple title="Medical History Form" />
                 <CardSimple title="Medication Records" />
@@ -205,7 +209,7 @@ const styles = StyleSheet.create({
   },
 
   libraryButtonContainer: {
-    width: 398, 
+    width: 398,
     height: 85,
   },
 
