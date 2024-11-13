@@ -6,9 +6,9 @@ import CardSimple from "@/components/atoms/card";
 import OptionButton from "@/components/atoms/optionButton";
 import DarkModeIcon from "@/components/atoms/darkMode";
 import HeaderProfile from "@/components/molecules/Header";
-import LongCard from "@/components/atoms/longcard";
+import LibraryButton from "@/components/molecules/FormLibraryButtons";
 import { LinearGradient } from "expo-linear-gradient";
-import { colors, typography } from "@/css/globals"; // Import colors and typography
+import { colors, typography } from "@/css/globals"; 
 import {
   useFonts,
   DMSans_400Regular,
@@ -78,7 +78,6 @@ export const HomeScreen = ({ navigation }) => {
               </Layout>
             </Layout>
 
-            <Text style={styles.quickAccessText}>Quick Access Forms</Text>
             <Layout style={styles.formGrid}>
               <ScrollView horizontal contentContainerStyle={styles.cardScrollContainer}>
                 <CardSimple title="Pension Plan Application" />
@@ -91,8 +90,12 @@ export const HomeScreen = ({ navigation }) => {
               <Text style={styles.headline}>Recent Forms</Text>
               <Layout style={styles.recentContent}>
                 <Layout style={styles.formContainer}>
-                  <LongCard title="Pension Plan Application" />
-                  <LongCard title="Medical Form" />
+                  <View style={styles.libraryButtonContainer}>
+                    <LibraryButton title="Pension Plan Application" />
+                  </View>
+                  <View style={styles.libraryButtonContainer}>
+                    <LibraryButton title="Medical Form" />
+                  </View>
                 </Layout>
 
                 <View style={styles.gradientButtonContainer}>
@@ -148,7 +151,6 @@ const styles = StyleSheet.create({
   optionLayout: {
     flexDirection: "row",
     backgroundColor: "transparent",
-    marginBottom: 32,
     justifyContent: "space-around",
   },
   optionColumn: {
@@ -166,14 +168,9 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
   },
-  quickAccessText: {
-    color: "rgba(8, 65, 92, 0.6)",
-    paddingLeft: 16,
-    fontSize: 18,
-    fontFamily: "DMSans_400Regular",
-  },
+
   formGrid: {
-    paddingTop: 10,
+    paddingTop: 32,
     backgroundColor: "transparent",
   },
   cardScrollContainer: {
@@ -189,7 +186,7 @@ const styles = StyleSheet.create({
   recentContent: {
     alignItems: "center",
     backgroundColor: "transparent",
-    paddingTop: 20,
+    paddingTop: 8,
     width: "100%",
   },
   formContainer: {
@@ -206,6 +203,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: "DMSans_400Regular",
   },
+
+  libraryButtonContainer: {
+    width: 398, 
+    height: 85,
+  },
+
   gradientButtonContainer: {
     width: "100%",
     alignItems: "center",
@@ -218,7 +221,7 @@ const styles = StyleSheet.create({
   ButtonResent: {
     width: 398,
     height: 54,
-    borderRadius: 24,
+    borderRadius: 16,
     backgroundColor: "transparent",
     fontSize: 18,
     textAlign: "center",

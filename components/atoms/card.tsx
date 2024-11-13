@@ -34,10 +34,11 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     borderWidth: 1,
     borderColor: 'rgba(46, 139, 183, 0.2)',  // 20% opacity for #2E8BB7
-    shadowColor: '#08415C',   // Shadow color
-    shadowOffset: { width: 4, height: 4 }, // Shadow position (x: 4, y: 4)
-    shadowOpacity: 0.10, // Shadow opacity
-    shadowRadius: 10,    // Shadow blur
+    shadowColor: '#08415C',  // Use a darker shadow color for a stronger effect
+    shadowOffset: { width: 0, height: 6 },    // Increased vertical offset for a more pronounced shadow
+    shadowOpacity: 0.3,     // Increased opacity to make the shadow darker
+    shadowRadius: 12,      // Increased blur radius for a softer shadow
+    elevation: 6,          // Increased elevation for a more pronounced shadow on Android
   },
   CardExample: {
     flexDirection: 'column',
