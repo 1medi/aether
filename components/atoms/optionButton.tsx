@@ -1,8 +1,7 @@
 import React from 'react';
-import * as eva from '@eva-design/eva';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
-import Library from '@/app/(tabs)/FormLibrary/library.component';
 
 interface BuddonProps {
   title: string;
@@ -15,32 +14,38 @@ export default function Buddon({ title, accessory: Accessory, destination }: Bud
 
   return (
     <TouchableOpacity
-      style={styles.buttonGradient}
-
+      style={styles.buttonContainer}
       onPress={() => navigation.navigate(destination)} 
-
     >
-      <Accessory 
-        style={{
-          width: 40,
-          height: 40,
-          tintColor: '#ffffff',
-        }} 
-      />
+      <LinearGradient
+        colors={["71AFCE", "5B8399"]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.buttonGradient}
+      >
+        <Accessory 
+          style={{
+            width: 40,
+            height: 40,
+            tintColor: '#ffffff',
+          }} 
+        />
+      </LinearGradient>
     </TouchableOpacity>
   );
 }
 
-
 const styles = StyleSheet.create({
-  buttonGradient: {
+  buttonContainer: {
     borderRadius: 50,
+    overflow: 'hidden', // Ensures the gradient is fully circular
+    marginLeft: 15,
+    marginRight: 20,
+  },
+  buttonGradient: {
     width: 75,
     height: 75,
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: 15,
-    marginRight: 20,
-    backgroundColor: 'rgba(8,65,92,0.8)'
   },
 });
