@@ -1,6 +1,0 @@
-module Pods_sannd {
-  umbrella header "Pods-sannd-umbrella.h"
-
-  export *
-  module * { export * }
-}
