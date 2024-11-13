@@ -17,7 +17,6 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import DetectObject from "@/src/index";
 import HeaderProfile from "@/components/molecules/Header";
-import PDFview from "@/src/PDFview"
 
 import {
   useFonts,
@@ -92,9 +91,6 @@ export const CameraScreen = ({ navigation }) => {
             >
               <DetectObject />
             </Layout>
-            <SafeAreaView>
-              <PDFview/>
-            </SafeAreaView>
           </ScrollView>
         </SafeAreaView>
       </LinearGradient>
