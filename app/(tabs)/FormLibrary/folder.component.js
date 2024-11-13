@@ -18,6 +18,7 @@ import {
 import HeaderProfile from "@/components/molecules/Header";
 import LibraryButton from "@/components/molecules/FormLibraryButtons";
 import { FilterButton } from "@/components/atoms/filterButton";
+import ConsoleScreen from "@/components/atoms/ConsoleScreen";
 
 const formsData = [
   {
@@ -173,6 +174,7 @@ export const FolderScreen = ({ navigation }) => {
               ))}
             </Layout>
           </ScrollView>
+          <ConsoleScreen />
         </SafeAreaView>
       </LinearGradient>
     </>

@@ -16,25 +16,25 @@ const { Navigator, Screen } = createBottomTabNavigator();
 
 const SocialIcon = (props) => (
   <Icon name="person-outline" {...props}
-    style={{ width: 45, height: 48, margin: 10 }}
+    style={{ width: 45, height: 48, marginHorizontal: 10 }}
   />
 );
 
 const BookIcon = (props) => (
   <Icon name="book-outline" {...props}
-    style={{ width: 45, height: 48, margin: 10 }}
+    style={{ width: 45, height: 48, marginHorizontal: 10 }}
   />
 );
 
 const HomeIcon = (props) => (
   <Icon name="home-outline" {...props}
-    style={{ width: 45, height: 48, margin: 10}}
+    style={{ width: 45, height: 48, marginHorizontal: 10}}
   />
 );
 
 const FolderIcon = (props) => (
   <Icon name="folder-outline" {...props}
-    style={{ width: 45, height: 48, margin: 10}}
+    style={{ width: 45, height: 48, marginHorizontal: 10}}
   />
 );
 
@@ -54,16 +54,34 @@ const BottomTabBar = ({ navigation, state }) => (
       onSelect={index => navigation.navigate(state.routeNames[index])}
       style={styles.navBarContainer}
     >
-      <BottomNavigationTab icon={HomeIcon} />
-      <BottomNavigationTab icon={FolderIcon} />
       <BottomNavigationTab
+        title="Home"
+        icon={HomeIcon}
+        titleStyle={styles.labelStyle}
+      />
+      <BottomNavigationTab
+        title="Browse"
+        icon={FolderIcon}
+        titleStyle={styles.labelStyle}
+      />
+      <BottomNavigationTab
+        title="Scan"
         icon={(props) => (
           <Image {...props} source={require('@/assets/images/health.png')} style={styles.ScanIcon} />
         )}
         style={styles.cameraTab}
+        titleStyle={styles.labelStyle}
       />
-      <BottomNavigationTab icon={BookIcon} />
-      <BottomNavigationTab icon={SocialIcon} />
+      <BottomNavigationTab
+        title="My Files"
+        icon={BookIcon}
+        titleStyle={styles.labelStyle}
+      />
+      <BottomNavigationTab
+        title="Account"
+        icon={SocialIcon}
+        titleStyle={styles.labelStyle}
+      />
     </BottomNavigation>
   </Layout>
 );
@@ -90,18 +108,22 @@ export const AppNavigator = () => (
 const styles = StyleSheet.create({
   navBarContainer: {
     position: 'absolute',
-    backgroundColor: 'rgba(255,255,255, 0.9)',
-    borderRadius: 20,
+    backgroundColor: 'rgba(240, 243, 245, 0.60)',
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(46, 139, 183, 0.20)',
     alignSelf: 'center',
-    margin: 20,
     border: 20,
-    bottom: 15,
+    bottom: 0,
     zIndex: 999,
-    width: 360,
-    height: 75,
+    width: '100%',
+    height: 88,
     flexShrink: 0,
+    shadowColor: 'rgba(8, 65, 92, 0.10)',
+    shadowOffset: { width: 4, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
   },
-
+  
   cameraTab: {
     backgroundColor: '#2E8BB7',
     borderRadius: 20,
@@ -110,7 +132,15 @@ const styles = StyleSheet.create({
   ScanIcon: {
     width: 48,
     height: 48,
-
+  },
+  labelStyle: {
+    color: '#08415C',
+    textAlign: 'center',
+    fontSize: 14,
+    fontStyle: 'normal',
+    fontWeight: '300',
+    lineHeight: 20,
+    paddingBottom: 10
   },
 });
 
