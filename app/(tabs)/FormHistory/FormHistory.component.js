@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { SafeAreaView, ScrollView, TouchableOpacity, View, TextInput, Text, StyleSheet, Image, FlatList } from "react-native";
+import { useNavigation } from '@react-navigation/native';
 import LibraryButton from "@/components/molecules/FormLibraryButtons";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -7,6 +8,7 @@ export const FormHistoryScreen = () => {
   const [activeTab, setActiveTab] = useState("Forms");
   const [importantCardId, setImportantCardId] = useState(null);
   const [filter, setFilter] = useState("All");
+  const navigation = useNavigation();
 
   const forms = [
     { id: 1, title: "Pension Plan Application", subheader: "Modified Oct 28, 2024 - Draft", status: "In progress" },
@@ -24,8 +26,16 @@ export const FormHistoryScreen = () => {
     setImportantCardId(id);
   };
 
+  const handleCardLongPress = () => {
+    navigation.navigate('/');
+  };
+
   const renderForms = () => {
-    const filteredForms = filter === "In progress" ? forms.filter((form) => form.status === "In progress") : forms;
+    const filteredForms = forms.filter((form) => {
+      if (filter === "In progress") return form.status === "In progress";
+      if (filter === "Complete") return form.status === "Complete";
+      return true;
+    });
 
     return (
       <ScrollView style={styles.scrollView}>
@@ -41,18 +51,24 @@ export const FormHistoryScreen = () => {
               subheader={form.subheader}
               isImportant={importantCardId === form.id}
               onPress={() => handleCardPress(form.id)}
+              onLongPress={handleCardLongPress}
             />
           ))}
-
-        {filter !== "In progress" && (
+        {filteredForms.some((form) => form.status === "Complete") && (
           <>
             <Text style={styles.sectionHeader}>September, 2024</Text>
-            <LibraryButton
-              title="Pension Plan Application"
-              subheader="Modified Jan 5, 2023 - Complete"
-              isImportant={importantCardId === 3}
-              onPress={() => handleCardPress(3)}
-            />
+            {filteredForms
+              .filter((form) => form.status === "Complete")
+              .map((form) => (
+                <LibraryButton
+                  key={form.id}
+                  title={form.title}
+                  subheader={form.subheader}
+                  isImportant={importantCardId === form.id}
+                  onPress={() => handleCardPress(form.id)}
+                  onLongPress={handleCardLongPress}
+                />
+              ))}
           </>
         )}
       </ScrollView>
@@ -110,11 +126,13 @@ export const FormHistoryScreen = () => {
         </View>
 
         {/* Search Bar */}
-        <View style={styles.searchContainer}>
-          <TextInput
-            style={styles.searchInput}
-            placeholder={`Search ${activeTab === "Forms" ? "forms" : "profiles"}...`}
-          />
+        <View style={styles.searchWrapper}>
+          <View style={styles.searchContainer}>
+            <TextInput
+              style={styles.searchInput}
+              placeholder={`Search ${activeTab === "Forms" ? "forms" : "profiles"}...`}
+            />
+          </View>
           <TouchableOpacity style={styles.searchIconContainer}>
             <Image
               source={require('@/assets/images/search_icon.png')}
@@ -170,24 +188,29 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     opacity: 1,
   },
-  searchContainer: {
+  searchWrapper: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
     marginVertical: 10,
+  },
+  searchContainer: {
     backgroundColor: "#ffffff",
     borderRadius: 16,
-    width: 398,
+    width: 346,
     height: 44,
-    alignSelf: "center",
     paddingLeft: 15,
+    justifyContent: "center",
   },
   searchInput: {
-    flex: 1,
     fontSize: 16,
     color: "#08415C",
   },
   searchIconContainer: {
+    marginLeft: 52,
+    backgroundColor: "rgba(240, 243, 245, 0.6)",
     padding: 10,
+    borderRadius: 20,
   },
   searchIcon: {
     width: 24,
