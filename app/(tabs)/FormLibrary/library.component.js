@@ -74,7 +74,6 @@ export default function LibraryScreen() {
         style={styles.gradientContainer}
       />
       <SafeAreaView style={styles.homePage}>
-        <HeaderProfile />
         <Layout
           style={{ backgroundColor: "none", paddingLeft: 20, width: "auto" }}
         >

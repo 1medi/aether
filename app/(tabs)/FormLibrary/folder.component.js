@@ -18,6 +18,7 @@ import {
 import HeaderProfile from "@/components/molecules/Header";
 import LibraryButton from "@/components/molecules/FormLibraryButtons";
 import { FilterButton } from "@/components/atoms/filterButton";
+import SectionLibrary from '@/components/atoms/librarySection';
 
 const formsData = [
   {
@@ -90,7 +91,7 @@ export const FolderScreen = ({ navigation }) => {
 
   const handleFilterChange = (index) => {
     const selectedCategory =
-      index.row === 0 ? "All" : formsData[index.row - 1].category; // Check if "All" is selected
+      index.row === 0 ? "All" : formsData[index.row - 1].category;
     setFilteredForms(
       selectedCategory === "All"
         ? formsData
@@ -98,16 +99,7 @@ export const FolderScreen = ({ navigation }) => {
     );
   };
 
-  // const [currentDate, setCurrentDate] = useState('')
 
-  // useEffect(() => {
-  //   var date = new Date().getDay()
-  //   var month = new Date().getMonth() + 1
-  //   var year = new Date().getFullYear()
-  //   setCurrentDate(
-  //     date + '/' + month + '/' + year
-  //   )
-  // }, [])
 
   return (
     <>
@@ -115,45 +107,16 @@ export const FolderScreen = ({ navigation }) => {
         colors={["#9FC3E5", "#ffff"]}
         style={styles.gradientContainer}
       >
+        <SectionLibrary/>
         <SafeAreaView style={styles.homePage}>
-          <HeaderProfile />
-          <Layout
-            style={{
-              backgroundColor: "none",
-              paddingLeft: 20,
-              marginHorizontal: 5,
-            }}
-          >
-            <Text style={styles.headerText}>Form Library</Text>
-          </Layout>
-          <Layout style={styles.numberContainer}>
-            <Text style={styles.largeNumber}>
-              <Text style={{ opacity: 0.5 }}>0</Text>69
-            </Text>
-
-            <View style={styles.numberTextContainer}>
-              <Text style={styles.subText}>
-                Browse from our current library of
-              </Text>
-              <Text style={styles.formsText}>forms</Text>
-            </View>
-          </Layout>
+        
+          <Layout style={styles.pageContent}>
+          
+         
 
           <FilterButton onSelect={handleFilterChange} />
-          {/* <Layout style={{ backgroundColor: 'none', paddingLeft: 10, paddingRight: 10, width: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-            <Input
-              style={{
-                borderRadius: 20,
-                flex: 1, 
-                marginRight: 10, 
-              }}
-              placeholder='Search for forms...'
-            />
-            <Layout style={styles.iconContainer}>
-            <FilterIcon />
-              </Layout>
-          </Layout> */}
-
+        
+            </Layout>
           <ScrollView
             style={{ marginHorizontal: 5, backgroundColor: "none", margin: 10 }}
           >
@@ -182,7 +145,37 @@ const styles = StyleSheet.create({
   },
   gradientContainer: {
     flex: 1, // Make gradient cover the entire screen
+    position: 'absolute', // Keep the gradient fixed as background
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
+
+  pageContent: {
+    marginTop: 150, // Add margin to avoid overlap with the gradient
+    backgroundColor: "none",
+  }, 
+
+  headerContainer: {
+    display: 'flex',   
+    alignSelf: 'stretch', 
+    alignItems: 'center', 
+    paddingTop: 56,
+    paddingRight: 198,
+    paddingBottom: 9,
+    paddingLeft: 16,
+  }, 
+
+  headerText: {
+    fontSize: 36,
+    fontFamily: "Inter_400Regular",
+    fontWeight: 500, 
+    lineHeight: 'normal', 
+    color: "#08415C",
+    
+  },
+
   iconContainer: {
     width: 40,
     height: 40,
@@ -199,20 +192,16 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
   },
 
-  headerText: {
-    fontSize: 32,
-    fontFamily: "Inter_400Regular",
-    color: "#08415C",
-  },
   numberContainer: {
     flexDirection: "row",
-    alignItems: "flex-end",
-    margin: 20,
+    alignItems: "center",
     backgroundColor: "none",
-    paddingRight: 50,
   },
+
   largeNumber: {
-    fontSize: 100,
+    textAlign: 'right', 
+    letterSpacing: -6.8, 
+    fontSize: 136,
     fontWeight: "bold",
     color: "#6D96B7",
     marginRight: 10,
@@ -231,15 +220,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#2A374A",
   },
-  numberContainer: {
-    flexDirection: "row",
-    alignItems: "flex-end",
-    margin: 10,
-    backgroundColor: "none",
-    paddingRight: 50,
-    borderTopWidth: 2,
-    borderColor: "white",
-  },
+
   largeNumber: {
     fontSize: 100,
     fontWeight: "bold",
