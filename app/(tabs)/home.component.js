@@ -6,7 +6,8 @@ import CardSimple from "@/components/atoms/card";
 import OptionButton from "@/components/atoms/optionButton";
 import DarkModeIcon from "@/components/atoms/darkMode";
 import HeaderProfile from "@/components/molecules/Header";
-import LongCard from "@/components/atoms/longcard"; // Import LongCard component
+import LongCard from "@/components/atoms/longcard";
+import { LinearGradient } from "expo-linear-gradient";
 import { colors, typography } from "@/css/globals"; // Import colors and typography
 import {
   useFonts,
@@ -18,7 +19,6 @@ import {
   DMSans_700Bold_Italic
 } from "@expo-google-fonts/dm-sans";
 import AppLoading from "expo-app-loading";
-import { LinearGradient } from "expo-linear-gradient";
 
 export const HomeScreen = ({ navigation }) => {
   let [fontsLoaded] = useFonts({
@@ -27,18 +27,16 @@ export const HomeScreen = ({ navigation }) => {
     DMSans_500Medium,
     DMSans_500Medium_Italic,
     DMSans_700Bold,
-    DMSans_700Bold_Italic
+    DMSans_700Bold_Italic,
   });
 
   if (!fontsLoaded) {
     return <AppLoading />;
   }
 
-  const fonts = typography(fontsLoaded); // Use typography for dynamic font assignment
-
   const SearchIcon = (props) => <Icon name="search-outline" {...props} />;
-  const FileTextIcon = (props) => <Icon name={"file-text-outline"} {...props} />;
-  const UploadIcon = (props) => <Icon name={"upload-outline"} {...props} />;
+  const FileTextIcon = (props) => <Icon name="file-text-outline" {...props} />;
+  const UploadIcon = (props) => <Icon name="upload-outline" {...props} />;
 
   const navigateDetails = () => {
     navigation.navigate("Details");
@@ -50,22 +48,11 @@ export const HomeScreen = ({ navigation }) => {
         <SafeAreaView style={styles.homePage}>
           <HeaderProfile />
 
-          {/* ScrollView with vertical scrolling enabled */}
-          <ScrollView
-            contentContainerStyle={styles.scrollContainer} // Ensures content is properly spaced within ScrollView
-            style={styles.scrollView} // Ensures ScrollView takes full screen height
-          >
+          <ScrollView contentContainerStyle={styles.scrollContainer} style={styles.scrollView}>
             <Layout style={styles.headerLayout}>
               <Text style={styles.headerText}>
                 Need help{" "}
-                <Text
-                  style={{
-                    fontFamily: 'DMSans_700Bold_Italic',
-                    color: "#2E8BB7"
-                  }}
-                >
-                  Simplifying{" "}
-                </Text>
+                <Text style={styles.headerBoldText}>Simplifying</Text>{" "}
                 {"\n"}a form today?
               </Text>
             </Layout>
@@ -86,7 +73,7 @@ export const HomeScreen = ({ navigation }) => {
               </Layout>
 
               <Layout style={styles.optionColumn}>
-                <OptionButton title="Browse" accessory={UploadIcon} destination="Camera" />
+                <OptionButton title="Upload" accessory={UploadIcon} destination="Camera" />
                 <Text style={styles.optionText}>Upload</Text>
               </Layout>
             </Layout>
@@ -94,8 +81,8 @@ export const HomeScreen = ({ navigation }) => {
             <Text style={styles.quickAccessText}>Quick Access Forms</Text>
             <Layout style={styles.formGrid}>
               <ScrollView horizontal contentContainerStyle={styles.cardScrollContainer}>
-                <CardSimple title="Canadian Pension Plan" />
-                <CardSimple title="Medical Form" />
+                <CardSimple title="Pension Plan Application" />
+                <CardSimple title="Medical History Form" />
                 <CardSimple title="Medication Records" />
               </ScrollView>
             </Layout>
@@ -104,23 +91,13 @@ export const HomeScreen = ({ navigation }) => {
               <Text style={styles.headline}>Recent Forms</Text>
               <Layout style={styles.recentContent}>
                 <Layout style={styles.formContainer}>
-                  <LongCard title="Canadian Pension Plan" /> {/* LongCard component */}
-                  <LongCard title="Medical Form" /> {/* LongCard component */}
+                  <LongCard title="Pension Plan Application" />
+                  <LongCard title="Medical Form" />
                 </Layout>
 
-                {/* Wrap Button inside a container with gradient */}
                 <View style={styles.gradientButtonContainer}>
-                  <LinearGradient
-                    colors={["#71AFCE", "#5B8399"]} // Light to dark gradient colors
-                    start={[0, 0]} // Gradient starts from the left
-                    end={[1, 0]} // Gradient ends at the right
-                    style={styles.gradientButton}
-                  >
-                    <Button
-                      onPress={() => navigation.navigate("Library")}
-                      style={styles.ButtonResent}
-                      status="basic" // This makes the button transparent inside the gradient
-                    >
+                  <LinearGradient colors={["#71AFCE", "#5B8399"]} start={[0, 0]} end={[1, 0]} style={styles.gradientButton}>
+                    <Button onPress={() => navigation.navigate("Library")} style={styles.ButtonResent} status="basic">
                       View My Forms
                     </Button>
                   </LinearGradient>
@@ -147,11 +124,11 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     backgroundColor: "transparent",
-    paddingBottom: 80, // Increased bottom padding to create more space for the button
+    paddingBottom: 80,
   },
   scrollContainer: {
-    flexGrow: 1, // Ensures ScrollView takes the full screen height if content is small
-    paddingBottom: 100, // Adjust this to make sure you have enough space at the bottom
+    flexGrow: 1,
+    paddingBottom: 100,
   },
   headerLayout: {
     backgroundColor: "transparent",
@@ -161,7 +138,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 32,
-    fontFamily: "DMSans_400Regular", // Apply DMSans font
+    fontFamily: "DMSans_400Regular",
     color: "#08415C",
   },
   headerBoldText: {
@@ -182,7 +159,7 @@ const styles = StyleSheet.create({
   optionText: {
     textAlign: "center",
     color: "#08415C",
-    fontFamily: "DMSans_300Light",
+    fontFamily: "DMSans_400Regular",
     fontSize: 16,
   },
   iconImage: {
@@ -193,6 +170,7 @@ const styles = StyleSheet.create({
     color: "rgba(8, 65, 92, 0.6)",
     paddingLeft: 16,
     fontSize: 16,
+    fontFamily: "DMSans_400Regular",
   },
   formGrid: {
     paddingTop: 10,
@@ -226,22 +204,24 @@ const styles = StyleSheet.create({
     color: "rgba(8, 65, 92, 0.6)",
     paddingLeft: 16,
     fontSize: 16,
+    fontFamily: "DMSans_500Medium",
   },
   gradientButtonContainer: {
     width: "100%",
-    alignItems: "center", // Centers the button inside the container
+    alignItems: "center",
     marginTop: 32,
   },
   gradientButton: {
     borderRadius: 24,
-    overflow: "hidden", // Ensures gradient is clipped to the button's border
+    overflow: "hidden",
   },
   ButtonResent: {
     width: 398,
     height: 54,
     borderRadius: 24,
-    backgroundColor: "transparent", // Button background is transparent
+    backgroundColor: "transparent",
     fontSize: 20,
     textAlign: "center",
+    fontFamily: "DMSans_500Medium",
   },
 });
