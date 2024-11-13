@@ -29,7 +29,7 @@ import {
 
 import AppLoading from "expo-app-loading";
 import { LinearGradient } from "expo-linear-gradient";
-
+import DocView from "@/src/DocView"
 export default function LibraryScreen() {
   const [visible, setVisible] = useState(false);
 
@@ -103,16 +103,10 @@ export default function LibraryScreen() {
           </View>
         </Layout>
 
-        <ScrollView style={styles.scrollView}>
-          <Layout style={{ backgroundColor: "none" }}>
+
             <Layout style={styles.imageContainer}>
-              <Image
-                style={styles.image}
-                source={require("@/assets/images/pensionplanform.png")}
-              />
+            <DocView/>
             </Layout>
-          </Layout>
-        </ScrollView>
       </SafeAreaView>
     </>
   );
@@ -174,14 +168,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#08415C",
   },
-  scrollView: {
-    marginHorizontal: 5,
-    backgroundColor: "none",
-    margin: 10,
-  },
+
   imageContainer: {
     width: "100%",
-    height: "100%",
+    height: 500,
     alignItems: "center",
     justifyContent: "center",
   },
