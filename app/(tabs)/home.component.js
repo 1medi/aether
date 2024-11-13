@@ -6,27 +6,35 @@ import CardSimple from "@/components/atoms/card";
 import OptionButton from "@/components/atoms/optionButton";
 import DarkModeIcon from "@/components/atoms/darkMode";
 import HeaderProfile from "@/components/molecules/Header";
-import LongCard from "@/components/atoms/longcard";
-import { useFonts, Inter_100Thin, Inter_200ExtraLight, Inter_300Light, Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold, Inter_800ExtraBold, Inter_900Black } from "@expo-google-fonts/inter";
+import LongCard from "@/components/atoms/longcard"; // Import LongCard component
+import { colors, typography } from "@/css/globals"; // Import colors and typography
+import {
+  useFonts,
+  DMSans_400Regular,
+  DMSans_400Regular_Italic,
+  DMSans_500Medium,
+  DMSans_500Medium_Italic,
+  DMSans_700Bold,
+  DMSans_700Bold_Italic
+} from "@expo-google-fonts/dm-sans";
 import AppLoading from "expo-app-loading";
 import { LinearGradient } from "expo-linear-gradient";
 
 export const HomeScreen = ({ navigation }) => {
   let [fontsLoaded] = useFonts({
-    Inter_100Thin,
-    Inter_200ExtraLight,
-    Inter_300Light,
-    Inter_400Regular,
-    Inter_500Medium,
-    Inter_600SemiBold,
-    Inter_700Bold,
-    Inter_800ExtraBold,
-    Inter_900Black,
+    DMSans_400Regular,
+    DMSans_400Regular_Italic,
+    DMSans_500Medium,
+    DMSans_500Medium_Italic,
+    DMSans_700Bold,
+    DMSans_700Bold_Italic
   });
 
   if (!fontsLoaded) {
     return <AppLoading />;
   }
+
+  const fonts = typography(fontsLoaded); // Use typography for dynamic font assignment
 
   const SearchIcon = (props) => <Icon name="search-outline" {...props} />;
   const FileTextIcon = (props) => <Icon name={"file-text-outline"} {...props} />;
@@ -50,7 +58,14 @@ export const HomeScreen = ({ navigation }) => {
             <Layout style={styles.headerLayout}>
               <Text style={styles.headerText}>
                 Need help{" "}
-                <Text style={styles.headerBoldText}>Simplifying</Text>{" "}
+                <Text
+                  style={{
+                    fontFamily: 'DMSans_700Bold_Italic',
+                    color: "#2E8BB7"
+                  }}
+                >
+                  Simplifying{" "}
+                </Text>
                 {"\n"}a form today?
               </Text>
             </Layout>
@@ -89,8 +104,8 @@ export const HomeScreen = ({ navigation }) => {
               <Text style={styles.headline}>Recent Forms</Text>
               <Layout style={styles.recentContent}>
                 <Layout style={styles.formContainer}>
-                  <LongCard title="Canadian Pension Plan" />
-                  <LongCard title="Medical Form" />
+                  <LongCard title="Canadian Pension Plan" /> {/* LongCard component */}
+                  <LongCard title="Medical Form" /> {/* LongCard component */}
                 </Layout>
 
                 {/* Wrap Button inside a container with gradient */}
@@ -111,7 +126,6 @@ export const HomeScreen = ({ navigation }) => {
                   </LinearGradient>
                 </View>
               </Layout>
-
             </Layout>
 
             <Layout style={styles.bottomSpacer} />
@@ -147,11 +161,11 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 32,
-    fontFamily: "Inter_400Regular",
+    fontFamily: "DMSans_400Regular", // Apply DMSans font
     color: "#08415C",
   },
   headerBoldText: {
-    fontFamily: "Inter_800ExtraBold",
+    fontFamily: "DMSans_700Bold",
     color: "#2E8BB7",
   },
   optionLayout: {
@@ -168,7 +182,7 @@ const styles = StyleSheet.create({
   optionText: {
     textAlign: "center",
     color: "#08415C",
-    fontFamily: "Inter_300Light",
+    fontFamily: "DMSans_300Light",
     fontSize: 16,
   },
   iconImage: {
@@ -230,6 +244,4 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: "center",
   },
-
 });
-
