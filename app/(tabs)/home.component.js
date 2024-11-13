@@ -79,8 +79,8 @@ export const HomeScreen = ({ navigation }) => {
             <Text style={styles.quickAccessText}>Quick Access Forms</Text>
             <Layout style={styles.formGrid}>
               <ScrollView horizontal contentContainerStyle={styles.cardScrollContainer}>
-                <CardSimple title="Canadian Pension Plan" />
-                <CardSimple title="Medical Form" />
+                <CardSimple title="Pension Plan Application" />
+                <CardSimple title="Medical History Form" />
                 <CardSimple title="Medication Records" />
               </ScrollView>
             </Layout>
@@ -89,7 +89,7 @@ export const HomeScreen = ({ navigation }) => {
               <Text style={styles.headline}>Recent Forms</Text>
               <Layout style={styles.recentContent}>
                 <Layout style={styles.formContainer}>
-                  <LongCard title="Canadian Pension Plan" />
+                  <LongCard title="Pension Plan Application" />
                   <LongCard title="Medical Form" />
                 </Layout>
 
