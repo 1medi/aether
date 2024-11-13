@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
   quickAccessText: {
     color: "rgba(8, 65, 92, 0.6)",
     paddingLeft: 16,
-    fontSize: 16,
+    fontSize: 9,
     fontFamily: "DMSans_400Regular",
   },
   formGrid: {
@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
     height: 54,
     borderRadius: 24,
     backgroundColor: "transparent",
-    fontSize: 20,
+    fontSize: 18,
     textAlign: "center",
     fontFamily: "DMSans_500Medium",
   },
