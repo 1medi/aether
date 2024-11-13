@@ -5,7 +5,7 @@ import { LinearGradient } from "expo-linear-gradient";
 
 export const FormHistoryScreen = () => {
   const [activeTab, setActiveTab] = useState("Forms");
-  const [importantCardId, setImportantCardId] = useState(null); 
+  const [importantCardId, setImportantCardId] = useState(null);
   const [filter, setFilter] = useState("All");
 
   const forms = [
@@ -21,11 +21,10 @@ export const FormHistoryScreen = () => {
   ];
 
   const handleCardPress = (id) => {
-    setImportantCardId(id); 
+    setImportantCardId(id);
   };
 
   const renderForms = () => {
-    // Filter forms based on the selected filter
     const filteredForms = filter === "In progress" ? forms.filter((form) => form.status === "In progress") : forms;
 
     return (
@@ -45,7 +44,6 @@ export const FormHistoryScreen = () => {
             />
           ))}
 
-        {/* Show the other sections only if the filter is not applied */}
         {filter !== "In progress" && (
           <>
             <Text style={styles.sectionHeader}>September, 2024</Text>
@@ -117,10 +115,12 @@ export const FormHistoryScreen = () => {
             style={styles.searchInput}
             placeholder={`Search ${activeTab === "Forms" ? "forms" : "profiles"}...`}
           />
-          <Image
-            source={require('@/assets/images/search_icon.png')}  
-            style={styles.searchIcon}
-          />
+          <TouchableOpacity style={styles.searchIconContainer}>
+            <Image
+              source={require('@/assets/images/search_icon.png')}
+              style={styles.searchIcon}
+            />
+          </TouchableOpacity>
         </View>
 
         {/* Chips for Filters */}
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
   },
   toggleContainer: {
     flexDirection: "row",
-    backgroundColor: "rgba(240, 243, 245, 0.6)", 
+    backgroundColor: "rgba(240, 243, 245, 0.6)",
     borderRadius: 23.5,
     width: 187,
     height: 47,
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     height: 47,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 23.5, 
+    borderRadius: 23.5,
   },
   activeToggleButton: {
     backgroundColor: "#ffffff",
@@ -175,14 +175,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginVertical: 10,
     backgroundColor: "#ffffff",
-    borderRadius: 20,
-    paddingHorizontal: 15,
-    paddingVertical: 5,
+    borderRadius: 16,
+    width: 398,
+    height: 44,
+    alignSelf: "center",
+    paddingLeft: 15,
   },
   searchInput: {
     flex: 1,
     fontSize: 16,
     color: "#08415C",
+  },
+  searchIconContainer: {
+    padding: 10,
   },
   searchIcon: {
     width: 24,
