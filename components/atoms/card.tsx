@@ -2,62 +2,68 @@ import React from 'react';
 import { Card, Text, Icon } from '@ui-kitten/components';
 import { Image, StyleSheet, View } from 'react-native';
 
-
 export default function CardSimple() {
 
   const ArrowIcon = (props) => (
-    <Icon name="arrow-up" {...props} 
-    style={styles.arrowIcon}
-    />
+    <Icon name="arrow-up" {...props} style={styles.arrowIcon} />
   );
 
   return (
-    <Card style={styles.formCard} >
+    <Card style={styles.formCard}>
       <View style={styles.CardExample}>
         <Image
           source={require('@/assets/images/health.png')}
-          style={{ width: 100, height: 100, borderRadius: 8, padding:0, margin:'auto' }}
+          style={styles.cardImage}
         />
-      <View >
-        <Text style={styles.title}>Candian Pension Plan</Text>
-      </View>
+        <View style={styles.textContainer}>
+          <Text style={styles.title}>Canadian Pension Plan</Text>
+        </View>
       </View>
     </Card>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
-  formCard:{
-    borderRadius: 30,
-    padding:0,
-    backgroundColor: 'rgba(8, 65, 92, 0.8)',
+  formCard: {
+    borderRadius: 16,
+    width: 146,            // Keep the width as it was
+    height: 141,           // Keep the height as it was
+    padding: 0,            // No extra padding to keep card size
+    backgroundColor: '#F0F3F5',
     display: 'flex',
-    flexDirection:'column'
+    flexDirection: 'column',
+    borderWidth: 1,
+    borderColor: 'rgba(46, 139, 183, 0.2)',  // 20% opacity for #2E8BB7
+    shadowColor: '#08415C',   // Shadow color
+    shadowOffset: { width: 4, height: 4 }, // Shadow position (x: 4, y: 4)
+    shadowOpacity: 0.10, // Shadow opacity
+    shadowRadius: 10,    // Shadow blur
   },
   CardExample: {
     flexDirection: 'column',
-    alignItems: 'center',
-    minWidth: 75,
-    minHeight: 100
-
+    alignItems: 'center',   // Keep content centered
+    justifyContent: 'center',  // Center content vertically
+    height: '100%',          // Make sure content fills the height of the card
+    padding: 4,              // Add some padding to prevent content from touching edges
+  },
+  cardImage: {
+    width: 120,             // Adjust the image width to fit inside the card
+    height: 100,            // Adjust the image height to fit the available space
+    borderRadius: 16,
+    marginBottom: 8,        // Space between the image and the text
+  },
+  textContainer: {
+    alignItems: 'center',   // Center the text horizontally
   },
   title: {
-    fontSize: 12,
+    fontSize: 12,           // Keep the font size as it was
     fontWeight: 'bold',
-    color: 'white',
-  },
-  subheader: {
-    fontSize: 14,
-    color: 'gray',
-  },
-  body: {
-    fontSize: 12
+    color: '#08415C',
+    textAlign: 'center',    // Center the text
   },
   arrowIcon: {
     maxHeight: 48,
     maxWidth: 48,
-    transform: [{rotateX: '0deg'}, {rotateZ: '45deg'}],
-
+    transform: [{ rotateX: '0deg' }, { rotateZ: '45deg' }],
   }
 });
-
