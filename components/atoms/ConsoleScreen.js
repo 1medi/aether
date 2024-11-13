@@ -21,7 +21,6 @@ export default function ConsoleScreen() {
     <View style={styles.fabContainer}>
         {expanded && (
             <>
-            <FabOption iconName="person-add-outline" fadeAnim={fadeAnim} />
             <FabOption iconName="cloud-upload-outline" fadeAnim={fadeAnim} />
             <FabOption iconName="camera-outline" fadeAnim={fadeAnim} />
             </>

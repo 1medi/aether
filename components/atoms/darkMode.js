@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     tintColor: '#08415C', // Same color as the Settings icon
     backgroundColor: '#eef2ff', // Same background color
     padding: 8, // Same padding as the Settings icon
-    borderRadius: 12, // Same border radius as the Settings icon
+    borderRadius: '50%', // Same border radius as the Settings icon
     borderWidth: 1.5,
     borderColor: 'white',
     overflow: 'hidden',
