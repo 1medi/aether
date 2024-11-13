@@ -1,84 +1,93 @@
 import React from 'react';
-import { Card, Text, Icon, Layout, } from '@ui-kitten/components';
-import { TouchableOpacity, StyleSheet, Image, View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { TouchableOpacity, StyleSheet, Image, View, Text } from 'react-native';
+import { Icon } from '@ui-kitten/components';
 
-export default function LibraryButton({ title, subheader }) {
-  const navigation = useNavigation();
-  
-  const ArrowIcon = (props) => (
-    <Icon name='arrow-ios-forward-outline' {...props} 
-    style={{width:32, height: 32, tint: 'white'}}
-    />
-  );
-
+export default function LibraryButton({ title, subheader, isImportant, onPress }) {
   return (
-    <Layout style={styles.container}>
-   
-       <Image 
-          style={styles.card}
-        source={require('@/assets/images/cardIcon.png')}/>
-    
-      <TouchableOpacity style={styles.formButton}
-      onPress={() => navigation.navigate('Library')}>
+    <TouchableOpacity style={styles.card} onPress={onPress}>
+      <View style={styles.contentContainer}>
         
-        <Layout style={styles.textContainer}>
-          <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+        {/* File Icon with Star Overlay */}
+        <View style={styles.iconContainer}>
+          <Image
+            style={styles.fileIcon}
+            source={require('@/assets/images/file_img.png')}  
+          />
+          {isImportant && (
+            <Icon
+              name="star"
+              style={styles.starIcon}
+              fill="#2E8BB7"
+            />
+          )}
+        </View>
+        
+        {/* Text Content */}
+        <View style={styles.textContainer}>
           <Text style={styles.title}>{title}</Text>
-          <ArrowIcon/>
-          </View>
-          {subheader && <Text style={styles.subheader}>{subheader}</Text>}
-        </Layout>
-      </TouchableOpacity>
-    </Layout>
+          <Text style={styles.subheader}>{subheader}</Text>
+        </View>
+
+        {/* Three-dot Menu Icon */}
+        <Image
+          style={styles.dotsIcon}
+          source={require('@/assets/images/3_points_icon.png')} 
+        />
+      </View>
+    </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'none',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    paddingLeft: 10,
-    paddingRight: 10,
-    alignItems: 'center',
-
-  },
   card: {
-    height: 90,
-    width: 90,
-    borderRadius: 10,
-    objectFit: 'cover',
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#ffffff',
+    borderRadius: 12,
+    paddingVertical: 15,
+    paddingHorizontal: 15,
+    marginVertical: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
   },
-  formButton: {
-    borderRadius: 10,
-    borderColor: 'transparent',
-    backgroundColor: 'white',
-    width: 270,
-    height: 80,
-    marginBottom: 13,
-    overflow: 'hidden'
+  contentContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+  },
+  iconContainer: {
+    position: 'relative',
+    marginRight: 10,
+  },
+  fileIcon: {
+    width: 45,
+    height: 45,
+  },
+  starIcon: {
+    position: 'absolute',
+    top: -5,
+    left: -5,
+    width: 18,
+    height: 18,
   },
   textContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    padding: 10,
-    justifyContent: 'center',
-   
+    flex: 1,
   },
   title: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
     color: '#08415C',
   },
   subheader: {
     fontSize: 12,
     color: 'gray',
+    marginTop: 4,
   },
-  arrowIcon: {
-    maxHeight: 48,
-    maxWidth: 48,
-    alignItems: 'center',
-  }
+  dotsIcon: {
+    width: 24,
+    height: 24,
+  },
 });
