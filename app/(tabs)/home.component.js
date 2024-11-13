@@ -84,16 +84,16 @@ export const HomeScreen = ({ navigation }) => {
               style={{ backgroundColor: "none", padding: 20, width: 400 }}
             >
               <Text style={styles.headerText}>
-                Hello Chris!{"\n"}Need help{" "}
+                Need help{" "}
                 <Text
                   style={{ fontFamily: 'DMSans_700Bold_Italic' , color: "#2E8BB7" }} 
                 >
+
                   Simplifying{" "}
                 </Text>
                 {"\n"}a form today?
               </Text>
             </Layout>
-
             <Layout
               style={{
                 flex: 1,
@@ -292,4 +292,13 @@ const styles = StyleSheet.create({
     fontSize: 24,
     paddingLeft: 20,
   },
+  gradientTextContainer: {
+    paddingHorizontal: 0,
+    borderRadius: 5,
+  },
+  gradientText: {
+    fontFamily: "Inter_800ExtraBold",
+    fontSize: 32,
+    color: "transparent",
+  }
 });
