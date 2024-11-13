@@ -8,6 +8,7 @@ import DarkModeIcon from "@/components/atoms/darkMode";
 import HeaderProfile from "@/components/molecules/Header";
 import LongCard from "@/components/atoms/longcard";
 import { LinearGradient } from "expo-linear-gradient";
+import { colors, typography } from "@/css/globals"; // Import colors and typography
 import {
   useFonts,
   DMSans_400Regular,
@@ -46,6 +47,7 @@ export const HomeScreen = ({ navigation }) => {
       <LinearGradient colors={["#9FC3E5", "#FFFF"]} style={styles.gradientContainer}>
         <SafeAreaView style={styles.homePage}>
           <HeaderProfile />
+
           <ScrollView contentContainerStyle={styles.scrollContainer} style={styles.scrollView}>
             <Layout style={styles.headerLayout}>
               <Text style={styles.headerText}>
@@ -60,6 +62,7 @@ export const HomeScreen = ({ navigation }) => {
                 <OptionButton title="Browse" accessory={SearchIcon} destination="Folder" />
                 <Text style={styles.optionText}>Browse</Text>
               </Layout>
+
               <Layout style={styles.optionColumn}>
                 <OptionButton
                   title="Scan"
@@ -68,6 +71,7 @@ export const HomeScreen = ({ navigation }) => {
                 />
                 <Text style={styles.optionText}>Scan</Text>
               </Layout>
+
               <Layout style={styles.optionColumn}>
                 <OptionButton title="Upload" accessory={UploadIcon} destination="Camera" />
                 <Text style={styles.optionText}>Upload</Text>
