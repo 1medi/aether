@@ -107,16 +107,12 @@ export const FolderScreen = ({ navigation }) => {
         colors={["#9FC3E5", "#ffff"]}
         style={styles.gradientContainer}
       >
-        <SectionLibrary/>
         <SafeAreaView style={styles.homePage}>
-        
+        <SectionLibrary/>
+        {/* <FilterButton onSelect={handleFilterChange} /> */}
           <Layout style={styles.pageContent}>
-          
-         
-
-          <FilterButton onSelect={handleFilterChange} />
-        
             </Layout>
+        </SafeAreaView>
           <ScrollView
             style={{ marginHorizontal: 5, backgroundColor: "none", margin: 10 }}
           >
@@ -131,7 +127,7 @@ export const FolderScreen = ({ navigation }) => {
               ))}
             </Layout>
           </ScrollView>
-        </SafeAreaView>
+        
       </LinearGradient>
     </>
   );
@@ -166,15 +162,6 @@ const styles = StyleSheet.create({
     paddingBottom: 9,
     paddingLeft: 16,
   }, 
-
-  headerText: {
-    fontSize: 36,
-    fontFamily: "Inter_400Regular",
-    fontWeight: 500, 
-    lineHeight: 'normal', 
-    color: "#08415C",
-    
-  },
 
   iconContainer: {
     width: 40,

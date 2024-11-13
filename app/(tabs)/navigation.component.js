@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, NavigationIndependentTree } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomNavigation, BottomNavigationTab, Icon, Layout } from '@ui-kitten/components';
 import { HomeScreen } from './home.component';
@@ -84,9 +84,9 @@ const TabNavigator = () => (
 );
 
 export const AppNavigator = () => (
-  <NavigationContainer independent={true} >
+  <NavigationIndependentTree >
     <TabNavigator />
-  </NavigationContainer>
+  </NavigationIndependentTree >
 );
 
 const styles = StyleSheet.create({
