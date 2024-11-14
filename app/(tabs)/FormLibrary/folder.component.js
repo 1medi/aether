@@ -17,20 +17,20 @@ import {
 } from "react-native";
 import HeaderProfile from "@/components/molecules/Header";
 import LibraryButton from "@/components/molecules/FormLibraryButtons";
-import { FilterButton } from "@/components/atoms/filterButton";
-import SectionLibrary from '@/components/atoms/librarySection';
+import SectionLibraryTop from "@/components/molecules/librarySection";
+import LibraryEmpty from "@/components/atoms/libraryContent";
 
 const formsData = [
   {
     id: 1,
-    category: "Pension Plan",
+    category: "Pension",
     title: "Canadian Pension Plan",
     description:
       "A taxable benefit that replaces part of your income when you retire.",
   },
   {
     id: 2,
-    category: "Disability Plan",
+    category: "Health",
     title: "Disability Plan",
     description: "Helps replace income in case of disability.",
   },
@@ -42,56 +42,16 @@ const formsData = [
   },
 ];
 
-import {
-  useFonts,
-  Inter_100Thin,
-  Inter_200ExtraLight,
-  Inter_300Light,
-  Inter_400Regular,
-  Inter_500Medium,
-  Inter_600SemiBold,
-  Inter_700Bold,
-  Inter_800ExtraBold,
-  Inter_900Black,
-} from "@expo-google-fonts/inter";
-
-import AppLoading from "expo-app-loading";
 import { LinearGradient } from "expo-linear-gradient";
 
 export const FolderScreen = ({ navigation }) => {
   const [filteredForms, setFilteredForms] = useState(formsData);
 
-  let [fontsLoaded] = useFonts({
-    Inter_100Thin,
-    Inter_200ExtraLight,
-    Inter_300Light,
-    Inter_400Regular,
-    Inter_500Medium,
-    Inter_600SemiBold,
-    Inter_700Bold,
-    Inter_800ExtraBold,
-    Inter_900Black,
-  });
-
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  }
-
   const navigateDetails = () => {
     navigation.navigate("Details");
   };
 
-  const FilterIcon = (props) => (
-    <Icon
-      name="options-2-outline"
-      {...props}
-      style={{ width: 32, height: 32, tint: "white" }}
-    />
-  );
-
-  const handleFilterChange = (index) => {
-    const selectedCategory =
-      index.row === 0 ? "All" : formsData[index.row - 1].category;
+  const handleFilterChange = (selectedCategory) => {
     setFilteredForms(
       selectedCategory === "All"
         ? formsData
@@ -99,37 +59,36 @@ export const FolderScreen = ({ navigation }) => {
     );
   };
 
-
-
   return (
-    <>
-      <LinearGradient
-        colors={["#9FC3E5", "#ffff"]}
-        style={styles.gradientContainer}
-      >
-        <SafeAreaView style={styles.homePage}>
-        <SectionLibrary/>
-        {/* <FilterButton onSelect={handleFilterChange} /> */}
-          <Layout style={styles.pageContent}>
-            </Layout>
-        </SafeAreaView>
-          <ScrollView
-            style={{ marginHorizontal: 5, backgroundColor: "none", margin: 10 }}
-          >
-            <Layout style={{ backgroundColor: "none" }}>
-              {filteredForms.map((form) => (
-                <LibraryButton
-                  key={form.id}
-                  title={form.title}
-                  subheader={form.description}
-                  onPress={() => navigateToCategory(form.category)}
-                />
-              ))}
-            </Layout>
-          </ScrollView>
+    <LinearGradient colors={["#9FC3E5", "#ffff"]} style={styles.gradientContainer}>
+      <SectionLibraryTop onSelect={handleFilterChange} />
+      <SafeAreaView style={styles.homePage}>
         
-      </LinearGradient>
-    </>
+
+        <Layout style={styles.pageContent}>
+          
+          {filteredForms.length === 0 ? (
+            <LibraryEmpty />
+          ) : (
+            <ScrollView
+              style={styles.scrollView}
+              contentContainerStyle={styles.scrollContent}
+            >
+              <Layout style={{ backgroundColor: "none" }}>
+                {filteredForms.map((form) => (
+                  <LibraryButton
+                    key={form.id}
+                    title={form.title}
+                    subheader={form.description}
+                    onPress={() => navigateDetails(form.category)}
+                  />
+                ))}
+              </Layout>
+            </ScrollView>
+          )}
+        </Layout>
+      </SafeAreaView>
+    </LinearGradient>
   );
 };
 
@@ -137,95 +96,29 @@ const styles = StyleSheet.create({
   homePage: {
     flex: 1,
     backgroundColor: "none",
-    height: "100%",
+    justifyContent: 'center',  
+    padding: 16,
   },
   gradientContainer: {
-    flex: 1, // Make gradient cover the entire screen
-    position: 'absolute', // Keep the gradient fixed as background
+    flex: 1,
+    position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
   },
-
   pageContent: {
-    marginTop: 150, // Add margin to avoid overlap with the gradient
-    backgroundColor: "none",
-  }, 
-
-  headerContainer: {
-    display: 'flex',   
-    alignSelf: 'stretch', 
-    alignItems: 'center', 
-    paddingTop: 56,
-    paddingRight: 198,
-    paddingBottom: 9,
-    paddingLeft: 16,
-  }, 
-
-  iconContainer: {
-    width: 40,
-    height: 40,
-    borderRadius: 24,
-    backgroundColor: "white",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 5,
-  },
-  filterIcon: {
-    width: 24,
-    height: 24,
-    tintColor: "#08415C",
-    backgroundColor: "transparent",
-  },
-
-  numberContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flex: 1, 
+    marginTop: 10,
     backgroundColor: "none",
   },
-
-  largeNumber: {
-    textAlign: 'right', 
-    letterSpacing: -6.8, 
-    fontSize: 136,
-    fontWeight: "bold",
-    color: "#6D96B7",
-    marginRight: 10,
+  scrollView: {
+    flex: 1, 
+    backgroundColor: "none",
+    marginHorizontal: 5,
+    marginVertical: 10,
   },
-  numberTextContainer: {
-    flexDirection: "column",
-  },
-  subText: {
-    fontSize: 16,
-    color: "#6D96B7",
-    marginBottom: 5,
-    width: 100,
-  },
-  formsText: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#2A374A",
-  },
-
-  largeNumber: {
-    fontSize: 100,
-    fontWeight: "bold",
-    color: "#6D96B7",
-    marginRight: 10,
-  },
-  numberTextContainer: {
-    flexDirection: "column",
-  },
-  subText: {
-    fontSize: 16,
-    color: "#6D96B7",
-    marginBottom: 5,
-    width: 100,
-  },
-  formsText: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#2A374A",
+  scrollContent: {
+    paddingBottom: 16, 
   },
 });
