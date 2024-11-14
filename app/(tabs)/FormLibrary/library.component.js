@@ -105,7 +105,7 @@ export default function LibraryScreen() {
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalText}>Would you like to autofill the form with mock data?</Text>
+            <Text style={styles.modalText}>Would you like to autofill the form with data?</Text>
             <View style={styles.modalButtons}>
               <Button onPress={confirmAutofill} style={styles.modalButton}>
                 Yes

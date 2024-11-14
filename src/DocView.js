@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { SafeAreaView, StyleSheet, ImageBackground, Dimensions, View, TextInput, ScrollView } from "react-native";
 import { Button, Layout } from "@ui-kitten/components";
 import { colors } from "../css/globals";
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 
-export default function DocumentView({ formData, setFormData}) {
-
-
+export default function DocumentView({ formData, setFormData }) {
   const [currentPage, setCurrentPage] = useState(1);
 
   const handleNextPage = () => {
@@ -103,24 +101,35 @@ export default function DocumentView({ formData, setFormData}) {
                 />
               </ImageBackground>
             )}
+            {currentPage === 2 && (
+              <ImageBackground
+                source={require('../assets/files/insurance2.png')}
+                style={styles.imageBackground}
+                resizeMode="contain"
+              >
+                <TextInput
+                  style={[styles.textInput, { top: 100, left: 20, width: 150, height: 18 }]}
+                  value={formData.Other_Field1}
+                  onChangeText={(text) => setFormData({ ...formData, Other_Field1: text })}
+                  placeholder="Other Field 1"
+                />
+                <TextInput
+                  style={[styles.textInput, { top: 150, left: 20, width: 150, height: 18 }]}
+                  value={formData.Other_Field2}
+                  onChangeText={(text) => setFormData({ ...formData, Other_Field2: text })}
+                  placeholder="Other Field 2"
+                />
+              </ImageBackground>
+            )}
           </View>
         </ScrollView>
       </ScrollView>
 
       <Layout style={styles.buttonContainer}>
-
-        <Button
-          onPress={handlePreviousPage}
-          disabled={currentPage === 1}
-          style={styles.button}
-        >
+        <Button onPress={handlePreviousPage} disabled={currentPage === 1} style={styles.button}>
           Back
         </Button>
-        <Button
-          onPress={handleNextPage}
-          disabled={currentPage === 2}
-          style={styles.button}
-        >
+        <Button onPress={handleNextPage} disabled={currentPage === 2} style={styles.button}>
           Next
         </Button>
       </Layout>
