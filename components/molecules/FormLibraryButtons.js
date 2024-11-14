@@ -43,10 +43,8 @@ const styles = StyleSheet.create({
   card: {
     display: 'flex',
     flexDirection: 'row',
-    // flex: 1,
     alignItems: 'flex-start',
     borderRadius: 16,
-    // marginRight: 16,
     paddingVertical: 8,
     paddingHorizontal: 16,
     backgroundColor: 'rgba(240, 243, 245, 0.6)',
@@ -77,7 +75,7 @@ const styles = StyleSheet.create({
     height: 18,
   },
   textContainer: {
-    // flex: 1,
+    flex: 1,
   },
   title: {
     fontSize: 18,
