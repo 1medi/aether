@@ -14,7 +14,7 @@ export default function QuickAccessCard({ description }: QuickAccessCardProps) {
         <View style={styles.textContainer}>
           <Text style={styles.title}>Canadian Pension Plan</Text>
           <Text style={styles.description}>{description}</Text>
-          <Text style={styles.button}>Start form</Text>
+          <Text style={styles.button}>Start form &gt;</Text>
         </View>
         <Image
           source={require('@/assets/images/previewImage2.png')}
