@@ -3,39 +3,34 @@ import React, { useState } from "react";
 import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
-import { Button } from "@ui-kitten/components";
+import { Button, Layout } from "@ui-kitten/components";
 import AppLoading from 'expo-app-loading';
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { colors } from "@/css/globals";
 
 import {
   useFonts,
-  Inter_100Thin,
-  Inter_200ExtraLight,
-  Inter_300Light,
-  Inter_400Regular,
-  Inter_500Medium,
-  Inter_600SemiBold,
-  Inter_700Bold,
-  Inter_800ExtraBold,
-  Inter_900Black,
-} from '@expo-google-fonts/inter';
+  DMSans_400Regular,
+  DMSans_400Regular_Italic,
+  DMSans_500Medium,
+  DMSans_500Medium_Italic,
+  DMSans_700Bold,
+  DMSans_700Bold_Italic
+} from "@expo-google-fonts/dm-sans";
 
 const DetectObject = () => {
   const [imageUri, setImageUri] = useState(null);
-  const [labels, setLabels] = useState([]);
   const [detectedText, setDetectedText] = useState("");
   const [paraphrasedText, setParaphrasedText] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
 
   let [fontsLoaded] = useFonts({
-    Inter_100Thin,
-    Inter_200ExtraLight,
-    Inter_300Light,
-    Inter_400Regular,
-    Inter_500Medium,
-    Inter_600SemiBold,
-    Inter_700Bold,
-    Inter_800ExtraBold,
-    Inter_900Black,
+    DMSans_400Regular,
+    DMSans_400Regular_Italic,
+    DMSans_500Medium,
+    DMSans_500Medium_Italic,
+    DMSans_700Bold,
+    DMSans_700Bold_Italic,
   });
 
   if (!fontsLoaded) {
@@ -44,6 +39,12 @@ const DetectObject = () => {
 
   const toggleModal = () => {
     setModalVisible(!modalVisible);
+  };
+
+  const resetSelection = () => {
+    setImageUri(null);
+    setDetectedText("");
+    setParaphrasedText("");
   };
 
   const requestMediaLibraryPermissions = async () => {
@@ -106,37 +107,6 @@ const DetectObject = () => {
     }
   };
 
-  const extractFieldLabels = (text) => {
-    const cleanedText = text.replace(/\s+/g, ' ').trim(); 
-    const lines = cleanedText.split(/\n/);  
-
-    const fieldLabels = [];
-
-
-    const fieldPatterns = [
-      /Full Name/i,
-      /Place Birth/i,
-      /Birth of Date/i,
-      /Full Address/i,
-      /Nationality/i,
-      /City\/Country/i,
-      /Gander/i, // Assumed typo for Gender
-      /Email/i,
-      /Phone Number/i,
-    ];
-
-
-    lines.forEach(line => {
-      fieldPatterns.forEach(pattern => {
-        if (pattern.test(line)) {
-          fieldLabels.push(line.match(pattern)[0]); 
-        }
-      });
-    });
-
-    return fieldLabels; 
-  };
-
   const analyzeAndParaphrase = async () => {
     try {
       if (!imageUri) {
@@ -147,7 +117,6 @@ const DetectObject = () => {
       const googleAPIKey = process.env.EXPO_PUBLIC_GOOGLE_KEY;
       const apiURL = `https://vision.googleapis.com/v1/images:annotate?key=${googleAPIKey}`;
       console.log(googleAPIKey);
-
 
       const base64ImageData = await FileSystem.readAsStringAsync(imageUri, {
         encoding: FileSystem.EncodingType.Base64,
@@ -184,14 +153,11 @@ const DetectObject = () => {
         return;
       }
 
-      const extractedLabels = extractFieldLabels(detectedText);
-      console.log('Extracted labels:', extractedLabels);
-
-      let paraphrasedText = await handleParaphrase(extractedLabels.join(', '));
-
+      let paraphrasedText = await handleParaphrase(detectedText);
       paraphrasedText = paraphrasedText.replace(/;/g, '\n');
 
       setParaphrasedText(paraphrasedText);
+      console.log(paraphrasedText)
       setModalVisible(true);
     } catch (error) {
       console.error('Error during OCR or paraphrasing:', error.response ? error.response.data : error.message);
@@ -199,7 +165,7 @@ const DetectObject = () => {
     }
   };
 
-  const handleParaphrase = async (labels) => {
+  const handleParaphrase = async (text) => {
     try {
       const openAIResponse = await axios.post(
         'https://api.openai.com/v1/chat/completions',
@@ -207,7 +173,8 @@ const DetectObject = () => {
           model: 'gpt-3.5-turbo',
           messages: [
             { role: 'system', content: 'You are a paraphrasing assistant.' },
-            { role: 'user', content: `In a few words and in a numbered format, explain the following personal information labels: ${labels}` }
+            { role: 'user', content: `Explain the whole document to a 10 year old in 1 sentence for each subject (3 MAX MUST BE COMPLETE): ${text}. STRICTLY format the following text (No markup / use of ** PLEASE), using BOLD for headers, italics for emphasis, and an indentation for each paragraph.
+            ` }
           ],
           max_tokens: 150,
         },
@@ -219,8 +186,6 @@ const DetectObject = () => {
         }
       );
 
-
-
       return openAIResponse.data.choices[0].message.content;
     } catch (error) {
       console.error('Error paraphrasing text:', error.response ? error.response.data : error.message);
@@ -228,22 +193,45 @@ const DetectObject = () => {
     }
   };
 
-  console.log(process.env.EXPO_PUBLIC_OPENAI_API_KEY)
-
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Upload or Capture your Form</Text>
+      <Text style={{fontFamily:"DMSans_500Medium", padding: 20, paddingBottom:30, marginBottom: 30, fontSize: 24, backgroundColor:colors.light.white60, borderRadius: 20 }}>If you need something explained on a form..... We can help with that!</Text>
       {imageUri && (
         <Image
           source={{ uri: imageUri }}
-          style={{ width: 300, height: 300, borderRadius: 20 }}
+          style={{ width: 300, height: 300, borderRadius: 20, marginBottom: 10 }}
         />
       )}
-      <Button onPress={pickImage} style={styles.text}>Choose a PDF...</Button>
-      <Button onPress={takePhoto} style={styles.text}>Take a Photo of a form...</Button>
-      <Button onPress={analyzeAndParaphrase} style={styles.text}>Analyze & Paraphrase</Button>
-
-
+  
+      {imageUri ? (
+        <>
+          <Button onPress={analyzeAndParaphrase} style={[styles.button, styles.analyzeButton]}>
+            <Ionicons name="analytics-outline" size={20} color="white" />
+            <Text style={styles.buttonText}>Analyze & Paraphrase</Text>
+          </Button>
+          <Button onPress={resetSelection} style={styles.button}>
+            <Ionicons name="refresh-outline" size={20} color="white" />
+            <Text style={styles.buttonText}>Choose Another</Text>
+          </Button>
+        </>
+      ) : (
+        <>
+          <Button onPress={pickImage} style={styles.button}>
+            <Ionicons name="document-outline" size={32} color="white" />
+            <Text style={styles.mainButtonText}>Choose a File...</Text>
+          </Button>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 10 }}>
+            <View style={{ flex: 1, height: 1, backgroundColor: 'black' }} />
+            <Text style={{ width: 50, textAlign: 'center', fontSize: 24 ,fontFamily:"DMSans_700Bold_Italic"}}>OR</Text>
+            <View style={{ flex: 1, height: 1, backgroundColor: 'black' }} />
+          </View>
+          <Button onPress={takePhoto} style={styles.button}>
+            <Ionicons name="camera-outline" size={32} color="white" />
+            <Text style={styles.mainButtonText}>Take a Photo of a form...</Text>
+          </Button>
+        </>
+      )}
+  
       <Modal
         visible={modalVisible}
         animationType="slide"
@@ -252,11 +240,17 @@ const DetectObject = () => {
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
-            <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
+            <Text style={{fontFamily:"DMSans_700Bold", fontSize: 48, textAlign: "center", color: colors.light.white80}}>Results</Text>
+            <ScrollView contentContainerStyle={{ paddingBottom: 20, }}>
               <Text style={styles.modalText}>{paraphrasedText || 'No paraphrased text available'}</Text>
+              <Layout style={{flex:1, flexDirection: "row", backgroundColor: "none", justifyContent: "space-around"}}>
               <TouchableOpacity onPress={toggleModal} style={styles.closeButton}>
                 <Text style={styles.buttonText}>Close</Text>
               </TouchableOpacity>
+              <TouchableOpacity onPress={toggleModal} style={styles.saveButton}>
+                <Text style={styles.buttonText}>Save</Text>
+              </TouchableOpacity>
+              </Layout>
             </ScrollView>
           </View>
         </View>
@@ -271,37 +265,61 @@ export default DetectObject;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
+    
   },
   title: {
     fontSize: 26,
-    marginBottom: 50,
-    marginTop: 100,
-    fontFamily: 'Inter_800ExtraBold',
-    color: '#2E8BB7'
-  },
-  button: {
-    backgroundColor: '#DDDDDD',
-    padding: 10,
+    fontFamily: 'DMSans_700Bold_Italic',
+    color: '#2E8BB7',
+    paddingHorizontal: 20,
+    textAlign: 'center',
     marginBottom: 10,
-    marginTop: 20,
   },
-  text: {
-    fontSize: 20,
+  highlight: {
+    color: '#2a9df4',
     fontWeight: 'bold',
+  },
+  subtitle: {
+    fontSize: 18,
+    color: '#34495e',
+    marginVertical: 15,
+  },
+  buttonContainer: {
+    flex: 1,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
     margin: 10
   },
-  label: {
+  button: {
+    backgroundColor: colors.light.deepBlue80,
+    padding: 15,
+    borderRadius: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 8,
+    width: '100%',
+    justifyContent: 'center',
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+  },
+  analyzeButton: {
+    backgroundColor: '#2980b9',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginLeft: 5,
+  },
+  mainButtonText: {
+    color: 'white',
     fontSize: 20,
     fontWeight: 'bold',
-    marginTop: 20,
-  },
-  outputText: {
-    fontSize: 18,
-    marginBottom: 10,
-    padding: 100
   },
   modalOverlay: {
     flex: 1,
@@ -310,23 +328,28 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalContent: {
-    backgroundColor: 'white',
+    backgroundColor: colors.light.bgBlue,
     padding: 20,
     borderRadius: 10,
     width: '80%',
+    height: '80%'
   },
   modalText: {
     fontSize: 18,
     marginBottom: 20,
+    textAlign: "center",
+    fontFamily: "DMSans_500Medium"
   },
   closeButton: {
-    backgroundColor: '#DDDDDD',
+    backgroundColor: colors.light.red80,
     padding: 10,
     alignItems: 'center',
     borderRadius: 5,
   },
-  buttonText: {
-    fontSize: 18,
-    fontWeight: 'bold',
+  saveButton: {
+    backgroundColor: colors.light.deepBlue,
+    padding: 10,
+    alignItems: 'center',
+    borderRadius: 5,
   },
 });

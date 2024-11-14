@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "transparent",
     paddingTop: 8,
-    width: "100%",
+    maxWidth: "100%",  
   },
   formContainer: {
     display: "flex",
@@ -209,8 +209,9 @@ const styles = StyleSheet.create({
   },
 
   libraryButtonContainer: {
-    width: 398,
-    height: 85,
+    minWidth: 380,
+    minHeight: 85,
+    width: "100vw"
   },
 
   gradientButtonContainer: {
@@ -223,8 +224,9 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   ButtonResent: {
-    width: 398,
+    minWidth: 380,
     height: 54,
+    width: "100vw",
     borderRadius: 16,
     backgroundColor: "transparent",
     fontSize: 18,

@@ -32,7 +32,7 @@ const HeaderProfile = () => {
           </Layout>
         </View>
         <Layout style={{ backgroundColor: '', flexDirection: 'row', borderLeftWidth: 1.5, borderLeftColor: 'white', height: 40, width: 50, alignItems: 'center', justifyContent: 'flex-end', paddingLeft: 50}}>
-          <DarkModeIcon style={{ backgroundColor: '' }} />
+          {/* <DarkModeIcon style={{ backgroundColor: '' }} /> */}
         </Layout>
         </View>
     </Layout>
