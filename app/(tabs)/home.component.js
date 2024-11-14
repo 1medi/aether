@@ -51,6 +51,8 @@ export const HomeScreen = ({ navigation }) => {
     <>
       <LinearGradient
         colors={["#9FC3E5", "#FFFF"]}
+        // start={{ x: 0, y: -0.05 }}
+        // end={{ x: 0, y: 1 }} 
         style={styles.gradientContainer}
       >
         <SafeAreaView style={styles.homePage}>
@@ -63,7 +65,7 @@ export const HomeScreen = ({ navigation }) => {
           >
             <Layout style={styles.headerLayout}>
               <Text style={styles.headerText}>
-                Need help <Text style={styles.headerBoldText}>Simplifying</Text>{" "}
+                Need help <Text style={styles.headerBoldText}>simplifying</Text>{" "}
                 {"\n"}a form today?
               </Text>
             </Layout>
@@ -102,7 +104,30 @@ export const HomeScreen = ({ navigation }) => {
               </Layout>
             </Layout>
 
-            <View style={{height: 32}} />
+            <View style={{ height: 32 }} />
+
+            <View style={styles.subhead}>
+              <Text style={styles.headline}>Recent Forms</Text>
+              <Text style={styles.headlineButton}>View All</Text>
+            </View>
+            <Layout style={styles.recentFormsSection}>
+              <View style={styles.libraryButtonContainer}>
+                <LibraryButton
+                  title="Pension Plan Application"
+                  subheader="Sarah O’Neil"
+                  footnote="Modified Oct 16, 2024 - Draft ✎"
+                />
+              </View>
+              <View style={styles.libraryButtonContainer}>
+                <LibraryButton
+                  title="Medical Form"
+                  subheader="Chris Topher"
+                  footnote="Modified Oct 16, 2024 - Draft ✎"
+                />
+              </View>
+            </Layout>
+
+            <View style={{ height: 32 }} />
 
             <View style={styles.subhead}>
               <Text style={styles.headline}>Quick Access</Text>
@@ -128,31 +153,6 @@ export const HomeScreen = ({ navigation }) => {
               </ScrollView>
             </Layout>
 
-            <View style={styles.subhead}>
-              <Text style={styles.headline}>Recent Forms</Text>
-            </View>
-            <Layout style={styles.recentFormLayout}>
-              <Layout style={styles.recentContent}>
-                <Layout style={styles.formContainer}>
-                  <View style={styles.libraryButtonContainer}>
-                    <LibraryButton
-                      title="Pension Plan Application"
-                      subheader="Sarah O’Neil"
-                      footnote="Modified Oct 16, 2024 - Draft ✎"
-                    />
-                  </View>
-                  <View style={styles.libraryButtonContainer}>
-                    <LibraryButton
-                      title="Medical Form"
-                      subheader="Chris Topher"
-                      footnote="Modified Oct 16, 2024 - Draft ✎"
-                    />
-                  </View>
-                </Layout>
-
-              </Layout>
-            </Layout>
-
             <Layout style={styles.bottomSpacer} />
           </ScrollView>
         </SafeAreaView>
@@ -175,33 +175,34 @@ const styles = StyleSheet.create({
     paddingBottom: 80,
   },
   scrollContainer: {
-    flexGrow: 1,
     paddingBottom: 100,
   },
   headerLayout: {
     backgroundColor: "transparent",
     padding: 20,
     paddingBottom: 16,
-    width: 400,
+    width: "100%",
   },
   headerText: {
     fontSize: 32,
-    fontFamily: "DMSans_400Regular",
+    fontFamily: "DMSans_300Regular",
     color: "#08415C",
   },
   headerBoldText: {
-    fontFamily: "DMSans_700Bold",
+    fontFamily: "DMSans_600Bold",
     color: "#2E8BB7",
   },
   optionLayout: {
     flexDirection: "row",
     backgroundColor: "transparent",
-    justifyContent: "space-around",
+    justifyContent: "center",
+    gap: "10%",
   },
   optionColumn: {
     flexDirection: "column",
     backgroundColor: "transparent",
     alignItems: "center",
+    gap: 8,
   },
   optionText: {
     textAlign: "center",
@@ -213,7 +214,6 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
   },
-
   quickAccessSection: {
     backgroundColor: "transparent",
   },
@@ -224,36 +224,34 @@ const styles = StyleSheet.create({
     paddingRight: 16,
     paddingBottom: 32,
   },
-  recentFormLayout: {
-    backgroundColor: "transparent",
-    paddingHorizontal: 16,
-  },
-  recentContent: {
-    alignItems: "center",
-    backgroundColor: "transparent",
-    width: "100%",
-  },
-  formContainer: {
+  recentFormsSection: {
     display: "flex",
     flexDirection: "column",
-    margin: "auto",
     backgroundColor: "transparent",
-    maxWidth: "100%",
+    paddingHorizontal: 16,
     gap: 8,
   },
   headline: {
     color: "rgba(8, 65, 92, 0.6)",
-    paddingLeft: 16,
     marginBottom: 8,
     fontSize: 18,
     fontFamily: "DMSans_400Regular",
   },
-
-  libraryButtonContainer: {
-    width: 398,
-    height: 85,
+  headlineButton: {
+    color: "rgba(8, 65, 92, 0.6)",
+    fontSize: 14,
+    fontFamily: "DMSans_400Regular",
   },
-
+  subhead: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "transparent",
+    paddingHorizontal: 16,
+  },
+  libraryButtonContainer: {
+    width: "100%",
+  },
   gradientButtonContainer: {
     width: "100%",
     alignItems: "center",
