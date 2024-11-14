@@ -16,33 +16,25 @@ const { Navigator, Screen } = createBottomTabNavigator();
 
 const SocialIcon = (props) => (
   <Icon name="person-outline" {...props}
-    style={{ width: 45, height: 48, marginHorizontal: 10 }}
+    style={{ width: 32, height: 32, marginHorizontal: 5, paddingBottom: 25 }}
   />
 );
 
 const BookIcon = (props) => (
   <Icon name="book-outline" {...props}
-    style={{ width: 45, height: 48, marginHorizontal: 10 }}
+    style={{ width: 32, height: 32, marginHorizontal: 5 }}
   />
 );
 
 const HomeIcon = (props) => (
   <Icon name="home-outline" {...props}
-    style={{ width: 45, height: 48, marginHorizontal: 10}}
+    style={{ width: 32, height: 32, marginHorizontal: 5}}
   />
 );
 
 const FolderIcon = (props) => (
   <Icon name="folder-outline" {...props}
-    style={{ width: 45, height: 48, marginHorizontal: 10}}
-  />
-);
-
-const ScanIcon = (props) => (
-  <Image
-    {...props}
-    source={require('@/assets/images/scanIcon.svg')}
-    style={{ width: 64, height: 64, borderRadius: 8, padding: 10 }}
+    style={{ width: 32, height: 32, marginHorizontal: 5}}
   />
 );
 
@@ -62,14 +54,6 @@ const BottomTabBar = ({ navigation, state }) => (
       <BottomNavigationTab
         title="Browse"
         icon={FolderIcon}
-        titleStyle={styles.labelStyle}
-      />
-      <BottomNavigationTab
-        title="Scan"
-        icon={(props) => (
-          <Image {...props} source={require('@/assets/images/health.png')} style={styles.ScanIcon} />
-        )}
-        style={styles.cameraTab}
         titleStyle={styles.labelStyle}
       />
       <BottomNavigationTab
