@@ -172,8 +172,8 @@ const DetectObject = () => {
         {
           model: 'gpt-3.5-turbo',
           messages: [
-            { role: 'system', content: 'You are a paraphrasing assistant.' },
-            { role: 'user', content: `Explain the whole document to a 10 year old in 1 sentence for each subject (3 MAX MUST BE COMPLETE): ${text}. STRICTLY format the following text (No markup / use of ** PLEASE), using BOLD for headers, italics for emphasis, and an indentation for each paragraph.
+            { role: 'system', content: 'You are a paraphrasing assistant trying to help caretakers understand difficult parts of a form (Think taxes, medical forms, etc).' },
+            { role: 'user', content: `Explain only what the document says to a 10 year old in 1 succinct sentence for each subject (3 MAX, do not display unfinished paragraphs): ${text}. STRICTLY format the following text (No markup / use of ** PLEASE), using BOLD for headers, italics for emphasis, and an indentation for each paragraph.
             ` }
           ],
           max_tokens: 150,
