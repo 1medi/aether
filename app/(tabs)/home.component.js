@@ -10,7 +10,7 @@ import {
 import { Button, Layout, Icon } from "@ui-kitten/components";
 import QuickAccessCard from "@/components/atoms/quickAccessCard";
 import OptionButton from "@/components/atoms/optionButton";
-import HeaderProfile from "@/components/molecules/Header";
+import HeaderProfile from "@/components/headers/HeaderProfile";
 import LibraryButton from "@/components/molecules/FormLibraryButtons";
 import { LinearGradient } from "expo-linear-gradient";
 import { colors, typography } from "@/css/globals";
@@ -51,21 +51,17 @@ export const HomeScreen = ({ navigation }) => {
     <>
       <LinearGradient
         colors={["#9FC3E5", "#FFFF"]}
-        // start={{ x: 0, y: -0.05 }}
-        // end={{ x: 0, y: 1 }} 
         style={styles.gradientContainer}
       >
-        <SafeAreaView style={styles.homePage}>
+        <SafeAreaView style={styles.fullPage}>
           <HeaderProfile />
-
           <ScrollView
             contentContainerStyle={styles.scrollContainer}
-            style={styles.scrollView}
             showsVerticalScrollIndicator={false}
           >
-            <Layout style={styles.headerLayout}>
-              <Text style={styles.headerText}>
-                Need help <Text style={styles.headerBoldText}>simplifying</Text>{" "}
+            <Layout style={styles.greetingSection}>
+              <Text style={styles.greetingText}>
+                Need help <Text style={styles.greetingTextColored}>simplifying</Text>{" "}
                 {"\n"}a form today?
               </Text>
             </Layout>
@@ -85,7 +81,7 @@ export const HomeScreen = ({ navigation }) => {
                   title="Scan"
                   accessory={() => (
                     <Image
-                      source={require("@/assets/images/icon_scan.png")}
+                      source={require("@/assets/images/icon_scan1600x1600.png")}
                       style={styles.iconImage}
                     />
                   )}
@@ -104,12 +100,13 @@ export const HomeScreen = ({ navigation }) => {
               </Layout>
             </Layout>
 
-            <View style={{ height: 32 }} />
+            <View style={{ height: 24 }} />
 
-            <View style={styles.subhead}>
+            <Layout style={styles.subhead}>
               <Text style={styles.headline}>Recent Forms</Text>
               <Text style={styles.headlineButton}>View All</Text>
-            </View>
+            </Layout>
+
             <Layout style={styles.recentFormsSection}>
               <View style={styles.libraryButtonContainer}>
                 <LibraryButton
@@ -127,11 +124,13 @@ export const HomeScreen = ({ navigation }) => {
               </View>
             </Layout>
 
-            <View style={{ height: 32 }} />
+            <View style={{ height: 24 }} />
 
-            <View style={styles.subhead}>
+            <Layout style={styles.subhead}>
               <Text style={styles.headline}>Quick Access</Text>
-            </View>
+              <Text style={styles.headlineButton}>View All</Text>
+            </Layout>
+
             <Layout style={styles.quickAccessSection}>
               <ScrollView
                 horizontal
@@ -153,7 +152,12 @@ export const HomeScreen = ({ navigation }) => {
               </ScrollView>
             </Layout>
 
-            <Layout style={styles.bottomSpacer} />
+            <Layout style={styles.bottomSpacerLogo}>
+              <Image
+                source={require("@/assets/images/logo40.png")}
+                style={styles.bottomSpacerLogo}
+              />
+            </Layout>
           </ScrollView>
         </SafeAreaView>
       </LinearGradient>
@@ -166,31 +170,27 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "transparent",
   },
-  homePage: {
+  fullPage: {
     flex: 1,
     backgroundColor: "transparent",
   },
-  scrollView: {
-    backgroundColor: "transparent",
+  scrollContainer: {
     paddingBottom: 80,
   },
-  scrollContainer: {
-    paddingBottom: 100,
-  },
-  headerLayout: {
+  greetingSection: {
     backgroundColor: "transparent",
-    padding: 20,
+    paddingTop: 16,
+    paddingHorizontal: 16,
     paddingBottom: 16,
     width: "100%",
   },
-  headerText: {
-    fontSize: 32,
-    fontFamily: "DMSans_300Regular",
-    color: "#08415C",
+  greetingText: {
+    ...typography(true).h1,
+    color: colors.light.deepBlue,
   },
-  headerBoldText: {
-    fontFamily: "DMSans_600Bold",
-    color: "#2E8BB7",
+  greetingTextColored: {
+    ...typography(true).h1,
+    color: colors.light.blue,
   },
   optionLayout: {
     flexDirection: "row",
@@ -206,9 +206,8 @@ const styles = StyleSheet.create({
   },
   optionText: {
     textAlign: "center",
-    color: "#08415C",
-    fontFamily: "DMSans_400Regular",
-    fontSize: 16,
+    ...typography(true).body,
+    colors: colors.light.deepBlue,
   },
   iconImage: {
     width: 36,
@@ -232,15 +231,14 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   headline: {
-    color: "rgba(8, 65, 92, 0.6)",
     marginBottom: 8,
-    fontSize: 18,
-    fontFamily: "DMSans_400Regular",
+    ...typography(true).h4,
+    color: colors.light.deepBlue60,
   },
   headlineButton: {
-    color: "rgba(8, 65, 92, 0.6)",
     fontSize: 14,
-    fontFamily: "DMSans_400Regular",
+    ...typography(true).footnote,
+    color: colors.light.deepBlue60,
   },
   subhead: {
     flexDirection: "row",
@@ -252,22 +250,10 @@ const styles = StyleSheet.create({
   libraryButtonContainer: {
     width: "100%",
   },
-  gradientButtonContainer: {
-    width: "100%",
-    alignItems: "center",
-    marginTop: 32,
-  },
-  gradientButton: {
-    borderRadius: 24,
-    overflow: "hidden",
-  },
-  ButtonResent: {
-    width: 398,
-    height: 54,
-    borderRadius: 16,
+  bottomSpacerLogo: {
     backgroundColor: "transparent",
-    fontSize: 18,
-    textAlign: "center",
-    fontFamily: "DMSans_500Medium",
+    width: 102,
+    height: 87,
+    alignSelf: "center",
   },
 });

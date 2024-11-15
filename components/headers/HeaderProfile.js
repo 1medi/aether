@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, Image, View } from 'react-native';
 import { Layout } from '@ui-kitten/components';
+import { colors, typography } from '../../css/globals';
 
-const HeaderProfile = () => {
+export default function HeaderProfile() {
   const [currentDate, setCurrentDate] = useState('');
 
   useEffect(() => {
@@ -14,62 +15,54 @@ const HeaderProfile = () => {
 
   return (
     <Layout style={styles.headerContainer}>
-      <View style={styles.profileContainer}>
+      <View style={styles.contentContainer}>
         <Image
           style={styles.profileImage}
           source={require('@/assets/images/lbj.jpg')}
         />
-        <View style={styles.profileInfo}>
-          <Layout style={styles.profileTextContainer}>
-            <Text style={styles.profileName}>Chris Topher</Text>
-            <Text>{currentDate}</Text>
-          </Layout>
+        <View style={styles.textContainer}>
+            <Text style={styles.profileName}>Hi, Chris Topher!</Text>
+            <Text style={styles.dateText}>{currentDate}</Text>
         </View>
       </View>
     </Layout>
   );
-};
+}
 
 const styles = StyleSheet.create({
+  body: {
+
+  },
+  bodyBold: {
+    ...typography(true).bodyBold,
+  },
+
   headerContainer: {
     backgroundColor: 'transparent',
-    paddingHorizontal: 20,
-    paddingVertical: 15,
+    paddingHorizontal: 16,
+    paddingBottom: 8,
+    borderBottomColor: colors.light.lightStroke,
+    borderBottomWidth: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    flex: 1,
+    width: '100%',
   },
-  profileContainer: {
+  contentContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: 16,
   },
   profileImage: {
-    width: 75,
-    height: 75,
+    width: 40,
+    height: 40,
     borderRadius: 100,
   },
-  profileInfo: {
-    marginLeft: 10,
-  },
-  profileTextContainer: {
-    backgroundColor: 'none',
-    padding: 10,
-  },
   profileName: {
-    fontFamily: 'Inter_600SemiBold',
-    fontSize: 18,
+    ...typography(true).bodyBold,
+    color: colors.light.deepBlue,
   },
-  rightContainer: {
-    flexDirection: 'row',
-    borderLeftWidth: 1.5,
-    borderLeftColor: 'white',
-    height: 40,
-    width: 50,
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    paddingLeft: 50,
+  dateText: {
+    ...typography(true).body,
+    color: colors.light.deepBlue,
   },
 });
-
-export default HeaderProfile;
