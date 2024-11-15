@@ -39,16 +39,14 @@ const styles = StyleSheet.create({
   buttonContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: 15,
-    marginRight: 20,
-    width: 80, // Ensure width and height are set for circular shape
-    height: 80,
+    width: 72, // Ensure width and height are set for circular shape
+    height: 72,
     borderRadius: 50,
     overflow: 'hidden', // Keeps the button circular
   },
   buttonGradient: {
-    width: 80,  // Match the width and height to the parent container
-    height: 80, // Ensures the gradient respects the container's size
+    width: 72,  // Match the width and height to the parent container
+    height: 72, // Ensures the gradient respects the container's size
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 50, // Ensures the gradient is also circular

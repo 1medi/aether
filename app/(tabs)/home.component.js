@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { SafeAreaView, ScrollView, View, StyleSheet, Text, Image } from "react-native";
+import {
+  SafeAreaView,
+  ScrollView,
+  View,
+  StyleSheet,
+  Text,
+  Image,
+} from "react-native";
 import { Button, Layout, Icon } from "@ui-kitten/components";
-import Settings from "@/components/atoms/settings.js";
-import CardSimple from "@/components/atoms/card";
+import QuickAccessCard from "@/components/atoms/quickAccessCard";
 import OptionButton from "@/components/atoms/optionButton";
-import DarkModeIcon from "@/components/atoms/darkMode";
 import HeaderProfile from "@/components/molecules/Header";
 import LibraryButton from "@/components/molecules/FormLibraryButtons";
 import { LinearGradient } from "expo-linear-gradient";
@@ -16,7 +21,7 @@ import {
   DMSans_500Medium,
   DMSans_500Medium_Italic,
   DMSans_700Bold,
-  DMSans_700Bold_Italic
+  DMSans_700Bold_Italic,
 } from "@expo-google-fonts/dm-sans";
 import AppLoading from "expo-app-loading";
 
@@ -44,72 +49,108 @@ export const HomeScreen = ({ navigation }) => {
 
   return (
     <>
-      <LinearGradient colors={["#9FC3E5", "#FFFF"]} style={styles.gradientContainer}>
+      <LinearGradient
+        colors={["#9FC3E5", "#FFFF"]}
+        // start={{ x: 0, y: -0.05 }}
+        // end={{ x: 0, y: 1 }} 
+        style={styles.gradientContainer}
+      >
         <SafeAreaView style={styles.homePage}>
           <HeaderProfile />
 
-          <ScrollView contentContainerStyle={styles.scrollContainer} style={styles.scrollView} showsVerticalScrollIndicator={false}>
+          <ScrollView
+            contentContainerStyle={styles.scrollContainer}
+            style={styles.scrollView}
+            showsVerticalScrollIndicator={false}
+          >
             <Layout style={styles.headerLayout}>
               <Text style={styles.headerText}>
-                Need help{" "}
-                <Text style={styles.headerBoldText}>Simplifying</Text>{" "}
+                Need help <Text style={styles.headerBoldText}>simplifying</Text>{" "}
                 {"\n"}a form today?
               </Text>
             </Layout>
 
             <Layout style={styles.optionLayout}>
               <Layout style={styles.optionColumn}>
-                <OptionButton title="Browse" accessory={SearchIcon} destination="Folder" />
+                <OptionButton
+                  title="Browse"
+                  accessory={SearchIcon}
+                  destination="Folder"
+                />
                 <Text style={styles.optionText}>Browse</Text>
               </Layout>
 
               <Layout style={styles.optionColumn}>
                 <OptionButton
                   title="Scan"
-                  accessory={() => <Image source={require('@/assets/images/icon_scan.png')} style={styles.iconImage} />}
+                  accessory={() => (
+                    <Image
+                      source={require("@/assets/images/icon_scan.png")}
+                      style={styles.iconImage}
+                    />
+                  )}
                   destination="Camera"
                 />
                 <Text style={styles.optionText}>Scan</Text>
               </Layout>
 
               <Layout style={styles.optionColumn}>
-                <OptionButton title="Upload" accessory={UploadIcon} destination="Camera" />
+                <OptionButton
+                  title="Upload"
+                  accessory={UploadIcon}
+                  destination="Camera"
+                />
                 <Text style={styles.optionText}>Upload</Text>
               </Layout>
             </Layout>
 
-            <Layout style={styles.formGrid}>
+            <View style={{ height: 32 }} />
+
+            <View style={styles.subhead}>
+              <Text style={styles.headline}>Recent Forms</Text>
+              <Text style={styles.headlineButton}>View All</Text>
+            </View>
+            <Layout style={styles.recentFormsSection}>
+              <View style={styles.libraryButtonContainer}>
+                <LibraryButton
+                  title="Pension Plan Application"
+                  subheader="Sarah O’Neil"
+                  footnote="Modified Oct 16, 2024 - Draft ✎"
+                />
+              </View>
+              <View style={styles.libraryButtonContainer}>
+                <LibraryButton
+                  title="Medical Form"
+                  subheader="Chris Topher"
+                  footnote="Modified Oct 16, 2024 - Draft ✎"
+                />
+              </View>
+            </Layout>
+
+            <View style={{ height: 32 }} />
+
+            <View style={styles.subhead}>
+              <Text style={styles.headline}>Quick Access</Text>
+            </View>
+            <Layout style={styles.quickAccessSection}>
               <ScrollView
                 horizontal
                 contentContainerStyle={styles.cardScrollContainer}
                 showsHorizontalScrollIndicator={false} // Hide horizontal scroll bar
               >
-                <CardSimple title="Pension Plan Application" />
-                <CardSimple title="Medical History Form" />
-                <CardSimple title="Medication Records" />
+                <QuickAccessCard
+                  title="Pension Plan Application"
+                  description="Apply to share your retirement pension with your spouse or partner for potential tax savings."
+                />
+                <QuickAccessCard
+                  title="Medical History Form"
+                  description="Apply to share your retirement pension with your spouse or partner for potential tax savings."
+                />
+                <QuickAccessCard
+                  title="Medication Records"
+                  description="Apply to share your retirement pension with your spouse or partner for potential tax savings."
+                />
               </ScrollView>
-            </Layout>
-
-            <Layout style={styles.recentFormLayout}>
-              <Text style={styles.headline}>Recent Forms</Text>
-              <Layout style={styles.recentContent}>
-                <Layout style={styles.formContainer}>
-                  <View style={styles.libraryButtonContainer}>
-                    <LibraryButton title="Pension Plan Application" />
-                  </View>
-                  <View style={styles.libraryButtonContainer}>
-                    <LibraryButton title="Medical Form" />
-                  </View>
-                </Layout>
-
-                <View style={styles.gradientButtonContainer}>
-                  <LinearGradient colors={["#71AFCE", "#5B8399"]} start={[0, 0]} end={[1, 0]} style={styles.gradientButton}>
-                    <Button onPress={() => navigation.navigate("Library")} style={styles.ButtonResent} status="basic">
-                      View My Forms
-                    </Button>
-                  </LinearGradient>
-                </View>
-              </Layout>
             </Layout>
 
             <Layout style={styles.bottomSpacer} />
@@ -134,33 +175,34 @@ const styles = StyleSheet.create({
     paddingBottom: 80,
   },
   scrollContainer: {
-    flexGrow: 1,
     paddingBottom: 100,
   },
   headerLayout: {
     backgroundColor: "transparent",
     padding: 20,
     paddingBottom: 16,
-    width: 400,
+    width: "100%",
   },
   headerText: {
     fontSize: 32,
-    fontFamily: "DMSans_400Regular",
+    fontFamily: "DMSans_300Regular",
     color: "#08415C",
   },
   headerBoldText: {
-    fontFamily: "DMSans_700Bold",
+    fontFamily: "DMSans_600Bold",
     color: "#2E8BB7",
   },
   optionLayout: {
     flexDirection: "row",
     backgroundColor: "transparent",
-    justifyContent: "space-around",
+    justifyContent: "center",
+    gap: "10%",
   },
   optionColumn: {
     flexDirection: "column",
     backgroundColor: "transparent",
     alignItems: "center",
+    gap: 8,
   },
   optionText: {
     textAlign: "center",
@@ -172,9 +214,7 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
   },
-
-  formGrid: {
-    paddingTop: 32,
+  quickAccessSection: {
     backgroundColor: "transparent",
   },
   cardScrollContainer: {
@@ -184,6 +224,7 @@ const styles = StyleSheet.create({
     paddingRight: 16,
     paddingBottom: 32,
   },
+
   recentFormLayout: {
     backgroundColor: "transparent",
   },
@@ -196,24 +237,33 @@ const styles = StyleSheet.create({
   formContainer: {
     display: "flex",
     flexDirection: "column",
-    margin: "auto",
     backgroundColor: "transparent",
-    maxWidth: "100%",
+    paddingHorizontal: 16,
     gap: 8,
   },
   headline: {
     color: "rgba(8, 65, 92, 0.6)",
-    paddingLeft: 16,
+    marginBottom: 8,
     fontSize: 18,
     fontFamily: "DMSans_400Regular",
   },
-
+  headlineButton: {
+    color: "rgba(8, 65, 92, 0.6)",
+    fontSize: 14,
+    fontFamily: "DMSans_400Regular",
+  },
+  subhead: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "transparent",
+    paddingHorizontal: 16,
+  },
   libraryButtonContainer: {
     minWidth: 380,
     minHeight: 85,
     width: "100vw"
   },
-
   gradientButtonContainer: {
     width: "100%",
     alignItems: "center",
