@@ -2,10 +2,15 @@ import React, { useState, useEffect } from "react";
 import { SafeAreaView, StyleSheet, ImageBackground, Dimensions, View, TextInput, ScrollView } from "react-native";
 import { Button, Layout } from "@ui-kitten/components";
 import { colors } from "../css/globals";
+import { CheckBox } from '@rneui/themed';
+import LangRadio from "@/components/molecules/pdfRadios-1/langRadio"
+import GenRadio from "@/components/molecules/pdfRadios-1/genderRadio"
+
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 
-export default function DocumentView({ formData, setFormData}) {
+export default function DocumentView({ formData, setFormData }) {
+  const [selectedIndex, setIndex] = useState(0);
 
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -41,66 +46,79 @@ export default function DocumentView({ formData, setFormData}) {
                 style={styles.imageBackground}
                 resizeMode="contain"
               >
-                <TextInput
-                  style={[styles.textInput, { top: 268, left: 19, width: 62, height: 18 }]}
-                  value={formData.Contract_Number}
-                  onChangeText={(text) => setFormData({ ...formData, Contract_Number: text })}
-                />
-                <TextInput
-                  style={[styles.textInput, { top: 268, left: 79, width: 62, height: 18 }]}
-                  value={formData.Member_ID}
-                  onChangeText={(text) => setFormData({ ...formData, Member_ID: text })}
-                />
-                <TextInput
-                  style={[styles.textInput, { top: 268, left: 139, width: 152, height: 18 }]}
-                  value={formData.Sponsor}
-                  onChangeText={(text) => setFormData({ ...formData, Sponsor: text })}
-                />
-                <TextInput
-                  style={[styles.textInput, { top: 285, left: 19, width: 108, height: 18 }]}
-                  value={formData.Your_Last_Name}
-                  onChangeText={(text) => setFormData({ ...formData, Your_Last_Name: text })}
-                />
-                <TextInput
-                  style={[styles.textInput, { top: 285, left: 126, width: 109, height: 18 }]}
-                  value={formData.Your_First_Name}
-                  onChangeText={(text) => setFormData({ ...formData, Your_First_Name: text })}
-                />
-                <TextInput
-                  style={[styles.textInput, { top: 285, left: 262, width: 56, height: 18 }]}
-                  value={formData.DOB}
-                  onChangeText={(text) => setFormData({ ...formData, DOB: text })}
-                />
-                <TextInput
-                  style={[styles.textInput, { top: 285, left: 318, width: 56, height: 18 }]}
-                  value={formData.Phone_Number}
-                  onChangeText={(text) => setFormData({ ...formData, Phone_Number: text })}
-                />
-                <TextInput
-                  style={[styles.textInput, { top: 302, left: 19, width: 133, height: 18 }]}
-                  value={formData.Your_Address}
-                  onChangeText={(text) => setFormData({ ...formData, Your_Address: text })}
-                />
-                <TextInput
-                  style={[styles.textInput, { top: 302, left: 151, width: 45, height: 18 }]}
-                  value={formData.Apt_Suite}
-                  onChangeText={(text) => setFormData({ ...formData, Apt_Suite: text })}
-                />
-                <TextInput
-                  style={[styles.textInput, { top: 302, left: 195, width: 90, height: 18 }]}
-                  value={formData.City}
-                  onChangeText={(text) => setFormData({ ...formData, City: text })}
-                />
-                <TextInput
-                  style={[styles.textInput, { top: 302, left: 285, width: 33, height: 18 }]}
-                  value={formData.Province}
-                  onChangeText={(text) => setFormData({ ...formData, Province: text })}
-                />
-                <TextInput
-                  style={[styles.textInput, { top: 302, left: 317, width: 57, height: 18 }]}
-                  value={formData.Postal_Code}
-                  onChangeText={(text) => setFormData({ ...formData, Postal_Code: text })}
-                />
+                <View style={{ top: 0, left: 0 }}>
+                  <TextInput
+                    style={[styles.textInput, { top: 268, left: 19, width: 62, height: 18 }]}
+                    value={formData.Contract_Number}
+                    onChangeText={(text) => setFormData({ ...formData, Contract_Number: text })}
+                  />
+                  <TextInput
+                    style={[styles.textInput, { top: 268, left: 79, width: 62, height: 18 }]}
+                    value={formData.Member_ID}
+                    onChangeText={(text) => setFormData({ ...formData, Member_ID: text })}
+                  />
+                  <TextInput
+                    style={[styles.textInput, { top: 268, left: 139, width: 152, height: 18 }]}
+                    value={formData.Sponsor}
+                    onChangeText={(text) => setFormData({ ...formData, Sponsor: text })}
+                  />
+                  <View style={{ position:"absolute", top: 261, left: 273.4 }}>
+                    <LangRadio/>
+
+                  </View>
+
+                  <TextInput
+                    style={[styles.textInput, { top: 285, left: 19, width: 108, height: 18 }]}
+                    value={formData.Your_Last_Name}
+                    onChangeText={(text) => setFormData({ ...formData, Your_Last_Name: text })}
+                  />
+                  <TextInput
+                    style={[styles.textInput, { top: 285, left: 126, width: 109, height: 18 }]}
+                    value={formData.Your_First_Name}
+                    onChangeText={(text) => setFormData({ ...formData, Your_First_Name: text })}
+                  />
+                  <TextInput
+                    style={[styles.textInput, { top: 285, left: 262, width: 56, height: 18 }]}
+                    value={formData.DOB}
+                    onChangeText={(text) => setFormData({ ...formData, DOB: text })}
+                  />
+                  <View style={{ position:"absolute", top: 286, left: 227 }}>
+                    <GenRadio/>
+                  </View>
+                  <TextInput
+                    style={[styles.textInput, { top: 285, left: 318, width: 56, height: 18 }]}
+                    value={formData.Phone_Number}
+                    onChangeText={(text) => setFormData({ ...formData, Phone_Number: text })}
+                  />
+                  <TextInput
+                    style={[styles.textInput, { top: 302, left: 19, width: 133, height: 18 }]}
+                    value={formData.Your_Address}
+                    onChangeText={(text) => setFormData({ ...formData, Your_Address: text })}
+                  />
+                  <TextInput
+                    style={[styles.textInput, { top: 302, left: 151, width: 45, height: 18 }]}
+                    value={formData.Apt_Suite}
+                    onChangeText={(text) => setFormData({ ...formData, Apt_Suite: text })}
+                  />
+                  <TextInput
+                    style={[styles.textInput, { top: 302, left: 195, width: 90, height: 18 }]}
+                    value={formData.City}
+                    onChangeText={(text) => setFormData({ ...formData, City: text })}
+                  />
+                  <TextInput
+                    style={[styles.textInput, { top: 302, left: 285, width: 33, height: 18 }]}
+                    value={formData.Province}
+                    onChangeText={(text) => setFormData({ ...formData, Province: text })}
+                  />
+                  <TextInput
+                    style={[styles.textInput, { top: 302, left: 317, width: 57, height: 18 }]}
+                    value={formData.Postal_Code}
+                    onChangeText={(text) => setFormData({ ...formData, Postal_Code: text })}
+                  />
+                </View>
+
+
+
               </ImageBackground>
             )}
           </View>
@@ -165,4 +183,8 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 5,
   },
+  infoContainer: {
+    position: "absolute",
+    top: 20
+  }
 });

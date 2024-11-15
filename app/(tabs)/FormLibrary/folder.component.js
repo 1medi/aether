@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   gradientContainer: {
-    flex: 1, // Make gradient cover the entire screen
+    flex: 1, 
   },
   iconContainer: {
     width: 40,
