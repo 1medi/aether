@@ -3,11 +3,11 @@ import { CheckBox } from '@rneui/themed';
 import { View } from "react-native";
 
 
-export default function LanguageRadio() {
+export default function StudentRadio() {
   const [selectedIndex, setIndex] = useState(0);
 
   return (
-    <View style={{ flex: 1, flexDirection: "row", position: "relative"}}>
+    <View style={{ flex: 1, flexDirection: "column", position: "relative"}}>
         <CheckBox
           size={6}
           backgroundColor={"none"}
@@ -15,7 +15,7 @@ export default function LanguageRadio() {
           onPress={() => setIndex(0)}
           checkedIcon="check-square-o"
           uncheckedIcon="square-o"
-          containerStyle={{ padding:0, margin: 0, left: 10}}
+          containerStyle={{ padding:0, margin: 0, top: 1}}
         />
         <CheckBox
           size={6}
@@ -24,7 +24,7 @@ export default function LanguageRadio() {
           onPress={() => setIndex(1)}
           checkedIcon="check-square-o"
           uncheckedIcon="square-o"
-          containerStyle={{ padding:0, margin: 0, left: 7 }}
+          containerStyle={{ padding:0, margin: 0, top: 1}}
         />
 
     </View>

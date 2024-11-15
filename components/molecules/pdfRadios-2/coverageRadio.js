@@ -3,7 +3,7 @@ import { CheckBox } from '@rneui/themed';
 import { View } from "react-native";
 
 
-export default function LanguageRadio() {
+export default function CoverageRadio() {
   const [selectedIndex, setIndex] = useState(0);
 
   return (

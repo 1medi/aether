@@ -3,7 +3,7 @@ import { CheckBox } from '@rneui/themed';
 import { View } from "react-native";
 
 
-export default function LanguageRadio() {
+export default function CoverageSpouseRadio() {
   const [selectedIndex, setIndex] = useState(0);
 
   return (
@@ -24,7 +24,7 @@ export default function LanguageRadio() {
           onPress={() => setIndex(1)}
           checkedIcon="check-square-o"
           uncheckedIcon="square-o"
-          containerStyle={{ padding:0, margin: 0, left: 7 }}
+          containerStyle={{ padding:0, margin: 0, left: 3 }}
         />
 
     </View>
