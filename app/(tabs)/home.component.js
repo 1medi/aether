@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
-  SafeAreaView,
   ScrollView,
   View,
   StyleSheet,
   Text,
   Image,
 } from "react-native";
-import { Button, Layout, Icon } from "@ui-kitten/components";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Layout, Icon } from "@ui-kitten/components";
 import QuickAccessCard from "@/components/atoms/quickAccessCard";
 import OptionButton from "@/components/atoms/optionButton";
 import HeaderProfile from "@/components/headers/HeaderProfile";
@@ -38,7 +38,7 @@ export const HomeScreen = ({ navigation }) => {
         colors={["#9FC3E5", "#FFFF"]}
         style={styles.gradientContainer}
       >
-        <SafeAreaView style={styles.fullPage}>
+        <SafeAreaView style={styles.fullPage} edges={['top', 'left', 'right']}>
           <HeaderProfile />
           <ScrollView
             contentContainerStyle={styles.scrollContainer}
