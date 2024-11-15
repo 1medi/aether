@@ -8,7 +8,7 @@ import {
   Icon,
 } from "@ui-kitten/components";
 import Settings from "@/components/atoms/settings.js";
-import CardSimple from "@/components/atoms/card";
+import CardSimple from "@/components/atoms/quickAccessCard";
 import { StyleSheet, Text, Image } from "react-native";
 import OptionButton from "@/components/atoms/optionButton";
 import DarkModeIcon from "@/components/atoms/darkMode";
