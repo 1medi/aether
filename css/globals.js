@@ -53,121 +53,113 @@ export const colors = {
   }
 };
 
-// export const typography = (fontsLoaded) => ({
-//   display: {
-//     fontSize: 136,
-//     fontFamily: fontsLoaded ? "DMSans_700Bold" : "System", // Assuming bold display
-//     color: colors.dark.black,
-//   },
-//   displaySubhead: {
-//     fontSize: 32,
-//     fontFamily: fontsLoaded ? "DMSans_400Regular" : "System", 
-//     color: colors.dark.black,
-//   },
-//   h1: {
-//     fontSize: 36,
-//     fontFamily: fontsLoaded ? "DMSans_700Bold" : "System", 
-//     color: colors.other.black,
-//   },
-  // h2: {
-  //   fontSize: 24,
-  //   fontFamily: "DMSans_700Bold",
-  //   color: colors.other.black,
-  // },
-  // h2Med: {
-  //   fontSize: 24,
-  //   fontFamily: "DMSans_500Medium",
-  //   color: colors.other.black,
-  // },
-  // h2Crossed: {
-  //   fontSize: 24,
-  //   fontFamily: "DMSans_400Regular",
-  //   color: colors.other.black,
-  //   textDecorationLine: "line-through",
-  // },
-  // h3: {
-  //   fontSize: 20,
-  //   fontFamily: "DMSans_700Bold",
-  //   color: colors.other.black,
-  // },
-  // h3Med: {
-  //   fontSize: 20,
-  //   fontFamily: "DMSans_500Medium",
-  //   color: colors.other.black,
-  // },
-  // h3Italic: {
-  //   fontSize: 20,
-  //   fontFamily: "DMSans_400Regular",
-  //   fontStyle: "italic",
-  //   color: colors.other.black,
-  // },
-  // h4: {
-  //   fontSize: 18,
-  //   fontFamily: "DMSans_400Regular",
-  //   color: colors.other.black,
-  // },
-  // h4Med: {
-  //   fontSize: 18,
-  //   fontFamily: "DMSans_500Medium",
-  //   color: colors.other.black,
-  // },
-  // h4Bold: {
-  //   fontSize: 18,
-  //   fontFamily: "DMSans_700Bold",
-  //   color: colors.other.black,
-  // },
-  // footnote: {
-  //   fontSize: 14,
-  //   fontFamily: "DMSans_400Regular",
-  //   color: colors.other.black,
-  // },
-  // footnoteItalic: {
-  //   fontSize: 14,
-  //   fontFamily: "DMSans_400Regular",
-  //   fontStyle: "italic",
-  //   color: colors.other.black,
-  // },
-  // emoji56: {
-  //   fontSize: 56,
-  //   color: colors.other.black,
-  // },
-  // emoji80: {
-  //   fontSize: 80,
-  //   color: colors.other.black,
-  // },
-  // body: {
-  //   fontSize: 16,
-  //   fontFamily: "DMSans_400Regular",
-  //   color: colors.other.black,
-  // },
-  // bodyItalic: {
-  //   fontSize: 16,
-  //   fontFamily: "DMSans_400Regular",
-  //   fontStyle: "italic",
-  //   color: colors.other.black,
-  // },
-  // bodyBold: {
-  //   fontSize: 16,
-  //   fontFamily: "DMSans_700Bold",
-  //   color: colors.other.black,
-  // },
-  // bodyMed: {
-  //   fontSize: 16,
-  //   fontFamily: "DMSans_500Medium",
-  //   color: colors.other.black,
-  // },
-  // bodyCrossed: {
-  //   fontSize: 16,
-  //   fontFamily: "DMSans_400Regular",
-  //   color: colors.other.black,
-  //   textDecorationLine: "line-through",
-  // },
-  // // Add more if needed
-// }) 
-
-
-
-export const globalStyles = {
-
-  // Add other reusable styles here
-};
+export const typography = (fontsLoaded) => ({
+  display: {
+    fontSize: 136,
+    fontFamily: fontsLoaded ? "DMSans_700Bold" : "System", // Assuming bold display
+    color: colors.dark.black,
+  },
+  displaySubhead: {
+    fontSize: 32,
+    fontFamily: fontsLoaded ? "DMSans_400Regular" : "System", 
+    color: colors.dark.black,
+  },
+  h1: {
+    fontSize: 32,
+    fontFamily: fontsLoaded ? "DMSans_500Medium" : "System", 
+    color: colors.other.black,
+  },
+  h2: {
+    fontSize: 24,
+    fontFamily: "DMSans_700Bold",
+    color: colors.other.black,
+  },
+  h2Med: {
+    fontSize: 24,
+    fontFamily: "DMSans_500Medium",
+    color: colors.other.black,
+  },
+  h2Crossed: {
+    fontSize: 24,
+    fontFamily: "DMSans_400Regular",
+    color: colors.other.black,
+    textDecorationLine: "line-through",
+  },
+  h3: {
+    fontSize: 20,
+    fontFamily: "DMSans_700Bold",
+    color: colors.other.black,
+  },
+  h3Med: {
+    fontSize: 20,
+    fontFamily: "DMSans_500Medium",
+    color: colors.other.black,
+  },
+  h3Italic: {
+    fontSize: 20,
+    fontFamily: "DMSans_400Regular",
+    fontStyle: "italic",
+    color: colors.other.black,
+  },
+  h4: {
+    fontSize: 18,
+    fontFamily: "DMSans_400Regular",
+    color: colors.other.black,
+  },
+  h4Med: {
+    fontSize: 18,
+    fontFamily: "DMSans_500Medium",
+    color: colors.other.black,
+  },
+  h4Bold: {
+    fontSize: 18,
+    fontFamily: "DMSans_700Bold",
+    color: colors.other.black,
+  },
+  footnote: {
+    fontSize: 14,
+    fontFamily: "DMSans_400Regular",
+    color: colors.other.black,
+  },
+  footnoteItalic: {
+    fontSize: 14,
+    fontFamily: "DMSans_400Regular",
+    fontStyle: "italic",
+    color: colors.other.black,
+  },
+  emoji56: {
+    fontSize: 56,
+    color: colors.other.black,
+  },
+  emoji80: {
+    fontSize: 80,
+    color: colors.other.black,
+  },
+  body: {
+    fontSize: 16,
+    fontFamily: "DMSans_400Regular",
+    color: colors.other.black,
+  },
+  bodyItalic: {
+    fontSize: 16,
+    fontFamily: "DMSans_400Regular",
+    fontStyle: "italic",
+    color: colors.other.black,
+  },
+  bodyBold: {
+    fontSize: 16,
+    fontFamily: "DMSans_700Bold",
+    color: colors.other.black,
+  },
+  bodyMed: {
+    fontSize: 16,
+    fontFamily: "DMSans_500Medium",
+    color: colors.other.black,
+  },
+  bodyCrossed: {
+    fontSize: 16,
+    fontFamily: "DMSans_400Regular",
+    color: colors.other.black,
+    textDecorationLine: "line-through",
+  },
+});
