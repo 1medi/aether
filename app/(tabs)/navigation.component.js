@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 16,
     justifyContent: "center",
-    backgroundColor: colors.light.white60,
+    backgroundColor: colors.apple.glass70,
     position: "absolute",
     bottom: 24,
     width: 264,
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     borderRadius: 100,
     borderWidth: 1,
-    borderColor: colors.light.lightStroke,
+    borderColor: colors.apple.lightStroke,
     elevation: 5,
   },
   navBarContainer: {

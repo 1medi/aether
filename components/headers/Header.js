@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     paddingHorizontal: 16,
     paddingBottom: 8,
-    borderBottomColor: colors.light.lightStroke,
+    borderBottomColor: colors.apple.lightStroke,
     borderBottomWidth: 1,
     justifyContent: "space-between",
     flexDirection: "row",
@@ -33,6 +33,6 @@ const styles = StyleSheet.create({
   },
   pageTitle: {
     ...typography(true).h1,
-    color: colors.light.deepBlue,
+    color: colors.apple.black,
   },
 });

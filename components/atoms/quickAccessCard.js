@@ -1,18 +1,14 @@
 import React from 'react';
-import { Card, Text, Icon } from '@ui-kitten/components';
+import { Text } from '@ui-kitten/components';
 import { Image, StyleSheet, View } from 'react-native';
+import { colors, typography } from '@/css/globals';
 
-// Define the prop types
-interface QuickAccessCardProps {
-  description: string;
-}
-
-export default function QuickAccessCard({ description }: QuickAccessCardProps) {
+export default function QuickAccessCard({ title, description }) {
   return (
     <View style={styles.container}>
       <View style={styles.content}>
         <View style={styles.textContainer}>
-          <Text style={styles.title}>Canadian Pension Plan</Text>
+          <Text style={styles.title}>{title}</Text>
           <Text style={styles.description}>{description}</Text>
           <Text style={styles.button}>Start form &gt;</Text>
         </View>
@@ -27,32 +23,28 @@ export default function QuickAccessCard({ description }: QuickAccessCardProps) {
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 16,
-    width: 348,
-    height: 154,
+    borderRadius: 24,
     paddingHorizontal: 16,
     paddingVertical: 16,
-    backgroundColor: 'rgba(240, 243, 245, 0.6)',
+    backgroundColor: colors.apple.glass70,
     borderWidth: 1,
-    borderColor: 'rgba(46, 139, 183, 0.2)',
-    shadowColor: '#08415C',
-    shadowOffset: { width: 4, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
-    elevation: 5,
+    borderColor: colors.apple.lightStroke,
   },
   content: {
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'flex-start',
-    justifyContent: 'space-between',
+    alignItems: 'center',
     gap: 16,
-    paddingHorizontal: 0,
-    paddingVertical: 0,
   },
   cardImage: {
     width: 88,
-    height: 118,
+    height: 110,
+    shadowColor: colors.apple.black20,
+    shadowOffset: { width: 4, height: 4 },
+    shadowOpacity: 1,
+    shadowRadius: 8,
+    elevation: 5,
+    overflow: 'show',
   },
   textContainer: {
     display: 'flex',
@@ -60,20 +52,16 @@ const styles = StyleSheet.create({
     maxWidth: 228,
   },
   title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#08415C',
+    ...typography(true).h4Med,
     marginBottom: 8,
   },
   description: {
-    fontSize: 14,
-    fontStyle: 'italic',
-    color: 'rgba(8, 65, 92, 0.6)',
+    ...typography(true).footnote,
+    color: colors.apple.secondaryText,
     marginBottom: 16,
   },
   button: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#08415C',
+    ...typography(true).bodyMed,
+    color: colors.apple.black,
   },
 });
