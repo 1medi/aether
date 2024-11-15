@@ -1,9 +1,10 @@
+
 import { useState } from "react";
 import { CheckBox } from '@rneui/themed';
 import { View } from "react-native";
 
 
-export default function LanguageRadio() {
+export default function AddtionalRadio() {
   const [selectedIndex, setIndex] = useState(0);
 
   return (
