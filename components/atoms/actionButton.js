@@ -9,7 +9,7 @@ export default function Button({ buttonTitle, buttonDesc, accessory: Accessory, 
   const navigation = useNavigation();
 
   return (
-    <BlurView intensity={24} style={styles.buttonContainer}>
+    <BlurView intensity={16} style={styles.buttonContainer}>
       <TouchableOpacity
         style={styles.touchContainer}
         onPress={() => navigation.navigate(destination)}
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: "100%",
     borderRadius: 24,
-    backgroundColor: colors.light.white20,
+    backgroundColor: colors.apple.glass20,
     overflow: "hidden",
   },
   touchContainer: {
@@ -49,8 +49,9 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "flex-end",
     backgroundColor: "transparent",
-    marginHorizontal: 8,
-    marginVertical: 10,
+    gap: 8,
+    marginHorizontal: 12,
+    marginVertical: 12,
   },
   textContainer: {
     backgroundColor: "transparent",
@@ -61,10 +62,10 @@ const styles = StyleSheet.create({
   },
   buttonTitle: {
     ...typography(true).h4,
-    color: colors.light.white,
+    color: colors.apple.white,
   },
   buttonDesc: {
     ...typography(true).footnote,
-    color: colors.light.white60,
+    color: colors.apple.glass70,
   },
 });

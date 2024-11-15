@@ -86,7 +86,7 @@ export const HomeScreen = ({ navigation }) => {
                     <Layout style={styles.actionColumn}>
                       <ActionButton
                         buttonTitle="Scan"
-                        buttonDesc="a physical form"
+                        buttonDesc="a document"
                         accessory={FileIcon}
                         destination="Camera"
                       />
@@ -162,17 +162,18 @@ export const HomeScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  gradientContainer: {
-    flex: 1,
-    backgroundColor: "transparent",
-  },
+  // gradientContainer: {
+  //   flex: 1,
+  //   backgroundColor: "transparent",
+  // },
   fullPage: {
     flex: 1,
-    backgroundColor: "transparent",
+    backgroundColor: colors.apple.offWhite,
   },
   scrollContainer: {
     paddingBottom: 120,
   },
+
   imageSection: {
     backgroundColor: "transparent",
     borderRadius: 32,
@@ -199,7 +200,7 @@ const styles = StyleSheet.create({
   },
   greetingText: {
     ...typography(true).h1,
-    color: colors.light.white,
+    color: colors.apple.white,
   },
   actionLayout: {
     flexDirection: "row",
@@ -211,47 +212,46 @@ const styles = StyleSheet.create({
     flex: 1,
     maxWidth: "33.33%",
   },
-  quickAccessSection: {
-    backgroundColor: "transparent",
-  },
-  cardScrollContainer: {
-    flexDirection: "row",
-    gap: 8,
-    paddingLeft: 16,
-    paddingRight: 16,
-    paddingBottom: 32,
-  },
+
   recentFormsSection: {
     display: "flex",
     flexDirection: "column",
     backgroundColor: "transparent",
-    paddingHorizontal: 16,
+    paddingHorizontal: 8,
     gap: 8,
   },
   headline: {
     marginBottom: 8,
-    ...typography(true).h4,
-    color: colors.light.deepBlue60,
+    ...typography(true).h4Med,
+    color: colors.apple.black,
   },
   headlineButton: {
     fontSize: 14,
     ...typography(true).footnote,
-    color: colors.light.deepBlue60,
+    color: colors.apple.secondaryText,
   },
   subhead: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: "transparent",
-    paddingHorizontal: 16,
+    paddingHorizontal: 24,
   },
-  libraryButtonContainer: {
-    width: "100%",
+
+  quickAccessSection: {
+    backgroundColor: "transparent",
   },
+  cardScrollContainer: {
+    flexDirection: "row",
+    gap: 8,
+    paddingHorizontal: 8,
+  },
+
   bottomSpacerLogo: {
+    marginVertical: 24,
     backgroundColor: "transparent",
     width: 102,
-    height: 87,
+    height: 88,
     alignSelf: "center",
   },
 });

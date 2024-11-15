@@ -1,13 +1,13 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet, Image, View, Text } from 'react-native';
 import { Icon } from '@ui-kitten/components';
+import { colors, typography } from '@/css/globals';
 
 export default function LibraryButton({ title, subheader, footnote, isImportant, onPress }) {
   return (
     <TouchableOpacity style={styles.card} onPress={onPress}>
       <View style={styles.contentContainer}>
         
-        {/* File Icon with Star Overlay */}
         <View style={styles.iconContainer}>
           <Image
             style={styles.fileIcon}
@@ -22,17 +22,16 @@ export default function LibraryButton({ title, subheader, footnote, isImportant,
           )}
         </View>
         
-        {/* Text Content */}
         <View style={styles.textContainer}>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.subheader}>{subheader}</Text>
           <Text style={styles.footnote}>{footnote}</Text>
         </View>
 
-        {/* Three-dot Menu Icon */}
-        <Image
+        <Icon
+          name="more-vertical-outline"
           style={styles.dotsIcon}
-          source={require('@/assets/images/3_points_icon.png')} 
+          fill="#000000"
         />
       </View>
     </TouchableOpacity>
@@ -44,17 +43,12 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'flex-start',
-    borderRadius: 16,
-    paddingVertical: 8,
+    borderRadius: 24,
+    paddingVertical: 16,
     paddingHorizontal: 16,
-    backgroundColor: 'rgba(240, 243, 245, 0.6)',
+    backgroundColor: colors.apple.glass70,
     borderWidth: 1,
-    borderColor: 'rgba(46, 139, 183, 0.2)',  // 20% opacity for #2E8BB7
-    shadowColor: '#08415C',  // Use a darker shadow color for a stronger effect
-    shadowOffset: { width: 4, height: 4 },    // Increased vertical offset for a more pronounced shadow
-    shadowOpacity: 0.1,     // Increased opacity to make the shadow darker
-    shadowRadius: 10,      // Increased blur radius for a softer shadow
-    elevation: 5,     
+    borderColor: colors.apple.lightStroke,   
   },
   contentContainer: {
     flexDirection: 'row',
@@ -66,6 +60,12 @@ const styles = StyleSheet.create({
   fileIcon: {
     width: 48,
     height: 60,
+    shadowColor: colors.apple.black20,
+    shadowOffset: { width: 2, height: 2 },
+    shadowOpacity: 1,
+    shadowRadius: 8,
+    elevation: 5,
+    overflow: 'show',
   },
   starIcon: {
     position: 'absolute',
@@ -78,22 +78,20 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#08415C',
+    ...typography(true).h4Med,
   },
   subheader: {
-    fontSize: 16,
-    color: '#08415C',
+    ...typography(true).body,
   },
   footnote: {
-    fontSize: 14,
-    fontStyle: 'italic',
-    color: 'rgba(8, 65, 92, 0.6)',
+    ...typography(true).footnoteItalic,
+    color: colors.apple.secondaryText,
     marginTop: 4,
   },
+
   dotsIcon: {
     width: 24,
     height: 24,
+    color: colors.apple.black,
   },
 });

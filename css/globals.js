@@ -18,7 +18,7 @@ export const colors = {
     red80: "rgba(194, 50, 51, 0.8)",
     bgBlue: "#9FC3E5",
     bgBlue40: "rgba(159,195,229,0.4)",
-    black20: "rgba(18,18,18,0.2)",
+    black20: "rgba(0,0,0,0.2)",
   },
 
   // Dark Mode Colors
@@ -47,7 +47,8 @@ export const colors = {
     glass20: "rgba(255, 255, 255, 0.2)",
     glass40: "rgba(255, 255, 255, 0.4)",
     glass70: "rgba(255, 255, 255, 0.7)",
-    primaryText: "rgb(0, 0, 0)",
+    black: "rgb(0, 0, 0)",
+    black20: "rgba(0, 0, 0, 0.2)",
     secondaryText: "rgba(60, 60, 67, 0.6)",
     tertiaryText: "rgba(217, 217, 217, 0.3)",
   },
