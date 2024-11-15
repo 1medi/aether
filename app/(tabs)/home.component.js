@@ -44,118 +44,125 @@ export const HomeScreen = ({ navigation }) => {
         colors={["#9FC3E5", "#FFFF"]}
         style={styles.gradientContainer}
       > */}
-        <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
-          <Header title={"Homepage"} />
-          <ScrollView
-            contentContainerStyle={styles.scrollContainer}
-            showsVerticalScrollIndicator={false}
-          >
-            <Layout style={styles.imageSection}>
-              <ImageBackground
-                source={require("@/assets/images/homePhoto2.png")}
-                style={styles.imageBackground}
+      <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
+        <Header title={"Homepage"} />
+        <ScrollView
+          contentContainerStyle={styles.scrollContainer}
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={{ height: 24 }} />
+          <Layout style={styles.imageSection}>
+            <ImageBackground
+              source={require("@/assets/images/homePhoto2.png")}
+              style={styles.imageBackground}
+            >
+              <LinearGradient
+                colors={["rgba(0,0,0,0.15)", "rgba(0,0,0,1)"]}
+                style={styles.gradientOverlay}
               >
-                <LinearGradient
-                  colors={["rgba(0,0,0,0.15)", "rgba(0,0,0,1)"]}
-                  style={styles.gradientOverlay}
-                >
-                  <Layout style={styles.greetingSection}>
-                    <Text style={styles.greetingText}>
-                      Need help
-                      {"\n"}simplifying
-                      {"\n"}a form today?
-                    </Text>
+                <Layout style={styles.greetingSection}>
+                  <Text style={styles.greetingText}>
+                    Need help
+                    {"\n"}simplifying
+                    {"\n"}a form today?
+                  </Text>
+                </Layout>
+                <Layout style={styles.actionLayout}>
+                  <Layout style={styles.actionColumn}>
+                    <ActionButton
+                      buttonTitle="Search"
+                      buttonDesc="our library"
+                      accessory={SearchIcon}
+                      destination="Folder"
+                    />
                   </Layout>
-                  <Layout style={styles.actionLayout}>
-                    <Layout style={styles.actionColumn}>
-                      <ActionButton
-                        buttonTitle="Search"
-                        buttonDesc="our library"
-                        accessory={SearchIcon}
-                        destination="Folder"
-                      />
-                    </Layout>
-                    <Layout style={styles.actionColumn}>
-                      <ActionButton
-                        buttonTitle="Upload"
-                        buttonDesc="from device"
-                        accessory={UploadIcon}
-                        destination="Camera"
-                      />
-                    </Layout>
-                    <Layout style={styles.actionColumn}>
-                      <ActionButton
-                        buttonTitle="Scan"
-                        buttonDesc="a document"
-                        accessory={FileIcon}
-                        destination="Camera"
-                      />
-                    </Layout>
+                  <Layout style={styles.actionColumn}>
+                    <ActionButton
+                      buttonTitle="Upload"
+                      buttonDesc="from device"
+                      accessory={UploadIcon}
+                      destination="Camera"
+                    />
                   </Layout>
-                </LinearGradient>
-              </ImageBackground>
-            </Layout>
+                  <Layout style={styles.actionColumn}>
+                    <ActionButton
+                      buttonTitle="Scan"
+                      buttonDesc="a document"
+                      accessory={FileIcon}
+                      destination="Camera"
+                    />
+                  </Layout>
+                </Layout>
+              </LinearGradient>
+            </ImageBackground>
+          </Layout>
 
-            <View style={{ height: 24 }} />
+          <View style={{ height: 24 }} />
 
-            <Layout style={styles.subhead}>
-              <Text style={styles.headline}>Recent Forms</Text>
-              <Text style={styles.headlineButton}>View All</Text>
-            </Layout>
+          <Layout style={styles.subhead}>
+            <Text style={styles.headline}>Recent Forms</Text>
+            <Icon
+              name="arrow-forward-outline"
+              style={styles.headlineButton}
+            />
+          </Layout>
 
-            <Layout style={styles.recentFormsSection}>
-              <View style={styles.libraryButtonContainer}>
-                <LibraryButton
-                  title="Pension Plan Application"
-                  subheader="Sarah O’Neil"
-                  footnote="Modified Oct 16, 2024 - Draft ✎"
-                />
-              </View>
-              <View style={styles.libraryButtonContainer}>
-                <LibraryButton
-                  title="Medical Form"
-                  subheader="Chris Topher"
-                  footnote="Modified Oct 16, 2024 - Draft ✎"
-                />
-              </View>
-            </Layout>
-
-            <View style={{ height: 24 }} />
-
-            <Layout style={styles.subhead}>
-              <Text style={styles.headline}>Quick Access</Text>
-              <Text style={styles.headlineButton}>View All</Text>
-            </Layout>
-
-            <Layout style={styles.quickAccessSection}>
-              <ScrollView
-                horizontal
-                contentContainerStyle={styles.cardScrollContainer}
-                showsHorizontalScrollIndicator={false} // Hide horizontal scroll bar
-              >
-                <QuickAccessCard
-                  title="Pension Plan Application"
-                  description="Apply to share your retirement pension with your spouse or partner for potential tax savings."
-                />
-                <QuickAccessCard
-                  title="Medical History Form"
-                  description="Apply to share your retirement pension with your spouse or partner for potential tax savings."
-                />
-                <QuickAccessCard
-                  title="Medication Records"
-                  description="Apply to share your retirement pension with your spouse or partner for potential tax savings."
-                />
-              </ScrollView>
-            </Layout>
-
-            <Layout style={styles.bottomSpacerLogo}>
-              <Image
-                source={require("@/assets/images/logo40.png")}
-                style={styles.bottomSpacerLogo}
+          <Layout style={styles.recentFormsSection}>
+            <View style={styles.libraryButtonContainer}>
+              <LibraryButton
+                title="Pension Plan Application"
+                subheader="Sarah O’Neil"
+                footnote="Modified Oct 16, 2024 - Draft ✎"
               />
-            </Layout>
-          </ScrollView>
-        </SafeAreaView>
+            </View>
+            <View style={styles.libraryButtonContainer}>
+              <LibraryButton
+                title="Medical Form"
+                subheader="Chris Topher"
+                footnote="Modified Oct 16, 2024 - Draft ✎"
+              />
+            </View>
+          </Layout>
+
+          <View style={{ height: 24 }} />
+
+          <Layout style={styles.subhead}>
+            <Text style={styles.headline}>Quick Access</Text>
+            <Icon
+              name="arrow-forward-outline"
+              style={styles.headlineButton}
+            />
+          </Layout>
+
+          <Layout style={styles.quickAccessSection}>
+            <ScrollView
+              horizontal
+              contentContainerStyle={styles.cardScrollContainer}
+              showsHorizontalScrollIndicator={false} // Hide horizontal scroll bar
+            >
+              <QuickAccessCard
+                title="Pension Plan Application"
+                description="Apply to share your retirement pension with your spouse or partner for potential tax savings."
+              />
+              <QuickAccessCard
+                title="Medical History Form"
+                description="Apply to share your retirement pension with your spouse or partner for potential tax savings."
+              />
+              <QuickAccessCard
+                title="Medication Records"
+                description="Apply to share your retirement pension with your spouse or partner for potential tax savings."
+              />
+            </ScrollView>
+          </Layout>
+
+          <Layout style={styles.bottomSpacerLogo}>
+            <Image
+              source={require("@/assets/images/logo40.png")}
+              style={styles.bottomSpacerLogo}
+            />
+          </Layout>
+        </ScrollView>
+      </SafeAreaView>
       {/* </LinearGradient> */}
     </>
   );
@@ -171,14 +178,13 @@ const styles = StyleSheet.create({
     backgroundColor: colors.apple.offWhite,
   },
   scrollContainer: {
-    paddingBottom: 120,
+    paddingBottom: 132,
   },
 
   imageSection: {
     backgroundColor: "transparent",
     borderRadius: 32,
     overflow: "hidden",
-    marginTop: 8,
     marginHorizontal: 8,
   },
   gradientOverlay: {
@@ -218,7 +224,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     backgroundColor: "transparent",
     paddingHorizontal: 8,
-    gap: 8,
+    gap: 4,
   },
   headline: {
     marginBottom: 8,
@@ -226,9 +232,8 @@ const styles = StyleSheet.create({
     color: colors.apple.black,
   },
   headlineButton: {
-    fontSize: 14,
-    ...typography(true).footnote,
-    color: colors.apple.secondaryText,
+    width: 24,
+    height: 24,
   },
   subhead: {
     flexDirection: "row",
@@ -243,7 +248,7 @@ const styles = StyleSheet.create({
   },
   cardScrollContainer: {
     flexDirection: "row",
-    gap: 8,
+    gap: 4,
     paddingHorizontal: 8,
   },
 
