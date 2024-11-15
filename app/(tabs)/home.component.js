@@ -224,7 +224,17 @@ const styles = StyleSheet.create({
     paddingRight: 16,
     paddingBottom: 32,
   },
-  recentFormsSection: {
+
+  recentFormLayout: {
+    backgroundColor: "transparent",
+  },
+  recentContent: {
+    alignItems: "center",
+    backgroundColor: "transparent",
+    paddingTop: 8,
+    maxWidth: "100%",  
+  },
+  formContainer: {
     display: "flex",
     flexDirection: "column",
     backgroundColor: "transparent",
@@ -250,7 +260,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   libraryButtonContainer: {
-    width: "100%",
+    minWidth: 380,
+    minHeight: 85,
+    width: "100vw"
   },
   gradientButtonContainer: {
     width: "100%",
@@ -262,8 +274,9 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   ButtonResent: {
-    width: 398,
+    minWidth: 380,
     height: 54,
+    width: "100vw",
     borderRadius: 16,
     backgroundColor: "transparent",
     fontSize: 18,
