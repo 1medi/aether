@@ -57,12 +57,16 @@ const TabNavigator = () => (
     }}
     tabBar={(props) => <BottomTabBar {...props} />}
   >
-    <Screen name="Home" component={HomeScreen} options={{ title: "Aether Home" }} />
+    <Screen
+      name="Home"
+      component={HomeScreen}
+      options={{ title: "Aether Home" }}
+    />
     <Screen name="Details" component={FolderScreen} />
-    {/* <Screen name="Camera" component={CameraScreen} /> */}
     <Screen name="Folder" component={FormHistoryScreen} />
     <Screen name="People" component={PeopleScreen} />
     <Screen name="Library" component={LibraryScreen} />
+    <Screen name="Camera" component={CameraScreen} />
     <Screen name="PensionPlan" component={AutofilledScreen} />
   </Navigator>
 );

@@ -4,7 +4,7 @@ import { colors, typography } from "../../css/globals";
 
 export default function Header({ title }) {
   return (
-    <View intensity={24} style={styles.headerContainer}>
+    <View style={styles.headerContainer}>
       <Text style={styles.pageTitle}>{title}</Text>
       <Image
         style={styles.profileImage}
