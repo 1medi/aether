@@ -10,7 +10,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Layout, Icon } from "@ui-kitten/components";
 import QuickAccessCard from "@/components/atoms/quickAccessCard";
 import OptionButton from "@/components/atoms/optionButton";
-import HeaderProfile from "@/components/headers/HeaderProfile";
+import Header from "@/components/headers/Header";
 import LibraryButton from "@/components/molecules/FormLibraryButtons";
 import { LinearGradient } from "expo-linear-gradient";
 import { colors, typography } from "@/css/globals";
@@ -39,7 +39,7 @@ export const HomeScreen = ({ navigation }) => {
         style={styles.gradientContainer}
       >
         <SafeAreaView style={styles.fullPage} edges={['top', 'left', 'right']}>
-          <HeaderProfile />
+          <Header title={"Home"} />
           <ScrollView
             contentContainerStyle={styles.scrollContainer}
             showsVerticalScrollIndicator={false}
@@ -60,7 +60,6 @@ export const HomeScreen = ({ navigation }) => {
                 />
                 <Text style={styles.optionText}>Search</Text>
               </Layout>
-
               <Layout style={styles.optionColumn}>
                 <OptionButton
                   title="Scan"
@@ -74,7 +73,6 @@ export const HomeScreen = ({ navigation }) => {
                 />
                 <Text style={styles.optionText}>Scan</Text>
               </Layout>
-
               <Layout style={styles.optionColumn}>
                 <OptionButton
                   title="Upload"
