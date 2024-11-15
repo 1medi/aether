@@ -17,22 +17,12 @@ import { colors, typography } from "@/css/globals";
 import {
   useFonts,
   DMSans_400Regular,
-  DMSans_400Regular_Italic,
-  DMSans_500Medium,
-  DMSans_500Medium_Italic,
-  DMSans_700Bold,
-  DMSans_700Bold_Italic,
 } from "@expo-google-fonts/dm-sans";
 import AppLoading from "expo-app-loading";
 
 export const HomeScreen = ({ navigation }) => {
   let [fontsLoaded] = useFonts({
     DMSans_400Regular,
-    DMSans_400Regular_Italic,
-    DMSans_500Medium,
-    DMSans_500Medium_Italic,
-    DMSans_700Bold,
-    DMSans_700Bold_Italic,
   });
 
   if (!fontsLoaded) {
@@ -40,12 +30,7 @@ export const HomeScreen = ({ navigation }) => {
   }
 
   const SearchIcon = (props) => <Icon name="search-outline" {...props} />;
-  const FileTextIcon = (props) => <Icon name="file-text-outline" {...props} />;
   const UploadIcon = (props) => <Icon name="upload-outline" {...props} />;
-
-  const navigateDetails = () => {
-    navigation.navigate("Details");
-  };
 
   return (
     <>
@@ -69,11 +54,11 @@ export const HomeScreen = ({ navigation }) => {
             <Layout style={styles.optionLayout}>
               <Layout style={styles.optionColumn}>
                 <OptionButton
-                  title="Browse"
+                  title="Search"
                   accessory={SearchIcon}
                   destination="Folder"
                 />
-                <Text style={styles.optionText}>Browse</Text>
+                <Text style={styles.optionText}>Search</Text>
               </Layout>
 
               <Layout style={styles.optionColumn}>
