@@ -9,7 +9,6 @@ import {
   Card,
 } from "@ui-kitten/components";
 import Settings from "@/components/atoms/settings.js";
-import CardSimple from "@/components/atoms/card";
 import { StyleSheet, Text, Image } from "react-native";
 import OptionButton from "@/components/atoms/optionButton";
 import DarkModeIcon from "@/components/atoms/darkMode";
