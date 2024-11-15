@@ -20,16 +20,16 @@ import { colors } from "@/css/globals";
 const { Navigator, Screen } = createBottomTabNavigator();
 
 const HomeIcon = (props) => (
-  <Icon name="home-outline" {...props} style={{ width: 28, height: 28 }} />
+  <Icon name="home-outline" {...props} style={{ width: 32, height: 32 }} />
 );
 const SearchIcon = (props) => (
-  <Icon name="search-outline" {...props} style={{ width: 28, height: 28 }} />
+  <Icon name="search-outline" {...props} style={{ width: 32, height: 32 }} />
 );
 const BookIcon = (props) => (
-  <Icon name="book-outline" {...props} style={{ width: 28, height: 28 }} />
+  <Icon name="book-outline" {...props} style={{ width: 32, height: 32 }} />
 );
 const AccountIcon = (props) => (
-  <Icon name="person-outline" {...props} style={{ width: 28, height: 28 }} />
+  <Icon name="person-outline" {...props} style={{ width: 32, height: 32 }} />
 );
 
 const BottomTabBar = ({ navigation, state }) => (
@@ -41,10 +41,10 @@ const BottomTabBar = ({ navigation, state }) => (
         onSelect={(index) => navigation.navigate(state.routeNames[index])}
         style={styles.navBarContainer}
       >
-        <BottomNavigationTab icon={HomeIcon} titleStyle={styles.labelStyle} />
-        <BottomNavigationTab icon={SearchIcon} titleStyle={styles.labelStyle} />
-        <BottomNavigationTab icon={BookIcon} titleStyle={styles.labelStyle} />
-        <BottomNavigationTab icon={AccountIcon} titleStyle={styles.labelStyle} />
+        <BottomNavigationTab icon={HomeIcon} />
+        <BottomNavigationTab icon={SearchIcon} />
+        <BottomNavigationTab icon={BookIcon} />
+        <BottomNavigationTab icon={AccountIcon} />
       </BottomNavigation>
     </BlurView>
   </View>
@@ -59,7 +59,7 @@ const TabNavigator = () => (
   >
     <Screen name="Home" component={HomeScreen} options={{ title: "Aether Home" }} />
     <Screen name="Details" component={FolderScreen} />
-    <Screen name="Camera" component={CameraScreen} />
+    {/* <Screen name="Camera" component={CameraScreen} /> */}
     <Screen name="Folder" component={FormHistoryScreen} />
     <Screen name="People" component={PeopleScreen} />
     <Screen name="Library" component={LibraryScreen} />
@@ -87,8 +87,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.light.white60,
     position: "absolute",
     bottom: 24,
-    width: 248,
-    height: 72,
+    width: 264,
+    height: 80,
     zIndex: 999,
     alignSelf: "center",
     overflow: "hidden",
@@ -100,9 +100,4 @@ const styles = StyleSheet.create({
   navBarContainer: {
     backgroundColor: "transparent",
   },
-  icon: {
-    width: 28,
-    height: 28,
-  },
-
 });

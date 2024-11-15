@@ -43,30 +43,22 @@ export const colors = {
     mediumBlue: "#346EA2",
     tan: "#FEF5EC"
   },
-
-  // Greyscale
-  grey: {
-    lightGrey: "#D9D9D9",
-    mediumDarkGrey: "#B3B3B3",
-    darkGrey: "#6C6C6C",
-    deepGrey: "#484848"
-  }
 };
 
 export const typography = (fontsLoaded) => ({
   display: {
     fontSize: 136,
-    fontFamily: fontsLoaded ? "DMSans_700Bold" : "System", // Assuming bold display
+    fontFamily: "DMSans_700Bold",
     color: colors.dark.black,
   },
   displaySubhead: {
     fontSize: 32,
-    fontFamily: fontsLoaded ? "DMSans_400Regular" : "System", 
+    fontFamily: "DMSans_400Regular",
     color: colors.dark.black,
   },
   h1: {
     fontSize: 32,
-    fontFamily: fontsLoaded ? "DMSans_500Medium" : "System", 
+    fontFamily: "DMSans_500Medium",
     color: colors.other.black,
   },
   h2: {
