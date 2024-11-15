@@ -1,7 +1,8 @@
-export const colors = { 
+export const colors = {
   // Light Mode Colors
   light: {
     white: "#F0F3F5",
+    white20: "rgba(255,255,255,0.2)",
     white40: "rgba(240,243,245,0.4)",
     white60: "rgba(240,243,245,0.6)",
     white80: "rgba(240,243,245,0.8)",
@@ -11,13 +12,13 @@ export const colors = {
     deepBlue40: "rgba(8, 65, 92, 0.4)",
     deepBlue60: "rgba(8, 65, 92, 0.6)",
     deepBlue80: "rgba(8, 65, 92, 0.8)",
-    lightStroke : "rgba(46, 139, 183, 0.2)",
-    lightStrokeBleu : "rgba(136, 181, 223, 0.15)",
+    lightStroke: "rgba(46, 139, 183, 0.2)",
+    lightStrokeBleu: "rgba(136, 181, 223, 0.15)",
     red: "#C23233",
     red80: "rgba(194, 50, 51, 0.8)",
     bgBlue: "#9FC3E5",
     bgBlue40: "rgba(159,195,229,0.4)",
-    black20: "rgba(18,18,18,0.2)"
+    black20: "rgba(18,18,18,0.2)",
   },
 
   // Dark Mode Colors
@@ -30,7 +31,25 @@ export const colors = {
     darkGrey80: "rgba(26, 26, 26, 0.8)",
     stroke: "rgba (255, 255, 255, 0.2)",
     black: "#121212",
-    red:"#F93132"
+    red: "#F93132",
+  },
+
+  // Apple Colors
+  apple: {
+    white: "rgb(255, 255, 255)",
+    offWhite: "rgb(242, 242, 247)",
+    midWhite: "rgb(250, 250, 252)",
+    stroke: "rgb(209, 209, 214)",
+    lightStroke: "rgba(209, 209, 214, 0.7)",
+    hardStroke: "rgb(198, 198, 200)",
+    green: "rgb(52, 199, 89)",
+    red: "rgb(255, 59, 48)",
+    glass20: "rgba(255, 255, 255, 0.2)",
+    glass40: "rgba(255, 255, 255, 0.4)",
+    glass70: "rgba(255, 255, 255, 0.7)",
+    primaryText: "rgb(0, 0, 0)",
+    secondaryText: "rgba(60, 60, 67, 0.6)",
+    tertiaryText: "rgba(217, 217, 217, 0.3)",
   },
 
   // Other Colors
@@ -41,7 +60,7 @@ export const colors = {
     lightGreen: "#ECFEE8",
     lightestBlue: "#E4EEFB",
     mediumBlue: "#346EA2",
-    tan: "#FEF5EC"
+    tan: "#FEF5EC",
   },
 };
 
