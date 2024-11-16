@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { SafeAreaView, ScrollView, TouchableOpacity, View, TextInput, Text, StyleSheet, Image, FlatList } from "react-native";
 import { useNavigation } from '@react-navigation/native';
-import LibraryButton from "@/components/molecules/FormLibraryButtons";
+import FormListCard from "@/components/molecules/FormListCard";
 import { LinearGradient } from "expo-linear-gradient";
 
 export const FormHistoryScreen = () => {
@@ -45,7 +45,7 @@ export const FormHistoryScreen = () => {
         {filteredForms
           .filter((form) => form.status === "In progress")
           .map((form) => (
-            <LibraryButton
+            <FormListCard
               key={form.id}
               title={form.title}
               subheader={form.subheader}
@@ -60,7 +60,7 @@ export const FormHistoryScreen = () => {
             {filteredForms
               .filter((form) => form.status === "Complete")
               .map((form) => (
-                <LibraryButton
+                <FormListCard
                   key={form.id}
                   title={form.title}
                   subheader={form.subheader}

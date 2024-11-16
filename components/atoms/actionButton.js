@@ -1,19 +1,24 @@
-import React from 'react';
-import { TouchableOpacity, StyleSheet, View, Text } from 'react-native';
-import { BlurView } from 'expo-blur';
-import { useNavigation } from '@react-navigation/native';
-import { Layout } from '@ui-kitten/components';
-import { colors, typography } from '@/css/globals';
+import React from "react";
+import { TouchableOpacity, StyleSheet, View, Text } from "react-native";
+import { BlurView } from "expo-blur";
+import { useNavigation } from "@react-navigation/native";
+import { Layout } from "@ui-kitten/components";
+import { colors, typography } from "@/css/globals";
 
-export default function Button({ buttonTitle, buttonDesc, accessory: Accessory, destination }) {
+export default function Button({
+  buttonTitle,
+  buttonDesc,
+  accessory: Accessory,
+  destination,
+}) {
   const navigation = useNavigation();
 
   return (
-    <BlurView intensity={16} style={styles.buttonContainer}>
-      <TouchableOpacity
-        style={styles.touchContainer}
-        onPress={() => navigation.navigate(destination)}
-      >
+    <TouchableOpacity
+      style={styles.touchContainer}
+      onPress={() => navigation.navigate(destination)}
+    >
+      <BlurView intensity={16} style={styles.buttonContainer}>
         <Layout style={styles.contentContainer}>
           <View style={styles.textContainer}>
             <Text style={styles.buttonTitle}>{buttonTitle}</Text>
@@ -24,25 +29,27 @@ export default function Button({ buttonTitle, buttonDesc, accessory: Accessory, 
               style={{
                 width: 40,
                 height: 40,
-                tintColor: '#ffffff',
+                tintColor: "#ffffff",
               }}
             />
-            </View>
+          </View>
         </Layout>
-      </TouchableOpacity>
-    </BlurView>
+      </BlurView>
+    </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
+  touchContainer: {
+    backgroundColor: "transparent",
+  },
   buttonContainer: {
     width: "100%",
     borderRadius: 24,
+    borderColor: colors.apple.glass20,
+    borderWidth: 1,
     backgroundColor: colors.apple.glass20,
     overflow: "hidden",
-  },
-  touchContainer: {
-    backgroundColor: "transparent",
   },
   contentContainer: {
     display: "flex",
