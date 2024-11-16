@@ -9,10 +9,9 @@ export default function FormListCard({
   subheader,
   footnote,
   isImportant,
-  onPress,
 }) {
   return (
-    <TouchableOpacity style={styles.touchContainer} onPress={onPress}>
+    <TouchableOpacity style={styles.touchContainer}>
       <BlurView intensity={16} style={styles.cardContainer}>
         <Layout style={styles.contentContainer}>
           <View style={styles.iconContainer}>
@@ -51,9 +50,9 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     paddingVertical: 16,
     paddingHorizontal: 16,
-    backgroundColor: colors.apple.glass70,
-    borderWidth: 1,
-    borderColor: colors.apple.lightStroke,
+    // backgroundColor: colors.apple.glass70,
+    // borderWidth: 1,
+    // borderColor: colors.apple.lightStroke,
     overflow: "hidden",
   },
   contentContainer: {

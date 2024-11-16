@@ -16,8 +16,10 @@ export default function QuickAccessCard({ title, description, destination }) {
       <BlurView intensity={16} style={styles.cardContainer}>
         <View style={styles.contentContainer}>
           <View style={styles.textContainer}>
-            <Text style={styles.title}>{title}</Text>
-            <Text style={styles.description}>{description}</Text>
+            <View style={styles.topContainer}>
+              <Text style={styles.title}>{title}</Text>
+              <Text style={styles.description}>{description}</Text>
+            </View>
             <Text style={styles.button}>Start form</Text>
           </View>
           <Image
@@ -33,8 +35,11 @@ export default function QuickAccessCard({ title, description, destination }) {
 const styles = StyleSheet.create({
   touchContainer: {
     backgroundColor: "transparent",
+    height: 164,
+    display: "flex",
   },
   cardContainer: {
+    height: "100%",
     borderRadius: 24,
     paddingHorizontal: 24,
     paddingVertical: 16,
@@ -44,6 +49,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   contentContainer: {
+    height: "100%",
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
@@ -60,8 +66,10 @@ const styles = StyleSheet.create({
     overflow: "show",
   },
   textContainer: {
+    height: "100%",
     display: "flex",
     flexDirection: "column",
+    justifyContent: "space-between",
     maxWidth: 228,
   },
   title: {

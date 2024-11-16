@@ -19,6 +19,7 @@ import {
 } from "@expo-google-fonts/dm-sans";
 import AppLoading from "expo-app-loading";
 import { SafeAreaView } from "react-native-safe-area-context";
+import FormLibraryCard from "@/components/molecules/FormLibraryCard";
 
 export const FormLibraryScreen = ({ navigation }) => {
   const [filteredForms, setFilteredForms] = useState(formsData || []);
@@ -40,40 +41,25 @@ export const FormLibraryScreen = ({ navigation }) => {
           contentContainerStyle={styles.scrollContainer}
           showsVerticalScrollIndicator={false}
         >
-          <View style={styles.container}>
-            {formsData.map((item, index) => (
-              <TouchableOpacity
-                key={item.id}
-                style={[
-                  styles.item,
-                  { height: item.height },
-                  index >= 3 && (index - 3) % 2 === 0
-                    ? styles.rightItem
-                    : styles.leftItem,
-                ]}
-              >
-                {item.image && (
-                  <Image source={item.image} style={styles.image} />
-                )}
-                <View style={styles.textContainer}>
-                  <Text
-                    style={styles.title}
-                    numberOfLines={2}
-                    ellipsizeMode="tail"
-                  >
-                    {item.title}
-                  </Text>
-                  <Text
-                    style={styles.description}
-                    numberOfLines={2}
-                    ellipsizeMode="tail"
-                  >
-                    {item.description}
-                  </Text>
-                </View>
-              </TouchableOpacity>
+          <Layout style={styles.container}>
+            {filteredForms.map((form) => (
+              <View key={form.id} style={styles.libraryCardContainer}>
+                <FormLibraryCard
+                  title={form.title}
+                  description={form.description}
+                  image={form.image}
+                />
+              </View>
             ))}
-          </View>
+            <View style={[styles.libraryCardContainer, styles.endContainer]}>
+              <Text style={styles.endTextTitle}>We’ve Got Your Back</Text>
+              <Text style={styles.endTextDescription}>If you can’t find the form you need, try our scan feature or reach out for support. We’re here to help!</Text>
+            </View>
+          </Layout>
+
+          {/* Spacer */}
+          <View style={{ height: 24 }} />
+
           {/* End Image */}
           <Layout style={styles.bottomSpacerLogo}>
             <Image
@@ -95,49 +81,36 @@ const styles = StyleSheet.create({
     backgroundColor: colors.apple.offWhite,
   },
   scrollContainer: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
     paddingBottom: 132,
   },
 
   container: {
+    backgroundColor: "transparent",
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: 4,
     margin: 8,
+    gap: 4,
   },
-  item: {
-    width: "49.46%", // Two columns with spacing
+  libraryCardContainer: {
+    width: "49.4%",
+  },
+  endContainer: {
     backgroundColor: colors.apple.glass70,
     borderRadius: 24,
     borderWidth: 1,
     borderColor: colors.apple.lightStroke,
-    overflow: "hidden",
+    gap: 8,
+    justifyContent: "center",
+    paddingHorizontal: 16,
+    paddingVertical: 24,
   },
-
-  image: {
-    width: "100%",
-    height: 176,
-  },
-
-  leftItem: {},
-  rightItem: {
-    marginTop: "-28.8%",
-  },
-
-  textContainer: {
-    padding: 12,
-  },
-  title: {
-    ...typography(true).bodyMed,
+  endTextTitle: {
+    ...typography(true).h2Med,
     color: colors.apple.black,
   },
-  description: {
+  endTextDescription: {
     ...typography(true).footnote,
     color: colors.apple.secondaryText,
-    marginTop: 8,
   },
 
   bottomSpacerLogo: {
