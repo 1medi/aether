@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import FormListCard from "@/components/molecules/FormListCard";
 import { LinearGradient } from "expo-linear-gradient";
 
-export const FormHistoryScreen = () => {
+export const MyFilesScreen = () => {
   const [activeTab, setActiveTab] = useState("Forms");
   const [importantCardId, setImportantCardId] = useState(null);
   const [filter, setFilter] = useState("All");
@@ -271,4 +271,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FormHistoryScreen;
+export default MyFilesScreen;
