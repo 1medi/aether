@@ -8,13 +8,12 @@ import {
 } from "@ui-kitten/components";
 import { StyleSheet, View } from "react-native";
 import { BlurView } from "expo-blur";
-import { HomeScreen } from "./home.component";
+import { HomeScreen } from "./Home.component";
 import { FormHistoryScreen } from "./FormHistory/FormHistory.component";
 import { CameraScreen } from "./CameraForm/camera.component";
-import { FolderScreen } from "./FormLibrary/folder.component";
-import LibraryScreen from "./FormLibrary/library.component";
+import { FormLibraryScreen } from "./FormLibrary/FormLibrary.component";
 import AutofilledScreen from "./FormLibrary/autofilled.component";
-import { PeopleScreen } from "./SavedProfiles/people1.component";
+import { AccountScreen } from "./Account/Account.component";
 import { colors } from "@/css/globals";
 
 const { Navigator, Screen } = createBottomTabNavigator();
@@ -62,16 +61,16 @@ const TabNavigator = () => (
       component={HomeScreen}
       options={{ title: "Aether Home" }}
     />
-    <Screen name="Details" component={FolderScreen} />
+    <Screen name="Details" component={FormLibraryScreen} />
     <Screen name="Folder" component={FormHistoryScreen} />
-    <Screen name="People" component={PeopleScreen} />
-    <Screen name="Library" component={LibraryScreen} />
+    <Screen name="Account" component={AccountScreen} />
+    <Screen name="FormLibrary" component={FormLibraryScreen} />
     <Screen name="Camera" component={CameraScreen} />
     <Screen name="PensionPlan" component={AutofilledScreen} />
   </Navigator>
 );
 
-export const AppNavigator = () => <TabNavigator />;
+const AppNavigator = () => <TabNavigator />;
 
 const styles = StyleSheet.create({
   navShadowContainer: {
@@ -105,3 +104,5 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
   },
 });
+
+export default AppNavigator;

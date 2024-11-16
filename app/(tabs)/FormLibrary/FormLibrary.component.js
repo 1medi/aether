@@ -41,36 +41,22 @@ const formsData = [
     description: "Tax statements related to income.",
   },
 ];
-
 import {
   useFonts,
-  Inter_100Thin,
-  Inter_200ExtraLight,
-  Inter_300Light,
-  Inter_400Regular,
-  Inter_500Medium,
-  Inter_600SemiBold,
-  Inter_700Bold,
-  Inter_800ExtraBold,
-  Inter_900Black,
-} from "@expo-google-fonts/inter";
+  DMSans_400Regular,
+  DMSans_500Medium,
+  DMSans_700Bold,
+} from "@expo-google-fonts/dm-sans";
 
 import AppLoading from "expo-app-loading";
 import { LinearGradient } from "expo-linear-gradient";
 
-export const FolderScreen = ({ navigation }) => {
+export const FormLibraryScreen = ({ navigation }) => {
   const [filteredForms, setFilteredForms] = useState(formsData);
-
   let [fontsLoaded] = useFonts({
-    Inter_100Thin,
-    Inter_200ExtraLight,
-    Inter_300Light,
-    Inter_400Regular,
-    Inter_500Medium,
-    Inter_600SemiBold,
-    Inter_700Bold,
-    Inter_800ExtraBold,
-    Inter_900Black,
+    DMSans_400Regular,
+    DMSans_500Medium,
+    DMSans_700Bold,
   });
 
   if (!fontsLoaded) {
@@ -99,21 +85,9 @@ export const FolderScreen = ({ navigation }) => {
     );
   };
 
-  // const [currentDate, setCurrentDate] = useState('')
-
-  // useEffect(() => {
-  //   var date = new Date().getDay()
-  //   var month = new Date().getMonth() + 1
-  //   var year = new Date().getFullYear()
-  //   setCurrentDate(
-  //     date + '/' + month + '/' + year
-  //   )
-  // }, [])
-
-
-    const navigateToCategory = (category) => {
-      navigation.navigate("Library", { category });
-    };
+  const navigateToCategory = (category) => {
+    navigation.navigate("Library", { category });
+  };
 
   return (
     <>
@@ -122,7 +96,7 @@ export const FolderScreen = ({ navigation }) => {
         style={styles.gradientContainer}
       >
         <SafeAreaView style={styles.homePage}>
-        <Header title={"Form Library"} />
+          <Header title={"Form Library"} />
           <Layout
             style={{
               backgroundColor: "none",
@@ -180,6 +154,8 @@ export const FolderScreen = ({ navigation }) => {
     </>
   );
 };
+
+export default FormLibraryScreen;
 
 const styles = StyleSheet.create({
   homePage: {

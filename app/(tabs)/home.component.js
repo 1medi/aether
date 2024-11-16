@@ -40,17 +40,16 @@ export const HomeScreen = ({ navigation }) => {
 
   return (
     <>
-      {/* <LinearGradient
-        colors={["#9FC3E5", "#FFFF"]}
-        style={styles.gradientContainer}
-      > */}
       <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
         <Header title={"Homepage"} />
         <ScrollView
           contentContainerStyle={styles.scrollContainer}
           showsVerticalScrollIndicator={false}
         >
+          {/* Spacer */}
           <View style={{ height: 24 }} />
+
+          {/* Home Banner */}
           <Layout style={styles.imageSection}>
             <ImageBackground
               source={require("@/assets/images/homePhoto2.png")}
@@ -73,7 +72,7 @@ export const HomeScreen = ({ navigation }) => {
                       buttonTitle="Search"
                       buttonDesc="our library"
                       accessory={SearchIcon}
-                      destination="Folder"
+                      destination="FormLibrary"
                     />
                   </Layout>
                   <Layout style={styles.actionColumn}>
@@ -97,16 +96,14 @@ export const HomeScreen = ({ navigation }) => {
             </ImageBackground>
           </Layout>
 
+          {/* Spacer */}
           <View style={{ height: 24 }} />
 
+          {/* Recent Forms Section */}
           <Layout style={styles.subhead}>
             <Text style={styles.headline}>Recent Forms</Text>
-            <Icon
-              name="arrow-forward-outline"
-              style={styles.headlineButton}
-            />
+            <Icon name="arrow-forward-outline" style={styles.headlineButton} />
           </Layout>
-
           <Layout style={styles.recentFormsSection}>
             <View style={styles.libraryButtonContainer}>
               <FormListCard
@@ -124,16 +121,14 @@ export const HomeScreen = ({ navigation }) => {
             </View>
           </Layout>
 
+          {/* Spacer */}
           <View style={{ height: 24 }} />
 
+          {/* Quick Access Section */}
           <Layout style={styles.subhead}>
             <Text style={styles.headline}>Quick Access</Text>
-            <Icon
-              name="arrow-forward-outline"
-              style={styles.headlineButton}
-            />
+            <Icon name="arrow-forward-outline" style={styles.headlineButton} />
           </Layout>
-
           <Layout style={styles.quickAccessSection}>
             <ScrollView
               horizontal
@@ -155,6 +150,7 @@ export const HomeScreen = ({ navigation }) => {
             </ScrollView>
           </Layout>
 
+          {/* End Image */}
           <Layout style={styles.bottomSpacerLogo}>
             <Image
               source={require("@/assets/images/logo40.png")}
@@ -163,16 +159,13 @@ export const HomeScreen = ({ navigation }) => {
           </Layout>
         </ScrollView>
       </SafeAreaView>
-      {/* </LinearGradient> */}
     </>
   );
 };
 
+export default HomeScreen;
+
 const styles = StyleSheet.create({
-  // gradientContainer: {
-  //   flex: 1,
-  //   backgroundColor: "transparent",
-  // },
   fullPage: {
     flex: 1,
     backgroundColor: colors.apple.offWhite,
@@ -196,7 +189,7 @@ const styles = StyleSheet.create({
   },
   imageBackground: {
     width: "100%",
-    height: 420,
+    height: 440,
   },
   greetingSection: {
     backgroundColor: "transparent",
@@ -260,6 +253,24 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
 });
+
+// Old Code
+
+{
+  /* <LinearGradient
+  colors={["#9FC3E5", "#FFFF"]}
+  style={styles.gradientContainer}
+> */
+}
+
+{
+  /* </LinearGradient> */
+}
+
+// gradientContainer: {
+//   flex: 1,
+//   backgroundColor: "transparent",
+// },
 
 {
   /* <Layout style={styles.optionLayout}>

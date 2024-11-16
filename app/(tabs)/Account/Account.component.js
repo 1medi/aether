@@ -6,7 +6,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import Header from "@/components/header/Header";
 import ConsoleScreen from "@/components/atoms/ConsoleScreen"
 
-export const PeopleScreen = ({ navigation }) => {
+export const AccountScreen = ({ navigation }) => {
   const navigateBack = () => {
     navigation.goBack();
   };
