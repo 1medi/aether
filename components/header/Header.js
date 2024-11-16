@@ -1,7 +1,7 @@
 import React from "react";
-import { StyleSheet, Text, Image, View } from "react-native";
+import { StyleSheet, Text, TextInput, Image, View } from "react-native";
 import { colors, typography } from "../../css/globals";
-import { Layout } from "@ui-kitten/components";
+import { Layout, Icon } from "@ui-kitten/components";
 
 export default function Header({ title, hasSearchBar, onSearch }) {
   return (
@@ -15,7 +15,17 @@ export default function Header({ title, hasSearchBar, onSearch }) {
           />
         </View>
       </View>
-      
+
+      {hasSearchBar && (
+        <View style={styles.searchContainer}>
+          <Icon name="search" fill={colors.apple.black} />
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Find the form you need"
+            onChangeText={onSearch}
+          />
+        </View>
+      )}
     </Layout>
   );
 }
@@ -50,5 +60,23 @@ const styles = StyleSheet.create({
   pageTitle: {
     ...typography(true).h1,
     color: colors.apple.black,
+  },
+
+  searchContainer: {
+    backgroundColor: colors.apple.glass70,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 8,
+    marginTop: 16,
+    borderRadius: 100,
+    borderWidth: 1,
+    borderColor: colors.apple.lightStroke,
+    height: 48,
+  },
+  searchInput: {
+    ...typography(true).body,
+    color: colors.apple.secondaryText,
+    paddingHorizontal: 8,
+    flex: 1,
   },
 });
