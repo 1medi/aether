@@ -8,7 +8,7 @@ import {
   ImageBackground,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Layout, Icon } from "@ui-kitten/components";
+import { Divider, Layout, Icon } from "@ui-kitten/components";
 import QuickAccessCard from "@/components/molecules/QuickAccessCard";
 import ActionButton from "@/components/atoms/actionButton";
 import Header from "@/components/header/Header";
@@ -97,34 +97,40 @@ export const HomeScreen = ({ navigation }) => {
           </Layout>
 
           {/* Spacer */}
-          <View style={{ height: 24 }} />
+          {/* <View style={{ height: 24 }} /> */}
 
           {/* Recent Forms Section */}
-          <Layout style={styles.subhead}>
-            <Text style={styles.headline}>Recent Forms</Text>
-            <Icon name="arrow-forward-outline" style={styles.headlineButton} />
-          </Layout>
-          <Layout style={styles.recentFormsSection}>
-            <View style={styles.libraryButtonContainer}>
-              <FormListCard
-                title="Pension Plan Application"
-                subheader="Sarah O’Neil"
-                footnote="Modified Oct 16, 2024 - Draft ✎"
+          <Layout style={styles.sectionContainer}>
+            <Layout style={styles.subhead}>
+              <Text style={styles.headline}>Recent</Text>
+              <Icon
+                name="arrow-forward-outline"
+                style={styles.headlineButton}
               />
-            </View>
-            <View style={styles.libraryButtonContainer}>
-              <FormListCard
-                title="Medical Form"
-                subheader="Chris Topher"
-                footnote="Modified Oct 16, 2024 - Draft ✎"
-              />
-            </View>
+            </Layout>
+            <Layout style={styles.recentFormsSection}>
+              <View style={styles.formButtonContainer}>
+                <FormListCard
+                  title="Pension Plan Application"
+                  subheader="Sarah O’Neil"
+                  footnote="Modified Oct 16, 2024 - Draft ✎"
+                />
+              </View>
+              <Divider style={styles.divider}/>
+              <View style={styles.formButtonContainer}>
+                <FormListCard
+                  title="Medical Form"
+                  subheader="Chris Topher"
+                  footnote="Modified Oct 16, 2024 - Draft ✎"
+                />
+              </View>
+            </Layout>
           </Layout>
 
           {/* Spacer */}
           <View style={{ height: 24 }} />
 
-          {/* Quick Access Section */}
+          {/* Quick Access Section
           <Layout style={styles.subhead}>
             <Text style={styles.headline}>Quick Access</Text>
             <Icon name="arrow-forward-outline" style={styles.headlineButton} />
@@ -136,19 +142,19 @@ export const HomeScreen = ({ navigation }) => {
               showsHorizontalScrollIndicator={false} // Hide horizontal scroll bar
             >
               <QuickAccessCard
-                title="Pension Plan Application"
-                description="Apply to share your retirement pension with your spouse or partner for potential tax savings."
+                title="Canadian Pension Plan"
+                description="Apply for monthly retirement income from CPP."
               />
               <QuickAccessCard
-                title="Medical History Form"
-                description="Apply to share your retirement pension with your spouse or partner for potential tax savings."
+                title="Disability Tax Credit"
+                description="Apply for a tax credit for individuals with disabilities."
               />
               <QuickAccessCard
-                title="Medication Records"
-                description="Apply to share your retirement pension with your spouse or partner for potential tax savings."
+                title="Assisted Living Application"
+                description="Request access to assisted living or long-term care."
               />
             </ScrollView>
-          </Layout>
+          </Layout> */}
 
           {/* End Image */}
           <Layout style={styles.bottomSpacerLogo}>
@@ -172,6 +178,7 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     paddingBottom: 132,
+    gap: 8,
   },
 
   imageSection: {
@@ -211,12 +218,21 @@ const styles = StyleSheet.create({
     maxWidth: "33.33%",
   },
 
+  sectionContainer: {
+    backgroundColor: colors.apple.glass70,
+    marginHorizontal: 8,
+    paddingVertical: 24,
+    paddingHorizontal: 8,
+    borderRadius: 32,
+    borderWidth: 1,
+    borderColor: colors.apple.lightStroke,
+  },
   recentFormsSection: {
     display: "flex",
     flexDirection: "column",
     backgroundColor: "transparent",
-    paddingHorizontal: 8,
-    gap: 8,
+    // paddingHorizontal: 8,
+    // gap: 4,
   },
   headline: {
     marginBottom: 8,
@@ -232,17 +248,22 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: "transparent",
-    paddingHorizontal: 24,
+    paddingHorizontal: 16,
+  },
+  divider: {
+    marginHorizontal: 24,
+    backgroundColor: colors.apple.lightStroke,
   },
 
-  quickAccessSection: {
-    backgroundColor: "transparent",
-  },
-  cardScrollContainer: {
-    flexDirection: "row",
-    gap: 8,
-    paddingHorizontal: 8,
-  },
+
+  // quickAccessSection: {
+  //   backgroundColor: "transparent",
+  // },
+  // cardScrollContainer: {
+  //   flexDirection: "row",
+  //   gap: 4,
+  //   paddingHorizontal: 8,
+  // },
 
   bottomSpacerLogo: {
     marginVertical: 24,

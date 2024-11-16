@@ -75,7 +75,6 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     ...typography(true).body,
-    color: colors.apple.secondaryText,
     paddingHorizontal: 8,
     flex: 1,
   },

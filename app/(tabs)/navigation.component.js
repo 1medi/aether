@@ -19,12 +19,15 @@ import { AccountScreen } from "./Account/Account.component";
 import { colors } from "@/css/globals";
 
 const Tab = createBottomTabNavigator();
-const Stack = createStackNavigator();
+const HomeStack = createStackNavigator();
+const FormLibraryStack = createStackNavigator();
+const MyFilesStack = createStackNavigator();
+const AccountStack = createStackNavigator();
 
 const BottomTabBar = ({ navigation, state }) => (
   <Layout style={styles.navShadowContainer}>
     <BlurView intensity={24} style={styles.navOuterContainer}>
-    <BottomNavigation
+      <BottomNavigation
         appearance="noIndicator"
         selectedIndex={state.index}
         onSelect={(index) => navigation.navigate(state.routeNames[index])}
@@ -59,7 +62,42 @@ const BottomTabBar = ({ navigation, state }) => (
   </Layout>
 );
 
-// Screens That Appear On NavBar
+const HomeStackNavigator = () => (
+  <HomeStack.Navigator screenOptions={{ headerShown: false }}>
+    <HomeStack.Screen name="Home" component={HomeScreen} />
+    <HomeStack.Screen name="Library" component={LibraryScreen} />
+    <HomeStack.Screen name="Camera" component={CameraScreen} />
+    <HomeStack.Screen name="PensionPlan" component={AutofilledScreen} />
+  </HomeStack.Navigator>
+);
+
+const FormLibraryStackNavigator = () => (
+  <FormLibraryStack.Navigator screenOptions={{ headerShown: false }}>
+    <FormLibraryStack.Screen name="FormLibrary" component={FormLibraryScreen} />
+    <FormLibraryStack.Screen name="Library" component={LibraryScreen} />
+    <FormLibraryStack.Screen name="Camera" component={CameraScreen} />
+    <FormLibraryStack.Screen name="PensionPlan" component={AutofilledScreen} />
+  </FormLibraryStack.Navigator>
+);
+
+const MyFilesStackNavigator = () => (
+  <MyFilesStack.Navigator screenOptions={{ headerShown: false }}>
+    <MyFilesStack.Screen name="MyFiles" component={MyFilesScreen} />
+    <MyFilesStack.Screen name="Library" component={LibraryScreen} />
+    <MyFilesStack.Screen name="Camera" component={CameraScreen} />
+    <MyFilesStack.Screen name="PensionPlan" component={AutofilledScreen} />
+  </MyFilesStack.Navigator>
+);
+
+const AccountStackNavigator = () => (
+  <AccountStack.Navigator screenOptions={{ headerShown: false }}>
+    <AccountStack.Screen name="Account" component={AccountScreen} />
+    <AccountStack.Screen name="Library" component={LibraryScreen} />
+    <AccountStack.Screen name="Camera" component={CameraScreen} />
+    <AccountStack.Screen name="PensionPlan" component={AutofilledScreen} />
+  </AccountStack.Navigator>
+);
+
 const TabNavigator = () => (
   <Tab.Navigator
     screenOptions={{
@@ -67,23 +105,15 @@ const TabNavigator = () => (
     }}
     tabBar={(props) => <BottomTabBar {...props} />}
   >
-    <Tab.Screen name="Home" component={HomeScreen} />
-    <Tab.Screen name="FormLibrary" component={FormLibraryScreen} />
-    <Tab.Screen name="MyFiles" component={MyFilesScreen} />
-    <Tab.Screen name="Account" component={AccountScreen} />
+    <Tab.Screen name="Home" component={HomeStackNavigator} />
+    <Tab.Screen name="FormLibrary" component={FormLibraryStackNavigator} />
+    <Tab.Screen name="MyFiles" component={MyFilesStackNavigator} />
+    <Tab.Screen name="Account" component={AccountStackNavigator} />
   </Tab.Navigator>
 );
 
-// Exterior Screens
 const AppNavigator = () => (
-  <Stack.Navigator screenOptions={{ headerShown: false }}>
-    <Stack.Screen name="Main" component={TabNavigator} />
-
-    {/* Add Other Screens Below */}
-    <Stack.Screen name="Library" component={LibraryScreen} />
-    <Stack.Screen name="Camera" component={CameraScreen} />
-    <Stack.Screen name="PensionPlan" component={AutofilledScreen} />
-  </Stack.Navigator>
+  <TabNavigator />
 );
 
 const styles = StyleSheet.create({
