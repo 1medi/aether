@@ -1,8 +1,16 @@
 import React, { useState } from "react";
 import { Button, Divider, Layout, Icon, Input } from "@ui-kitten/components";
-import { StyleSheet, Text, ScrollView, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  ScrollView,
+  View,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import Header from "@/components/header/Header";
-import formsData from "@/app/data/mock_data";
+import { colors, typography } from "@/css/globals";
+import formsData from "@/app/data/formsData";
 import {
   useFonts,
   DMSans_400Regular,
@@ -10,7 +18,6 @@ import {
   DMSans_700Bold,
 } from "@expo-google-fonts/dm-sans";
 import AppLoading from "expo-app-loading";
-import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export const FormLibraryScreen = ({ navigation }) => {
@@ -28,10 +35,53 @@ export const FormLibraryScreen = ({ navigation }) => {
   return (
     <>
       <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
-        <Header title={"Form Library"} />
+        <Header title={"Form Library"} hasSearchBar />
         <ScrollView
-          style={{ marginHorizontal: 8, backgroundColor: "none", margin: 10 }}
-        ></ScrollView>
+          contentContainerStyle={styles.scrollContainer}
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={styles.container}>
+            {formsData.map((item, index) => (
+              <TouchableOpacity
+                key={item.id}
+                style={[
+                  styles.item,
+                  { height: item.height },
+                  index >= 3 && (index - 3) % 2 === 0
+                    ? styles.rightItem
+                    : styles.leftItem,
+                ]}
+              >
+                {item.image && (
+                  <Image source={item.image} style={styles.image} />
+                )}
+                <View style={styles.textContainer}>
+                  <Text
+                    style={styles.title}
+                    numberOfLines={2}
+                    ellipsizeMode="tail"
+                  >
+                    {item.title}
+                  </Text>
+                  <Text
+                    style={styles.description}
+                    numberOfLines={2}
+                    ellipsizeMode="tail"
+                  >
+                    {item.description}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            ))}
+          </View>
+          {/* End Image */}
+          <Layout style={styles.bottomSpacerLogo}>
+            <Image
+              source={require("@/assets/images/logo40.png")}
+              style={styles.bottomSpacerLogo}
+            />
+          </Layout>
+        </ScrollView>
       </SafeAreaView>
     </>
   );
@@ -40,87 +90,61 @@ export const FormLibraryScreen = ({ navigation }) => {
 export default FormLibraryScreen;
 
 const styles = StyleSheet.create({
-  homePage: {
+  fullPage: {
     flex: 1,
-    backgroundColor: "none",
-    height: "100%",
+    backgroundColor: colors.apple.offWhite,
   },
-  gradientContainer: {
-    flex: 1, // Make gradient cover the entire screen
-  },
-  iconContainer: {
-    width: 40,
-    height: 40,
-    borderRadius: 24,
-    backgroundColor: "white",
-    justifyContent: "center",
+  scrollContainer: {
+    display: "flex",
+    flexDirection: "column",
     alignItems: "center",
-    padding: 5,
-  },
-  filterIcon: {
-    width: 24,
-    height: 24,
-    tintColor: "#08415C",
-    backgroundColor: "transparent",
+    justifyContent: "center",
+    paddingBottom: 132,
   },
 
-  headerText: {
-    fontSize: 32,
-    fontFamily: "Inter_400Regular",
-    color: "#08415C",
-  },
-  numberContainer: {
+  container: {
     flexDirection: "row",
-    alignItems: "flex-end",
-    margin: 20,
-    backgroundColor: "none",
-    paddingRight: 50,
+    flexWrap: "wrap",
+    gap: 4,
+    margin: 8,
   },
-  largeNumber: {
-    fontSize: 100,
-    fontWeight: "bold",
-    color: "#6D96B7",
-    marginRight: 10,
+  item: {
+    width: "49.46%", // Two columns with spacing
+    backgroundColor: colors.apple.glass70,
+    borderRadius: 24,
+    borderWidth: 1,
+    borderColor: colors.apple.lightStroke,
+    overflow: "hidden",
   },
-  numberTextContainer: {
-    flexDirection: "column",
+
+  image: {
+    width: "100%",
+    height: 176,
   },
-  subText: {
-    fontSize: 16,
-    color: "#6D96B7",
-    marginBottom: 5,
-    width: 100,
+
+  leftItem: {},
+  rightItem: {
+    marginTop: "-28.8%",
   },
-  formsText: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#2A374A",
+
+  textContainer: {
+    padding: 12,
   },
-  numberContainer: {
-    flexDirection: "row",
-    alignItems: "flex-end",
-    margin: 10,
-    backgroundColor: "none",
-    paddingRight: 50,
+  title: {
+    ...typography(true).bodyMed,
+    color: colors.apple.black,
   },
-  largeNumber: {
-    fontSize: 100,
-    fontWeight: "bold",
-    color: "#6D96B7",
-    marginRight: 10,
+  description: {
+    ...typography(true).footnote,
+    color: colors.apple.secondaryText,
+    marginTop: 8,
   },
-  numberTextContainer: {
-    flexDirection: "column",
-  },
-  subText: {
-    fontSize: 16,
-    color: "#6D96B7",
-    marginBottom: 5,
-    width: 100,
-  },
-  formsText: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#2A374A",
+
+  bottomSpacerLogo: {
+    marginVertical: 24,
+    backgroundColor: "transparent",
+    width: 102,
+    height: 88,
+    alignSelf: "center",
   },
 });

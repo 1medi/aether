@@ -47,7 +47,7 @@ export const HomeScreen = ({ navigation }) => {
           showsVerticalScrollIndicator={false}
         >
           {/* Spacer */}
-          <View style={{ height: 24 }} />
+          <View style={{ height: 8 }} />
 
           {/* Home Banner */}
           <Layout style={styles.imageSection}>
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
     display: "flex",
     padding: 8,
     flexDirection: "column",
-    justifyContent: "space-between",
+    justifyContent: "flex-end",
     flex: 1,
   },
   imageBackground: {
@@ -193,8 +193,8 @@ const styles = StyleSheet.create({
   },
   greetingSection: {
     backgroundColor: "transparent",
-    paddingHorizontal: 8,
-    paddingVertical: 16,
+    paddingHorizontal: 0,
+    paddingVertical: 8,
   },
   greetingText: {
     ...typography(true).display,
