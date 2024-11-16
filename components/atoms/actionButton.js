@@ -29,7 +29,7 @@ export default function Button({
               style={{
                 width: 40,
                 height: 40,
-                tintColor: "#ffffff",
+                tintColor: `${colors.apple.white}`,
               }}
             />
           </View>

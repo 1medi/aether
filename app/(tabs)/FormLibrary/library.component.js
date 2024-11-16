@@ -71,7 +71,7 @@ export default function LibraryScreen() {
 
           <View style={styles.buttonsRow}>
             <Pressable>
-              <BackIcon onPress={() => navigation.navigate("Details")} />
+              <BackIcon onPress={() => navigation.goBack()} />
             </Pressable>
 
             <View style={styles.buttons}>
