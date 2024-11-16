@@ -2,7 +2,6 @@ import React from "react";
 import {
   TouchableOpacity,
   StyleSheet,
-  Image,
   ImageBackground,
   View,
   Text,
@@ -35,7 +34,7 @@ export default function FormLibraryCard({
             <Text style={styles.description}>{description}</Text>
           </Layout>
           <View style={styles.iconContainer}>
-            <View style={styles.iconBackground}>
+            <BlurView intensity={16} style={styles.iconBackground}>
               <ArrowIcon
                 style={{
                   width: 32,
@@ -43,7 +42,7 @@ export default function FormLibraryCard({
                   tintColor: `${colors.apple.white}`,
                 }}
               />
-            </View>
+            </BlurView>
           </View>
         </LinearGradient>
       </ImageBackground>
@@ -90,5 +89,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.apple.glass20,
     padding: 8,
+    overflow: "hidden",
   },
 });
