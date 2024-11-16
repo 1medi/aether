@@ -96,9 +96,6 @@ export const HomeScreen = ({ navigation }) => {
             </ImageBackground>
           </Layout>
 
-          {/* Spacer */}
-          {/* <View style={{ height: 24 }} /> */}
-
           {/* Recent Forms Section */}
           <Layout style={styles.sectionContainer}>
             <Layout style={styles.subhead}>
@@ -116,7 +113,7 @@ export const HomeScreen = ({ navigation }) => {
                   footnote="Modified Oct 16, 2024 - Draft ✎"
                 />
               </View>
-              <Divider style={styles.divider}/>
+              <Divider style={styles.divider} />
               <View style={styles.formButtonContainer}>
                 <FormListCard
                   title="Medical Form"
@@ -129,32 +126,6 @@ export const HomeScreen = ({ navigation }) => {
 
           {/* Spacer */}
           <View style={{ height: 24 }} />
-
-          {/* Quick Access Section
-          <Layout style={styles.subhead}>
-            <Text style={styles.headline}>Quick Access</Text>
-            <Icon name="arrow-forward-outline" style={styles.headlineButton} />
-          </Layout>
-          <Layout style={styles.quickAccessSection}>
-            <ScrollView
-              horizontal
-              contentContainerStyle={styles.cardScrollContainer}
-              showsHorizontalScrollIndicator={false} // Hide horizontal scroll bar
-            >
-              <QuickAccessCard
-                title="Canadian Pension Plan"
-                description="Apply for monthly retirement income from CPP."
-              />
-              <QuickAccessCard
-                title="Disability Tax Credit"
-                description="Apply for a tax credit for individuals with disabilities."
-              />
-              <QuickAccessCard
-                title="Assisted Living Application"
-                description="Request access to assisted living or long-term care."
-              />
-            </ScrollView>
-          </Layout> */}
 
           {/* End Image */}
           <Layout style={styles.bottomSpacerLogo}>
@@ -221,7 +192,8 @@ const styles = StyleSheet.create({
   sectionContainer: {
     backgroundColor: colors.apple.glass70,
     marginHorizontal: 8,
-    paddingVertical: 24,
+    paddingTop: 24,
+    paddingBottom: 16,
     paddingHorizontal: 8,
     borderRadius: 32,
     borderWidth: 1,
@@ -254,7 +226,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
     backgroundColor: colors.apple.lightStroke,
   },
-
 
   // quickAccessSection: {
   //   backgroundColor: "transparent",
@@ -324,4 +295,32 @@ const styles = StyleSheet.create({
   <Text style={styles.optionText}>Upload</Text>
 </Layout>
 </Layout> */
+}
+
+{
+  /* Quick Access Section
+          <Layout style={styles.subhead}>
+            <Text style={styles.headline}>Quick Access</Text>
+            <Icon name="arrow-forward-outline" style={styles.headlineButton} />
+          </Layout>
+          <Layout style={styles.quickAccessSection}>
+            <ScrollView
+              horizontal
+              contentContainerStyle={styles.cardScrollContainer}
+              showsHorizontalScrollIndicator={false} // Hide horizontal scroll bar
+            >
+              <QuickAccessCard
+                title="Canadian Pension Plan"
+                description="Apply for monthly retirement income from CPP."
+              />
+              <QuickAccessCard
+                title="Disability Tax Credit"
+                description="Apply for a tax credit for individuals with disabilities."
+              />
+              <QuickAccessCard
+                title="Assisted Living Application"
+                description="Request access to assisted living or long-term care."
+              />
+            </ScrollView>
+          </Layout> */
 }
