@@ -68,9 +68,10 @@ export const colors = {
 
 export const typography = (fontsLoaded) => ({
   display: {
-    fontSize: 136,
-    fontFamily: "DMSans_700Bold",
+    fontSize: 38,
+    fontFamily: "DMSans_500Medium",
     color: colors.dark.black,
+    letterSpacing: -0.5,
   },
   displaySubhead: {
     fontSize: 32,

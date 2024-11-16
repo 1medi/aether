@@ -1,4 +1,4 @@
-export const formsData = [
+const formsData = [
   {
     id: 1,
     category: "Pension Plan",
@@ -19,3 +19,5 @@ export const formsData = [
     description: "Tax statements related to income.",
   }
 ];
+
+export default formsData;

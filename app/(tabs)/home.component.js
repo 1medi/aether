@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
     display: "flex",
     padding: 8,
     flexDirection: "column",
-    justifyContent: "flex-end",
+    justifyContent: "space-between",
     flex: 1,
   },
   imageBackground: {
@@ -194,11 +194,10 @@ const styles = StyleSheet.create({
   greetingSection: {
     backgroundColor: "transparent",
     paddingHorizontal: 8,
-    paddingBottom: 8,
-    width: "100%",
+    paddingVertical: 16,
   },
   greetingText: {
-    ...typography(true).h1,
+    ...typography(true).display,
     color: colors.apple.white,
   },
   actionLayout: {
