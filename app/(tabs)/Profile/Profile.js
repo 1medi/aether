@@ -10,11 +10,9 @@ import {
 } from "@ui-kitten/components";
 import Settings from "@/components/atoms/settings.js";
 import { StyleSheet, Text, Image } from "react-native";
-import OptionButton from "@/components/atoms/optionButton";
-import DarkModeIcon from "@/components/atoms/darkMode";
+import OptionButton from "@/components/graveyard/optionButton";
 import { Input } from "@ui-kitten/components";
-import HeaderProfile from "@/components/molecules/Header";
-import LibraryButton from "@/components/molecules/FormLibraryButtons";
+import Header from "@/components/header/Header";
 import ProfileCard from "@/components/molecules/ProfileCard";
 import SearchBar from "@/components/molecules/SearchBar";
 import {

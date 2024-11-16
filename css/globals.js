@@ -45,6 +45,7 @@ export const colors = {
     green: "rgb(52, 199, 89)",
     red: "rgb(255, 59, 48)",
     glass20: "rgba(255, 255, 255, 0.2)",
+    glass30: "rgba(255, 255, 255, 0.3)",
     glass40: "rgba(255, 255, 255, 0.4)",
     glass70: "rgba(255, 255, 255, 0.7)",
     black: "rgb(0, 0, 0)",

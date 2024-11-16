@@ -9,10 +9,10 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Layout, Icon } from "@ui-kitten/components";
-import QuickAccessCard from "@/components/atoms/quickAccessCard";
+import QuickAccessCard from "@/components/molecules/QuickAccessCard";
 import ActionButton from "@/components/atoms/actionButton";
-import Header from "@/components/headers/Header";
-import LibraryButton from "@/components/molecules/FormLibraryButtons";
+import Header from "@/components/header/Header";
+import FormListCard from "@/components/molecules/FormListCard";
 import { LinearGradient } from "expo-linear-gradient";
 import { colors, typography } from "@/css/globals";
 import {
@@ -109,14 +109,14 @@ export const HomeScreen = ({ navigation }) => {
 
           <Layout style={styles.recentFormsSection}>
             <View style={styles.libraryButtonContainer}>
-              <LibraryButton
+              <FormListCard
                 title="Pension Plan Application"
                 subheader="Sarah O’Neil"
                 footnote="Modified Oct 16, 2024 - Draft ✎"
               />
             </View>
             <View style={styles.libraryButtonContainer}>
-              <LibraryButton
+              <FormListCard
                 title="Medical Form"
                 subheader="Chris Topher"
                 footnote="Modified Oct 16, 2024 - Draft ✎"
@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     backgroundColor: "transparent",
     paddingHorizontal: 8,
-    gap: 4,
+    gap: 8,
   },
   headline: {
     marginBottom: 8,
@@ -248,7 +248,7 @@ const styles = StyleSheet.create({
   },
   cardScrollContainer: {
     flexDirection: "row",
-    gap: 4,
+    gap: 8,
     paddingHorizontal: 8,
   },
 

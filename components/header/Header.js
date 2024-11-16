@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     backgroundColor: "transparent",
     paddingHorizontal: 16,
-    paddingBottom: 8,
+    paddingVertical: 8,
     borderBottomColor: colors.apple.lightStroke,
     borderBottomWidth: 1,
     justifyContent: "space-between",

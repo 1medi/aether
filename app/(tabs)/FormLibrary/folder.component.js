@@ -15,8 +15,8 @@ import {
   ScrollView,
   View,
 } from "react-native";
-import HeaderProfile from "@/components/molecules/Header";
-import LibraryButton from "@/components/molecules/FormLibraryButtons";
+import Header from "@/components/header/Header";
+import FormListCard from "@/components/molecules/FormListCard";
 import { FilterButton } from "@/components/atoms/filterButton";
 import ConsoleScreen from "@/components/atoms/ConsoleScreen";
 
@@ -122,7 +122,7 @@ export const FolderScreen = ({ navigation }) => {
         style={styles.gradientContainer}
       >
         <SafeAreaView style={styles.homePage}>
-          <HeaderProfile />
+        <Header title={"Form Library"} />
           <Layout
             style={{
               backgroundColor: "none",
@@ -165,7 +165,7 @@ export const FolderScreen = ({ navigation }) => {
           >
             <Layout style={{ backgroundColor: "none" }}>
               {filteredForms.map((form) => (
-                <LibraryButton
+                <FormListCard
                   key={form.id}
                   title={form.title}
                   subheader={form.description}

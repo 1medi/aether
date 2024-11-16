@@ -8,15 +8,14 @@ import {
   Icon,
 } from "@ui-kitten/components";
 import Settings from "@/components/atoms/settings.js";
-import CardSimple from "@/components/atoms/quickAccessCard";
+import CardSimple from "@/components/molecules/QuickAccessCard";
 import { StyleSheet, Text, Image } from "react-native";
-import OptionButton from "@/components/atoms/optionButton";
-import DarkModeIcon from "@/components/atoms/darkMode";
+import OptionButton from "@/components/graveyard/optionButton";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import DetectObject from "@/src/index";
-import HeaderProfile from "@/components/molecules/Header";
+import Header from "@/components/header/Header";
 
 import {
   useFonts,
@@ -71,7 +70,7 @@ export const CameraScreen = ({ navigation }) => {
         style={styles.gradientContainer}
       >
         <SafeAreaView style={styles.homePage}>
-          <HeaderProfile />
+          <Header />
           <ScrollView style={{ marginHorizontal: 5, backgroundColor: "none" }}>
             <Layout
               style={{ backgroundColor: "none", padding: 20, width: 400 }}

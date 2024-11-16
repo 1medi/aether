@@ -3,7 +3,7 @@ import { SafeAreaView, ScrollView } from "react-native";
 import { Divider, Layout, Text, Input, Button, Icon} from "@ui-kitten/components";
 import { LinearGradient } from "expo-linear-gradient";
 
-import HeaderProfile from "@/components/molecules/Header";
+import Header from "@/components/header/Header";
 import ConsoleScreen from "@/components/atoms/ConsoleScreen"
 
 export const PeopleScreen = ({ navigation }) => {
