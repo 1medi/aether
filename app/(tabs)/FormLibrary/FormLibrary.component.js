@@ -106,11 +106,13 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     flexDirection: "row",
     flexWrap: "wrap",
-    marginHorizontal: 8,
-    gap: 4,
+    marginHorizontal: 4,
+    // gap: 4,
+    justifyContent: "center",
   },
   libraryCardContainer: {
-    width: "49.4%",
+    // width: "49.4%",
+    width: "50%",
   },
   endContainer: {
     backgroundColor: colors.bg.green,
@@ -118,6 +120,7 @@ const styles = StyleSheet.create({
     gap: 8,
     justifyContent: "center",
     paddingHorizontal: 16,
+    height: 304,
   },
   endTextTitle: {
     ...typography(true).h2Med,

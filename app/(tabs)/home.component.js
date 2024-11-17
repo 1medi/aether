@@ -43,6 +43,8 @@ export const HomeScreen = ({ navigation }) => {
   return (
     <>
       <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
+        
+        {/* Header */}
         <Header title={"Homepage"} />
         <ScrollView
           contentContainerStyle={styles.scrollContainer}
@@ -65,6 +67,8 @@ export const HomeScreen = ({ navigation }) => {
                     {"\n"}a form today?
                   </Text>
                 </Layout>
+
+                {/* Acton Buttons */}
                 <Layout style={styles.actionLayout}>
                   <Layout style={styles.actionColumn}>
                     <ActionButton
@@ -149,14 +153,15 @@ const styles = StyleSheet.create({
   scrollContainer: {
     paddingTop: 8,
     paddingBottom: 132,
-    gap: 4,
+    // gap: 4,
   },
 
+  // Banner Section
   imageSection: {
     backgroundColor: "transparent",
     borderRadius: 32,
     overflow: "hidden",
-    marginHorizontal: 8,
+    marginHorizontal: 4,
   },
   gradientOverlay: {
     display: "flex",
@@ -169,6 +174,8 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 440,
   },
+
+  // Banner Text
   greetingSection: {
     backgroundColor: "transparent",
     paddingHorizontal: 10,
@@ -178,6 +185,8 @@ const styles = StyleSheet.create({
     ...typography(true).display,
     color: colors.apple.white,
   },
+
+  // Action Buttons
   actionLayout: {
     flexDirection: "row",
     backgroundColor: "transparent",
@@ -189,9 +198,10 @@ const styles = StyleSheet.create({
     maxWidth: "33.33%",
   },
 
+  // Recent Forms Section
   sectionContainer: {
     backgroundColor: colors.apple.white,
-    marginHorizontal: 8,
+    marginHorizontal: 4,
     paddingTop: 16,
     paddingBottom: 8,
     paddingHorizontal: 8,
@@ -204,6 +214,15 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     backgroundColor: "transparent",
   },
+
+  // Recent Forms Header & Divider
+  subhead: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "transparent",
+    paddingHorizontal: 12,
+  },
   headline: {
     marginBottom: 8,
     ...typography(true).h4Med,
@@ -212,13 +231,6 @@ const styles = StyleSheet.create({
   headlineButton: {
     width: 24,
     height: 24,
-  },
-  subhead: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: "transparent",
-    paddingHorizontal: 12,
   },
   divider: {
     marginHorizontal: 32,
