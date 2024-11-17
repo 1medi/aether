@@ -47,6 +47,7 @@ export const CameraScreen = ({ navigation }) => {
   if (!fontsLoaded) {
     return <AppLoading />;
   }
+
   // const [currentDate, setCurrentDate] = useState('')
 
   // useEffect(() => {
@@ -66,25 +67,27 @@ export const CameraScreen = ({ navigation }) => {
       >
         <SafeAreaView style={styles.homePage}>
           <HeaderProfile />
-          <ScrollView style={{ marginHorizontal: 5, backgroundColor: "none" }}>
-            <Layout
-              style={{ backgroundColor: "none", padding: 20, width: 400 }}
-            >
-              <Text style={styles.headerText}>
-                Hello Chris!{"\n"}Need help{" "}
-                <Text
-                  style={{ fontFamily: "DMSans_700Bold", color: "#2E8BB7" }}
-                >
-                  Simplifying{" "}
-                </Text>
-                {"\n"}a form today?
-              </Text>
-              <View style={styles.detectContainer}>
-            <DetectObject />
-            </View>
-            </Layout>
+<ScrollView style={{ marginHorizontal: 5, backgroundColor: "transparent" }}>
+  <Layout
+    style={{ backgroundColor: "transparent", padding: 20, alignSelf: "center" }}
+  >
+    <View style={{ alignItems: "center", justifyContent: "center" }}>
+      <Text style={[styles.headerText, { textAlign: "left" }]}>
+        Hello Chris!{"\n"}Need help{" "}
+        <Text
+          style={{ fontFamily: "DMSans_700Bold", color: "#2E8BB7" }}
+        >
+          Simplifying{" "}
+        </Text>
+        {"\n"}a form today?
+      </Text>
+    </View>
+    <View style={styles.detectContainer}>
+      <DetectObject />
+    </View>
+  </Layout>
+</ScrollView>
 
-          </ScrollView>
         </SafeAreaView>
       </LinearGradient>
     </>
@@ -135,8 +138,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignContent: "center",
-    marginRight:15,
     paddingTop: 50,
-    paddingBottom: 50
+    paddingBottom: 50,
+    margin: "auto"
   }
 });
