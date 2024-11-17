@@ -132,10 +132,11 @@ const styles = {
     paddingTop: 8,
     paddingBottom: 32,
     gap: 4,
+    // gap: 8,
   },
   section: {
     backgroundColor: colors.apple.white,
-    marginHorizontal: 8,
+    marginHorizontal: 4,
     paddingTop: 16,
     paddingBottom: 8,
     paddingHorizontal: 8,

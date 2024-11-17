@@ -49,12 +49,12 @@ const styles = StyleSheet.create({
   },
   gradientOverlay: {
     flex: 1,
-    justifyContent: "flex-end",
-    padding: 8,
+    justifyContent: "center",
+    // justifyContent: "flex-end",
+    padding: 16,
   },
   textContainer: {
     backgroundColor: "transparent",
-    padding: 8,
     gap: 8,
   },
   title: {
@@ -66,9 +66,9 @@ const styles = StyleSheet.create({
     color: colors.apple.glass70,
   },
   iconBackground: {
-    // position: "absolute",
-    // bottom: 8,
-    // right: 8,
+    position: "absolute",
+    bottom: 8,
+    right: 8,
     alignSelf: "flex-end",
     backgroundColor: colors.apple.glass20,
     borderRadius: 100,

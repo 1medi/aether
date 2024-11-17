@@ -8,7 +8,7 @@ import {
   Image,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Divider, Layout } from "@ui-kitten/components";
+import { Divider, Layout, Icon } from "@ui-kitten/components";
 import { colors, typography } from "@/css/globals";
 import MyFormsCard from "@/components/atoms/MyFormsCard";
 import SavedProfileCard from "@/components/atoms/SavedProfileCard";
@@ -19,11 +19,8 @@ import savedProfilesData from "@/data/SavedProfilesData";
 export const MyFilesScreen = () => {
   const [activeTab, setActiveTab] = useState("Forms");
   const [filteredData, setFilteredData] = useState(myFormsData);
-
-  // Function to reset data based on the active tab
-  const resetData = () => {
-    setFilteredData(activeTab === "Forms" ? myFormsData : savedProfilesData);
-  };
+  const TipsIcon = (props) => <Icon name="bulb-outline" {...props} />;
+  const CloseIcon = (props) => <Icon name="close-outline" {...props} />;
 
   // Search Function
   const onSearch = (query) => {
@@ -53,6 +50,33 @@ export const MyFilesScreen = () => {
   // Render Forms
   const renderForms = () => (
     <ScrollView style={styles.scrollContainer}>
+      {/* Spacer */}
+      <View style={{ height: 8 }} />
+
+      {/* Suggestion Banner */}
+      <Layout style={styles.suggestionBanner}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+            <TipsIcon fill={colors.apple.black} style={styles.tipsIcon} />
+            <Text style={styles.suggestionTitle}>Try Our Scan Feature!</Text>
+          </View>
+          <CloseIcon fill={colors.apple.black} style={styles.closeIcon} />
+        </View>
+        <Text style={styles.suggestionDescription}>
+          Tap the "+" button to upload your own forms. Either take a photo or
+          upload directly from your device.
+        </Text>
+      </Layout>
+
+      {/* Spacer */}
+      <View style={{ height: 16 }} />
+
       <Layout style={styles.sectionContainer}>
         <Layout style={styles.myFormsSection}>
           {filteredData.map((form, index) => (
@@ -69,6 +93,7 @@ export const MyFilesScreen = () => {
           ))}
         </Layout>
       </Layout>
+
       {/* Spacer */}
       <View style={{ height: 56 }} />
 
@@ -89,6 +114,35 @@ export const MyFilesScreen = () => {
   // Render Profiles
   const renderProfiles = () => (
     <ScrollView style={styles.scrollContainer}>
+      {/* Spacer */}
+      <View style={{ height: 8 }} />
+
+      {/* Suggestion Banner */}
+      <Layout style={styles.suggestionBanner}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+            <TipsIcon fill={colors.apple.black} style={styles.tipsIcon} />
+            <Text style={styles.suggestionTitle}>
+              Save Time, Reduce Stress
+            </Text>
+          </View>
+          <CloseIcon fill={colors.apple.black} style={styles.closeIcon} />
+        </View>
+        <Text style={styles.suggestionDescription}>
+          Store your care recipients' information for quick, two-tap
+          autofilling.
+        </Text>
+      </Layout>
+
+      {/* Spacer */}
+      <View style={{ height: 16 }} />
+
       <View style={styles.profileContainer}>
         {filteredData.map((profile) => (
           <View style={styles.profileCardContainer}>
@@ -120,6 +174,7 @@ export const MyFilesScreen = () => {
 
   return (
     <SafeAreaView style={styles.fullPage}>
+      {/* Toggle Buttons */}
       <View style={styles.toggleContainer}>
         {["Forms", "Profiles"].map((tab) => (
           <TouchableOpacity
@@ -141,6 +196,8 @@ export const MyFilesScreen = () => {
           </TouchableOpacity>
         ))}
       </View>
+
+      {/* Header and Search Bar */}
       <Header
         title="My Files"
         placeholder="Search my forms and profiles"
@@ -148,6 +205,8 @@ export const MyFilesScreen = () => {
         onSearch={onSearch}
         noTitle
       />
+
+      {/* Render Forms or Profiles */}
       {activeTab === "Forms" ? renderForms() : renderProfiles()}
     </SafeAreaView>
   );
@@ -195,11 +254,31 @@ const styles = StyleSheet.create({
     color: colors.apple.black,
   },
 
+  suggestionBanner: {
+    backgroundColor: "transparent",
+    marginHorizontal: 24,
+    gap: 8,
+  },
+  tipsIcon: {
+    width: 24,
+    height: 24,
+  },
+  closeIcon: {
+    width: 24,
+    height: 24,
+  },
+  suggestionTitle: {
+    ...typography(true).bodyMed,
+    color: colors.apple.black,
+  },
+  suggestionDescription: {
+    ...typography(true).footnote,
+    color: colors.apple.secondaryText,
+  },
+
   sectionContainer: {
     backgroundColor: colors.apple.white,
-    marginHorizontal: 8,
-    // paddingTop: 16,
-    // paddingBottom: 8,
+    marginHorizontal: 4,
     paddingVertical: 8,
     paddingHorizontal: 8,
     borderRadius: 32,
@@ -211,22 +290,22 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     backgroundColor: "transparent",
   },
-  headline: {
-    marginBottom: 8,
-    ...typography(true).h4Med,
-    color: colors.apple.black,
-  },
-  headlineButton: {
-    width: 24,
-    height: 24,
-  },
-  subhead: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: "transparent",
-    paddingHorizontal: 12,
-  },
+  // headline: {
+  //   marginBottom: 8,
+  //   ...typography(true).h4Med,
+  //   color: colors.apple.black,
+  // },
+  // headlineButton: {
+  //   width: 24,
+  //   height: 24,
+  // },
+  // subhead: {
+  //   flexDirection: "row",
+  //   justifyContent: "space-between",
+  //   alignItems: "center",
+  //   backgroundColor: "transparent",
+  //   paddingHorizontal: 12,
+  // },
   divider: {
     marginHorizontal: 24,
     backgroundColor: colors.apple.lightStroke,
@@ -236,8 +315,8 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     flexDirection: "row",
     flexWrap: "wrap",
-    marginHorizontal: 8,
-    gap: 4,
+    marginHorizontal: 4,
+    // gap: 4,
   },
 
   gradientOverlay: {
@@ -245,7 +324,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   profileCardContainer: {
-    width: "49.4%",
+    // width: "49.4%",
+    width: "50%",
   },
 
   profileName: {
