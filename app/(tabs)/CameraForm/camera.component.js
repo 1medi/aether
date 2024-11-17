@@ -47,7 +47,6 @@ export const CameraScreen = ({ navigation }) => {
   if (!fontsLoaded) {
     return <AppLoading />;
   }
-
   // const [currentDate, setCurrentDate] = useState('')
 
   // useEffect(() => {

@@ -400,7 +400,6 @@ export default function DocumentView({ formData, setFormData }) {
       </ScrollView>
 
       <Layout style={styles.buttonContainer}>
-
         <Button
           onPress={handlePreviousPage}
           disabled={currentPage === 1}
