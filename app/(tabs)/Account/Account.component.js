@@ -156,7 +156,7 @@ const styles = {
   sectionItem: {
     backgroundColor: colors.apple.white,
     borderRadius: 100,
-    height: 48,
+    height: 56,
     paddingHorizontal: 12,
     flexDirection: "row",
     justifyContent: "space-between",

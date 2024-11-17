@@ -56,8 +56,9 @@ const styles = StyleSheet.create({
   },
   profileBorder: {
     padding: 2,
+    backgroundColor: colors.apple.white,
     borderWidth: 3,
-    borderColor: colors.light.deepBlue60,
+    borderColor: colors.light.deepBlue,
     borderRadius: 100,
   },
   profileImage: {

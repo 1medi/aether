@@ -11,39 +11,26 @@ import { colors, typography } from "@/css/globals";
 import { BlurView } from "expo-blur";
 import { LinearGradient } from "expo-linear-gradient";
 
-export default function FormLibraryCard({
-  image,
-  title,
-  description,
-  destination,
-}) {
+export default function FormLibraryCard({ image, title, description }) {
   const ArrowIcon = (props) => <Icon name="arrow-forward-outline" {...props} />;
 
   return (
     <TouchableOpacity style={styles.touchContainer}>
-      <ImageBackground
-        source={image}
-        style={styles.cardBackground}
-      >
+      <ImageBackground source={image} style={styles.cardBackground}>
         <LinearGradient
           colors={["rgba(0,0,0,0.15)", "rgba(0,0,0,1)"]}
           style={styles.gradientOverlay}
         >
+          {/* Centered text container */}
           <Layout style={styles.textContainer}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.description}>{description}</Text>
           </Layout>
-          <View style={styles.iconContainer}>
-            <BlurView intensity={16} tint="light" style={styles.iconBackground}>
-              <ArrowIcon
-                style={{
-                  width: 32,
-                  height: 32,
-                  tintColor: `${colors.apple.white}`,
-                }}
-              />
-            </BlurView>
-          </View>
+
+          {/* Bottom-right arrow icon */}
+          <BlurView intensity={16} tint="light" style={styles.iconBackground}>
+            <ArrowIcon style={styles.icon} />
+          </BlurView>
         </LinearGradient>
       </ImageBackground>
     </TouchableOpacity>
@@ -64,10 +51,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-end",
     padding: 8,
-    gap: 8,
   },
   textContainer: {
     backgroundColor: "transparent",
+    padding: 8,
     gap: 8,
   },
   title: {
@@ -78,17 +65,21 @@ const styles = StyleSheet.create({
     ...typography(true).footnote,
     color: colors.apple.glass70,
   },
-
-  iconContainer: {
-    backgroundColor: "transparent",
-    alignItems: "flex-end",
-  },
   iconBackground: {
+    // position: "absolute",
+    // bottom: 8,
+    // right: 8,
+    alignSelf: "flex-end",
     backgroundColor: colors.apple.glass20,
     borderRadius: 100,
     borderWidth: 1,
     borderColor: colors.apple.glass20,
     padding: 8,
     overflow: "hidden",
+  },
+  icon: {
+    width: 32,
+    height: 32,
+    tintColor: colors.apple.white,
   },
 });

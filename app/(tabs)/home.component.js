@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
   scrollContainer: {
     paddingTop: 8,
     paddingBottom: 132,
-    gap: 8,
+    gap: 4,
   },
 
   imageSection: {
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
   },
   greetingSection: {
     backgroundColor: "transparent",
-    paddingHorizontal: 0,
+    paddingHorizontal: 10,
     paddingVertical: 8,
   },
   greetingText: {
