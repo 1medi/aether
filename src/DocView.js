@@ -383,11 +383,15 @@ export default function DocumentView({ formData, setFormData }) {
 
                 <View style={{ top: 0, left: 0 }}>
                   <TextInput
-                    style={[styles.textInput, { top: 200, left: 20, width: 100, height: 18 }]}
-                    value={formData.SomeFieldOnPage2}
+                    style={[styles.textInput, { top: 389, left: 20, width:279, height: 18 }]}
+                    value={formData.Signature}
                     onChangeText={(text) => setFormData({ ...formData, SomeFieldOnPage2: text })}
                   />
-
+                  <TextInput
+                    style={[styles.textInput, { top: 389, left: 298, width: 75, height: 18 }]}
+                    value={formData.Signature_Date}
+                    onChangeText={(text) => setFormData({ ...formData, SomeFieldOnPage2: text })}
+                  />
                 </View>
               </ImageBackground>
             )}
