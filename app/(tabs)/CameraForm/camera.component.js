@@ -28,7 +28,7 @@ import {
   DMSans_700Bold_Italic
 } from "@expo-google-fonts/dm-sans";
 
-import AppLoading from "expo-app-loading";
+
 import { LinearGradient } from "expo-linear-gradient";
 
 const Stack = createNativeStackNavigator();
@@ -44,9 +44,9 @@ export const CameraScreen = ({ navigation }) => {
     DMSans_700Bold_Italic,
   });
 
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  }
+  // if (!fontsLoaded) {
+  //   return <AppLoading />;
+  // }
 
   // const [currentDate, setCurrentDate] = useState('')
 

@@ -4,8 +4,6 @@ import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
 import { Button, Layout } from "@ui-kitten/components";
-import AppLoading from 'expo-app-loading';
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { colors } from "@/css/globals";
 import { Icon } from "@ui-kitten/components";
 
@@ -33,10 +31,6 @@ const DetectObject = () => {
     DMSans_700Bold,
     DMSans_700Bold_Italic,
   });
-
-  if (!fontsLoaded) {
-    return <AppLoading />
-  }
 
   const toggleModal = () => {
     setModalVisible(!modalVisible);

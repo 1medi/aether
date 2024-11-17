@@ -19,7 +19,6 @@ import {
     Inter_900Black,
 } from '@expo-google-fonts/inter';
 
-import AppLoading from 'expo-app-loading';
 import { LinearGradient } from 'expo-linear-gradient';
 
 
@@ -37,9 +36,9 @@ export default function AutofilledScreen() {
         Inter_900Black,
     });
 
-    if (!fontsLoaded) {
-        return <AppLoading />
-    }
+    // if (!fontsLoaded) {
+    //     return <AppLoading />
+    // }
 
     const navigateDetails = () => {
         navigation.navigate('Details');

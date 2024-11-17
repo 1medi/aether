@@ -23,7 +23,7 @@ import {
   DMSans_700Bold,
   DMSans_700Bold_Italic,
 } from "@expo-google-fonts/dm-sans";
-import AppLoading from "expo-app-loading";
+
 
 export const HomeScreen = ({ navigation }) => {
   let [fontsLoaded] = useFonts({
@@ -34,10 +34,6 @@ export const HomeScreen = ({ navigation }) => {
     DMSans_700Bold,
     DMSans_700Bold_Italic,
   });
-
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  }
 
   const SearchIcon = (props) => <Icon name="search-outline" {...props} />;
   const FileTextIcon = (props) => <Icon name="file-text-outline" {...props} />;
