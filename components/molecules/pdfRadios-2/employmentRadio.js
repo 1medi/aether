@@ -34,8 +34,7 @@ export default function EmploymentRadio() {
           checkedIcon="check-square-o"
           uncheckedIcon="square-o"
           containerStyle={{ padding:0, margin: 0, left: 16 }}
-        />
-        
+        />   
     </View>
   );
 }

@@ -26,7 +26,6 @@ export default function GenderRadio() {
           uncheckedIcon="square-o"
           containerStyle={{ padding:0, margin: 0, top: 1.8}}
         />
-
     </View>
   );
 }

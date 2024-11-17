@@ -253,7 +253,6 @@ const DetectObject = () => {
           </Button>
         </>
       )}
-  
       <Modal
         visible={modalVisible}
         animationType="slide"

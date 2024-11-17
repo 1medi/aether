@@ -27,7 +27,6 @@ export default function AddtionalRadio() {
           uncheckedIcon="square-o"
           containerStyle={{ padding:0, margin: 0, left: 7 }}
         />
-
     </View>
   );
 }

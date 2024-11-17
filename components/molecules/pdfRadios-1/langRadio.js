@@ -26,7 +26,6 @@ export default function LanguageRadio() {
           uncheckedIcon="square-o"
           containerStyle={{ padding:0, margin: 0, left: 7 }}
         />
-
     </View>
   );
 }

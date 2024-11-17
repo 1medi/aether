@@ -26,7 +26,6 @@ export default function StudentRadio() {
           uncheckedIcon="square-o"
           containerStyle={{ padding:0, margin: 0, top: 1}}
         />
-
     </View>
   );
 }

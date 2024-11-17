@@ -5,7 +5,6 @@ import { View } from "react-native";
 
 export default function CoverageRadio2() {
   const [selectedIndex, setIndex] = useState(0);
-
   return (
     <View style={{ flex: 1, flexDirection: "row", position: "relative"}}>
         <CheckBox
@@ -26,7 +25,6 @@ export default function CoverageRadio2() {
           uncheckedIcon="square-o"
           containerStyle={{ padding:0, margin: 0, left: 3 }}
         />
-
     </View>
   );
 }
