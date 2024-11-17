@@ -14,7 +14,7 @@ import Header from "@/components/header/Header";
 import MyFormsCard from "@/components/atoms/MyFormsCard";
 import { LinearGradient } from "expo-linear-gradient";
 import { colors, typography } from "@/css/globals";
-import myFormsData from "@/app/data/MyFormsData";
+import myFormsData from "@/data/MyFormsData";
 import {
   useFonts,
   DMSans_400Regular,
@@ -123,15 +123,16 @@ export const HomeScreen = ({ navigation }) => {
           </Layout>
 
           {/* Spacer */}
-          {/* <View style={{ height: 40 }} /> */}
+          <View style={{ height: 40 }} />
 
           {/* End Image */}
-          {/* <Layout style={styles.bottomSpacerSection}>
+          <Layout style={styles.bottomSpacerSection}>
             <Image
               source={require("@/assets/images/logo40.png")}
               style={styles.bottomSpacerLogo}
             />
-          </Layout> */}
+            <Text style={styles.bottomMessage}>Aether • 2024</Text>
+          </Layout>
         </ScrollView>
       </SafeAreaView>
     </>
@@ -189,7 +190,7 @@ const styles = StyleSheet.create({
   },
 
   sectionContainer: {
-    backgroundColor: colors.apple.glass70,
+    backgroundColor: colors.apple.white,
     marginHorizontal: 8,
     paddingTop: 16,
     paddingBottom: 8,
@@ -226,6 +227,7 @@ const styles = StyleSheet.create({
 
   bottomSpacerSection: {
     backgroundColor: "transparent",
+    gap: 16,
   },
   bottomSpacerLogo: {
     backgroundColor: "transparent",
@@ -233,59 +235,12 @@ const styles = StyleSheet.create({
     height: 88,
     alignSelf: "center",
   },
+  bottomMessage: {
+    ...typography(true).bodyMed,
+    color: colors.light.deepBlue40,
+    textAlign: "center",
+  },
 });
-
-// Old Code
-
-{
-  /* <LinearGradient
-  colors={["#9FC3E5", "#FFFF"]}
-  style={styles.gradientContainer}
-> */
-}
-
-{
-  /* </LinearGradient> */
-}
-
-// gradientContainer: {
-//   flex: 1,
-//   backgroundColor: "transparent",
-// },
-
-{
-  /* <Layout style={styles.optionLayout}>
-<Layout style={styles.optionColumn}>
-  <OptionButton
-    title="Search"
-    accessory={SearchIcon}
-    destination="Folder"
-  />
-  <Text style={styles.optionText}>Search</Text>
-</Layout>
-<Layout style={styles.optionColumn}>
-  <OptionButton
-    title="Scan"
-    accessory={() => (
-      <Image
-        source={require("@/assets/images/icon_scan1600x1600.png")}
-        style={styles.iconImage}
-      />
-    )}
-    destination="Camera"
-  />
-  <Text style={styles.optionText}>Scan</Text>
-</Layout>
-<Layout style={styles.optionColumn}>
-  <OptionButton
-    title="Upload"
-    accessory={UploadIcon}
-    destination="Camera"
-  />
-  <Text style={styles.optionText}>Upload</Text>
-</Layout>
-</Layout> */
-}
 
 {
   /* Quick Access Section

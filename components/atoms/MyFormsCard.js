@@ -2,7 +2,6 @@ import React from "react";
 import { TouchableOpacity, StyleSheet, Image, View, Text } from "react-native";
 import { Icon, Layout } from "@ui-kitten/components";
 import { colors, typography } from "@/css/globals";
-import { BlurView } from "expo-blur";
 
 export default function FormListCard({
   title,
@@ -12,7 +11,7 @@ export default function FormListCard({
 }) {
   return (
     <TouchableOpacity style={styles.touchContainer}>
-      <BlurView intensity={16} style={styles.cardContainer}>
+      <View style={styles.cardContainer}>
         <Layout style={styles.contentContainer}>
           <View style={styles.previewContainer}>
             <Image
@@ -26,7 +25,7 @@ export default function FormListCard({
           <View style={styles.textContainer}>
             <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">{title} </Text>
             <Text style={styles.subheader}>{subheader}</Text>
-            <Text style={styles.footnote}>{footnote}</Text>
+            <Text style={styles.footnote} numberOfLines={1} ellipsizeMode="tail">{footnote}</Text>
           </View>
           <Icon
             name="more-vertical-outline"
@@ -34,7 +33,7 @@ export default function FormListCard({
             fill="#000000"
           />
         </Layout>
-      </BlurView>
+      </View>
     </TouchableOpacity>
   );
 }
@@ -92,7 +91,7 @@ const styles = StyleSheet.create({
   },
   footnote: {
     ...typography(true).footnoteItalic,
-    color: colors.apple.secondaryText,
+    color: colors.light.deepBlue60,
     marginTop: 4,
   },
 

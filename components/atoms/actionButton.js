@@ -18,7 +18,7 @@ export default function Button({
       style={styles.touchContainer}
       onPress={() => navigation.navigate(destination)}
     >
-      <BlurView intensity={16} style={styles.buttonContainer}>
+      <BlurView intensity={16} tint="light" style={styles.buttonContainer}>
         <Layout style={styles.contentContainer}>
           <View style={styles.textContainer}>
             <Text style={styles.buttonTitle}>{buttonTitle}</Text>
