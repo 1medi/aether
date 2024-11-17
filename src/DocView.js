@@ -372,6 +372,24 @@ export default function DocumentView({ formData, setFormData }) {
 
 
               </ImageBackground>
+
+            )}
+            {currentPage === 2 && (
+              <ImageBackground
+                source={require('../assets/files/insurance2.png')}
+                style={styles.imageBackground}
+                resizeMode="contain"
+              >
+
+                <View style={{ top: 0, left: 0 }}>
+                  <TextInput
+                    style={[styles.textInput, { top: 200, left: 20, width: 100, height: 18 }]}
+                    value={formData.SomeFieldOnPage2}
+                    onChangeText={(text) => setFormData({ ...formData, SomeFieldOnPage2: text })}
+                  />
+
+                </View>
+              </ImageBackground>
             )}
           </View>
         </ScrollView>
