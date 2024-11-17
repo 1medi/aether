@@ -26,7 +26,7 @@ const AccountStack = createStackNavigator();
 
 const BottomTabBar = ({ navigation, state }) => (
   <Layout style={styles.navShadowContainer}>
-    <BlurView intensity={24} style={styles.navOuterContainer}>
+    <BlurView intensity={24} style={styles.navOuterContainer} >
       <BottomNavigation
         appearance="noIndicator"
         selectedIndex={state.index}

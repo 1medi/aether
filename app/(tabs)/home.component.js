@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.apple.glass70,
     marginHorizontal: 8,
     paddingTop: 24,
-    paddingBottom: 16,
+    paddingBottom: 8,
     paddingHorizontal: 8,
     borderRadius: 32,
     borderWidth: 1,
