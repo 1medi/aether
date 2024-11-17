@@ -34,7 +34,7 @@ export default function FormLibraryCard({
             <Text style={styles.description}>{description}</Text>
           </Layout>
           <View style={styles.iconContainer}>
-            <BlurView intensity={16} style={styles.iconBackground}>
+            <BlurView intensity={16} tint="light" style={styles.iconBackground}>
               <ArrowIcon
                 style={{
                   width: 32,

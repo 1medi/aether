@@ -4,145 +4,122 @@ import {
   TouchableOpacity,
   View,
   Text,
-  Image,
   StyleSheet,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Divider, Layout, Icon } from "@ui-kitten/components";
+import { Divider, Layout } from "@ui-kitten/components";
 import { colors, typography } from "@/css/globals";
-import { LinearGradient } from "expo-linear-gradient";
 import MyFormsCard from "@/components/atoms/MyFormsCard";
 import SavedProfileCard from "@/components/atoms/SavedProfileCard";
 import Header from "@/components/header/Header";
-import myFormsData from "@/app/data/MyFormsData";
-import savedProfilesData from "@/app/data/SavedProfilesData";
+import myFormsData from "@/data/MyFormsData";
+import savedProfilesData from "@/data/SavedProfilesData";
 
 export const MyFilesScreen = () => {
   const [activeTab, setActiveTab] = useState("Forms");
-  const [myForms, setMyForms] = useState(myFormsData);
-  const [savedProfiles, setSavedProfiles] = useState(savedProfilesData);
+  const [filteredData, setFilteredData] = useState(myFormsData);
 
-  const profiles = [
-    { id: 1, name: "Chris Topher", role: "Myself" },
-    { id: 2, name: "Sarah O'Neil", role: "Care Recipient" },
-    { id: 3, name: "Pat Rick", role: "Grandpa" },
-  ];
-
-  // Forms Render
-  const renderForms = () => {
-    // const filteredForms = forms.filter((form) => {
-    //   if (filter === "In progress") return form.status === "In progress";
-    //   if (filter === "Complete") return form.status === "Complete";
-    //   return true;
-    // });
-    return (
-      <ScrollView style={styles.scrollContainer}>
-        <Layout style={styles.sectionContainer}>
-          <Layout style={styles.subhead}>
-            <Text style={styles.headline}>History</Text>
-          </Layout>
-          <Layout style={styles.myFormsSection}>
-            {myForms.map((form, index) => (
-              <React.Fragment key={form.id}>
-                <View style={styles.formButtonContainer}>
-                  <MyFormsCard
-                    title={form.title}
-                    subheader={form.subheader}
-                    footnote={form.footnote}
-                  />
-                </View>
-                {index < myForms.length - 1 && (
-                  <Divider style={styles.divider} />
-                )}
-              </React.Fragment>
-            ))}
-          </Layout>
-        </Layout>
-
-        {/* Spacer */}
-        {/* <View style={{ height: 40 }} /> */}
-
-        {/* End Image */}
-        {/* <Layout style={styles.bottomSpacerSection}>
-          <Image
-            source={require("@/assets/images/logo40.png")}
-            style={styles.bottomSpacerLogo}
-          />
-        </Layout> */}
-      </ScrollView>
-    );
+  // Function to reset data based on the active tab
+  const resetData = () => {
+    setFilteredData(activeTab === "Forms" ? myFormsData : savedProfilesData);
   };
 
-  // Profiles Render
-  const renderProfiles = () => {
-    return (
-      <ScrollView style={styles.scrollContainer}>
-        <View style={styles.profileContainer}>
-          {savedProfiles.map((profile) => (
-            <View key={profile.id} style={styles.profileCardContainer}>
-              <SavedProfileCard 
-                name={profile.name} 
-                role={profile.role} 
-                image={profile.image}
-                />
+  // Search Function
+  const onSearch = (query) => {
+    const data = activeTab === "Forms" ? myFormsData : savedProfilesData;
+
+    if (query.trim() === "") {
+      setFilteredData(data); // Reset to original data
+      return;
+    }
+
+    const lowerQuery = query.toLowerCase();
+    const filtered = data.filter((item) =>
+      activeTab === "Forms"
+        ? item.title.toLowerCase().includes(lowerQuery)
+        : item.name.toLowerCase().includes(lowerQuery)
+    );
+
+    setFilteredData(filtered);
+  };
+
+  // Switch tabs and reset data accordingly
+  const switchTab = (tab) => {
+    setActiveTab(tab);
+    setFilteredData(tab === "Forms" ? myFormsData : savedProfilesData);
+  };
+
+  // Render Forms
+  const renderForms = () => (
+    <ScrollView style={styles.scrollContainer}>
+      <Layout style={styles.sectionContainer}>
+        {/* <Layout style={styles.subhead}>
+          <Text style={styles.headline}>History</Text>
+        </Layout> */}
+        <Layout style={styles.myFormsSection}>
+          {filteredData.map((form, index) => (
+            <View key={form.id}>
+              <MyFormsCard
+                title={form.title}
+                subheader={form.subheader}
+                footnote={form.footnote}
+              />
+              {index < filteredData.length - 1 && (
+                <Divider style={styles.divider} />
+              )}
             </View>
           ))}
-        </View>
+        </Layout>
+      </Layout>
+    </ScrollView>
+  );
 
-        {/* Spacer */}
-        {/* <View style={{ height: 40 }} /> */}
-
-        {/* End Image */}
-        {/* <Layout style={styles.bottomSpacerSection}>
-          <Image
-            source={require("@/assets/images/logo40.png")}
-            style={styles.bottomSpacerLogo}
-          />
-        </Layout> */}
-      </ScrollView>
-    );
-  };
+  // Render Profiles
+  const renderProfiles = () => (
+    <ScrollView style={styles.scrollContainer}>
+      <View style={styles.profileContainer}>
+        {filteredData.map((profile) => (
+          <View style={styles.profileCardContainer}>
+            <SavedProfileCard
+              key={profile.id}
+              name={profile.name}
+              role={profile.role}
+              image={profile.image}
+            />
+          </View>
+        ))}
+      </View>
+    </ScrollView>
+  );
 
   return (
-    <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
+    <SafeAreaView style={styles.fullPage}>
       <View style={styles.toggleContainer}>
-        <TouchableOpacity
-          style={[
-            styles.toggleButton,
-            activeTab === "Forms" && styles.activeToggleButton,
-          ]}
-          onPress={() => setActiveTab("Forms")}
-        >
-          <Text
+        {["Forms", "Profiles"].map((tab) => (
+          <TouchableOpacity
+            key={tab}
             style={[
-              styles.toggleButtonText,
-              activeTab === "Forms" && styles.activeToggleButtonText,
+              styles.toggleButton,
+              activeTab === tab && styles.activeToggleButton,
             ]}
+            onPress={() => switchTab(tab)}
           >
-            Forms
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[
-            styles.toggleButton,
-            activeTab === "Profiles" && styles.activeToggleButton,
-          ]}
-          onPress={() => setActiveTab("Profiles")}
-        >
-          <Text
-            style={[
-              styles.toggleButtonText,
-              activeTab === "Profiles" && styles.activeToggleButtonText,
-            ]}
-          >
-            Profiles
-          </Text>
-        </TouchableOpacity>
+            <Text
+              style={[
+                styles.toggleButtonText,
+                activeTab === tab && styles.activeToggleButtonText,
+              ]}
+            >
+              {tab}
+            </Text>
+          </TouchableOpacity>
+        ))}
       </View>
       <Header
-        title={"My Files"}
-        placeholder={"Search my forms and profiles"}
+        title="My Files"
+        placeholder="Search my forms and profiles"
         hasSearchBar
+        onSearch={onSearch}
         noTitle
       />
       {activeTab === "Forms" ? renderForms() : renderProfiles()}
@@ -193,10 +170,11 @@ const styles = StyleSheet.create({
   },
 
   sectionContainer: {
-    backgroundColor: colors.apple.glass70,
+    backgroundColor: colors.apple.white,
     marginHorizontal: 8,
-    paddingTop: 16,
-    paddingBottom: 8,
+    // paddingTop: 16,
+    // paddingBottom: 8,
+    paddingVertical: 8,
     paddingHorizontal: 8,
     borderRadius: 32,
     borderWidth: 1,

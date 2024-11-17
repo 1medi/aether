@@ -1,148 +1,125 @@
 import React from "react";
-import { ScrollView } from "react-native";
+import { ScrollView, TouchableOpacity } from "react-native";
 import {
-  Divider,
   Layout,
   Text,
   Button,
   Icon,
+  Toggle,
+  Divider,
 } from "@ui-kitten/components";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { LinearGradient } from "expo-linear-gradient";
-import { colors } from "@/css/globals";
 import Header from "@/components/header/Header";
-import ConsoleScreen from "@/components/atoms/ConsoleScreen";
+import { colors, typography } from "@/css/globals";
 
 export const AccountScreen = ({ navigation }) => {
-  const Trash = (props) => (
-    <Icon
-      name="trash-2-outline"
-      {...props}
-      style={{ width: 25, height: 20, tintColor: "white" }}
-    />
+  const ArrowIcon = (props) => (
+    <Icon name="arrow-ios-forward-outline" {...props} style={styles.icon} />
   );
 
-  const Arrow = (props) => (
-    <Icon
-      name="arrow-ios-forward-outline"
-      {...props}
-      style={{ width: 25, height: 20, tintColor: "#08415C" }}
-    />
+  const MoonIcon = (props) => (
+    <Icon name="moon-outline" {...props} style={styles.icon} />
   );
 
-  const renderSectionItemTop = (label) => (
-    <Button
-      appearance="ghost"
-      style={styles.sectionItemTop}
-      accessoryRight={Arrow}
-    >
-      <Text style={styles.sectionItemText}>{label}</Text>
-    </Button>
+  const SectionItem = ({ label, onPress, accessoryLeft, accessoryRight }) => (
+    <TouchableOpacity onPress={onPress}>
+      <Layout appearance="ghost" style={styles.sectionItem}>
+        <Layout style={styles.leftSide}>
+          {accessoryLeft && <Icon name={accessoryLeft} style={styles.icon} />}
+          <Text style={styles.sectionItemText}>{label}</Text>
+        </Layout>
+        <Layout style={styles.rightSide}>
+          {accessoryRight && accessoryRight()}
+        </Layout>
+      </Layout>
+    </TouchableOpacity>
   );
 
-  const renderSectionItemBottom = (label) => (
-    <Button
-      appearance="ghost"
-      style={styles.sectionItemBottom}
-      accessoryRight={Arrow}
-    >
-      <Text style={styles.sectionItemText}>{label}</Text>
-    </Button>
-  );
-
-  const renderSectionItemMiddle = (label) => (
-    <Button
-      appearance="ghost"
-      style={styles.sectionItemMiddle}
-      accessoryRight={Arrow}
-    >
-      <Text style={styles.sectionItemText}>{label}</Text>
-    </Button>
-  );
-
-  const renderSectionItem = (label) => (
-    <Button
-      appearance="ghost"
-      style={styles.sectionItem}
-      accessoryRight={Arrow}
-    >
-      <Text style={styles.sectionItemText}>{label}</Text>
-    </Button>
-  );
+  const handleLogout = () => {
+    // Add your logout logic here
+    console.log("User logged out");
+  };
 
   return (
-    <>
-      <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
-        <Header title={"Account"} />
-        <ScrollView
-          contentContainerStyle={styles.scrollContainer}
-          showsVerticalScrollIndicator={false}
-        >
-          <Layout
-            style={{
-              flex: 1,
-              alignItems: "center",
-              flexDirection: "column",
-              backgroundColor: "transparent",
-            }}
-          >
-            <Layout style={styles.section}>
-              <Text style={styles.sectionTitle}>Profile Information</Text>
-              {renderSectionItemTop("Edit Name")}
-              {renderSectionItemMiddle("Update Email")}
-              {renderSectionItemBottom("Update Phone Number")}
+    <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
+      <Header title="Account" />
+      <ScrollView
+        contentContainerStyle={styles.scrollContainer}
+        showsVerticalScrollIndicator={false}
+      >
+        <Layout style={styles.section}>
+          <Text style={styles.sectionTitle}>Account Settings</Text>
+          <SectionItem
+            label="Edit Account Info"
+            onPress={() => {}}
+            accessoryLeft="edit-outline"
+            accessoryRight={ArrowIcon}
+          />
+          <Divider style={styles.divider} />
+          <SectionItem
+            label="Change Password"
+            onPress={() => {}}
+            accessoryLeft="lock-outline"
+            accessoryRight={ArrowIcon}
+          />
+          <Divider style={styles.divider} />
+          <SectionItem
+            label="Set Language"
+            onPress={() => {}}
+            accessoryLeft="globe-2-outline"
+            accessoryRight={ArrowIcon}
+          />
+          <Divider style={styles.divider} />
+          <Layout style={styles.sectionItem}>
+            <Layout style={styles.leftSide}>
+              <MoonIcon />
+              <Text style={styles.sectionItemText}>Dark Mode</Text>
             </Layout>
-
-            <Layout style={styles.section}>
-              <Text style={styles.sectionTitle}>Password & Security</Text>
-              {renderSectionItem("Change Password")}
+            <Layout style={styles.rightSide}>
+              <Toggle status="primary" onChange={() => {}} />
             </Layout>
+          </Layout>
+        </Layout>
 
-            <Layout style={styles.section}>
-              <Text style={styles.sectionTitle}>Language & Region</Text>
-              {renderSectionItem("Set Language")}
-            </Layout>
+        <Layout style={styles.section}>
+          <Text style={styles.sectionTitle}>Support</Text>
+          <SectionItem
+            label="FAQ"
+            onPress={() => {}}
+            accessoryLeft="question-mark-circle-outline"
+            accessoryRight={ArrowIcon}
+          />
+          <Divider style={styles.divider} />
+          <SectionItem
+            label="Contact Support"
+            onPress={() => {}}
+            accessoryLeft="phone-outline"
+            accessoryRight={ArrowIcon}
+          />
+          <Divider style={styles.divider} />
+          <SectionItem
+            label="Report an Issue"
+            onPress={() => {}}
+            accessoryLeft="alert-triangle-outline"
+            accessoryRight={ArrowIcon}
+          />
+        </Layout>
 
-            <Layout style={styles.section}>
-              <Text style={styles.sectionTitle}>Help & Support</Text>
-              {renderSectionItemTop("FAQ")}
-              {renderSectionItemMiddle("Contact Support")}
-              {renderSectionItemBottom("Report An Issue")}
-            </Layout>
-
+        {/* Log Out Button */}
+        <TouchableOpacity style={styles.touchContainer}>
+          <Layout style={styles.logoutSection}>
             <Button
-              appearance="ghost"
-              style={{
-                backgroundColor: "rgba(255, 255, 255, 0.6)",
-                borderRadius: 15,
-                width: "95%",
-                marginTop: 20,
-                boxShadow: "4px 4px 10px 0px rgba(8, 65, 92, 0.10)",
-              }}
+              status="danger"
+              appearance="outline"
+              style={styles.logoutButton}
+              onPress={handleLogout}
             >
               Log Out
             </Button>
-
-            <Button
-              appearance="ghost"
-              style={{
-                borderWidth: 0,
-                flexDirection: "row",
-                alignItems: "center",
-                backgroundColor: "rgba(194, 50, 51, 0.8)",
-                width: "95%",
-                borderRadius: 15,
-                marginTop: 20,
-              }}
-              accessoryRight={Trash}
-            >
-              <Text style={{ color: "white" }}>Delete Account</Text>{" "}
-              {/* Don't know why the color won't apply unless i keep this comment here lol */}
-            </Button>
           </Layout>
-        </ScrollView>
-      </SafeAreaView>
-    </>
+        </TouchableOpacity>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -153,88 +130,73 @@ const styles = {
   },
   scrollContainer: {
     paddingTop: 8,
-    paddingBottom: 132,
-    gap: 8,
+    paddingBottom: 32,
+    gap: 4,
   },
-
   section: {
-    marginTop: 20,
-    paddingHorizontal: 20,
-    backgroundColor: "transparent",
-    width: "100vw",
+    backgroundColor: colors.apple.white,
+    marginHorizontal: 8,
+    paddingTop: 16,
+    paddingBottom: 8,
+    paddingHorizontal: 8,
+    borderRadius: 32,
+    borderWidth: 1,
+    borderColor: colors.apple.lightStroke,
   },
   sectionTitle: {
-    fontSize: 16,
-    fontWeight: "400",
-    color: "rgba(8, 65, 92, 0.60)",
     marginBottom: 8,
-    paddingHorizontal: 10,
+    ...typography(true).h4Med,
+    color: colors.apple.black,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "transparent",
+    paddingHorizontal: 12,
   },
   sectionItem: {
-    backgroundColor: "rgba(255, 255, 255, 0.6)", // Set background color to semi-transparent white
-    borderRadius: 15,
-    width: "100%",
-    marginBottom: 8,
-    padding: 15,
-    shadowColor: "#08415C",
-    shadowOffset: { width: 4, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
+    backgroundColor: colors.apple.white,
+    borderRadius: 100,
+    height: 48,
+    paddingHorizontal: 12,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
   },
-  sectionItemTop: {
-    backgroundColor: "rgba(255, 255, 255, 0.6)", // Set background color to semi-transparent white
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0,
-    width: "100%",
-    marginBottom: 0,
-    padding: 15,
-    shadowColor: "#08415C",
-    shadowOffset: { width: 4, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
+  leftSide: {
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
+    gap: 16,
   },
-  sectionItemMiddle: {
-    backgroundColor: "rgba(255, 255, 255, 0.6)", // Set background color to semi-transparent white
-    borderRadius: 0,
-    width: "100%",
-    marginBottom: 0,
-    padding: 15,
-    shadowColor: "#08415C",
-    shadowOffset: { width: 4, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
+  rightSide: {
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
-  },
-  sectionItemBottom: {
-    backgroundColor: "rgba(255, 255, 255, 0.6)", // Set background color to semi-transparent white
-    borderTopLeftRadius: 0,
-    borderTopRightRadius: 0,
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15,
-    width: "100%",
-    marginBottom: 8,
-    padding: 15,
-    shadowColor: "#08415C",
-    shadowOffset: { width: 4, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    justifyContent: "flex-end",
   },
   sectionItemText: {
-    fontSize: 16,
-    fontWeight: "300",
-    color: "#08415C",
+    ...typography(true).bodyMed,
+    color: colors.apple.black,
+  },
+  divider: {
+    marginHorizontal: 32,
+    backgroundColor: colors.apple.lightStroke,
+  },
+  icon: {
+    width: 24,
+    height: 24,
+    tintColor: colors.apple.black,
+  },
+  logoutSection: {
+    backgroundColor: "transparent",
+    marginHorizontal: 16,
+    marginTop: 24,
+  },
+  logoutButton: {
+    borderRadius: 100,
+    borderWidth: 1,
+    height: 56,
+    borderColor: colors.apple.red,
+    backgroundColor: colors.apple.white,
   },
 };
+
+export default AccountScreen;

@@ -3,7 +3,7 @@ import { Layout } from "@ui-kitten/components";
 import { StyleSheet, Text, ScrollView, View, Image } from "react-native";
 import Header from "@/components/header/Header";
 import { colors, typography } from "@/css/globals";
-import formLibraryData from "@/app/data/FormLibraryData";
+import formLibraryData from "@/data/FormLibraryData";
 import {
   useFonts,
   DMSans_400Regular,
@@ -62,10 +62,12 @@ export const FormLibraryScreen = ({ navigation }) => {
               </View>
             ))}
             <View style={[styles.libraryCardContainer, styles.endContainer]}>
-              <Text style={styles.endTextTitle}>We’ve Got Your Back</Text>
+              <Text style={styles.endTextTitle}>
+                We've Got 
+                {"\n"}Your Back
+              </Text>
               <Text style={styles.endTextDescription}>
-                If you can’t find the form you need, try our scan feature or
-                reach out for support. We’re here to help!
+                Form filling is tedious, we're here to help!
               </Text>
             </View>
           </Layout>
@@ -79,6 +81,7 @@ export const FormLibraryScreen = ({ navigation }) => {
               source={require("@/assets/images/logo40.png")}
               style={styles.bottomSpacerLogo}
             />
+            <Text style={styles.bottomMessage}>Aether • 2024</Text>
           </Layout>
         </ScrollView>
       </SafeAreaView>
@@ -110,7 +113,7 @@ const styles = StyleSheet.create({
     width: "49.4%",
   },
   endContainer: {
-    backgroundColor: colors.apple.glass70,
+    backgroundColor: colors.apple.white,
     borderRadius: 24,
     borderWidth: 1,
     borderColor: colors.apple.lightStroke,
@@ -125,16 +128,22 @@ const styles = StyleSheet.create({
   },
   endTextDescription: {
     ...typography(true).footnote,
-    color: colors.apple.secondaryText,
+    color: colors.light.deepBlue60,
   },
 
   bottomSpacerSection: {
     backgroundColor: "transparent",
+    gap: 16,
   },
   bottomSpacerLogo: {
     backgroundColor: "transparent",
     width: 102,
     height: 88,
     alignSelf: "center",
+  },
+  bottomMessage: {
+    ...typography(true).bodyMed,
+    color: colors.light.deepBlue40,
+    textAlign: "center",
   },
 });

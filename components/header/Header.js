@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, TextInput, Image, View } from "react-native";
+import { StyleSheet, Text, Image, View } from "react-native";
 import { colors, typography } from "../../css/globals";
 import { Layout, Icon, Input } from "@ui-kitten/components";
 
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   profileBorder: {
     padding: 2,
     borderWidth: 3,
-    borderColor: colors.apple.black,
+    borderColor: colors.light.deepBlue60,
     borderRadius: 100,
   },
   profileImage: {
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
   },
 
   searchContainer: {
-    backgroundColor: colors.apple.glass70,
+    backgroundColor: colors.apple.white,
     flexDirection: "row",
     alignItems: "center",
     // marginTop: 16,

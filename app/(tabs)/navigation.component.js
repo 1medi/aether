@@ -21,7 +21,7 @@ const { Navigator, Screen } = createBottomTabNavigator();
 
 const BottomTabBar = ({ navigation, state }) => (
   <View style={styles.navShadowContainer}>
-    <BlurView intensity={24} style={styles.navOuterContainer}>
+    <BlurView intensity={24} tint="light" style={styles.navOuterContainer}>
       <BottomNavigation
         appearance="noIndicator"
         selectedIndex={state.index}
