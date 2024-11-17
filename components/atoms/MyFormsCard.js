@@ -14,9 +14,9 @@ export default function FormListCard({
     <TouchableOpacity style={styles.touchContainer}>
       <BlurView intensity={16} style={styles.cardContainer}>
         <Layout style={styles.contentContainer}>
-          <View style={styles.iconContainer}>
+          <View style={styles.previewContainer}>
             <Image
-              style={styles.fileIcon}
+              style={styles.filePreview}
               source={require("@/assets/images/previewImage2.png")}
             />
             {isImportant && (
@@ -24,7 +24,7 @@ export default function FormListCard({
             )}
           </View>
           <View style={styles.textContainer}>
-            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">{title} </Text>
             <Text style={styles.subheader}>{subheader}</Text>
             <Text style={styles.footnote}>{footnote}</Text>
           </View>
@@ -48,12 +48,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-start",
     borderRadius: 24,
-    paddingVertical: 16,
-    paddingHorizontal: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 12,
+    overflow: "hidden",
     // backgroundColor: colors.apple.glass70,
     // borderWidth: 1,
     // borderColor: colors.apple.lightStroke,
-    overflow: "hidden",
   },
   contentContainer: {
     flex: 1,
@@ -63,8 +63,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     backgroundColor: "transparent",
   },
-  iconContainer: {},
-  fileIcon: {
+  previewContainer: {},
+  filePreview: {
     width: 48,
     height: 60,
     shadowColor: colors.apple.black20,
@@ -96,7 +96,6 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
 
-  dotsContainer: {},
   dotsIcon: {
     width: 24,
     height: 24,

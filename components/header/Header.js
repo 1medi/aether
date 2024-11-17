@@ -1,28 +1,35 @@
 import React from "react";
 import { StyleSheet, Text, TextInput, Image, View } from "react-native";
 import { colors, typography } from "../../css/globals";
-import { Layout, Icon } from "@ui-kitten/components";
+import { Layout, Icon, Input } from "@ui-kitten/components";
 
-export default function Header({ title, hasSearchBar, onSearch }) {
+export default function Header({
+  title,
+  hasSearchBar,
+  onSearch,
+  placeholder,
+  noTitle,
+}) {
   return (
     <Layout style={styles.headerContainer}>
-      <View style={styles.topSection}>
-        <Text style={styles.pageTitle}>{title}</Text>
-        <View style={styles.profileBorder}>
-          <Image
-            style={styles.profileImage}
-            source={require("@/assets/images/lbj.jpg")}
-          />
+      {!noTitle && (
+        <View style={styles.topSection}>
+          <Text style={styles.pageTitle}>{title}</Text>
+          <View style={styles.profileBorder}>
+            <Image
+              style={styles.profileImage}
+              source={require("@/assets/images/lbj.jpg")}
+            />
+          </View>
         </View>
-      </View>
-
+      )}
       {hasSearchBar && (
         <View style={styles.searchContainer}>
-          <Icon name="search" fill={colors.apple.black} />
-          <TextInput
+          <Input
             style={styles.searchInput}
-            placeholder="Find the form you need"
+            placeholder={placeholder}
             onChangeText={onSearch}
+            accessoryLeft={<Icon name="search" fill={colors.apple.black} />}
           />
         </View>
       )}
@@ -32,10 +39,10 @@ export default function Header({ title, hasSearchBar, onSearch }) {
 
 const styles = StyleSheet.create({
   headerContainer: {
-    direction: "column",
     backgroundColor: "transparent",
     paddingHorizontal: 16,
     paddingVertical: 8,
+    gap: 8,
     borderBottomColor: colors.apple.lightStroke,
     borderBottomWidth: 1,
     width: "100%",
@@ -45,6 +52,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     flexDirection: "row",
     alignItems: "center",
+    height: 42,
   },
   profileBorder: {
     padding: 2,
@@ -66,8 +74,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.apple.glass70,
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 8,
-    marginTop: 16,
+    // marginTop: 16,
     borderRadius: 100,
     borderWidth: 1,
     borderColor: colors.apple.lightStroke,
@@ -75,7 +82,8 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     ...typography(true).body,
-    paddingHorizontal: 8,
     flex: 1,
+    backgroundColor: "transparent",
+    borderColor: "transparent",
   },
 });

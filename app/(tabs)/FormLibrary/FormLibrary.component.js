@@ -1,16 +1,9 @@
 import React, { useState } from "react";
-import { Button, Divider, Layout, Icon, Input } from "@ui-kitten/components";
-import {
-  StyleSheet,
-  Text,
-  ScrollView,
-  View,
-  Image,
-  TouchableOpacity,
-} from "react-native";
+import { Layout } from "@ui-kitten/components";
+import { StyleSheet, Text, ScrollView, View, Image } from "react-native";
 import Header from "@/components/header/Header";
 import { colors, typography } from "@/css/globals";
-import formsData from "@/app/data/formsData";
+import formLibraryData from "@/app/data/FormLibraryData";
 import {
   useFonts,
   DMSans_400Regular,
@@ -19,10 +12,22 @@ import {
 } from "@expo-google-fonts/dm-sans";
 import AppLoading from "expo-app-loading";
 import { SafeAreaView } from "react-native-safe-area-context";
-import FormLibraryCard from "@/components/molecules/FormLibraryCard";
+import FormLibraryCard from "@/components/atoms/FormLibraryCard";
 
 export const FormLibraryScreen = ({ navigation }) => {
-  const [filteredForms, setFilteredForms] = useState(formsData || []);
+  const [filteredForms, setFilteredForms] = useState(formLibraryData);
+
+  const onSearch = (query) => {
+    if (query.trim()) {
+      const filtered = formLibraryData.filter((form) =>
+        form.title.toLowerCase().includes(query.toLowerCase())
+      );
+      setFilteredForms(filtered);
+    } else {
+      setFilteredForms(formLibraryData);
+    }
+  };
+
   let [fontsLoaded] = useFonts({
     DMSans_400Regular,
     DMSans_500Medium,
@@ -36,7 +41,12 @@ export const FormLibraryScreen = ({ navigation }) => {
   return (
     <>
       <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
-        <Header title={"Form Library"} hasSearchBar />
+        <Header
+          title={"Form Library"}
+          placeholder={"Search for the right form"}
+          hasSearchBar
+          onSearch={onSearch}
+        />
         <ScrollView
           contentContainerStyle={styles.scrollContainer}
           showsVerticalScrollIndicator={false}
@@ -53,15 +63,18 @@ export const FormLibraryScreen = ({ navigation }) => {
             ))}
             <View style={[styles.libraryCardContainer, styles.endContainer]}>
               <Text style={styles.endTextTitle}>We’ve Got Your Back</Text>
-              <Text style={styles.endTextDescription}>If you can’t find the form you need, try our scan feature or reach out for support. We’re here to help!</Text>
+              <Text style={styles.endTextDescription}>
+                If you can’t find the form you need, try our scan feature or
+                reach out for support. We’re here to help!
+              </Text>
             </View>
           </Layout>
 
           {/* Spacer */}
-          <View style={{ height: 24 }} />
+          <View style={{ height: 40 }} />
 
           {/* End Image */}
-          <Layout style={styles.bottomSpacerLogo}>
+          <Layout style={styles.bottomSpacerSection}>
             <Image
               source={require("@/assets/images/logo40.png")}
               style={styles.bottomSpacerLogo}
@@ -81,14 +94,16 @@ const styles = StyleSheet.create({
     backgroundColor: colors.apple.offWhite,
   },
   scrollContainer: {
+    paddingTop: 8,
     paddingBottom: 132,
+    gap: 8,
   },
 
   container: {
     backgroundColor: "transparent",
     flexDirection: "row",
     flexWrap: "wrap",
-    margin: 8,
+    marginHorizontal: 8,
     gap: 4,
   },
   libraryCardContainer: {
@@ -101,8 +116,8 @@ const styles = StyleSheet.create({
     borderColor: colors.apple.lightStroke,
     gap: 8,
     justifyContent: "center",
-    paddingHorizontal: 16,
-    paddingVertical: 24,
+    paddingHorizontal: 8,
+    paddingVertical: 32,
   },
   endTextTitle: {
     ...typography(true).h2Med,
@@ -113,8 +128,10 @@ const styles = StyleSheet.create({
     color: colors.apple.secondaryText,
   },
 
+  bottomSpacerSection: {
+    backgroundColor: "transparent",
+  },
   bottomSpacerLogo: {
-    marginVertical: 24,
     backgroundColor: "transparent",
     width: 102,
     height: 88,

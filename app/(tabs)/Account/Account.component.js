@@ -1,16 +1,19 @@
 import React from "react";
-import { SafeAreaView, ScrollView } from "react-native";
-import { Divider, Layout, Text, Input, Button, Icon} from "@ui-kitten/components";
+import { ScrollView } from "react-native";
+import {
+  Divider,
+  Layout,
+  Text,
+  Button,
+  Icon,
+} from "@ui-kitten/components";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
-
+import { colors } from "@/css/globals";
 import Header from "@/components/header/Header";
-import ConsoleScreen from "@/components/atoms/ConsoleScreen"
+import ConsoleScreen from "@/components/atoms/ConsoleScreen";
 
 export const AccountScreen = ({ navigation }) => {
-  const navigateBack = () => {
-    navigation.goBack();
-  };
-
   const Trash = (props) => (
     <Icon
       name="trash-2-outline"
@@ -68,11 +71,13 @@ export const AccountScreen = ({ navigation }) => {
   );
 
   return (
-    <LinearGradient colors={["#9FC3E5", "#ffff"]} style={{ flex: 1 }}>
-      <SafeAreaView style={{ flex: 1 }}>
-        <Divider />
-
-        <ScrollView>
+    <>
+      <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
+        <Header title={"Account"} />
+        <ScrollView
+          contentContainerStyle={styles.scrollContainer}
+          showsVerticalScrollIndicator={false}
+        >
           <Layout
             style={{
               flex: 1,
@@ -81,28 +86,13 @@ export const AccountScreen = ({ navigation }) => {
               backgroundColor: "transparent",
             }}
           >
-            <Text
-              category="h1"
-              style={{
-                fontSize: 36,
-                fontWeight: "400",
-                marginTop: 50,
-                marginBottom: 20,
-                alignSelf: "flex-start",
-                width: "100%",
-                paddingLeft: 20,
-              }}
-            >
-              Account
-            </Text>
-
             <Layout style={styles.section}>
               <Text style={styles.sectionTitle}>Profile Information</Text>
               {renderSectionItemTop("Edit Name")}
               {renderSectionItemMiddle("Update Email")}
               {renderSectionItemBottom("Update Phone Number")}
             </Layout>
-            
+
             <Layout style={styles.section}>
               <Text style={styles.sectionTitle}>Password & Security</Text>
               {renderSectionItem("Change Password")}
@@ -125,7 +115,7 @@ export const AccountScreen = ({ navigation }) => {
               style={{
                 backgroundColor: "rgba(255, 255, 255, 0.6)",
                 borderRadius: 15,
-                width: '95%',
+                width: "95%",
                 marginTop: 20,
                 boxShadow: "4px 4px 10px 0px rgba(8, 65, 92, 0.10)",
               }}
@@ -139,8 +129,8 @@ export const AccountScreen = ({ navigation }) => {
                 borderWidth: 0,
                 flexDirection: "row",
                 alignItems: "center",
-                backgroundColor: 'rgba(194, 50, 51, 0.8)',
-                width: '95%',
+                backgroundColor: "rgba(194, 50, 51, 0.8)",
+                width: "95%",
                 borderRadius: 15,
                 marginTop: 20,
               }}
@@ -150,20 +140,28 @@ export const AccountScreen = ({ navigation }) => {
               {/* Don't know why the color won't apply unless i keep this comment here lol */}
             </Button>
           </Layout>
-          <Layout style={{height: 100}}></Layout>
         </ScrollView>
       </SafeAreaView>
-    </LinearGradient>
+    </>
   );
 };
 
-
 const styles = {
+  fullPage: {
+    flex: 1,
+    backgroundColor: colors.apple.offWhite,
+  },
+  scrollContainer: {
+    paddingTop: 8,
+    paddingBottom: 132,
+    gap: 8,
+  },
+
   section: {
     marginTop: 20,
     paddingHorizontal: 20,
     backgroundColor: "transparent",
-    width: '100vw'
+    width: "100vw",
   },
   sectionTitle: {
     fontSize: 16,
@@ -175,7 +173,7 @@ const styles = {
   sectionItem: {
     backgroundColor: "rgba(255, 255, 255, 0.6)", // Set background color to semi-transparent white
     borderRadius: 15,
-    width: '100%',
+    width: "100%",
     marginBottom: 8,
     padding: 15,
     shadowColor: "#08415C",
@@ -192,7 +190,7 @@ const styles = {
     borderTopRightRadius: 15,
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
-    width: '100%',
+    width: "100%",
     marginBottom: 0,
     padding: 15,
     shadowColor: "#08415C",
@@ -206,7 +204,7 @@ const styles = {
   sectionItemMiddle: {
     backgroundColor: "rgba(255, 255, 255, 0.6)", // Set background color to semi-transparent white
     borderRadius: 0,
-    width: '100%',
+    width: "100%",
     marginBottom: 0,
     padding: 15,
     shadowColor: "#08415C",
@@ -219,11 +217,11 @@ const styles = {
   },
   sectionItemBottom: {
     backgroundColor: "rgba(255, 255, 255, 0.6)", // Set background color to semi-transparent white
-    borderTopLeftRadius: 0, 
+    borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,
-    width: '100%',
+    width: "100%",
     marginBottom: 8,
     padding: 15,
     shadowColor: "#08415C",
@@ -239,6 +237,4 @@ const styles = {
     fontWeight: "300",
     color: "#08415C",
   },
-}
-
-
+};
