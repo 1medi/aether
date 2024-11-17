@@ -7,7 +7,6 @@ import { Button, Layout } from "@ui-kitten/components";
 import AppLoading from 'expo-app-loading';
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { colors } from "@/css/globals";
-import { Icon } from "@ui-kitten/components";
 
 import {
   useFonts,
@@ -194,31 +193,6 @@ const DetectObject = () => {
     }
   };
 
-  const FileIcon = (props) => (
-    <Icon name="file-text-outline" fill="#FFF" {...props}
-      style={{ width: 32, height: 32, marginHorizontal: 5, paddingBottom: 25 }}
-    />
-  );
-
-  const CameraIcon = (props) => (
-    <Icon name="camera-outline" fill="#FFF" {...props}
-      style={{ width: 32, height: 32, marginHorizontal: 5, paddingBottom: 25,}}
-    />
-  );
-
-  const AnalyzeIcon = (props) => (
-    <Icon name="arrow-forward-outline" fill="#FFF" {...props}
-      style={{ width: 32, height: 32, marginHorizontal: 5, paddingBottom: 25,}}
-    />
-  );
-
-  const RefreshIcon = (props) => (
-    <Icon name="refresh-outline" fill="#FFF" {...props}
-      style={{ width: 32, height: 32, marginHorizontal: 5, paddingBottom: 25,}}
-    />
-  );
-
-
   return (
     <View style={styles.container}>
       <Text style={{fontFamily:"DMSans_500Medium", padding: 20, paddingBottom:30, marginBottom: 30, fontSize: 24, backgroundColor:colors.light.white60, borderRadius: 20 }}>If you need something explained on a form..... We can help with that!</Text>
@@ -231,16 +205,19 @@ const DetectObject = () => {
   
       {imageUri ? (
         <>
-          <Button accessoryLeft={AnalyzeIcon} onPress={analyzeAndParaphrase} style={[styles.button, styles.analyzeButton]}>
+          <Button onPress={analyzeAndParaphrase} style={[styles.button, styles.analyzeButton]}>
+            <Ionicons name="analytics-outline" size={20} color="white" />
             <Text style={styles.buttonText}>Analyze & Paraphrase</Text>
           </Button>
-          <Button accessoryLeft={RefreshIcon} onPress={resetSelection} style={styles.button}>
+          <Button onPress={resetSelection} style={styles.button}>
+            <Ionicons name="refresh-outline" size={20} color="white" />
             <Text style={styles.buttonText}>Choose Another</Text>
           </Button>
         </>
       ) : (
         <>
-          <Button accessoryLeft={FileIcon} onPress={pickImage} style={styles.button}>
+          <Button onPress={pickImage} style={styles.button}>
+            <Ionicons name="document-outline" size={32} color="white" />
             <Text style={styles.mainButtonText}>Choose a File...</Text>
           </Button>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 10 }}>
@@ -248,7 +225,8 @@ const DetectObject = () => {
             <Text style={{ width: 50, textAlign: 'center', fontSize: 24 ,fontFamily:"DMSans_700Bold_Italic"}}>OR</Text>
             <View style={{ flex: 1, height: 1, backgroundColor: 'black' }} />
           </View>
-          <Button accessoryLeft={CameraIcon} onPress={takePhoto} style={styles.button}>
+          <Button onPress={takePhoto} style={styles.button}>
+            <Ionicons name="camera-outline" size={32} color="white" />
             <Text style={styles.mainButtonText}>Take a Photo of a form...</Text>
           </Button>
         </>
@@ -340,9 +318,8 @@ const styles = StyleSheet.create({
   },
   mainButtonText: {
     color: 'white',
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
-
   },
   modalOverlay: {
     flex: 1,
@@ -375,7 +352,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 5,
   },
-  ionicon: {
-    marginRight: 20
-  }
 });
