@@ -144,7 +144,6 @@ export const FolderScreen = ({ navigation }) => {
               <Text style={styles.formsText}>forms</Text>
             </View>
           </Layout>
-
           <FilterButton onSelect={handleFilterChange} />
           {/* <Layout style={{ backgroundColor: 'none', paddingLeft: 10, paddingRight: 10, width: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
             <Input
