@@ -63,11 +63,11 @@ export const FormLibraryScreen = ({ navigation }) => {
             ))}
             <View style={[styles.libraryCardContainer, styles.endContainer]}>
               <Text style={styles.endTextTitle}>
-                We've Got 
-                {"\n"}Your Back
+                Your Needs 
+                {"\n"}Come First
               </Text>
               <Text style={styles.endTextDescription}>
-                Form filling is tedious, we're here to help!
+                Let us know what forms we are missing, and we'll do our best to include it!
               </Text>
             </View>
           </Layout>
@@ -113,14 +113,11 @@ const styles = StyleSheet.create({
     width: "49.4%",
   },
   endContainer: {
-    backgroundColor: colors.apple.white,
+    backgroundColor: colors.bg.green,
     borderRadius: 24,
-    borderWidth: 1,
-    borderColor: colors.apple.lightStroke,
     gap: 8,
     justifyContent: "center",
-    paddingHorizontal: 8,
-    paddingVertical: 32,
+    paddingHorizontal: 16,
   },
   endTextTitle: {
     ...typography(true).h2Med,
@@ -128,7 +125,7 @@ const styles = StyleSheet.create({
   },
   endTextDescription: {
     ...typography(true).footnote,
-    color: colors.light.deepBlue60,
+    color: colors.apple.secondaryText,
   },
 
   bottomSpacerSection: {

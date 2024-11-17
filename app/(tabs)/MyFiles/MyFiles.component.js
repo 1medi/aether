@@ -5,6 +5,7 @@ import {
   View,
   Text,
   StyleSheet,
+  Image,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Divider, Layout } from "@ui-kitten/components";
@@ -53,9 +54,6 @@ export const MyFilesScreen = () => {
   const renderForms = () => (
     <ScrollView style={styles.scrollContainer}>
       <Layout style={styles.sectionContainer}>
-        {/* <Layout style={styles.subhead}>
-          <Text style={styles.headline}>History</Text>
-        </Layout> */}
         <Layout style={styles.myFormsSection}>
           {filteredData.map((form, index) => (
             <View key={form.id}>
@@ -71,6 +69,20 @@ export const MyFilesScreen = () => {
           ))}
         </Layout>
       </Layout>
+      {/* Spacer */}
+      <View style={{ height: 56 }} />
+
+      {/* End Image */}
+      <Layout style={styles.bottomSpacerSection}>
+        <Image
+          source={require("@/assets/images/logo40.png")}
+          style={styles.bottomSpacerLogo}
+        />
+        <Text style={styles.bottomMessage}>Aether • 2024</Text>
+      </Layout>
+
+      {/* Spacer */}
+      <View style={{ height: 98 }} />
     </ScrollView>
   );
 
@@ -89,6 +101,20 @@ export const MyFilesScreen = () => {
           </View>
         ))}
       </View>
+      {/* Spacer */}
+      <View style={{ height: 56 }} />
+
+      {/* End Image */}
+      <Layout style={styles.bottomSpacerSection}>
+        <Image
+          source={require("@/assets/images/logo40.png")}
+          style={styles.bottomSpacerLogo}
+        />
+        <Text style={styles.bottomMessage}>Aether • 2024</Text>
+      </Layout>
+
+      {/* Spacer */}
+      <View style={{ height: 98 }} />
     </ScrollView>
   );
 
@@ -232,15 +258,19 @@ const styles = StyleSheet.create({
   },
 
   bottomSpacerSection: {
-    direction: "column",
-    alignItems: "center",
     backgroundColor: "transparent",
+    gap: 16,
   },
   bottomSpacerLogo: {
     backgroundColor: "transparent",
     width: 102,
     height: 88,
     alignSelf: "center",
+  },
+  bottomMessage: {
+    ...typography(true).bodyMed,
+    color: colors.light.deepBlue40,
+    textAlign: "center",
   },
   tagline: {
     ...typography(true).body,

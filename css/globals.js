@@ -48,10 +48,18 @@ export const colors = {
     glass30: "rgba(255, 255, 255, 0.3)",
     glass40: "rgba(255, 255, 255, 0.4)",
     glass70: "rgba(255, 255, 255, 0.7)",
-    black: "rgb(0, 0, 0)",
+    black: "#222222",
     black20: "rgba(0, 0, 0, 0.2)",
     secondaryText: "rgba(60, 60, 67, 0.6)",
     tertiaryText: "rgba(217, 217, 217, 0.3)",
+  },
+
+  // Backgrounds
+  bg: {
+    blue: "#2F71A15A",
+    purple: "#D7BCE8",
+    green: "#085C2A4D",
+    beige: "#EDE4D9",
   },
 
   // Other Colors
