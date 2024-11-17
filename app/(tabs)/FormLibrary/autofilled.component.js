@@ -11,7 +11,7 @@ import {
 import { StyleSheet, Text, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Header from "@/components/header/Header";
-import FormListCard from "@/components/molecules/FormListCard";
+import MyFormsCard from "@/components/atoms/MyFormsCard";
 
 import {
   useFonts,

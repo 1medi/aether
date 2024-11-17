@@ -13,5 +13,5 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-, "components/atoms/settings.js", "components/atoms/actionButton.js", "components/molecules/QuickAccessCard.js"  ]
+, "components/atoms/settings.js", "components/atoms/ActionButton.js", "components/molecules/QuickAccessCard.js"  ]
 }

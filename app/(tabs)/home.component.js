@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   ScrollView,
   View,
@@ -9,12 +9,12 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Divider, Layout, Icon } from "@ui-kitten/components";
-import QuickAccessCard from "@/components/molecules/QuickAccessCard";
-import ActionButton from "@/components/atoms/actionButton";
+import ActionButton from "@/components/atoms/ActionButton";
 import Header from "@/components/header/Header";
-import FormListCard from "@/components/molecules/FormListCard";
+import MyFormsCard from "@/components/atoms/MyFormsCard";
 import { LinearGradient } from "expo-linear-gradient";
 import { colors, typography } from "@/css/globals";
+import myFormsData from "@/app/data/MyFormsData";
 import {
   useFonts,
   DMSans_400Regular,
@@ -24,6 +24,8 @@ import {
 import AppLoading from "expo-app-loading";
 
 export const HomeScreen = ({ navigation }) => {
+  const [recentForms, setRecentForms] = useState(myFormsData);
+
   let [fontsLoaded] = useFonts({
     DMSans_400Regular,
     DMSans_500Medium,
@@ -46,9 +48,6 @@ export const HomeScreen = ({ navigation }) => {
           contentContainerStyle={styles.scrollContainer}
           showsVerticalScrollIndicator={false}
         >
-          {/* Spacer */}
-          <View style={{ height: 8 }} />
-
           {/* Home Banner */}
           <Layout style={styles.imageSection}>
             <ImageBackground
@@ -106,34 +105,33 @@ export const HomeScreen = ({ navigation }) => {
               />
             </Layout>
             <Layout style={styles.recentFormsSection}>
-              <View style={styles.formButtonContainer}>
-                <FormListCard
-                  title="Pension Plan Application"
-                  subheader="Sarah O’Neil"
-                  footnote="Modified Oct 16, 2024 - Draft ✎"
-                />
-              </View>
-              <Divider style={styles.divider} />
-              <View style={styles.formButtonContainer}>
-                <FormListCard
-                  title="Medical Form"
-                  subheader="Chris Topher"
-                  footnote="Modified Oct 16, 2024 - Draft ✎"
-                />
-              </View>
+              {recentForms.map((form, index) => (
+                <React.Fragment key={form.id}>
+                <View style={styles.formButtonContainer}>
+                  <MyFormsCard
+                    title={form.title}
+                    subheader={form.subheader}
+                    footnote={form.footnote}
+                  />
+                </View>
+                {index < recentForms.length - 1 && (
+                  <Divider style={styles.divider} />
+                )}
+                </React.Fragment>
+              ))}
             </Layout>
           </Layout>
 
           {/* Spacer */}
-          <View style={{ height: 24 }} />
+          {/* <View style={{ height: 40 }} /> */}
 
           {/* End Image */}
-          <Layout style={styles.bottomSpacerLogo}>
+          {/* <Layout style={styles.bottomSpacerSection}>
             <Image
               source={require("@/assets/images/logo40.png")}
               style={styles.bottomSpacerLogo}
             />
-          </Layout>
+          </Layout> */}
         </ScrollView>
       </SafeAreaView>
     </>
@@ -148,6 +146,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.apple.offWhite,
   },
   scrollContainer: {
+    paddingTop: 8,
     paddingBottom: 132,
     gap: 8,
   },
@@ -192,7 +191,7 @@ const styles = StyleSheet.create({
   sectionContainer: {
     backgroundColor: colors.apple.glass70,
     marginHorizontal: 8,
-    paddingTop: 24,
+    paddingTop: 16,
     paddingBottom: 8,
     paddingHorizontal: 8,
     borderRadius: 32,
@@ -203,8 +202,6 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     backgroundColor: "transparent",
-    // paddingHorizontal: 8,
-    // gap: 4,
   },
   headline: {
     marginBottom: 8,
@@ -220,24 +217,17 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: "transparent",
-    paddingHorizontal: 16,
+    paddingHorizontal: 12,
   },
   divider: {
-    marginHorizontal: 24,
+    marginHorizontal: 32,
     backgroundColor: colors.apple.lightStroke,
   },
 
-  // quickAccessSection: {
-  //   backgroundColor: "transparent",
-  // },
-  // cardScrollContainer: {
-  //   flexDirection: "row",
-  //   gap: 4,
-  //   paddingHorizontal: 8,
-  // },
-
+  bottomSpacerSection: {
+    backgroundColor: "transparent",
+  },
   bottomSpacerLogo: {
-    marginVertical: 24,
     backgroundColor: "transparent",
     width: 102,
     height: 88,

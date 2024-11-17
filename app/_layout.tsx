@@ -5,6 +5,7 @@ import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import AppNavigator from './(tabs)/navigation.component';
 import { default as theme } from '@/custom-theme.json';
+import { colors } from '@/css/globals';
 
 // const Stack = createNativeStackNavigator();
 

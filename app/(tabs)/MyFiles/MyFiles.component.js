@@ -1,20 +1,26 @@
 import React, { useState } from "react";
-import { SafeAreaView, ScrollView, TouchableOpacity, View, TextInput, Text, StyleSheet, Image, FlatList } from "react-native";
-import { useNavigation } from '@react-navigation/native';
-import FormListCard from "@/components/molecules/FormListCard";
+import {
+  ScrollView,
+  TouchableOpacity,
+  View,
+  Text,
+  Image,
+  StyleSheet,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Divider, Layout, Icon } from "@ui-kitten/components";
+import { colors, typography } from "@/css/globals";
 import { LinearGradient } from "expo-linear-gradient";
+import MyFormsCard from "@/components/atoms/MyFormsCard";
+import SavedProfileCard from "@/components/atoms/SavedProfileCard";
+import Header from "@/components/header/Header";
+import myFormsData from "@/app/data/MyFormsData";
+import savedProfilesData from "@/app/data/SavedProfilesData";
 
 export const MyFilesScreen = () => {
   const [activeTab, setActiveTab] = useState("Forms");
-  const [importantCardId, setImportantCardId] = useState(null);
-  const [filter, setFilter] = useState("All");
-  const navigation = useNavigation();
-
-  const forms = [
-    { id: 1, title: "Pension Plan Application", subheader: "Modified Oct 28, 2024 - Draft", status: "In progress" },
-    { id: 2, title: "Pension Plan Application", subheader: "Modified Oct 16, 2024 - Draft", status: "In progress" },
-    { id: 3, title: "Pension Plan Application", subheader: "Modified Jan 5, 2023 - Complete", status: "Complete" },
-  ];
+  const [myForms, setMyForms] = useState(myFormsData);
+  const [savedProfiles, setSavedProfiles] = useState(savedProfilesData);
 
   const profiles = [
     { id: 1, name: "Chris Topher", role: "Myself" },
@@ -22,252 +28,245 @@ export const MyFilesScreen = () => {
     { id: 3, name: "Pat Rick", role: "Grandpa" },
   ];
 
-  const handleCardPress = (id) => {
-    setImportantCardId(id);
-  };
-
-  const handleCardLongPress = () => {
-    navigation.navigate('/');
-  };
-
+  // Forms Render
   const renderForms = () => {
-    const filteredForms = forms.filter((form) => {
-      if (filter === "In progress") return form.status === "In progress";
-      if (filter === "Complete") return form.status === "Complete";
-      return true;
-    });
-
+    // const filteredForms = forms.filter((form) => {
+    //   if (filter === "In progress") return form.status === "In progress";
+    //   if (filter === "Complete") return form.status === "Complete";
+    //   return true;
+    // });
     return (
-      <ScrollView style={styles.scrollView}>
-        {filteredForms.some((form) => form.status === "In progress") && (
-          <Text style={styles.sectionHeader}>October, 2024</Text>
-        )}
-        {filteredForms
-          .filter((form) => form.status === "In progress")
-          .map((form) => (
-            <FormListCard
-              key={form.id}
-              title={form.title}
-              subheader={form.subheader}
-              isImportant={importantCardId === form.id}
-              onPress={() => handleCardPress(form.id)}
-              onLongPress={handleCardLongPress}
-            />
-          ))}
-        {filteredForms.some((form) => form.status === "Complete") && (
-          <>
-            <Text style={styles.sectionHeader}>September, 2024</Text>
-            {filteredForms
-              .filter((form) => form.status === "Complete")
-              .map((form) => (
-                <FormListCard
-                  key={form.id}
-                  title={form.title}
-                  subheader={form.subheader}
-                  isImportant={importantCardId === form.id}
-                  onPress={() => handleCardPress(form.id)}
-                  onLongPress={handleCardLongPress}
-                />
-              ))}
-          </>
-        )}
+      <ScrollView style={styles.scrollContainer}>
+        <Layout style={styles.sectionContainer}>
+          <Layout style={styles.subhead}>
+            <Text style={styles.headline}>History</Text>
+          </Layout>
+          <Layout style={styles.myFormsSection}>
+            {myForms.map((form, index) => (
+              <React.Fragment key={form.id}>
+                <View style={styles.formButtonContainer}>
+                  <MyFormsCard
+                    title={form.title}
+                    subheader={form.subheader}
+                    footnote={form.footnote}
+                  />
+                </View>
+                {index < myForms.length - 1 && (
+                  <Divider style={styles.divider} />
+                )}
+              </React.Fragment>
+            ))}
+          </Layout>
+        </Layout>
+
+        {/* Spacer */}
+        {/* <View style={{ height: 40 }} /> */}
+
+        {/* End Image */}
+        {/* <Layout style={styles.bottomSpacerSection}>
+          <Image
+            source={require("@/assets/images/logo40.png")}
+            style={styles.bottomSpacerLogo}
+          />
+        </Layout> */}
       </ScrollView>
     );
   };
 
-  const renderProfiles = () => (
-    <ScrollView style={styles.scrollView}>
-      <View style={styles.profileContainer}>
-        {profiles.map((profile) => (
-          <View key={profile.id} style={styles.profileCard}>
-            <Text style={styles.profileName}>{profile.name}</Text>
-            <Text style={styles.profileRole}>{profile.role}</Text>
-          </View>
-        ))}
-      </View>
-    </ScrollView>
-  );
-
-  const renderChips = () => {
-    const chips = ["Newest", "Important", "In progress", "Complete"];
-
+  // Profiles Render
+  const renderProfiles = () => {
     return (
-      <FlatList
-        data={chips}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        keyExtractor={(item) => item}
-        renderItem={({ item }) => (
-          <TouchableOpacity style={[styles.chip, filter === item && styles.activeChip]} onPress={() => setFilter(item)}>
-            <Text style={styles.chipText}>{item}</Text>
-          </TouchableOpacity>
-        )}
-      />
+      <ScrollView style={styles.scrollContainer}>
+        <View style={styles.profileContainer}>
+          {savedProfiles.map((profile) => (
+            <View key={profile.id} style={styles.profileCardContainer}>
+              <SavedProfileCard 
+                name={profile.name} 
+                role={profile.role} 
+                image={profile.image}
+                />
+            </View>
+          ))}
+        </View>
+
+        {/* Spacer */}
+        {/* <View style={{ height: 40 }} /> */}
+
+        {/* End Image */}
+        {/* <Layout style={styles.bottomSpacerSection}>
+          <Image
+            source={require("@/assets/images/logo40.png")}
+            style={styles.bottomSpacerLogo}
+          />
+        </Layout> */}
+      </ScrollView>
     );
   };
 
   return (
-    <LinearGradient colors={["#9FC3E5", "#ffff"]} style={{ flex: 1 }}>
-      <SafeAreaView style={styles.container}>
-        {/* Toggle Tabs */}
-        <View style={styles.toggleContainer}>
-          <TouchableOpacity
-            style={[styles.toggleButton, activeTab === "Forms" && styles.activeToggleButton]}
-            onPress={() => setActiveTab("Forms")}
+    <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
+      <View style={styles.toggleContainer}>
+        <TouchableOpacity
+          style={[
+            styles.toggleButton,
+            activeTab === "Forms" && styles.activeToggleButton,
+          ]}
+          onPress={() => setActiveTab("Forms")}
+        >
+          <Text
+            style={[
+              styles.toggleButtonText,
+              activeTab === "Forms" && styles.activeToggleButtonText,
+            ]}
           >
-            <Text style={[styles.toggleButtonText, activeTab === "Forms" && styles.activeToggleButtonText]}>Forms</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.toggleButton, activeTab === "Profiles" && styles.activeToggleButton]}
-            onPress={() => setActiveTab("Profiles")}
+            Forms
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[
+            styles.toggleButton,
+            activeTab === "Profiles" && styles.activeToggleButton,
+          ]}
+          onPress={() => setActiveTab("Profiles")}
+        >
+          <Text
+            style={[
+              styles.toggleButtonText,
+              activeTab === "Profiles" && styles.activeToggleButtonText,
+            ]}
           >
-            <Text style={[styles.toggleButtonText, activeTab === "Profiles" && styles.activeToggleButtonText]}>Profiles</Text>
-          </TouchableOpacity>
-        </View>
-
-        {/* Search Bar */}
-        <View style={styles.searchWrapper}>
-          <View style={styles.searchContainer}>
-            <TextInput
-              style={styles.searchInput}
-              placeholder={`Search ${activeTab === "Forms" ? "forms" : "profiles"}...`}
-            />
-          </View>
-          <TouchableOpacity style={styles.searchIconContainer}>
-            <Image
-              source={require('@/assets/images/search_icon.png')}
-              style={styles.searchIcon}
-            />
-          </TouchableOpacity>
-        </View>
-
-        {/* Chips for Filters */}
-        <View style={styles.chipsContainer}>
-          {renderChips()}
-        </View>
-
-        {/* Content */}
-        {activeTab === "Forms" ? renderForms() : renderProfiles()}
-      </SafeAreaView>
-    </LinearGradient>
+            Profiles
+          </Text>
+        </TouchableOpacity>
+      </View>
+      <Header
+        title={"My Files"}
+        placeholder={"Search my forms and profiles"}
+        hasSearchBar
+        noTitle
+      />
+      {activeTab === "Forms" ? renderForms() : renderProfiles()}
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  fullPage: {
     flex: 1,
-    paddingHorizontal: 16,
-    paddingTop: 16,
+    backgroundColor: colors.apple.offWhite,
   },
+  scrollContainer: {
+    paddingTop: 8,
+    paddingBottom: 132,
+    gap: 8,
+  },
+
   toggleContainer: {
     flexDirection: "row",
-    backgroundColor: "rgba(240, 243, 245, 0.6)",
-    borderRadius: 23.5,
-    width: 187,
-    height: 47,
+    backgroundColor: colors.apple.glass70,
+    borderRadius: 100,
+    borderWidth: 1,
+    borderColor: colors.apple.lightStroke,
+    width: 200,
     alignSelf: "center",
-    marginBottom: 16,
     alignItems: "center",
   },
   toggleButton: {
     flex: 1,
-    height: 47,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 23.5,
+    height: 48,
   },
   activeToggleButton: {
-    backgroundColor: "#ffffff",
+    backgroundColor: colors.apple.white,
+    borderWidth: 1,
+    borderRadius: 100,
+    borderColor: colors.apple.lightStroke,
   },
   toggleButtonText: {
-    fontSize: 16,
-    color: "#08415C",
-    opacity: 0.6,
+    ...typography(true).h4,
+    color: colors.apple.secondaryText,
   },
   activeToggleButtonText: {
-    fontWeight: "bold",
-    opacity: 1,
+    ...typography(true).h4Med,
+    color: colors.apple.black,
   },
-  searchWrapper: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    marginVertical: 10,
+
+  sectionContainer: {
+    backgroundColor: colors.apple.glass70,
+    marginHorizontal: 8,
+    paddingTop: 16,
+    paddingBottom: 8,
+    paddingHorizontal: 8,
+    borderRadius: 32,
+    borderWidth: 1,
+    borderColor: colors.apple.lightStroke,
   },
-  searchContainer: {
-    backgroundColor: "#ffffff",
-    borderRadius: 16,
-    width: 346,
-    height: 44,
-    paddingLeft: 15,
-    justifyContent: "center",
+  myFormsSection: {
+    display: "flex",
+    flexDirection: "column",
+    backgroundColor: "transparent",
   },
-  searchInput: {
-    fontSize: 16,
-    color: "#08415C",
+  headline: {
+    marginBottom: 8,
+    ...typography(true).h4Med,
+    color: colors.apple.black,
   },
-  searchIconContainer: {
-    marginLeft: 52,
-    backgroundColor: "rgba(240, 243, 245, 0.6)",
-    padding: 10,
-    borderRadius: 20,
-  },
-  searchIcon: {
+  headlineButton: {
     width: 24,
     height: 24,
-    tintColor: "#08415C",
   },
-  chipsContainer: {
-    marginTop: 10,
-    marginBottom: 15,
-  },
-  chip: {
+  subhead: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "transparent",
     paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 20,
-    backgroundColor: "#E6E6E6",
-    marginRight: 8,
   },
-  activeChip: {
-    backgroundColor: "#2E8BB7",
+  divider: {
+    marginHorizontal: 24,
+    backgroundColor: colors.apple.lightStroke,
   },
-  chipText: {
-    fontSize: 14,
-    color: "#08415C",
-  },
-  scrollView: {
-    flex: 1,
-  },
-  sectionHeader: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginVertical: 10,
-    color: "#08415C",
-    paddingLeft: 10,
-  },
+
   profileContainer: {
+    backgroundColor: "transparent",
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "center",
-    marginTop: 10,
+    marginHorizontal: 8,
+    gap: 4,
   },
-  profileCard: {
-    width: 110,
-    height: 140,
-    backgroundColor: "#e6e6e6",
-    borderRadius: 10,
-    margin: 10,
-    justifyContent: "center",
-    alignItems: "center",
+
+  gradientOverlay: {
+    display: "flex",
+    flex: 1,
   },
+  profileCardContainer: {
+    width: "49.4%",
+  },
+
   profileName: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#08415C",
+    ...typography(true).h4Med,
+    color: colors.apple.white,
   },
   profileRole: {
-    fontSize: 14,
-    color: "gray",
+    ...typography(true).footnote,
+    color: colors.apple.glass70,
+  },
+
+  bottomSpacerSection: {
+    direction: "column",
+    alignItems: "center",
+    backgroundColor: "transparent",
+  },
+  bottomSpacerLogo: {
+    backgroundColor: "transparent",
+    width: 102,
+    height: 88,
+    alignSelf: "center",
+  },
+  tagline: {
+    ...typography(true).body,
+    color: colors.apple.secondaryText,
   },
 });
 
