@@ -45,7 +45,7 @@ export const HomeScreen = ({ navigation }) => {
       <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
         
         {/* Header */}
-        <Header title={"Homepage"} />
+        <Header title={"Welcome"} />
         <ScrollView
           contentContainerStyle={styles.scrollContainer}
           showsVerticalScrollIndicator={false}
