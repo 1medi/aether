@@ -15,7 +15,7 @@ import {
   ScrollView,
   View,
 } from "react-native";
-import HeaderProfile from "@/components/molecules/Header";
+import Header from "@/components/header/Header";
 import LibraryButton from "@/components/molecules/FormLibraryButtons";
 import { FilterButton } from "@/components/atoms/filterButton";
 import ConsoleScreen from "@/components/atoms/ConsoleScreen";
@@ -121,7 +121,7 @@ export const FolderScreen = ({ navigation }) => {
         style={styles.gradientContainer}
       >
         <SafeAreaView style={styles.homePage}>
-          <HeaderProfile />
+          <Header />
           <Layout
             style={{
               backgroundColor: "none",

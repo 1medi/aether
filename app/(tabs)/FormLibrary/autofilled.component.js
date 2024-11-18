@@ -26,7 +26,6 @@ import {
   Inter_900Black,
 } from "@expo-google-fonts/inter";
 
-import AppLoading from "expo-app-loading";
 import { LinearGradient } from "expo-linear-gradient";
 
 export default function AutofilledScreen() {
