@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     width: "50%",
   },
   endContainer: {
-    backgroundColor: colors.bg.green,
+    backgroundColor: colors.bg.blue,
     borderRadius: 24,
     gap: 8,
     justifyContent: "center",
