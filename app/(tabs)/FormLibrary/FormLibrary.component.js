@@ -48,8 +48,8 @@ export const FormLibraryScreen = ({ navigation }) => {
           showsVerticalScrollIndicator={false}
         >
           <Layout style={styles.container}>
-            {filteredForms.map((form) => (
-              <View key={form.id} style={styles.libraryCardContainer}>
+            {filteredForms.map((form, index) => (
+              <View key={`${form.id}-${index}`} style={styles.libraryCardContainer}>
                 <FormLibraryCard
                   title={form.title}
                   description={form.description}
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     flexDirection: "row",
     flexWrap: "wrap",
-    marginHorizontal: 4,
+    marginHorizontal: 12,
     // gap: 4,
     justifyContent: "center",
   },

@@ -80,7 +80,7 @@ export const MyFilesScreen = () => {
       <Layout style={styles.sectionContainer}>
         <Layout style={styles.myFormsSection}>
           {filteredData.map((form, index) => (
-            <View key={form.id}>
+            <View key={`${form.id}-${index}`}>
               <MyFormsCard
                 title={form.title}
                 subheader={form.subheader}
@@ -144,8 +144,8 @@ export const MyFilesScreen = () => {
       <View style={{ height: 24 }} />
 
       <View style={styles.profileContainer}>
-        {filteredData.map((profile) => (
-          <View style={styles.profileCardContainer}>
+        {filteredData.map((profile, index) => (
+          <View key={`${profile.id}-${index}`} style={styles.profileCardContainer}>
             <SavedProfileCard
               key={profile.id}
               name={profile.name}
@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
 
   sectionContainer: {
     backgroundColor: colors.apple.white,
-    marginHorizontal: 4,
+    marginHorizontal: 12,
     paddingVertical: 8,
     paddingHorizontal: 8,
     borderRadius: 32,
@@ -315,7 +315,7 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     flexDirection: "row",
     flexWrap: "wrap",
-    marginHorizontal: 4,
+    marginHorizontal: 12,
     // gap: 4,
   },
 

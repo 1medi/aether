@@ -64,7 +64,7 @@ export const CameraScreen = ({ navigation }) => {
         style={styles.gradientContainer}
       >
         <SafeAreaView style={styles.homePage}>
-          <HeaderProfile />
+          <Header />
           <ScrollView style={{ marginHorizontal: 5, backgroundColor: "none" }}>
             <Layout
               style={{ backgroundColor: "none", padding: 20, width: 400 }}
