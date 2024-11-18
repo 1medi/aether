@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  ScrollView,
-  View,
-  StyleSheet,
-  Text,
-  Image,
-  ImageBackground,
-} from "react-native";
+import { ScrollView, View, StyleSheet, Text, Image, ImageBackground } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Divider, Layout, Icon } from "@ui-kitten/components";
 import ActionButton from "@/components/atoms/actionButton";
@@ -22,27 +15,41 @@ export const HomeScreen = ({ navigation }) => {
   const [recentForms, setRecentForms] = useState(myFormsData);
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const words = ["Clarifying", "Summarizing", "Streamlining"];
-  const translateY = useSharedValue(0);
+  
+  
+  const translateY = useSharedValue(-100); 
+  const opacity = useSharedValue(0);  
 
   useEffect(() => {
     const interval = setInterval(() => {
-      translateY.value = withTiming(50, { duration: 500 }, () => {
+      // Fade out and move the current word down
+      opacity.value = withTiming(0, { duration: 500 });  // Fade out
+      translateY.value = withTiming(100, { duration: 500 });  // Move the old word down
+  
+      // After the old word has faded out and moved down, change the word 
+      setTimeout(() => {
         setCurrentWordIndex((prevIndex) => (prevIndex + 1) % words.length);
-        translateY.value = -50;
-        translateY.value = withTiming(0, { duration: 500 });
-      });
-    }, 3500);
-
-    return () => clearInterval(interval);
-  }, [translateY]);
-
+  
+        translateY.value = withTiming(-100, { duration: 0 }); 
+  
+        // Fade in and move the new word down into place
+        opacity.value = withTiming(1, { duration: 1000 });  // Fade the new word in
+        translateY.value = withTiming(0, { duration: 500 });  // Move the new word into place (drop down)
+      }, 500);  // Wait for the first transition to complete before changing the word
+    }, 3500);  
+  
+    return () => {
+      clearInterval(interval); 
+    };
+  }, [translateY, opacity]);
+  
+  
   const animatedStyle = useAnimatedStyle(() => {
     return {
       transform: [
-        {
-          translateY: translateY.value,
-        },
+        { translateY: translateY.value },
       ],
+      opacity: opacity.value,
     };
   });
 
@@ -63,7 +70,7 @@ export const HomeScreen = ({ navigation }) => {
             style={styles.imageBackground}
           >
             <LinearGradient
-              colors={["rgba(0,0,0,0.15)", "rgba(0,0,0,1)"]}
+              colors={["rgba(0,0,0,0.15)", "rgba(0,0,0,1)"]} 
               style={styles.gradientOverlay}
             >
               <Layout style={styles.greetingSection}>
@@ -71,8 +78,8 @@ export const HomeScreen = ({ navigation }) => {
                   Need help
                   {"\n"}
                   <View style={styles.textContainer}>
-                    <Animated.View style={[animatedStyle]}>
-                      {words[currentWordIndex]}
+                    <Animated.View style={animatedStyle}>
+                      <Text style={styles.greetingText}>{words[currentWordIndex]}</Text>
                     </Animated.View>
                   </View>
                   {"\n"}a form today?
@@ -188,9 +195,9 @@ const styles = StyleSheet.create({
     color: colors.apple.white,
   },
   textContainer: {
-    height: 50, // Prevent the text from dropping down and overlapping other elements
-    justifyContent: "center", // Align text in the center
-    overflow: "hidden", // Hide any text that goes out of bounds
+    height: 50, // Ensure enough space for the drop-down effect
+    justifyContent: "center", // Center the text vertically
+    overflow: "hidden", // Prevent overflowing text
   },
   actionLayout: {
     flexDirection: "row",
@@ -227,29 +234,34 @@ const styles = StyleSheet.create({
   headline: {
     marginBottom: 8,
     ...typography(true).h4Med,
-    color: colors.apple.black,
+    color: colors.apple.darkGray,
   },
   headlineButton: {
-    width: 24,
-    height: 24,
+    width: 16,
+    height: 16,
+    color: colors.apple.darkGray,
+  },
+  formButtonContainer: {
+    marginBottom: 16,
+    borderRadius: 10,
   },
   divider: {
-    marginHorizontal: 32,
+    marginVertical: 8,
     backgroundColor: colors.apple.lightStroke,
   },
   bottomSpacerSection: {
-    backgroundColor: "transparent",
-    gap: 16,
+    flex: 1,
+    alignItems: "center",
+    marginBottom: 32,
   },
   bottomSpacerLogo: {
-    backgroundColor: "transparent",
-    width: 102,
-    height: 88,
-    alignSelf: "center",
+    width: 60,
+    height: 60,
+    marginBottom: 8,
   },
   bottomMessage: {
-    ...typography(true).bodyMed,
-    color: colors.light.deepBlue40,
-    textAlign: "center",
+    alignSelf: "center",
+    ...typography(true).body,
+    color: colors.apple.gray,
   },
 });
