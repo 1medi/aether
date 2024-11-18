@@ -51,7 +51,7 @@ export const MyFilesScreen = () => {
   const renderForms = () => (
     <ScrollView style={styles.scrollContainer}>
       {/* Spacer */}
-      <View style={{ height: 8 }} />
+      <View style={{ height: 16 }} />
 
       {/* Suggestion Banner */}
       <Layout style={styles.suggestionBanner}>
@@ -75,7 +75,7 @@ export const MyFilesScreen = () => {
       </Layout>
 
       {/* Spacer */}
-      <View style={{ height: 16 }} />
+      <View style={{ height: 24 }} />
 
       <Layout style={styles.sectionContainer}>
         <Layout style={styles.myFormsSection}>
@@ -115,7 +115,7 @@ export const MyFilesScreen = () => {
   const renderProfiles = () => (
     <ScrollView style={styles.scrollContainer}>
       {/* Spacer */}
-      <View style={{ height: 8 }} />
+      <View style={{ height: 16 }} />
 
       {/* Suggestion Banner */}
       <Layout style={styles.suggestionBanner}>
@@ -141,7 +141,7 @@ export const MyFilesScreen = () => {
       </Layout>
 
       {/* Spacer */}
-      <View style={{ height: 16 }} />
+      <View style={{ height: 24 }} />
 
       <View style={styles.profileContainer}>
         {filteredData.map((profile) => (
