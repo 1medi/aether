@@ -1,12 +1,5 @@
-import React, { useState } from "react";
-import {
-  ScrollView,
-  View,
-  StyleSheet,
-  Text,
-  Image,
-  ImageBackground,
-} from "react-native";
+import React, { useState, useEffect } from "react";
+import { ScrollView, View, StyleSheet, Text, Image, ImageBackground } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Divider, Layout, Icon } from "@ui-kitten/components";
 import ActionButton from "@/components/atoms/actionButton";
@@ -15,98 +8,127 @@ import MyFormsCard from "@/components/atoms/MyFormsCard";
 import { LinearGradient } from "expo-linear-gradient";
 import { colors, typography } from "@/css/globals";
 import myFormsData from "@/data/MyFormsData";
-import {
-  useFonts,
-  DMSans_400Regular,
-  DMSans_500Medium,
-  DMSans_700Bold,
-} from "@expo-google-fonts/dm-sans";
+import { useSharedValue, withTiming, useAnimatedStyle } from "react-native-reanimated"; 
+import Animated from 'react-native-reanimated'; 
 
 export const HomeScreen = ({ navigation }) => {
   const [recentForms, setRecentForms] = useState(myFormsData);
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const words = ["Clarifying", "Summarizing", "Streamlining"];
+  
+  
+  const translateY = useSharedValue(-100); 
+  const opacity = useSharedValue(0);  
 
-  let [fontsLoaded] = useFonts({
-    DMSans_400Regular,
-    DMSans_500Medium,
-    DMSans_700Bold,
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // Fade out and move the current word down
+      opacity.value = withTiming(0, { duration: 500 });  // Fade out
+      translateY.value = withTiming(100, { duration: 500 });  // Move the old word down
+  
+      // After the old word has faded out and moved down, change the word 
+      setTimeout(() => {
+        setCurrentWordIndex((prevIndex) => (prevIndex + 1) % words.length);
+  
+        translateY.value = withTiming(-100, { duration: 0 }); 
+  
+        // Fade in and move the new word down into place
+        opacity.value = withTiming(1, { duration: 1000 });  // Fade the new word in
+        translateY.value = withTiming(0, { duration: 500 });  // Move the new word into place (drop down)
+      }, 500);  // Wait for the first transition to complete before changing the word
+    }, 3500);  
+  
+    return () => {
+      clearInterval(interval); 
+    };
+  }, [translateY, opacity]);
+  
+  
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        { translateY: translateY.value },
+      ],
+      opacity: opacity.value,
+    };
   });
-
 
   const SearchIcon = (props) => <Icon name="search-outline" {...props} />;
   const UploadIcon = (props) => <Icon name="upload-outline" {...props} />;
   const FileIcon = (props) => <Icon name="file-text-outline" {...props} />;
 
   return (
-    <>
-      <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
-        
-        {/* Header */}
-        <Header title={"Welcome"} />
-        <ScrollView
-          contentContainerStyle={styles.scrollContainer}
-          showsVerticalScrollIndicator={false}
-        >
-          {/* Home Banner */}
-          <Layout style={styles.imageSection}>
-            <ImageBackground
-              source={require("@/assets/images/homePhoto2.png")}
-              style={styles.imageBackground}
+
+    <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
+      <Header title={"Homepage"} />
+      <ScrollView
+        contentContainerStyle={styles.scrollContainer}
+        showsVerticalScrollIndicator={false}
+      >
+        <Layout style={styles.imageSection}>
+          <ImageBackground
+            source={require("@/assets/images/homePhoto2.png")}
+            style={styles.imageBackground}
+          >
+            <LinearGradient
+              colors={["rgba(0,0,0,0.15)", "rgba(0,0,0,1)"]} 
+              style={styles.gradientOverlay}
+
             >
-              <LinearGradient
-                colors={["rgba(0,0,0,0.15)", "rgba(0,0,0,1)"]}
-                style={styles.gradientOverlay}
-              >
-                <Layout style={styles.greetingSection}>
-                  <Text style={styles.greetingText}>
-                    Need help
-                    {"\n"}simplifying
-                    {"\n"}a form today?
-                  </Text>
-                </Layout>
+              <Layout style={styles.greetingSection}>
+                <Text style={styles.greetingText}>
+                  Need help
+                  {"\n"}
+                  <View style={styles.textContainer}>
+                    <Animated.View style={animatedStyle}>
+                      <Text style={styles.greetingText}>{words[currentWordIndex]}</Text>
+                    </Animated.View>
+                  </View>
+                  {"\n"}a form today?
+                </Text>
+              </Layout>
 
-                {/* Acton Buttons */}
-                <Layout style={styles.actionLayout}>
-                  <Layout style={styles.actionColumn}>
-                    <ActionButton
-                      buttonTitle="Search"
-                      buttonDesc="our library"
-                      accessory={SearchIcon}
-                      destination="FormLibrary"
-                    />
-                  </Layout>
-                  <Layout style={styles.actionColumn}>
-                    <ActionButton
-                      buttonTitle="Upload"
-                      buttonDesc="from device"
-                      accessory={UploadIcon}
-                      destination="Camera"
-                    />
-                  </Layout>
-                  <Layout style={styles.actionColumn}>
-                    <ActionButton
-                      buttonTitle="Scan"
-                      buttonDesc="a document"
-                      accessory={FileIcon}
-                      destination="Camera"
-                    />
-                  </Layout>
+              {/* Action Buttons */}
+              <Layout style={styles.actionLayout}>
+                <Layout style={styles.actionColumn}>
+                  <ActionButton
+                    buttonTitle="Search"
+                    buttonDesc="our library"
+                    accessory={SearchIcon}
+                    destination="FormLibrary"
+                  />
                 </Layout>
-              </LinearGradient>
-            </ImageBackground>
+                <Layout style={styles.actionColumn}>
+                  <ActionButton
+                    buttonTitle="Upload"
+                    buttonDesc="from device"
+                    accessory={UploadIcon}
+                    destination="Camera"
+                  />
+                </Layout>
+                <Layout style={styles.actionColumn}>
+                  <ActionButton
+                    buttonTitle="Scan"
+                    buttonDesc="a document"
+                    accessory={FileIcon}
+                    destination="Camera"
+                  />
+                </Layout>
+              </Layout>
+            </LinearGradient>
+          </ImageBackground>
+        </Layout>
+
+        {/* Recent Forms Section */}
+        <Layout style={styles.sectionContainer}>
+          <Layout style={styles.subhead}>
+            <Text style={styles.headline}>Recent</Text>
+            <Icon name="arrow-forward-outline" style={styles.headlineButton} />
           </Layout>
+          <Layout style={styles.recentFormsSection}>
+            {recentForms.map((form, index) => (
+              <React.Fragment key={form.id}>
 
-          {/* Recent Forms Section */}
-          <Layout style={styles.sectionContainer}>
-            <Layout style={styles.subhead}>
-              <Text style={styles.headline}>Recent</Text>
-              <Icon
-                name="arrow-forward-outline"
-                style={styles.headlineButton}
-              />
-            </Layout>
-            <Layout style={styles.recentFormsSection}>
-              {recentForms.map((form, index) => (
-                <React.Fragment key={`${form.id}-${index}`}>
                 <View style={styles.formButtonContainer}>
                   <MyFormsCard
                     title={form.title}
@@ -117,25 +139,24 @@ export const HomeScreen = ({ navigation }) => {
                 {index < recentForms.length - 1 && (
                   <Divider style={styles.divider} />
                 )}
-                </React.Fragment>
-              ))}
-            </Layout>
+              </React.Fragment>
+            ))}
           </Layout>
+        </Layout>
 
-          {/* Spacer */}
-          <View style={{ height: 40 }} />
+        {/* Spacer */}
+        <View style={{ height: 40 }} />
 
-          {/* End Image */}
-          <Layout style={styles.bottomSpacerSection}>
-            <Image
-              source={require("@/assets/images/logo40.png")}
-              style={styles.bottomSpacerLogo}
-            />
-            <Text style={styles.bottomMessage}>Aether • 2024</Text>
-          </Layout>
-        </ScrollView>
-      </SafeAreaView>
-    </>
+        {/* End Image */}
+        <Layout style={styles.bottomSpacerSection}>
+          <Image
+            source={require("@/assets/images/logo40.png")}
+            style={styles.bottomSpacerLogo}
+          />
+          <Text style={styles.bottomMessage}>Aether • 2024</Text>
+        </Layout>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -149,10 +170,7 @@ const styles = StyleSheet.create({
   scrollContainer: {
     paddingTop: 8,
     paddingBottom: 132,
-    // gap: 4,
   },
-
-  // Banner Section
   imageSection: {
     backgroundColor: "transparent",
     borderRadius: 32,
@@ -170,8 +188,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 440,
   },
-
-  // Banner Text
   greetingSection: {
     backgroundColor: "transparent",
     paddingHorizontal: 10,
@@ -181,8 +197,11 @@ const styles = StyleSheet.create({
     ...typography(true).display,
     color: colors.apple.white,
   },
-
-  // Action Buttons
+  textContainer: {
+    height: 50, // Ensure enough space for the drop-down effect
+    justifyContent: "center", // Center the text vertically
+    overflow: "hidden", // Prevent overflowing text
+  },
   actionLayout: {
     flexDirection: "row",
     backgroundColor: "transparent",
@@ -193,8 +212,6 @@ const styles = StyleSheet.create({
     flex: 1,
     maxWidth: "33.33%",
   },
-
-  // Recent Forms Section
   sectionContainer: {
     backgroundColor: colors.apple.white,
     marginHorizontal: 12,
@@ -210,8 +227,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     backgroundColor: "transparent",
   },
-
-  // Recent Forms Header & Divider
   subhead: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -222,58 +237,34 @@ const styles = StyleSheet.create({
   headline: {
     marginBottom: 8,
     ...typography(true).h4Med,
-    color: colors.apple.black,
+    color: colors.apple.darkGray,
   },
   headlineButton: {
-    width: 24,
-    height: 24,
+    width: 16,
+    height: 16,
+    color: colors.apple.darkGray,
+  },
+  formButtonContainer: {
+    marginBottom: 16,
+    borderRadius: 10,
   },
   divider: {
-    marginHorizontal: 32,
+    marginVertical: 8,
     backgroundColor: colors.apple.lightStroke,
   },
-
   bottomSpacerSection: {
-    backgroundColor: "transparent",
-    gap: 16,
+    flex: 1,
+    alignItems: "center",
+    marginBottom: 32,
   },
   bottomSpacerLogo: {
-    backgroundColor: "transparent",
-    width: 102,
-    height: 88,
-    alignSelf: "center",
+    width: 60,
+    height: 60,
+    marginBottom: 8,
   },
   bottomMessage: {
-    ...typography(true).bodyMed,
-    color: colors.light.deepBlue40,
-    textAlign: "center",
+    alignSelf: "center",
+    ...typography(true).body,
+    color: colors.apple.gray,
   },
 });
-
-{
-  /* Quick Access Section
-          <Layout style={styles.subhead}>
-            <Text style={styles.headline}>Quick Access</Text>
-            <Icon name="arrow-forward-outline" style={styles.headlineButton} />
-          </Layout>
-          <Layout style={styles.quickAccessSection}>
-            <ScrollView
-              horizontal
-              contentContainerStyle={styles.cardScrollContainer}
-              showsHorizontalScrollIndicator={false} // Hide horizontal scroll bar
-            >
-              <QuickAccessCard
-                title="Canadian Pension Plan"
-                description="Apply for monthly retirement income from CPP."
-              />
-              <QuickAccessCard
-                title="Disability Tax Credit"
-                description="Apply for a tax credit for individuals with disabilities."
-              />
-              <QuickAccessCard
-                title="Assisted Living Application"
-                description="Request access to assisted living or long-term care."
-              />
-            </ScrollView>
-          </Layout> */
-}
