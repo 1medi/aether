@@ -33,7 +33,7 @@ const BottomTabBar = ({ navigation, state }) => (
             <Icon
               {...props}
               name={state.index === 0 ? "home" : "home-outline"}
-              style={{ width: 24, height: 24 }}
+              style={styles.icon}
             />
           )}
         />
@@ -42,7 +42,7 @@ const BottomTabBar = ({ navigation, state }) => (
             <Icon
               {...props}
               name={state.index === 1 ? "search" : "search-outline"}
-              style={{ width: 24, height: 24 }}
+              style={styles.icon}
             />
           )}
         />
@@ -51,7 +51,7 @@ const BottomTabBar = ({ navigation, state }) => (
             <Icon
               {...props}
               name={state.index === 2 ? "book" : "book-outline"}
-              style={{ width: 24, height: 24 }}
+              style={styles.icon}
             />
           )}
         />
@@ -60,7 +60,7 @@ const BottomTabBar = ({ navigation, state }) => (
             <Icon
               {...props}
               name={state.index === 3 ? "person" : "person-outline"}
-              style={{ width: 24, height: 24 }}
+              style={styles.icon}
             />
           )}
         />
@@ -122,6 +122,11 @@ const styles = StyleSheet.create({
   },
   navBarContainer: {
     backgroundColor: "transparent",
+  },
+  icon: {
+    width: 24,
+    height: 24,
+    tintColor: colors.light.deepBlue,
   },
 });
 
