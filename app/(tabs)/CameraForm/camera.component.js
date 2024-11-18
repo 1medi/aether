@@ -8,15 +8,13 @@ import {
   Icon,
 } from "@ui-kitten/components";
 import Settings from "@/components/atoms/settings.js";
-import CardSimple from "@/components/atoms/quickAccessCard";
+import CardSimple from "@/components/molecules/QuickAccessCard";
 import { StyleSheet, Text, Image } from "react-native";
-import OptionButton from "@/components/atoms/optionButton";
-import DarkModeIcon from "@/components/atoms/darkMode";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import DetectObject from "@/src/index";
-import HeaderProfile from "@/components/molecules/Header";
+import Header from "@/components/header/Header";
 
 import {
   useFonts,
@@ -67,27 +65,26 @@ export const CameraScreen = ({ navigation }) => {
       >
         <SafeAreaView style={styles.homePage}>
           <HeaderProfile />
-<ScrollView style={{ marginHorizontal: 5, backgroundColor: "transparent" }}>
-  <Layout
-    style={{ backgroundColor: "transparent", padding: 20, alignSelf: "center" }}
-  >
-    <View style={{ alignItems: "center", justifyContent: "center" }}>
-      <Text style={[styles.headerText, { textAlign: "left" }]}>
-        Hello Chris!{"\n"}Need help{" "}
-        <Text
-          style={{ fontFamily: "DMSans_700Bold", color: "#2E8BB7" }}
-        >
-          Simplifying{" "}
-        </Text>
-        {"\n"}a form today?
-      </Text>
-    </View>
-    <View style={styles.detectContainer}>
-      <DetectObject />
-    </View>
-  </Layout>
-</ScrollView>
-
+          <ScrollView style={{ marginHorizontal: 5, backgroundColor: "none" }}>
+            <Layout
+              style={{ backgroundColor: "none", padding: 20, width: 400 }}
+            >
+              <Text style={styles.headerText}>
+                Hello Chris!{"\n"}Need help{" "}
+                <Text
+                  style={{ fontFamily: "Inter_800ExtraBold", color: "#2E8BB7" }}
+                >
+                  Simplifying{" "}
+                </Text>
+                {"\n"}a form today?
+              </Text>
+            </Layout>
+            <Layout
+              style={{ paddingBottom: 50, backgroundColor: "rgba(0, 0, 0, 0)" }}
+            >
+              <DetectObject />
+            </Layout>
+          </ScrollView>
         </SafeAreaView>
       </LinearGradient>
     </>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Pressable, SafeAreaView, View, Modal, StyleSheet, Text } from "react-native";
 import { Button, Layout, Icon } from "@ui-kitten/components";
 import { useNavigation } from "@react-navigation/native";
-import HeaderProfile from "@/components/molecules/Header";
+import Header from "@/components/header/Header";
 import DocView from "@/src/DocView";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -65,13 +65,13 @@ export default function LibraryScreen() {
     <>
       <LinearGradient colors={["#9FC3E5", "#ffff"]} style={styles.gradientContainer} />
       <SafeAreaView style={styles.homePage}>
-        <HeaderProfile />
+        <Header title={"Form Library"} />
         <Layout style={{ backgroundColor: "none", paddingLeft: 20, width: "auto" }}>
           <Text style={styles.headerText}>Canadian Pension Plan</Text>
 
           <View style={styles.buttonsRow}>
             <Pressable>
-              <BackIcon onPress={() => navigation.navigate("Details")} />
+              <BackIcon onPress={() => navigation.goBack()} />
             </Pressable>
 
             <View style={styles.buttons}>

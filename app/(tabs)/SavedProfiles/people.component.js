@@ -10,7 +10,7 @@ import {
 } from "@ui-kitten/components";
 import { LinearGradient } from "expo-linear-gradient";
 
-import HeaderProfile from "@/components/molecules/Header";
+import Header from "@/components/header/Header";
 
 export const PeopleScreen = ({ navigation }) => {
   const navigateBack = () => {
