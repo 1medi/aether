@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   SafeAreaView,
   ScrollView,
@@ -9,35 +9,57 @@ import {
 } from "react-native";
 import { Button, Layout, Icon } from "@ui-kitten/components";
 import QuickAccessCard from "@/components/atoms/quickAccessCard";
-import OptionButton from "@/components/atoms/optionButton";
+import OptionButton from "@/components/atoms/optionButton";  // Make sure it's memoized
 import HeaderProfile from "@/components/molecules/Header";
 import LibraryButton from "@/components/molecules/FormLibraryButtons";
 import { LinearGradient } from "expo-linear-gradient";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+} from "react-native-reanimated";
 import { colors, typography } from "@/css/globals";
 import {
   useFonts,
   DMSans_400Regular,
-  DMSans_400Regular_Italic,
-  DMSans_500Medium,
-  DMSans_500Medium_Italic,
   DMSans_700Bold,
-  DMSans_700Bold_Italic,
 } from "@expo-google-fonts/dm-sans";
 
+// Memoize the Icon components to prevent unnecessary re-renders
+const SearchIcon = React.memo((props) => <Icon name="search-outline" {...props} />);
+const UploadIcon = React.memo((props) => <Icon name="upload-outline" {...props} />);
 
 export const HomeScreen = ({ navigation }) => {
   let [fontsLoaded] = useFonts({
     DMSans_400Regular,
-    DMSans_400Regular_Italic,
-    DMSans_500Medium,
-    DMSans_500Medium_Italic,
     DMSans_700Bold,
-    DMSans_700Bold_Italic,
   });
 
-  const SearchIcon = (props) => <Icon name="search-outline" {...props} />;
-  const FileTextIcon = (props) => <Icon name="file-text-outline" {...props} />;
-  const UploadIcon = (props) => <Icon name="upload-outline" {...props} />;
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const words = ["Clarifying", "Summarizing", "Streamlining"];
+  const translateY = useSharedValue(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      translateY.value = withTiming(50, { duration: 500 }, () => {
+        setCurrentWordIndex((prevIndex) => (prevIndex + 1) % words.length);
+        translateY.value = -50;
+        translateY.value = withTiming(0, { duration: 500 });
+      });
+    }, 3500);
+
+    return () => clearInterval(interval);
+  }, [translateY]);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          translateY: translateY.value,
+        },
+      ],
+    };
+  });
 
   const navigateDetails = () => {
     navigation.navigate("Details");
@@ -47,8 +69,6 @@ export const HomeScreen = ({ navigation }) => {
     <>
       <LinearGradient
         colors={["#9FC3E5", "#FFFF"]}
-        // start={{ x: 0, y: -0.05 }}
-        // end={{ x: 0, y: 1 }} 
         style={styles.gradientContainer}
       >
         <SafeAreaView style={styles.homePage}>
@@ -61,7 +81,12 @@ export const HomeScreen = ({ navigation }) => {
           >
             <Layout style={styles.headerLayout}>
               <Text style={styles.headerText}>
-                Need help <Text style={styles.headerBoldText}>simplifying</Text>{" "}
+                Need help{" "}
+                <View style={styles.wordContainer}>
+                  <Animated.Text style={[styles.headerBoldText, animatedStyle]}>
+                    {words[currentWordIndex]}
+                  </Animated.Text>
+                </View>{" "}
                 {"\n"}a form today?
               </Text>
             </Layout>
@@ -70,7 +95,7 @@ export const HomeScreen = ({ navigation }) => {
               <Layout style={styles.optionColumn}>
                 <OptionButton
                   title="Browse"
-                  accessory={SearchIcon}
+                  accessory={SearchIcon}  // SearchIcon is memoized
                   destination="Folder"
                 />
                 <Text style={styles.optionText}>Browse</Text>
@@ -93,7 +118,7 @@ export const HomeScreen = ({ navigation }) => {
               <Layout style={styles.optionColumn}>
                 <OptionButton
                   title="Upload"
-                  accessory={UploadIcon}
+                  accessory={UploadIcon}  // UploadIcon is memoized
                   destination="Camera"
                 />
                 <Text style={styles.optionText}>Upload</Text>
@@ -132,7 +157,7 @@ export const HomeScreen = ({ navigation }) => {
               <ScrollView
                 horizontal
                 contentContainerStyle={styles.cardScrollContainer}
-                showsHorizontalScrollIndicator={false} // Hide horizontal scroll bar
+                showsHorizontalScrollIndicator={false}
               >
                 <QuickAccessCard
                   title="Pension Plan Application"
@@ -140,11 +165,11 @@ export const HomeScreen = ({ navigation }) => {
                 />
                 <QuickAccessCard
                   title="Medical History Form"
-                  description="Apply to share your retirement pension with your spouse or partner for potential tax savings."
+                  description="Record important health information for quick access."
                 />
                 <QuickAccessCard
                   title="Medication Records"
-                  description="Apply to share your retirement pension with your spouse or partner for potential tax savings."
+                  description="Organize and access your medication records easily."
                 />
               </ScrollView>
             </Layout>
@@ -181,12 +206,18 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 32,
-    fontFamily: "DMSans_300Regular",
+    fontFamily: "DMSans_400Regular",
     color: "#08415C",
   },
   headerBoldText: {
-    fontFamily: "DMSans_600Bold",
+    fontFamily: "DMSans_700Bold",
     color: "#2E8BB7",
+    fontSize: 32,
+  },
+  wordContainer: {
+    overflow: "hidden",
+    height: 40,
+    justifyContent: "center",
   },
   optionLayout: {
     flexDirection: "row",
@@ -210,43 +241,14 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
   },
-  quickAccessSection: {
-    backgroundColor: "transparent",
-  },
-  cardScrollContainer: {
-    flexDirection: "row",
-    gap: 8,
-    paddingLeft: 16,
-    paddingRight: 16,
-    paddingBottom: 32,
-  },
-
-  recentFormLayout: {
-    backgroundColor: "transparent",
-  },
-  recentContent: {
-    alignItems: "center",
-    backgroundColor: "transparent",
-    paddingTop: 8,
-    maxWidth: "100%",  
-  },
-  formContainer: {
-    display: "flex",
-    flexDirection: "column",
-    backgroundColor: "transparent",
+  recentFormsSection: {
     paddingHorizontal: 16,
-    gap: 8,
+    backgroundColor: "transparent",
   },
-  headline: {
-    color: "rgba(8, 65, 92, 0.6)",
-    marginBottom: 8,
-    fontSize: 18,
-    fontFamily: "DMSans_400Regular",
-  },
-  headlineButton: {
-    color: "rgba(8, 65, 92, 0.6)",
-    fontSize: 14,
-    fontFamily: "DMSans_400Regular",
+  libraryButtonContainer: {
+    minWidth: 380,
+    minHeight: 85,
+    width: "100%",
   },
   subhead: {
     flexDirection: "row",
@@ -255,28 +257,20 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     paddingHorizontal: 16,
   },
-  libraryButtonContainer: {
-    minWidth: 380,
-    minHeight: 85,
-    width: "100vw"
-  },
-  gradientButtonContainer: {
-    width: "100%",
-    alignItems: "center",
-    marginTop: 32,
-  },
-  gradientButton: {
-    borderRadius: 24,
-    overflow: "hidden",
-  },
-  ButtonResent: {
-    minWidth: 380,
-    height: 54,
-    width: "100vw",
-    borderRadius: 16,
-    backgroundColor: "transparent",
+  headline: {
+    color: "rgba(8, 65, 92, 0.6)",
     fontSize: 18,
-    textAlign: "center",
-    fontFamily: "DMSans_500Medium",
+    fontFamily: "DMSans_400Regular",
+  },
+  headlineButton: {
+    color: "rgba(8, 65, 92, 0.6)",
+    fontSize: 14,
+    fontFamily: "DMSans_400Regular",
+  },
+  bottomSpacer: {
+    height: 80,
+    backgroundColor: "transparent",
   },
 });
+
+export default HomeScreen;
