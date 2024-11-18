@@ -41,7 +41,7 @@ export const HomeScreen = ({ navigation }) => {
       <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
         
         {/* Header */}
-        <Header title={"Homepage"} />
+        <Header title={"Welcome"} />
         <ScrollView
           contentContainerStyle={styles.scrollContainer}
           showsVerticalScrollIndicator={false}
@@ -106,7 +106,7 @@ export const HomeScreen = ({ navigation }) => {
             </Layout>
             <Layout style={styles.recentFormsSection}>
               {recentForms.map((form, index) => (
-                <React.Fragment key={form.id}>
+                <React.Fragment key={`${form.id}-${index}`}>
                 <View style={styles.formButtonContainer}>
                   <MyFormsCard
                     title={form.title}
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     borderRadius: 32,
     overflow: "hidden",
-    marginHorizontal: 4,
+    marginHorizontal: 12,
   },
   gradientOverlay: {
     display: "flex",
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
   // Recent Forms Section
   sectionContainer: {
     backgroundColor: colors.apple.white,
-    marginHorizontal: 4,
+    marginHorizontal: 12,
     paddingTop: 16,
     paddingBottom: 8,
     paddingHorizontal: 8,

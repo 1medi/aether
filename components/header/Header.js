@@ -40,7 +40,7 @@ export default function Header({
 const styles = StyleSheet.create({
   headerContainer: {
     backgroundColor: "transparent",
-    paddingHorizontal: 16,
+    paddingHorizontal: 12,
     paddingVertical: 8,
     gap: 8,
     borderBottomColor: colors.apple.lightStroke,
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
   pageTitle: {
-    ...typography(true).h1,
+    ...typography(true).h2Med,
     color: colors.apple.black,
   },
 
