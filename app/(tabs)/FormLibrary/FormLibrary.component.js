@@ -10,7 +10,6 @@ import {
   DMSans_500Medium,
   DMSans_700Bold,
 } from "@expo-google-fonts/dm-sans";
-import AppLoading from "expo-app-loading";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FormLibraryCard from "@/components/atoms/FormLibraryCard";
 
@@ -34,9 +33,6 @@ export const FormLibraryScreen = ({ navigation }) => {
     DMSans_700Bold,
   });
 
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  }
 
   return (
     <>

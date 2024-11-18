@@ -8,7 +8,7 @@ import {
 } from "@ui-kitten/components";
 import { StyleSheet, View } from "react-native";
 import { BlurView } from "expo-blur";
-import { HomeScreen } from "./Home.component";
+import { HomeScreen } from "./home.component";
 import { MyFilesScreen } from "./MyFiles/MyFiles.component";
 import { CameraScreen } from "./CameraForm/camera.component";
 import { FormLibraryScreen } from "./FormLibrary/FormLibrary.component";

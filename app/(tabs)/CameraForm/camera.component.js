@@ -8,7 +8,7 @@ import {
   Icon,
 } from "@ui-kitten/components";
 import Settings from "@/components/atoms/settings.js";
-import CardSimple from "@/components/molecules/QuickAccessCard";
+import CardSimple from "@/components/atoms/QuickAccessCard";
 import { StyleSheet, Text, Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
