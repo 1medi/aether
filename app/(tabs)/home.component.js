@@ -233,6 +233,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.apple.lightStroke,
   },
 
+  // Bottom Spacer
   bottomSpacerSection: {
     backgroundColor: "transparent",
     gap: 16,

@@ -33,7 +33,14 @@ export default function Header({
             style={styles.searchInput}
             placeholder={placeholder}
             onChangeText={onSearch}
-            accessoryLeft={<Icon name="search" fill={colors.apple.black} />}
+            accessoryLeft={
+              <Icon
+                name="search"
+                fill={colors.apple.black}
+                width="24"
+                height="24"
+              />
+            }
           />
         </View>
       )}
