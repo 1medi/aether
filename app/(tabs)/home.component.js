@@ -58,6 +58,7 @@ export const HomeScreen = ({ navigation }) => {
   const FileIcon = (props) => <Icon name="file-text-outline" {...props} />;
 
   return (
+
     <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
       <Header title={"Homepage"} />
       <ScrollView
@@ -72,6 +73,7 @@ export const HomeScreen = ({ navigation }) => {
             <LinearGradient
               colors={["rgba(0,0,0,0.15)", "rgba(0,0,0,1)"]} 
               style={styles.gradientOverlay}
+
             >
               <Layout style={styles.greetingSection}>
                 <Text style={styles.greetingText}>
@@ -126,6 +128,7 @@ export const HomeScreen = ({ navigation }) => {
           <Layout style={styles.recentFormsSection}>
             {recentForms.map((form, index) => (
               <React.Fragment key={form.id}>
+
                 <View style={styles.formButtonContainer}>
                   <MyFormsCard
                     title={form.title}
@@ -172,7 +175,7 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     borderRadius: 32,
     overflow: "hidden",
-    marginHorizontal: 4,
+    marginHorizontal: 12,
   },
   gradientOverlay: {
     display: "flex",
@@ -211,7 +214,7 @@ const styles = StyleSheet.create({
   },
   sectionContainer: {
     backgroundColor: colors.apple.white,
-    marginHorizontal: 4,
+    marginHorizontal: 12,
     paddingTop: 16,
     paddingBottom: 8,
     paddingHorizontal: 8,

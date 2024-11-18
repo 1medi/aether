@@ -88,17 +88,27 @@ export const typography = (fontsLoaded) => ({
   },
   h1: {
     fontSize: 32,
+    fontFamily: "DMSans_400Regular",
+    color: colors.other.black,
+  },
+  h1Med: {
+    fontSize: 32,
     fontFamily: "DMSans_500Medium",
     color: colors.other.black,
   },
   h2: {
     fontSize: 24,
-    fontFamily: "DMSans_700Bold",
+    fontFamily: "DMSans_400Regular",
     color: colors.other.black,
   },
   h2Med: {
     fontSize: 24,
     fontFamily: "DMSans_500Medium",
+    color: colors.other.black,
+  },
+  h2Bold: {
+    fontSize: 24,
+    fontFamily: "DMSans_700Bold",
     color: colors.other.black,
   },
   h2Crossed: {
