@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { SafeAreaView, ScrollView, View } from "react-native";
+import { SafeAreaView, ScrollView, View, registerCallableModule } from "react-native";
 import {
   Button,
   Divider,
@@ -8,7 +8,7 @@ import {
   Icon,
 } from "@ui-kitten/components";
 import Settings from "@/components/atoms/settings.js";
-import CardSimple from "@/components/molecules/QuickAccessCard";
+import CardSimple from "@/components/atoms/QuickAccessCard";
 import { StyleSheet, Text, Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -18,17 +18,15 @@ import Header from "@/components/header/Header";
 
 import {
   useFonts,
-  Inter_100Thin,
-  Inter_200ExtraLight,
-  Inter_300Light,
-  Inter_400Regular,
-  Inter_500Medium,
-  Inter_600SemiBold,
-  Inter_700Bold,
-  Inter_800ExtraBold,
-  Inter_900Black,
-} from "@expo-google-fonts/inter";
-import AppLoading from "expo-app-loading";
+  DMSans_400Regular,
+  DMSans_400Regular_Italic,
+  DMSans_500Medium,
+  DMSans_500Medium_Italic,
+  DMSans_700Bold,
+  DMSans_700Bold_Italic
+} from "@expo-google-fonts/dm-sans";
+
+
 import { LinearGradient } from "expo-linear-gradient";
 
 const Stack = createNativeStackNavigator();
@@ -36,20 +34,17 @@ const Tab = createBottomTabNavigator();
 
 export const CameraScreen = ({ navigation }) => {
   let [fontsLoaded] = useFonts({
-    Inter_100Thin,
-    Inter_200ExtraLight,
-    Inter_300Light,
-    Inter_400Regular,
-    Inter_500Medium,
-    Inter_600SemiBold,
-    Inter_700Bold,
-    Inter_800ExtraBold,
-    Inter_900Black,
+    DMSans_400Regular,
+    DMSans_400Regular_Italic,
+    DMSans_500Medium,
+    DMSans_500Medium_Italic,
+    DMSans_700Bold,
+    DMSans_700Bold_Italic,
   });
 
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  }
+  // if (!fontsLoaded) {
+  //   return <AppLoading />;
+  // }
 
   // const [currentDate, setCurrentDate] = useState('')
 
@@ -136,4 +131,12 @@ const styles = StyleSheet.create({
   gradientContainer: {
     flex: 1,
   },
+  detectContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignContent: "center",
+    paddingTop: 50,
+    paddingBottom: 50,
+    margin: "auto"
+  }
 });
