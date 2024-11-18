@@ -26,7 +26,7 @@ import {
   Inter_800ExtraBold,
   Inter_900Black,
 } from "@expo-google-fonts/inter";
-import AppLoading from "expo-app-loading";
+
 import { LinearGradient } from "expo-linear-gradient";
 
 export const AccountScreen = ({ navigation }) => {
@@ -42,9 +42,7 @@ export const AccountScreen = ({ navigation }) => {
     Inter_900Black,
   });
 
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  }
+
 
   const profiles = [
     { name: "Chris Topher", role: "Myself", image: require("@/assets/images/lbj.jpg") },

@@ -131,12 +131,12 @@ const styles = {
   scrollContainer: {
     paddingTop: 8,
     paddingBottom: 32,
-    gap: 4,
-    // gap: 8,
+    // gap: 4,
+    gap: 8,
   },
   section: {
     backgroundColor: colors.apple.white,
-    marginHorizontal: 4,
+    marginHorizontal: 12,
     paddingTop: 16,
     paddingBottom: 8,
     paddingHorizontal: 8,
@@ -188,7 +188,7 @@ const styles = {
   },
   logoutSection: {
     backgroundColor: "transparent",
-    marginHorizontal: 16,
+    marginHorizontal: 12,
     marginTop: 24,
   },
   logoutButton: {

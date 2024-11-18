@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Divider, Layout, Icon } from "@ui-kitten/components";
-import ActionButton from "@/components/atoms/ActionButton";
+import ActionButton from "@/components/atoms/actionButton";
 import Header from "@/components/header/Header";
 import MyFormsCard from "@/components/atoms/MyFormsCard";
 import { LinearGradient } from "expo-linear-gradient";
@@ -21,7 +21,6 @@ import {
   DMSans_500Medium,
   DMSans_700Bold,
 } from "@expo-google-fonts/dm-sans";
-import AppLoading from "expo-app-loading";
 
 export const HomeScreen = ({ navigation }) => {
   const [recentForms, setRecentForms] = useState(myFormsData);
@@ -32,9 +31,6 @@ export const HomeScreen = ({ navigation }) => {
     DMSans_700Bold,
   });
 
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  }
 
   const SearchIcon = (props) => <Icon name="search-outline" {...props} />;
   const UploadIcon = (props) => <Icon name="upload-outline" {...props} />;
@@ -110,7 +106,7 @@ export const HomeScreen = ({ navigation }) => {
             </Layout>
             <Layout style={styles.recentFormsSection}>
               {recentForms.map((form, index) => (
-                <React.Fragment key={form.id}>
+                <React.Fragment key={`${form.id}-${index}`}>
                 <View style={styles.formButtonContainer}>
                   <MyFormsCard
                     title={form.title}
@@ -161,7 +157,7 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     borderRadius: 32,
     overflow: "hidden",
-    marginHorizontal: 4,
+    marginHorizontal: 12,
   },
   gradientOverlay: {
     display: "flex",
@@ -201,7 +197,7 @@ const styles = StyleSheet.create({
   // Recent Forms Section
   sectionContainer: {
     backgroundColor: colors.apple.white,
-    marginHorizontal: 4,
+    marginHorizontal: 12,
     paddingTop: 16,
     paddingBottom: 8,
     paddingHorizontal: 8,
