@@ -48,7 +48,7 @@ export const AccountScreen = ({ navigation }) => {
         showsVerticalScrollIndicator={false}
       >
         <Layout style={styles.section}>
-          <Text style={styles.sectionTitle}>Account Settings</Text>
+          <Text style={styles.sectionTitle}>Settings</Text>
           <SectionItem
             label="Edit Account Info"
             onPress={() => {}}

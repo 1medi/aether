@@ -41,7 +41,7 @@ export const HomeScreen = ({ navigation }) => {
       <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
         
         {/* Header */}
-        <Header title={"Welcome"} />
+        <Header title={"Welcome!"} />
         <ScrollView
           contentContainerStyle={styles.scrollContainer}
           showsVerticalScrollIndicator={false}
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
   },
   imageBackground: {
     width: "100%",
-    height: 440,
+    height: 424,
   },
 
   // Banner Text

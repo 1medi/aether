@@ -14,6 +14,10 @@ export default function Header({
     <Layout style={styles.headerContainer}>
       {!noTitle && (
         <View style={styles.topSection}>
+          {/* <Image
+            style={styles.logoImage}
+            source={require("@/assets/images/logo.png")}
+          /> */}
           <Text style={styles.pageTitle}>{title}</Text>
           <View style={styles.profileBorder}>
             <Image
@@ -40,7 +44,7 @@ export default function Header({
 const styles = StyleSheet.create({
   headerContainer: {
     backgroundColor: "transparent",
-    paddingHorizontal: 12,
+    paddingHorizontal: 16,
     paddingVertical: 8,
     gap: 8,
     // borderBottomColor: colors.apple.lightStroke,
@@ -53,6 +57,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     height: 42,
+  },
+
+  logoImage: {
+    width: 40,
+    height: 36,
   },
   profileBorder: {
     padding: 2,
