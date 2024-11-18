@@ -43,8 +43,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 8,
     gap: 8,
-    borderBottomColor: colors.apple.lightStroke,
-    borderBottomWidth: 1,
+    // borderBottomColor: colors.apple.lightStroke,
+    // borderBottomWidth: 1,
     width: "100%",
   },
   topSection: {
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
   pageTitle: {
-    ...typography(true).h2Med,
+    ...typography(true).h1Med,
     color: colors.apple.black,
   },
 
