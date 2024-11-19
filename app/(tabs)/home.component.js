@@ -25,7 +25,7 @@ import Animated from "react-native-reanimated";
 export const HomeScreen = ({ navigation }) => {
   const [recentForms, setRecentForms] = useState(myFormsData);
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
-  const words = ["Clarifying", "Summarizing", "Streamlining"];
+  const words = ["Clarifying ", "Summarizing", "Streamlining"];
 
   const translateY = useSharedValue(0);
   const opacity = useSharedValue(1);
