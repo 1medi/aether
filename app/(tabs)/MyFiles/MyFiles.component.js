@@ -15,6 +15,7 @@ import SavedProfileCard from "@/components/atoms/SavedProfileCard";
 import Header from "@/components/header/Header";
 import myFormsData from "@/data/MyFormsData";
 import savedProfilesData from "@/data/SavedProfilesData";
+import { useNavigation } from "@react-navigation/native";
 
 export const MyFilesScreen = () => {
   const [activeTab, setActiveTab] = useState("Forms");
@@ -146,12 +147,16 @@ export const MyFilesScreen = () => {
       <View style={styles.profileContainer}>
         {filteredData.map((profile, index) => (
           <View key={`${profile.id}-${index}`} style={styles.profileCardContainer}>
-            <SavedProfileCard
+            <TouchableOpacity 
+              onPress={() => navigation.navigate("ProfileDetails", { profile })}
+            >
+              <SavedProfileCard
               key={profile.id}
               name={profile.name}
               role={profile.role}
               image={profile.image}
             />
+            </TouchableOpacity>
           </View>
         ))}
       </View>
