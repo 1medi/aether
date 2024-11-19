@@ -17,44 +17,131 @@ import myFormsData from "@/data/MyFormsData";
 import savedProfilesData from "@/data/SavedProfilesData";
 import { useNavigation } from "@react-navigation/native";
 
+// Main component to display and manage "My Files" screen
 export const MyFilesScreen = () => {
-  const [activeTab, setActiveTab] = useState("Forms");
-  const [filteredData, setFilteredData] = useState(myFormsData);
+  const [activeTab, setActiveTab] = useState("Forms"); // Active tab state: "Forms" or "Profiles"
+  const [filteredData, setFilteredData] = useState(myFormsData); // Data filtered based on active tab or search query
+  const [selectedProfile, setSelectedProfile] = useState(null); // Tracks the selected profile for details view
+
   const TipsIcon = (props) => <Icon name="bulb-outline" {...props} />;
   const CloseIcon = (props) => <Icon name="close-outline" {...props} />;
 
-  // Search Function
+  // Handles search input and updates filtered data
   const onSearch = (query) => {
     const data = activeTab === "Forms" ? myFormsData : savedProfilesData;
 
     if (query.trim() === "") {
-      setFilteredData(data); // Reset to original data
+      setFilteredData(data); // Reset to original data if search query is empty
       return;
     }
 
     const lowerQuery = query.toLowerCase();
     const filtered = data.filter((item) =>
       activeTab === "Forms"
-        ? item.title.toLowerCase().includes(lowerQuery)
-        : item.name.toLowerCase().includes(lowerQuery)
+        ? item.title.toLowerCase().includes(lowerQuery) // Filter by title for forms
+        : item.name.toLowerCase().includes(lowerQuery) // Filter by name for profiles
     );
 
     setFilteredData(filtered);
   };
 
-  // Switch tabs and reset data accordingly
+  // Switches between "Forms" and "Profiles" tabs and resets data
   const switchTab = (tab) => {
     setActiveTab(tab);
     setFilteredData(tab === "Forms" ? myFormsData : savedProfilesData);
   };
 
-  // Render Forms
+  // Renders the detailed view of a selected profile
+  const renderProfileDetails = (profile) => (
+    <ScrollView style={styles.scrollContainer}>
+      <View style={{ padding: 16 }}>
+        {/* Back button to return to profiles list */}
+        <TouchableOpacity onPress={() => setSelectedProfile(null)}>
+          <Text style={{ color: "blue", marginBottom: 16 }}>← Back to Profiles</Text>
+        </TouchableOpacity>
+        {/* Display profile details */}
+        <View style={styles.detailsContainer}>
+          <Image source={profile.image} style={styles.profileImage} />
+          <Text style={styles.name}>{profile.name}</Text>
+          <Text style={styles.role}>{profile.role}</Text>
+          <Text style={styles.detailLabel}>Phone:</Text>
+          <Text style={styles.detailValue}>(123) 456-7890</Text>
+          <Text style={styles.detailLabel}>Date of Birth:</Text>
+          <Text style={styles.detailValue}>November 21, 1992</Text>
+          <Text style={styles.detailLabel}>Gender:</Text>
+          <Text style={styles.detailValue}>Male</Text>
+          <Text style={styles.detailLabel}>Address:</Text>
+          <Text style={styles.detailValue}>123 Street, Apt 2B</Text>
+          <Text style={styles.detailValue}>A1B 2C3</Text>
+        </View>
+      </View>
+    </ScrollView>
+  );
+
+  // Renders the profiles tab with a list of profiles or details of a selected profile
+  const renderProfiles = () => (
+    selectedProfile ? (
+      renderProfileDetails(selectedProfile) // If a profile is selected, render its details
+    ) : (
+      <ScrollView style={styles.scrollContainer}>
+        <View style={{ height: 16 }} />
+        {/* Suggestion banner */}
+        <Layout style={styles.suggestionBanner}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+              <TipsIcon fill={colors.apple.black} style={styles.tipsIcon} />
+              <Text style={styles.suggestionTitle}>
+                Save Time, Reduce Stress
+              </Text>
+            </View>
+            <CloseIcon fill={colors.apple.black} style={styles.closeIcon} />
+          </View>
+          <Text style={styles.suggestionDescription}>
+            Store your care recipients' information for quick, two-tap autofilling.
+          </Text>
+        </Layout>
+        <View style={{ height: 24 }} />
+        {/* List of profiles */}
+        <View style={styles.profileContainer}>
+          {filteredData.map((profile, index) => (
+            <View key={`${profile.id}-${index}`} style={styles.profileCardContainer}>
+              <TouchableOpacity onPress={() => setSelectedProfile(profile)}>
+                <SavedProfileCard
+                  key={profile.id}
+                  name={profile.name}
+                  role={profile.role}
+                  image={profile.image}
+                />
+              </TouchableOpacity>
+            </View>
+          ))}
+        </View>
+        <View style={{ height: 56 }} />
+        {/* Footer */}
+        <Layout style={styles.bottomSpacerSection}>
+          <Image
+            source={require("@/assets/images/logo40.png")}
+            style={styles.bottomSpacerLogo}
+          />
+          <Text style={styles.bottomMessage}>Aether • 2024</Text>
+        </Layout>
+        <View style={{ height: 98 }} />
+      </ScrollView>
+    )
+  );
+  
+
+  // Renders the forms tab with a list of forms
   const renderForms = () => (
     <ScrollView style={styles.scrollContainer}>
-      {/* Spacer */}
       <View style={{ height: 16 }} />
-
-      {/* Suggestion Banner */}
+      {/* Suggestion banner */}
       <Layout style={styles.suggestionBanner}>
         <View
           style={{
@@ -74,10 +161,8 @@ export const MyFilesScreen = () => {
           upload directly from your device.
         </Text>
       </Layout>
-
-      {/* Spacer */}
       <View style={{ height: 24 }} />
-
+      {/* List of forms */}
       <Layout style={styles.sectionContainer}>
         <Layout style={styles.myFormsSection}>
           {filteredData.map((form, index) => (
@@ -94,11 +179,8 @@ export const MyFilesScreen = () => {
           ))}
         </Layout>
       </Layout>
-
-      {/* Spacer */}
       <View style={{ height: 56 }} />
-
-      {/* End Image */}
+      {/* Footer */}
       <Layout style={styles.bottomSpacerSection}>
         <Image
           source={require("@/assets/images/logo40.png")}
@@ -106,80 +188,13 @@ export const MyFilesScreen = () => {
         />
         <Text style={styles.bottomMessage}>Aether • 2024</Text>
       </Layout>
-
-      {/* Spacer */}
-      <View style={{ height: 98 }} />
-    </ScrollView>
-  );
-
-  // Render Profiles
-  const renderProfiles = () => (
-    <ScrollView style={styles.scrollContainer}>
-      {/* Spacer */}
-      <View style={{ height: 16 }} />
-
-      {/* Suggestion Banner */}
-      <Layout style={styles.suggestionBanner}>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-            <TipsIcon fill={colors.apple.black} style={styles.tipsIcon} />
-            <Text style={styles.suggestionTitle}>
-              Save Time, Reduce Stress
-            </Text>
-          </View>
-          <CloseIcon fill={colors.apple.black} style={styles.closeIcon} />
-        </View>
-        <Text style={styles.suggestionDescription}>
-          Store your care recipients' information for quick, two-tap
-          autofilling.
-        </Text>
-      </Layout>
-
-      {/* Spacer */}
-      <View style={{ height: 24 }} />
-
-      <View style={styles.profileContainer}>
-        {filteredData.map((profile, index) => (
-          <View key={`${profile.id}-${index}`} style={styles.profileCardContainer}>
-            <TouchableOpacity 
-              onPress={() => navigation.navigate("ProfileDetails", { profile })}
-            >
-              <SavedProfileCard
-              key={profile.id}
-              name={profile.name}
-              role={profile.role}
-              image={profile.image}
-            />
-            </TouchableOpacity>
-          </View>
-        ))}
-      </View>
-      {/* Spacer */}
-      <View style={{ height: 56 }} />
-
-      {/* End Image */}
-      <Layout style={styles.bottomSpacerSection}>
-        <Image
-          source={require("@/assets/images/logo40.png")}
-          style={styles.bottomSpacerLogo}
-        />
-        <Text style={styles.bottomMessage}>Aether • 2024</Text>
-      </Layout>
-
-      {/* Spacer */}
       <View style={{ height: 98 }} />
     </ScrollView>
   );
 
   return (
     <SafeAreaView style={styles.fullPage}>
-      {/* Toggle Buttons */}
+      {/* Toggle buttons for switching tabs */}
       <View style={styles.toggleContainer}>
         {["Forms", "Profiles"].map((tab) => (
           <TouchableOpacity
@@ -201,8 +216,7 @@ export const MyFilesScreen = () => {
           </TouchableOpacity>
         ))}
       </View>
-
-      {/* Header and Search Bar */}
+      {/* Header with search bar */}
       <Header
         title="My Files"
         placeholder="Search my forms and profiles"
@@ -210,12 +224,16 @@ export const MyFilesScreen = () => {
         onSearch={onSearch}
         noTitle
       />
-
-      {/* Render Forms or Profiles */}
-      {activeTab === "Forms" ? renderForms() : renderProfiles()}
+      {/* Render content based on the active tab */}
+      {activeTab === "Forms"
+  ? renderForms()
+  : selectedProfile
+  ? renderProfileDetails(selectedProfile)
+  : renderProfiles()}
     </SafeAreaView>
   );
 };
+
 
 const styles = StyleSheet.create({
   fullPage: {
