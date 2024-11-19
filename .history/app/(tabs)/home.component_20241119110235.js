@@ -22,7 +22,6 @@ import {
 } from "react-native-reanimated";
 import Animated from "react-native-reanimated";
 import { useDarkMode } from "./context/DarkModeContext";
-import { appendBaseUrl } from "expo-router/build/fork/getPathFromState-forks";
 
 
 export const HomeScreen = ({ navigation }) => {
@@ -73,10 +72,10 @@ export const HomeScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
-      <Header 
-        title={"Homepage"} 
-        isDarkMode={isDarkMode}
-      />
+      <DarkModeProvider>
+        <AccountScreen />
+      </DarkModeProvider>
+      <Header title={"Homepage"} />
       <ScrollView
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
@@ -229,14 +228,14 @@ const getStyles = (isDarkMode) => ({
     maxWidth: "33.33%",
   },
   sectionContainer: {
-    backgroundColor: isDarkMode ? colors.dark.darkGrey80 : colors.apple.white,
+    backgroundColor: colors.apple.white,
     marginHorizontal: 12,
     paddingTop: 16,
     paddingBottom: 8,
     paddingHorizontal: 8,
     borderRadius: 32,
     borderWidth: 1,
-    borderColor: isDarkMode ? colors.apple.glass20 : colors.apple.lightStroke,
+    borderColor: colors.apple.lightStroke,
   },
   recentFormsSection: {
     display: "flex",
@@ -253,12 +252,12 @@ const getStyles = (isDarkMode) => ({
   headline: {
     marginBottom: 8,
     ...typography(true).h4Med,
-    color: isDarkMode ? colors.apple.white : colors.apple.darkGray,
+    color: colors.apple.darkGray,
   },
   headlineButton: {
     width: 16,
     height: 16,
-    color: isDarkMode ? colors.apple.white : colors.apple.darkGray,
+    color: colors.apple.darkGray,
   },
   formButtonContainer: {
     marginBottom: 16,
@@ -266,7 +265,7 @@ const getStyles = (isDarkMode) => ({
   },
   divider: {
     marginVertical: 8,
-    backgroundColor: isDarkMode ? colors.apple.glass20 : colors.apple.lightStroke,
+    backgroundColor: colors.apple.lightStroke,
   },
   bottomSpacerSection: {
     flex: 1,
@@ -283,7 +282,7 @@ const getStyles = (isDarkMode) => ({
   bottomMessage: {
     alignSelf: "center",
     ...typography(true).body,
-    color: isDarkMode ? colors.apple.glass20 : colors.apple.gray,
+    color: colors.apple.gray,
     backgroundColor: "transparent",
   },
 });
