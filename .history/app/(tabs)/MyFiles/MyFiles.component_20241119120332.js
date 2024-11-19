@@ -294,7 +294,7 @@ const getStyles = (isDarkMode) => ({
   },
 
   sectionContainer: {
-    backgroundColor: isDarkMode ? colors.dark.darkGrey80 : colors.apple.white,
+    backgroundColor: isDarkMode ? colors.dark.darkGrey80 : colors.apple.black,
     marginHorizontal: 12,
     paddingVertical: 8,
     paddingHorizontal: 8,

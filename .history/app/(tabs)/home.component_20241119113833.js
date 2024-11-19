@@ -28,7 +28,7 @@ import { appendBaseUrl } from "expo-router/build/fork/getPathFromState-forks";
 export const HomeScreen = ({ navigation }) => {
   const [recentForms, setRecentForms] = useState(myFormsData);
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
-  const words = ["Clarifying ", "Summarizing", "Streamlining"];
+  const words = ["Clarifying", "Summarizing", "Streamlining"];
 
   const { isDarkMode } = useDarkMode();
 

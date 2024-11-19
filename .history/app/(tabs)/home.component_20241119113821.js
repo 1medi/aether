@@ -28,7 +28,7 @@ import { appendBaseUrl } from "expo-router/build/fork/getPathFromState-forks";
 export const HomeScreen = ({ navigation }) => {
   const [recentForms, setRecentForms] = useState(myFormsData);
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
-  const words = ["Clarifying ", "Summarizing", "Streamlining"];
+  const words = ["Clarifying", "Summarizing", "Streamlining"];
 
   const { isDarkMode } = useDarkMode();
 
@@ -258,7 +258,7 @@ const getStyles = (isDarkMode) => ({
   headlineButton: {
     width: 16,
     height: 16,
-    color: isDarkMode ? colors.apple.white : colors.apple.darkGray,
+    color: colors.apple.darkGray,
   },
   formButtonContainer: {
     marginBottom: 16,

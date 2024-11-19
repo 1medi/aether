@@ -12,7 +12,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "@/components/header/Header";
 import { colors, typography } from "@/css/globals";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useDarkMode } from "../context/DarkModeContext";
+import { useDarkMode } from "./context/DarkModeContext";
 
 
 export const AccountScreen = ({ navigation }) => {
