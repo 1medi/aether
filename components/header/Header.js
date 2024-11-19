@@ -5,6 +5,8 @@ import { Layout, Icon, Input } from "@ui-kitten/components";
 
 export default function Header({
   title,
+  greeting,
+  date,
   hasSearchBar,
   onSearch,
   placeholder,
@@ -14,11 +16,16 @@ export default function Header({
     <Layout style={styles.headerContainer}>
       {!noTitle && (
         <View style={styles.topSection}>
-          {/* <Image
-            style={styles.logoImage}
-            source={require("@/assets/images/logo.png")}
-          /> */}
-          <Text style={styles.pageTitle}>{title}</Text>
+          <View style={styles.textSection}>
+            {greeting ? (
+            <>
+            <Text style={styles.pageGreeting}>{greeting}!</Text>
+            <Text style={styles.date}>{date}</Text>
+            </>
+            ) : (
+            <Text style={styles.pageTitle}>{title}</Text>
+          )}
+          </View>
           <View style={styles.profileBorder}>
             <Image
               style={styles.profileImage}
@@ -51,7 +58,7 @@ export default function Header({
 const styles = StyleSheet.create({
   headerContainer: {
     backgroundColor: "transparent",
-    paddingHorizontal: 16,
+    paddingHorizontal: 24,
     paddingVertical: 8,
     gap: 8,
     // borderBottomColor: colors.apple.lightStroke,
@@ -66,10 +73,19 @@ const styles = StyleSheet.create({
     height: 42,
   },
 
-  logoImage: {
-    width: 40,
-    height: 36,
+  pageTitle: {
+    ...typography(true).h2Med,
+    color: colors.apple.black,
   },
+  pageGreeting: {
+    ...typography(true).h3Bold,
+    color: colors.apple.black,
+  },
+  date: {
+    ...typography(true).body,
+    color: colors.apple.black,
+  },
+
   profileBorder: {
     padding: 2,
     backgroundColor: colors.apple.white,
@@ -82,10 +98,7 @@ const styles = StyleSheet.create({
     height: 32,
     borderRadius: 100,
   },
-  pageTitle: {
-    ...typography(true).h1Med,
-    color: colors.apple.black,
-  },
+
 
   searchContainer: {
     backgroundColor: colors.apple.white,
