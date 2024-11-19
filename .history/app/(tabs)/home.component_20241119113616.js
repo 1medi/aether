@@ -229,14 +229,14 @@ const getStyles = (isDarkMode) => ({
     maxWidth: "33.33%",
   },
   sectionContainer: {
-    backgroundColor: isDarkMode ? colors.dark.darkGrey80 : colors.apple.white,
+    backgroundColor: colors.apple.white,
     marginHorizontal: 12,
     paddingTop: 16,
     paddingBottom: 8,
     paddingHorizontal: 8,
     borderRadius: 32,
     borderWidth: 1,
-    borderColor: isDarkMode ? colors.apple.glass20 : colors.apple.lightStroke,
+    borderColor: colors.apple.lightStroke,
   },
   recentFormsSection: {
     display: "flex",
@@ -253,12 +253,12 @@ const getStyles = (isDarkMode) => ({
   headline: {
     marginBottom: 8,
     ...typography(true).h4Med,
-    color: isDarkMode ? colors.apple.white : colors.apple.darkGray,
+    color: colors.apple.darkGray,
   },
   headlineButton: {
     width: 16,
     height: 16,
-    color: isDarkMode ? colors.apple.white : colors.apple.darkGray,
+    color: colors.apple.darkGray,
   },
   formButtonContainer: {
     marginBottom: 16,

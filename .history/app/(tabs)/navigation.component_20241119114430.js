@@ -16,7 +16,6 @@ import AutofilledScreen from "./FormLibrary/autofilled.component";
 import LibraryScreen from "./FormLibrary/library.component";
 import { AccountScreen } from "./Account/Account.component";
 import { colors } from "@/css/globals";
-import { DarkModeProvider } from "./context/DarkModeContext";
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -90,13 +89,6 @@ const TabNavigator = () => (
     <Screen name="PensionPlan" component={AutofilledScreen} />
   </Navigator>
 );
-
-const AppNavigator = () => (
-  <DarkModeProvider>
-    <TabNavigator />
-  </DarkModeProvider>
-);
-
 
 const styles = StyleSheet.create({
   navShadowContainer: {

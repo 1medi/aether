@@ -18,7 +18,6 @@ import savedProfilesData from "@/data/SavedProfilesData";
 import ConsoleScreenTwo from "@/components/atoms/ConsoleScreenTwo";
 import ConsoleScreen from "@/components/atoms/ConsoleScreen";
 import { useDarkMode } from "../context/DarkModeContext";
-import { ColorSpace } from "react-native-reanimated";
 
 
 export const MyFilesScreen = () => {
@@ -274,7 +273,6 @@ const getStyles = (isDarkMode) => ({
     backgroundColor: "transparent",
     marginHorizontal: 24,
     gap: 8,
-    colors: isDarkMode ? colors.apple.white : '',
   },
   tipsIcon: {
     width: 24,
@@ -294,13 +292,13 @@ const getStyles = (isDarkMode) => ({
   },
 
   sectionContainer: {
-    backgroundColor: isDarkMode ? colors.dark.darkGrey80 : colors.apple.white,
+    backgroundColor: colors.apple.white,
     marginHorizontal: 12,
     paddingVertical: 8,
     paddingHorizontal: 8,
     borderRadius: 32,
     borderWidth: 1,
-    borderColor: isDarkMode ? colors.apple.glass20 : colors.apple.lightStroke,
+    borderColor: colors.apple.lightStroke,
   },
   myFormsSection: {
     display: "flex",
@@ -325,7 +323,7 @@ const getStyles = (isDarkMode) => ({
   // },
   divider: {
     marginHorizontal: 24,
-    backgroundColor: isDarkMode ? colors.apple.glass20 : colors.apple.lightStroke,
+    backgroundColor: colors.apple.lightStroke,
   },
 
   profileContainer: {

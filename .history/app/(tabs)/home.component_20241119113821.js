@@ -258,7 +258,7 @@ const getStyles = (isDarkMode) => ({
   headlineButton: {
     width: 16,
     height: 16,
-    color: isDarkMode ? colors.apple.white : colors.apple.darkGray,
+    color: colors.apple.darkGray,
   },
   formButtonContainer: {
     marginBottom: 16,
