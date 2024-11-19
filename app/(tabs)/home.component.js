@@ -41,7 +41,7 @@ export const HomeScreen = ({ navigation }) => {
       <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
         
         {/* Header */}
-        <Header title={"Welcome!"} />
+        <Header greeting={"Hello, Chris Topher"} date={"Monday, Nov 18"} hasGreeting />
         <ScrollView
           contentContainerStyle={styles.scrollContainer}
           showsVerticalScrollIndicator={false}
@@ -163,12 +163,13 @@ const styles = StyleSheet.create({
     display: "flex",
     padding: 8,
     flexDirection: "column",
-    justifyContent: "flex-end",
+    // justifyContent: "flex-end",
+    justifyContent: "space-between",
     flex: 1,
   },
   imageBackground: {
     width: "100%",
-    height: 424,
+    height: 376,
   },
 
   // Banner Text
