@@ -274,7 +274,7 @@ const getStyles = (isDarkMode) => ({
     backgroundColor: "transparent",
     marginHorizontal: 24,
     gap: 8,
-    colors: isDarkMode ? colors.apple.white : '',
+    colors: isDarkMode ? colors.apple.glass70 : '',
   },
   tipsIcon: {
     width: 24,
@@ -294,7 +294,7 @@ const getStyles = (isDarkMode) => ({
   },
 
   sectionContainer: {
-    backgroundColor: isDarkMode ? colors.dark.darkGrey80 : colors.apple.white,
+    backgroundColor: isDarkMode ? colors.dark.darkGrey80 : colors.apple.black,
     marginHorizontal: 12,
     paddingVertical: 8,
     paddingHorizontal: 8,
