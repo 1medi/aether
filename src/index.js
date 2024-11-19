@@ -24,6 +24,7 @@ import {
   DMSans_700Bold,
   DMSans_700Bold_Italic,
 } from "@expo-google-fonts/dm-sans";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const DetectObject = () => {
   const [imageUri, setImageUri] = useState(null);
@@ -189,7 +190,21 @@ const DetectObject = () => {
             },
             {
               role: "user",
-              content: `Explain only what the document says to a 10 year old in 1 succinct sentence for each subject (3 MAX, do not display unfinished paragraphs): ${text}. STRICTLY format the following text (No markup / use of ** PLEASE), using BOLD for headers, italics for emphasis, and an indentation for each paragraph.
+              content: `
+You are a paraphraser for professional use. Rewrite the following content according to these guidelines:
+
+1. Summarize and Simplify: Explain only what the document says, as if explaining to a 10-year-old. Provide one succinct sentence for each subject.
+
+2. Formatting Rules:
+   - Use **bold** for headers.
+   - Use *italics* for emphasis.
+   - Indent each paragraph.
+   - Avoid any markup or special characters such as "**".
+
+Input Content:
+Explain only what the document says to a 10 year old in 1 succinct sentence for each subject.: ${text}
+
+Output: Provide the rewritten and formatted content based on the instructions above.
             `,
             },
           ],
@@ -338,7 +353,7 @@ const DetectObject = () => {
         transparent={true}
         onRequestClose={toggleModal}
       >
-        <View style={styles.modalOverlay}>
+        <SafeAreaView style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <Text
               style={{
@@ -377,7 +392,7 @@ const DetectObject = () => {
               </Layout>
             </ScrollView>
           </View>
-        </View>
+        </SafeAreaView>
       </Modal>
     </View>
   );
@@ -453,8 +468,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.light.bgBlue,
     padding: 20,
     borderRadius: 10,
-    width: "80%",
-    height: "80%",
+    width: "90%",
+    height: "90%",
   },
   modalText: {
     fontSize: 18,
