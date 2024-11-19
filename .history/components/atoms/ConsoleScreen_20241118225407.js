@@ -1,38 +1,31 @@
 import React, { useState } from "react";
-import { View, Animated, StyleSheet, TouchableWithoutFeedback } from "react-native";
+import { View, Animated, StyleSheet } from "react-native";
+import { Icon } from "@ui-kitten/components";
 import MainFab from "./MainFab";
 import FabOption from "./FabOption";
-import { colors, typography } from "@/css/globals";
 
 export default function ConsoleScreen() {
   const [expanded, setExpanded] = useState(false);
   const [fadeAnim] = useState(new Animated.Value(0));
 
   const toggleMenu = () => {
-    setExpanded((prev) => !prev);
+    setExpanded(!expanded);
     Animated.timing(fadeAnim, {
-      toValue: expanded ? 0 : 1, // Reverse the logic
+      toValue: expanded ? 0 : 1,
       duration: 300,
       useNativeDriver: true,
     }).start();
   };
 
   return (
-    <View style={styles.container}>
-      {expanded && (
-        <TouchableWithoutFeedback onPress={() => setExpanded(false)}>
-          <View style={styles.overlay} />
-        </TouchableWithoutFeedback>
-      )}
-      <View style={styles.fabContainer}>
+    <View style={styles.fabContainer}>
         {expanded && (
-          <>
+            <>
             <FabOption iconName="cloud-upload-outline" fadeAnim={fadeAnim} />
             <FabOption iconName="camera-outline" fadeAnim={fadeAnim} />
-          </>
+            </>
         )}
         <MainFab expanded={expanded} onPress={toggleMenu} />
-      </View>
     </View>
   );
 }
@@ -61,12 +54,6 @@ const styles = StyleSheet.create({
     right: 20,
     bottom: 100,
     alignItems: "center",
-    zIndex: 10, // Ensures it stays above other elements
-  },
-  overlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: "transparent",
-    zIndex: 9,
   },
 });
 

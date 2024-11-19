@@ -2,9 +2,6 @@ import React from "react";
 import { StyleSheet, Text, Image, View } from "react-native";
 import { colors, typography } from "../../css/globals";
 import { Layout, Icon, Input } from "@ui-kitten/components";
-import { useState, useEffect, useMemo } from "react";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
 
 export default function Header({
   title,
@@ -12,11 +9,7 @@ export default function Header({
   onSearch,
   placeholder,
   noTitle,
-  isDarkMode, // Receive dark mode state
 }) {
-
-  const styles = useMemo(() => getStyles(isDarkMode), [isDarkMode]);
-
   return (
     <Layout style={styles.headerContainer}>
       {!noTitle && (
@@ -44,7 +37,7 @@ export default function Header({
   );
 }
 
-const getStyles = (isDarkMode) => ({
+const styles = StyleSheet.create({
   headerContainer: {
     backgroundColor: "transparent",
     paddingHorizontal: 12,
@@ -75,7 +68,7 @@ const getStyles = (isDarkMode) => ({
   },
   pageTitle: {
     ...typography(true).h2Med,
-    color: isDarkMode ? colors.apple.white : colors.apple.black,
+    color: colors.apple.black,
   },
 
   searchContainer: {
@@ -95,8 +88,3 @@ const getStyles = (isDarkMode) => ({
     borderColor: "transparent",
   },
 });
-
-
-
-
-
