@@ -112,7 +112,7 @@ const getStyles = (isDarkMode) => ({
     flexWrap: "wrap",
     marginHorizontal: 12,
     // gap: 4,
-    justifyContent: "center",
+    // justifyContent: "center",
   },
   libraryCardContainer: {
     // width: "49.4%",
@@ -147,7 +147,7 @@ const getStyles = (isDarkMode) => ({
   },
   bottomMessage: {
     ...typography(true).bodyMed,
-    color: isDarkMode ? colors.apple.glass20 : colors.apple.gray,
+    color: isDarkMode ? colors.apple.glass20 : colors.light.deepBlue40,
     textAlign: "center",
   },
 });
