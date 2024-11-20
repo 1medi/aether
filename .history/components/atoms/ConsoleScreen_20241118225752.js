@@ -27,7 +27,7 @@ export default function ConsoleScreen() {
       <View style={styles.fabContainer}>
         {expanded && (
           <>
-            <FabOption iconName="upload-outline" fadeAnim={fadeAnim} />
+            <FabOption iconName="cloud-upload-outline" fadeAnim={fadeAnim} />
             <FabOption iconName="camera-outline" fadeAnim={fadeAnim} />
           </>
         )}
@@ -40,17 +40,26 @@ export default function ConsoleScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#E1EBF2",
     justifyContent: "flex-end",
   },
+  bottomNav: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    paddingVertical: 20,
+    backgroundColor: "#ffffff",
+    borderTopWidth: 1,
+    borderColor: "#ccc",
+  },
   icon: {
-    width: 24,
-    height: 24,
+    width: 30,
+    height: 30,
     tintColor: "#1F2937",
   },
   fabContainer: {
     position: "absolute",
-    right: 16,
-    bottom: 72,
+    right: 20,
+    bottom: 100,
     alignItems: "center",
     zIndex: 10, // Ensures it stays above other elements
   },

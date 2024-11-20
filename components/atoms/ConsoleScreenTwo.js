@@ -4,7 +4,7 @@ import MainFab from "./MainFab";
 import FabOption from "./FabOption";
 import { colors, typography } from "@/css/globals";
 
-export default function ConsoleScreen() {
+export default function ConsoleScreenTwo() {
   const [expanded, setExpanded] = useState(false);
   const [fadeAnim] = useState(new Animated.Value(0));
 
@@ -27,8 +27,7 @@ export default function ConsoleScreen() {
       <View style={styles.fabContainer}>
         {expanded && (
           <>
-            <FabOption iconName="upload-outline" fadeAnim={fadeAnim} />
-            <FabOption iconName="camera-outline" fadeAnim={fadeAnim} />
+            <FabOption iconName="person-add-outline" fadeAnim={fadeAnim} />
           </>
         )}
         <MainFab expanded={expanded} onPress={toggleMenu} />
@@ -40,6 +39,7 @@ export default function ConsoleScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#E1EBF2",
     justifyContent: "flex-end",
   },
   icon: {
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     right: 16,
     bottom: 72,
     alignItems: "center",
-    zIndex: 10, // Ensures it stays above other elements
+    zIndex: 20, // Ensures it stays above other elements
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,

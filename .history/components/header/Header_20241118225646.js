@@ -8,8 +8,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Header({
   title,
-  greeting,
-  date,
   hasSearchBar,
   onSearch,
   placeholder,
@@ -23,16 +21,7 @@ export default function Header({
     <Layout style={styles.headerContainer}>
       {!noTitle && (
         <View style={styles.topSection}>
-          <View style={styles.textSection}>
-            {greeting ? (
-            <>
-            <Text style={styles.pageGreeting}>{greeting}!</Text>
-            <Text style={styles.date}>{date}</Text>
-            </>
-            ) : (
-            <Text style={styles.pageTitle}>{title}</Text>
-          )}
-          </View>
+          <Text style={styles.pageTitle}>{title}</Text>
           <View style={styles.profileBorder}>
             <Image
               style={styles.profileImage}
@@ -47,14 +36,7 @@ export default function Header({
             style={styles.searchInput}
             placeholder={placeholder}
             onChangeText={onSearch}
-            accessoryLeft={
-              <Icon
-                name="search"
-                fill={colors.apple.black}
-                width="24"
-                height="24"
-              />
-            }
+            accessoryLeft={<Icon name="search" fill={colors.apple.black} />}
           />
         </View>
       )}
@@ -65,11 +47,11 @@ export default function Header({
 const getStyles = (isDarkMode) => ({
   headerContainer: {
     backgroundColor: "transparent",
-    paddingHorizontal: 16,
+    paddingHorizontal: 12,
     paddingVertical: 8,
     gap: 8,
-    // borderBottomColor: colors.apple.lightStroke,
-    // borderBottomWidth: 1,
+    borderBottomColor: colors.apple.lightStroke,
+    borderBottomWidth: 1,
     width: "100%",
   },
   topSection: {
@@ -79,20 +61,6 @@ const getStyles = (isDarkMode) => ({
     alignItems: "center",
     height: 42,
   },
-
-  pageTitle: {
-    ...typography(true).h2Med,
-    color: isDarkMode ? colors.apple.white : colors.apple.black,
-  },
-  pageGreeting: {
-    ...typography(true).bodyBold,
-    color: colors.apple.black,
-  },
-  date: {
-    ...typography(true).footnote,
-    color: colors.apple.black,
-  },
-
   profileBorder: {
     padding: 2,
     backgroundColor: colors.apple.white,
@@ -105,7 +73,10 @@ const getStyles = (isDarkMode) => ({
     height: 32,
     borderRadius: 100,
   },
-
+  pageTitle: {
+    ...typography(true).h2Med,
+    color: isDarkMode ? colors.apple.white : colors.apple.black,
+  },
 
   searchContainer: {
     backgroundColor: colors.apple.white,

@@ -12,7 +12,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "@/components/header/Header";
 import { colors, typography } from "@/css/globals";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useDarkMode } from "../context/DarkModeContext";
+import { useDarkMode } from "./context/DarkModeContext";
 
 
 export const AccountScreen = ({ navigation }) => {
@@ -61,7 +61,7 @@ export const AccountScreen = ({ navigation }) => {
         showsVerticalScrollIndicator={false}
       >
         <Layout style={styles.section}>
-          <Text style={styles.sectionTitle}>Settings</Text>
+          <Text style={styles.sectionTitle}>Account Settings</Text>
           <SectionItem
             label="Edit Account Info"
             onPress={() => {}}
@@ -215,7 +215,7 @@ const getStyles = (isDarkMode) => ({
     borderRadius: 100,
     borderWidth: 1,
     height: 56,
-    borderColor: colors.apple.lightStroke,
+    borderColor: colors.apple.red,
     backgroundColor: isDarkMode ? colors.dark.darkGrey80 : colors.apple.white,
   },
 });

@@ -30,27 +30,24 @@ const FabOption = ({ iconName, fadeAnim }) => {
 
 const styles = StyleSheet.create({
   fabOption: {
-    marginBottom: 16,
+    marginBottom: 15,
   },
   fab: {
-    width: 64,
-    height: 64,
-    borderRadius: 100,
-    backgroundColor: colors.light.blue,
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: colors.other.lightBlue,
     justifyContent: "center",
     alignItems: "center",
     elevation: 5, // Android
-    shadowColor: colors.light.black20,
-    shadowOffset: {
-      width: 4,
-      height: 4,
-    },
-    shadowOpacity: 0.6,
-    shadowRadius: 8,
+    shadowColor: "#000", // iOS
+    shadowOffset: { width: 0, height: 2 }, // iOS
+    shadowOpacity: 0.25, // iOS
+    shadowRadius: 3.84, // iOS
   },
   fabIcon: {
-    width: 24,
-    height: 24,
+    width: 30,
+    height: 30,
   },
 });
 

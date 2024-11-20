@@ -12,11 +12,39 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "@/components/header/Header";
 import { colors, typography } from "@/css/globals";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useDarkMode } from "../context/DarkModeContext";
+
 
 
 export const AccountScreen = ({ navigation }) => {
-  const { isDarkMode, toggleDarkMode } = useDarkMode();
+  const [isDarkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    const loadDarkMode = async () => {
+      try {
+        const savedMode = await AsyncStorage.getItem("darkMode");
+        if (savedMode !== null) {
+          setDarkMode(JSON.parse(savedMode));
+          console.log("Dark mode loaded:", JSON.parse(savedMode));
+        }
+      } catch (error) {
+        console.error("Error loading dark mode:", error);
+      }
+    };
+    loadDarkMode();
+  }, []);
+
+  const toggleDarkMode = async () => {
+    try {
+      setDarkMode((prev) => {
+        const newMode = !prev;
+        AsyncStorage.setItem("darkMode", JSON.stringify(newMode));
+        console.log("Dark mode saved:", newMode);
+        return newMode;
+      });
+    } catch (error) {
+      console.error("Error saving dark mode:", error);
+    }
+  };
 
   const styles = useMemo(() => {
     console.log("Recalculating styles for dark mode:", isDarkMode);
@@ -61,7 +89,7 @@ export const AccountScreen = ({ navigation }) => {
         showsVerticalScrollIndicator={false}
       >
         <Layout style={styles.section}>
-          <Text style={styles.sectionTitle}>Settings</Text>
+          <Text style={styles.sectionTitle}>Account Settings</Text>
           <SectionItem
             label="Edit Account Info"
             onPress={() => {}}
@@ -215,7 +243,7 @@ const getStyles = (isDarkMode) => ({
     borderRadius: 100,
     borderWidth: 1,
     height: 56,
-    borderColor: colors.apple.lightStroke,
+    borderColor: colors.apple.red,
     backgroundColor: isDarkMode ? colors.dark.darkGrey80 : colors.apple.white,
   },
 });

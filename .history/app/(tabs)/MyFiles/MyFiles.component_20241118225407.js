@@ -15,9 +15,6 @@ import SavedProfileCard from "@/components/atoms/SavedProfileCard";
 import Header from "@/components/header/Header";
 import myFormsData from "@/data/MyFormsData";
 import savedProfilesData from "@/data/SavedProfilesData";
-import ConsoleScreenTwo from "@/components/atoms/ConsoleScreenTwo";
-import ConsoleScreen from "@/components/atoms/ConsoleScreen";
-import { useDarkMode } from "../context/DarkModeContext";
 
 export const MyFilesScreen = () => {
   const [activeTab, setActiveTab] = useState("Forms");
@@ -52,7 +49,6 @@ export const MyFilesScreen = () => {
 
   // Render Forms
   const renderForms = () => (
-    <>
     <ScrollView style={styles.scrollContainer}>
       {/* Spacer */}
       <View style={{ height: 16 }} />
@@ -113,13 +109,10 @@ export const MyFilesScreen = () => {
       {/* Spacer */}
       <View style={{ height: 98 }} />
     </ScrollView>
-      <ConsoleScreen />
-      </>
   );
 
   // Render Profiles
   const renderProfiles = () => (
-    <>
     <ScrollView style={styles.scrollContainer}>
       {/* Spacer */}
       <View style={{ height: 16 }} />
@@ -177,8 +170,6 @@ export const MyFilesScreen = () => {
       {/* Spacer */}
       <View style={{ height: 98 }} />
     </ScrollView>
-      <ConsoleScreenTwo />
-    </>
   );
 
   return (
@@ -299,7 +290,22 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     backgroundColor: "transparent",
   },
-
+  // headline: {
+  //   marginBottom: 8,
+  //   ...typography(true).h4Med,
+  //   color: colors.apple.black,
+  // },
+  // headlineButton: {
+  //   width: 24,
+  //   height: 24,
+  // },
+  // subhead: {
+  //   flexDirection: "row",
+  //   justifyContent: "space-between",
+  //   alignItems: "center",
+  //   backgroundColor: "transparent",
+  //   paddingHorizontal: 12,
+  // },
   divider: {
     marginHorizontal: 24,
     backgroundColor: colors.apple.lightStroke,
