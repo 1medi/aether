@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import { Layout } from "@ui-kitten/components";
 import { StyleSheet, Text, ScrollView, View, Image } from "react-native";
 import Header from "@/components/header/Header";
@@ -12,16 +12,9 @@ import {
 } from "@expo-google-fonts/dm-sans";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FormLibraryCard from "@/components/atoms/FormLibraryCard";
-import { useDarkMode } from "../context/DarkModeContext";
-
-
 
 export const FormLibraryScreen = ({ navigation }) => {
   const [filteredForms, setFilteredForms] = useState(formLibraryData);
-
-  const { isDarkMode } = useDarkMode();
-
-  const styles = useMemo(() => getStyles(isDarkMode), [isDarkMode]);
 
   const onSearch = (query) => {
     if (query.trim()) {
@@ -49,7 +42,6 @@ export const FormLibraryScreen = ({ navigation }) => {
           placeholder={"Search for the right form"}
           hasSearchBar
           onSearch={onSearch}
-          isDarkMode={isDarkMode}
         />
         <ScrollView
           contentContainerStyle={styles.scrollContainer}
@@ -95,10 +87,10 @@ export const FormLibraryScreen = ({ navigation }) => {
 
 export default FormLibraryScreen;
 
-const getStyles = (isDarkMode) => ({
+const styles = StyleSheet.create({
   fullPage: {
     flex: 1,
-    backgroundColor: isDarkMode ? colors.apple.black : colors.apple.offWhite,
+    backgroundColor: colors.apple.offWhite,
   },
   scrollContainer: {
     paddingTop: 8,
@@ -112,7 +104,7 @@ const getStyles = (isDarkMode) => ({
     flexWrap: "wrap",
     marginHorizontal: 12,
     // gap: 4,
-    // justifyContent: "center",
+    justifyContent: "center",
   },
   libraryCardContainer: {
     // width: "49.4%",
@@ -147,7 +139,7 @@ const getStyles = (isDarkMode) => ({
   },
   bottomMessage: {
     ...typography(true).bodyMed,
-    color: isDarkMode ? colors.apple.glass20 : colors.light.deepBlue40,
+    color: colors.light.deepBlue40,
     textAlign: "center",
   },
 });

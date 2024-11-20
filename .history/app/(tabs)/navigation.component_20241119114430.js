@@ -16,7 +16,6 @@ import AutofilledScreen from "./FormLibrary/autofilled.component";
 import LibraryScreen from "./FormLibrary/library.component";
 import { AccountScreen } from "./Account/Account.component";
 import { colors } from "@/css/globals";
-import { DarkModeProvider } from "./context/DarkModeContext";
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -34,7 +33,7 @@ const BottomTabBar = ({ navigation, state }) => (
             <Icon
               {...props}
               name={state.index === 0 ? "home" : "home-outline"}
-              style={styles.icon}
+              style={{ width: 24, height: 24 }}
             />
           )}
         />
@@ -43,7 +42,7 @@ const BottomTabBar = ({ navigation, state }) => (
             <Icon
               {...props}
               name={state.index === 1 ? "search" : "search-outline"}
-              style={styles.icon}
+              style={{ width: 24, height: 24 }}
             />
           )}
         />
@@ -52,7 +51,7 @@ const BottomTabBar = ({ navigation, state }) => (
             <Icon
               {...props}
               name={state.index === 2 ? "book" : "book-outline"}
-              style={styles.icon}
+              style={{ width: 24, height: 24 }}
             />
           )}
         />
@@ -61,7 +60,7 @@ const BottomTabBar = ({ navigation, state }) => (
             <Icon
               {...props}
               name={state.index === 3 ? "person" : "person-outline"}
-              style={styles.icon}
+              style={{ width: 24, height: 24 }}
             />
           )}
         />
@@ -90,13 +89,6 @@ const TabNavigator = () => (
     <Screen name="PensionPlan" component={AutofilledScreen} />
   </Navigator>
 );
-
-const AppNavigator = () => (
-  <DarkModeProvider>
-    <TabNavigator />
-  </DarkModeProvider>
-);
-
 
 const styles = StyleSheet.create({
   navShadowContainer: {
@@ -128,11 +120,6 @@ const styles = StyleSheet.create({
   },
   navBarContainer: {
     backgroundColor: "transparent",
-  },
-  icon: {
-    width: 24,
-    height: 24,
-    tintColor: colors.light.blue,
   },
 });
 

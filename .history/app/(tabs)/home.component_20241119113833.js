@@ -24,10 +24,11 @@ import Animated from "react-native-reanimated";
 import { useDarkMode } from "./context/DarkModeContext";
 import { appendBaseUrl } from "expo-router/build/fork/getPathFromState-forks";
 
+
 export const HomeScreen = ({ navigation }) => {
   const [recentForms, setRecentForms] = useState(myFormsData);
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
-  const words = ["clarifying ", "summarizing", "streamlining"];
+  const words = ["Clarifying", "Summarizing", "Streamlining"];
 
   const { isDarkMode } = useDarkMode();
 
@@ -68,119 +69,110 @@ export const HomeScreen = ({ navigation }) => {
 
   const SearchIcon = (props) => <Icon name="search-outline" {...props} />;
   const UploadIcon = (props) => <Icon name="upload-outline" {...props} />;
-  const FileIcon = (props) => <Icon name="camera-outline" {...props} />;
+  const FileIcon = (props) => <Icon name="file-text-outline" {...props} />;
 
   return (
-    <>
-      <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
-        {/* Header */}
-        <Header
-          greeting={"Hello, Chris Topher"}
-          date={"Monday, Nov 18"}
-          hasGreeting
-          isDarkMode={isDarkMode}
-        />
-        <ScrollView
-          contentContainerStyle={styles.scrollContainer}
-          showsVerticalScrollIndicator={false}
-        >
-          {/* Home Banner */}
-          <Layout style={styles.imageSection}>
-            <ImageBackground
-              source={require("@/assets/images/homePhoto2.png")}
-              style={styles.imageBackground}
+    <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
+      <Header 
+        title={"Homepage"} 
+        isDarkMode={isDarkMode}
+      />
+      <ScrollView
+        contentContainerStyle={styles.scrollContainer}
+        showsVerticalScrollIndicator={false}
+      >
+        <Layout style={styles.imageSection}>
+          <ImageBackground
+            source={require("@/assets/images/homePhoto2.png")}
+            style={styles.imageBackground}
+          >
+            <LinearGradient
+              colors={["rgba(0,0,0,0.15)", "rgba(0,0,0,1)"]}
+              style={styles.gradientOverlay}
             >
-              <LinearGradient
-                colors={["rgba(0,0,0,0.15)", "rgba(0,0,0,1)"]}
-                style={styles.gradientOverlay}
-              >
-                <Layout style={styles.greetingSection}>
-                  <Text style={styles.greetingText}>
-                    Need help
-                    {/* {"\n"} */}
-                    <View style={styles.textContainer}>
-                      <Animated.View style={animatedStyle}>
-                        <Text style={styles.greetingText}>
-                          {words[currentWordIndex]}
-                        </Text>
-                      </Animated.View>
-                    </View>
-                    {"\n"}a form today?
-                  </Text>
-                </Layout>
-
-                {/* Action Buttons */}
-                <Layout style={styles.actionLayout}>
-                  <Layout style={styles.actionColumn}>
-                    <ActionButton
-                      buttonTitle="Search"
-                      buttonDesc="our library"
-                      accessory={SearchIcon}
-                      destination="FormLibrary"
-                    />
-                  </Layout>
-                  <Layout style={styles.actionColumn}>
-                    <ActionButton
-                      buttonTitle="Upload"
-                      buttonDesc="from device"
-                      accessory={UploadIcon}
-                      destination="Camera"
-                    />
-                  </Layout>
-                  <Layout style={styles.actionColumn}>
-                    <ActionButton
-                      buttonTitle="Scan"
-                      buttonDesc="a document"
-                      accessory={FileIcon}
-                      destination="Camera"
-                    />
-                  </Layout>
-                </Layout>
-              </LinearGradient>
-            </ImageBackground>
-          </Layout>
-
-          {/* Recent Forms Section */}
-          <Layout style={styles.sectionContainer}>
-            <Layout style={styles.subhead}>
-              <Text style={styles.headline}>Recent</Text>
-              <Icon
-                name="arrow-forward-outline"
-                style={styles.headlineButton}
-              />
-            </Layout>
-            <Layout style={styles.recentFormsSection}>
-              {recentForms.map((form, index) => (
-                <React.Fragment key={`${form.id}-${index}`}>
-                  <View style={styles.formButtonContainer}>
-                    <MyFormsCard
-                      title={form.title}
-                      subheader={form.subheader}
-                      footnote={form.footnote}
-                    />
+              <Layout style={styles.greetingSection}>
+                <Text style={styles.greetingText}>
+                  Need help
+                  {"\n"}
+                  <View style={styles.textContainer}>
+                    <Animated.View style={animatedStyle}>
+                      <Text style={styles.greetingText}>
+                        {words[currentWordIndex]}
+                      </Text>
+                    </Animated.View>
                   </View>
-                  {index < recentForms.length - 1 && (
-                    <Divider style={styles.divider} />
-                  )}
-                </React.Fragment>
-              ))}
-            </Layout>
-          </Layout>
+                  {"\n"}a form today?
+                </Text>
+              </Layout>
 
-          {/* Spacer */}
-          <View style={{ height: 48 }} />
+              {/* Action Buttons */}
+              <Layout style={styles.actionLayout}>
+                <Layout style={styles.actionColumn}>
+                  <ActionButton
+                    buttonTitle="Search"
+                    buttonDesc="our library"
+                    accessory={SearchIcon}
+                    destination="FormLibrary"
+                  />
+                </Layout>
+                <Layout style={styles.actionColumn}>
+                  <ActionButton
+                    buttonTitle="Upload"
+                    buttonDesc="from device"
+                    accessory={UploadIcon}
+                    destination="Camera"
+                  />
+                </Layout>
+                <Layout style={styles.actionColumn}>
+                  <ActionButton
+                    buttonTitle="Scan"
+                    buttonDesc="a document"
+                    accessory={FileIcon}
+                    destination="Camera"
+                  />
+                </Layout>
+              </Layout>
+            </LinearGradient>
+          </ImageBackground>
+        </Layout>
 
-          {/* End Image */}
-          <Layout style={styles.bottomSpacerSection}>
-            <Image
-              source={require("@/assets/images/logo40.png")}
-              style={styles.bottomSpacerLogo}
-            />
-            <Text style={styles.bottomMessage}>Aether • 2024</Text>
+        {/* Recent Forms Section */}
+        <Layout style={styles.sectionContainer}>
+          <Layout style={styles.subhead}>
+            <Text style={styles.headline}>Recent</Text>
+            <Icon name="arrow-forward-outline" style={styles.headlineButton} />
           </Layout>
-        </ScrollView>
-      </SafeAreaView>
-    </>
+          <Layout style={styles.recentFormsSection}>
+            {recentForms.map((form, index) => (
+              <React.Fragment key={form.id}>
+                <View style={styles.formButtonContainer}>
+                  <MyFormsCard
+                    title={form.title}
+                    subheader={form.subheader}
+                    footnote={form.footnote}
+                  />
+                </View>
+                {index < recentForms.length - 1 && (
+                  <Divider style={styles.divider} />
+                )}
+              </React.Fragment>
+            ))}
+          </Layout>
+        </Layout>
+
+        {/* Spacer */}
+        <View style={{ height: 40 }} />
+
+        {/* End Image */}
+        <Layout style={styles.bottomSpacerSection}>
+          <Image
+            source={require("@/assets/images/logo40.png")}
+            style={styles.bottomSpacerLogo}
+          />
+          <Text style={styles.bottomMessage}>Aether • 2024</Text>
+        </Layout>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -205,13 +197,12 @@ const getStyles = (isDarkMode) => ({
     display: "flex",
     padding: 8,
     flexDirection: "column",
-    // justifyContent: "flex-end",
-    justifyContent: "space-between",
+    justifyContent: "flex-end",
     flex: 1,
   },
   imageBackground: {
     width: "100%",
-    height: 376,
+    height: 440,
   },
   greetingSection: {
     backgroundColor: "transparent",
@@ -262,34 +253,37 @@ const getStyles = (isDarkMode) => ({
   headline: {
     marginBottom: 8,
     ...typography(true).h4Med,
-    color: isDarkMode ? colors.apple.white : colors.apple.black,
+    color: isDarkMode ? colors.apple.white : colors.apple.darkGray,
   },
   headlineButton: {
-    width: 24,
-    height: 24,
-    tintColor: isDarkMode ? colors.apple.white : colors.light.blue,
+    width: 16,
+    height: 16,
+    color: isDarkMode ? colors.apple.white : colors.apple.darkGray,
+  },
+  formButtonContainer: {
+    marginBottom: 16,
+    borderRadius: 10,
   },
   divider: {
-    marginHorizontal: 32,
-    backgroundColor: isDarkMode
-      ? colors.apple.glass20
-      : colors.apple.lightStroke,
+    marginVertical: 8,
+    backgroundColor: isDarkMode ? colors.apple.glass20 : colors.apple.lightStroke,
   },
-
-  // Bottom Spacer
   bottomSpacerSection: {
+    flex: 1,
+    alignItems: "center",
+    marginBottom: 32,
     backgroundColor: "transparent",
-    gap: 16,
   },
   bottomSpacerLogo: {
+    width: 60,
+    height: 60,
+    marginBottom: 8,
     backgroundColor: "transparent",
-    width: 102,
-    height: 88,
-    alignSelf: "center",
   },
   bottomMessage: {
-    ...typography(true).bodyMed,
-    color: isDarkMode ? colors.apple.glass20 : colors.light.deepBlue40,
-    textAlign: "center",
+    alignSelf: "center",
+    ...typography(true).body,
+    color: isDarkMode ? colors.apple.glass20 : colors.apple.gray,
+    backgroundColor: "transparent",
   },
 });
