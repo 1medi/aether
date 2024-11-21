@@ -6,6 +6,7 @@ import {
   Text,
   StyleSheet,
   Image,
+  TextInput,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Divider, Layout, Icon } from "@ui-kitten/components";
@@ -15,7 +16,6 @@ import SavedProfileCard from "@/components/atoms/SavedProfileCard";
 import Header from "@/components/header/Header";
 import myFormsData from "@/data/MyFormsData";
 import savedProfilesData from "@/data/SavedProfilesData";
-import { useNavigation } from "@react-navigation/native";
 
 // Main component to display and manage "My Files" screen
 export const MyFilesScreen = () => {
@@ -23,8 +23,19 @@ export const MyFilesScreen = () => {
   const [filteredData, setFilteredData] = useState(myFormsData); // Data filtered based on active tab or search query
   const [selectedProfile, setSelectedProfile] = useState(null); // Tracks the selected profile for details view
 
-  const TipsIcon = (props) => <Icon name="bulb-outline" {...props} />;
-  const CloseIcon = (props) => <Icon name="close-outline" {...props} />;
+  // State for profile details
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("(123) 456-7890");
+  const [dob, setDob] = useState("June 15, 1985");
+  const [gender, setGender] = useState("Male");
+  const [address, setAddress] = useState("123 Street, Apt 2B");
+  const [city, setCity] = useState("Vancouver");
+  const [province, setProvince] = useState("British Columbia");
+  const [postalCode, setPostalCode] = useState("A1B 2C3");
+  const [emergencyContactName, setEmergencyContactName] = useState("John Topher");
+  const [emergencyContactPhone, setEmergencyContactPhone] = useState("(321) 654-0987");
+  const [emergencyContactEmail, setEmergencyContactEmail] = useState("john.topher@gmail.com");
+  const [relation, setRelation] = useState("Son");
 
   // Handles search input and updates filtered data
   const onSearch = (query) => {
@@ -51,117 +62,27 @@ export const MyFilesScreen = () => {
     setFilteredData(tab === "Forms" ? myFormsData : savedProfilesData);
   };
 
-  // Renders the detailed view of a selected profile
-  const renderProfileDetails = (profile) => (
-    <ScrollView style={styles.scrollContainer}>
-      <View style={{ padding: 16 }}>
-        {/* Back button to return to profiles list */}
-        <TouchableOpacity onPress={() => setSelectedProfile(null)}>
-          <Text style={{ color: "blue", marginBottom: 16 }}>← Back to Profiles</Text>
-        </TouchableOpacity>
-        {/* Display profile details */}
-        <View style={styles.detailsContainer}>
-          <Image source={profile.image} style={styles.profileImage} />
-          <Text style={styles.name}>{profile.name}</Text>
-          <Text style={styles.role}>{profile.role}</Text>
-          <Text style={styles.detailLabel}>Phone:</Text>
-          <Text style={styles.detailValue}>(123) 456-7890</Text>
-          <Text style={styles.detailLabel}>Date of Birth:</Text>
-          <Text style={styles.detailValue}>November 21, 1992</Text>
-          <Text style={styles.detailLabel}>Gender:</Text>
-          <Text style={styles.detailValue}>Male</Text>
-          <Text style={styles.detailLabel}>Address:</Text>
-          <Text style={styles.detailValue}>123 Street, Apt 2B</Text>
-          <Text style={styles.detailValue}>A1B 2C3</Text>
-        </View>
-      </View>
-    </ScrollView>
-  );
-
-  // Renders the profiles tab with a list of profiles or details of a selected profile
-  const renderProfiles = () => (
-    selectedProfile ? (
-      renderProfileDetails(selectedProfile) // If a profile is selected, render its details
-    ) : (
-      <ScrollView style={styles.scrollContainer}>
-        <View style={{ height: 16 }} />
-        {/* Suggestion banner */}
-        <Layout style={styles.suggestionBanner}>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-              <TipsIcon fill={colors.apple.black} style={styles.tipsIcon} />
-              <Text style={styles.suggestionTitle}>
-                Save Time, Reduce Stress
-              </Text>
-            </View>
-            <CloseIcon fill={colors.apple.black} style={styles.closeIcon} />
-          </View>
-          <Text style={styles.suggestionDescription}>
-            Store your care recipients' information for quick, two-tap auto-filling.
-          </Text>
-        </Layout>
-        <View style={{ height: 24 }} />
-        {/* List of profiles */}
-        <View style={styles.profileContainer}>
-          {filteredData.map((profile, index) => (
-            <View key={`${profile.id}-${index}`} style={styles.profileCardContainer}>
-              <TouchableOpacity onPress={() => setSelectedProfile(profile)}>
-                <SavedProfileCard
-                  key={profile.id}
-                  name={profile.name}
-                  role={profile.role}
-                  image={profile.image}
-                />
-              </TouchableOpacity>
-            </View>
-          ))}
-        </View>
-        <View style={{ height: 56 }} />
-        {/* Footer */}
-        <Layout style={styles.bottomSpacerSection}>
-          <Image
-            source={require("@/assets/images/logo40.png")}
-            style={styles.bottomSpacerLogo}
-          />
-          <Text style={styles.bottomMessage}>Aether • 2024</Text>
-        </Layout>
-        <View style={{ height: 98 }} />
-      </ScrollView>
-    )
-  );
-  
+  // Handles profile selection and updates state with selected profile data
+  const handleProfileSelect = (profile) => {
+    setSelectedProfile(profile);
+    setName(profile.name);
+    setPhone("(123) 456-7890"); // Default or fetched data
+    setDob("June 15, 1945");
+    setGender("Female");
+    setAddress("123 Street, Apt 2B");
+    setCity("Vancouver");
+    setProvince("British Columbia");
+    setPostalCode("A1B 2C3");
+    setEmergencyContactName("John O'Neil");
+    setEmergencyContactPhone("(321) 654-0987");
+    setEmergencyContactEmail("john.oneil@gmail.com");
+    setRelation("Son");
+  };
 
   // Renders the forms tab with a list of forms
   const renderForms = () => (
     <ScrollView style={styles.scrollContainer}>
       <View style={{ height: 16 }} />
-      {/* Suggestion banner */}
-      <Layout style={styles.suggestionBanner}>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-            <TipsIcon fill={colors.apple.black} style={styles.tipsIcon} />
-            <Text style={styles.suggestionTitle}>Try Our Scan Feature!</Text>
-          </View>
-          <CloseIcon fill={colors.apple.black} style={styles.closeIcon} />
-        </View>
-        <Text style={styles.suggestionDescription}>
-          Tap the "+" button to upload your own forms. Either take a photo or
-          upload directly from your device.
-        </Text>
-      </Layout>
-      <View style={{ height: 24 }} />
       {/* List of forms */}
       <Layout style={styles.sectionContainer}>
         <Layout style={styles.myFormsSection}>
@@ -192,9 +113,149 @@ export const MyFilesScreen = () => {
     </ScrollView>
   );
 
+  // Renders the detailed view of a selected profile
+  const renderProfileDetails = () => (
+    <ScrollView style={styles.scrollContainer}>
+      <View>
+        {/* Back Button */}
+        <TouchableOpacity onPress={() => setSelectedProfile(null)}>
+          <Text style={{ fontSize: 18, color: "#000", marginLeft: 16 }}>←</Text>
+        </TouchableOpacity>
+
+        {/* Profile Image */}
+        <Image source={selectedProfile.image} style={styles.profileImage} />
+
+        {/* Name and Role */}
+        <Text style={styles.name}>{name}</Text>
+        <Text style={styles.role}>{selectedProfile.role}</Text>
+
+        {/* Personal Information Section */}
+        <View style={styles.detailsContainer}>
+          <Text style={styles.detailLabel}>Personal Information</Text>
+          <TextInput
+            style={styles.detailValue}
+            value={name}
+            onChangeText={setName}
+            placeholder="Name"
+          />
+          <TextInput
+            style={styles.detailValue}
+            value={phone}
+            onChangeText={setPhone}
+            placeholder="Phone"
+            keyboardType="phone-pad"
+          />
+          <TextInput
+            style={styles.detailValue}
+            value={dob}
+            onChangeText={setDob}
+            placeholder="Date of Birth"
+          />
+          <TextInput
+            style={styles.detailValue}
+            value={gender}
+            onChangeText={setGender}
+            placeholder="Gender"
+          />
+        </View>
+
+        {/* Address Section */}
+        <View style={styles.detailsContainer}>
+          <Text style={styles.detailLabel}>Address</Text>
+          <TextInput
+            style={styles.detailValue}
+            value={address}
+            onChangeText={setAddress}
+            placeholder="Address"
+          />
+          <TextInput
+            style={styles.detailValue}
+            value={postalCode}
+            onChangeText={setPostalCode}
+            placeholder="Postal Code"
+          />
+          <TextInput
+            style={styles.detailValue}
+            value={province}
+            onChangeText={setProvince}
+            placeholder="Province"
+          />
+          <TextInput
+            style={styles.detailValue}
+            value={city}
+            onChangeText={setCity}
+            placeholder="City"
+          />
+        </View>
+
+        {/* Emergency Contact Section */}
+        <View style={styles.detailsContainer}>
+          <Text style={styles.detailLabel}>Emergency Contact</Text>
+          <TextInput
+            style={styles.detailValue}
+            value={emergencyContactName}
+            onChangeText={setEmergencyContactName}
+            placeholder="Contact Name"
+          />
+          <TextInput
+            style={styles.detailValue}
+            value={emergencyContactPhone}
+            onChangeText={setEmergencyContactPhone}
+            placeholder="Phone"
+            keyboardType="phone-pad"
+          />
+          <TextInput
+            style={styles.detailValue}
+            value={emergencyContactEmail}
+            onChangeText={setEmergencyContactEmail}
+            placeholder="Email"
+            keyboardType="email-address"
+          />
+          <TextInput
+            style={styles.detailValue}
+            value={relation}
+            onChangeText={setRelation}
+            placeholder="Relation"
+          />
+        </View>
+
+        {/* Delete Button */}
+        <TouchableOpacity style={styles.deleteButton}>
+          <Text style={styles.deleteButtonText}>Delete</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
+  );
+
+  // Renders the profiles tab with a list of profiles or details of a selected profile
+  const renderProfiles = () => (
+    selectedProfile ? (
+      renderProfileDetails()
+    ) : (
+      <ScrollView style={styles.scrollContainer}>
+        <View style={{ height: 16 }} />
+        {/* List of profiles */}
+        <View style={styles.profileContainer}>
+          {filteredData.map((profile, index) => (
+            <View key={`${profile.id}-${index}`} style={styles.profileCardContainer}>
+              <TouchableOpacity onPress={() => handleProfileSelect(profile)}>
+                <SavedProfileCard
+                  key={profile.id}
+                  name={profile.name}
+                  role={profile.role}
+                  image={profile.image}
+                />
+              </TouchableOpacity>
+            </View>
+          ))}
+        </View>
+      </ScrollView>
+    )
+  );
+
   return (
     <SafeAreaView style={styles.fullPage}>
-      {/* Toggle buttons for switching tabs */}
+      {/* Tab Switch */}
       <View style={styles.toggleContainer}>
         {["Forms", "Profiles"].map((tab) => (
           <TouchableOpacity
@@ -216,7 +277,8 @@ export const MyFilesScreen = () => {
           </TouchableOpacity>
         ))}
       </View>
-      {/* Header with search bar */}
+
+      {/* Header and Tab Content */}
       <Header
         title="My Files"
         placeholder="Search my forms and profiles"
@@ -224,17 +286,12 @@ export const MyFilesScreen = () => {
         onSearch={onSearch}
         noTitle
       />
-      {/* Render content based on the active tab */}
-      {activeTab === "Forms"
-  ? renderForms()
-  : selectedProfile
-  ? renderProfileDetails(selectedProfile)
-  : renderProfiles()}
+      {activeTab === "Forms" ? renderForms() : renderProfiles()}
     </SafeAreaView>
   );
 };
 
-
+// Define styles used in the component
 const styles = StyleSheet.create({
   fullPage: {
     flex: 1,
@@ -243,141 +300,73 @@ const styles = StyleSheet.create({
   scrollContainer: {
     paddingTop: 8,
     paddingBottom: 132,
-    gap: 8,
   },
-
   toggleContainer: {
     flexDirection: "row",
-    backgroundColor: colors.apple.glass70,
-    borderRadius: 100,
-    borderWidth: 1,
-    borderColor: colors.apple.lightStroke,
-    width: 200,
+    marginVertical: 16,
     alignSelf: "center",
-    alignItems: "center",
   },
   toggleButton: {
     flex: 1,
-    justifyContent: "center",
+    padding: 16,
     alignItems: "center",
-    height: 48,
   },
   activeToggleButton: {
     backgroundColor: colors.apple.white,
-    borderWidth: 1,
     borderRadius: 100,
-    borderColor: colors.apple.lightStroke,
   },
   toggleButtonText: {
-    ...typography(true).h4,
-    color: colors.apple.secondaryText,
+    fontSize: 16,
+    color: "#888",
   },
   activeToggleButtonText: {
-    ...typography(true).h4Med,
-    color: colors.apple.black,
+    fontWeight: "bold",
+    color: "#000",
   },
-
-  suggestionBanner: {
-    backgroundColor: "transparent",
-    marginHorizontal: 24,
-    gap: 8,
-  },
-  tipsIcon: {
-    width: 24,
-    height: 24,
-  },
-  closeIcon: {
-    width: 24,
-    height: 24,
-  },
-  suggestionTitle: {
-    ...typography(true).bodyMed,
-    color: colors.apple.black,
-  },
-  suggestionDescription: {
-    ...typography(true).footnote,
-    color: colors.apple.secondaryText,
-  },
-
   sectionContainer: {
-    backgroundColor: colors.apple.white,
-    marginHorizontal: 12,
-    paddingVertical: 8,
-    paddingHorizontal: 8,
-    borderRadius: 32,
-    borderWidth: 1,
-    borderColor: colors.apple.lightStroke,
+    backgroundColor: "white",
+    marginHorizontal: 16,
+    borderRadius: 8,
+    padding: 16,
+    elevation: 2,
   },
-  myFormsSection: {
-    display: "flex",
-    flexDirection: "column",
-    backgroundColor: "transparent",
-  },
-  // headline: {
-  //   marginBottom: 8,
-  //   ...typography(true).h4Med,
-  //   color: colors.apple.black,
-  // },
-  // headlineButton: {
-  //   width: 24,
-  //   height: 24,
-  // },
-  // subhead: {
-  //   flexDirection: "row",
-  //   justifyContent: "space-between",
-  //   alignItems: "center",
-  //   backgroundColor: "transparent",
-  //   paddingHorizontal: 12,
-  // },
-  divider: {
-    marginHorizontal: 24,
-    backgroundColor: colors.apple.lightStroke,
-  },
-
-  profileContainer: {
-    backgroundColor: "transparent",
-    flexDirection: "row",
-    flexWrap: "wrap",
-    marginHorizontal: 12,
-    // gap: 4,
-  },
-
-  gradientOverlay: {
-    display: "flex",
-    flex: 1,
-  },
-  profileCardContainer: {
-    // width: "49.4%",
-    width: "50%",
-  },
-
-  profileName: {
-    ...typography(true).h4Med,
-    color: colors.apple.white,
-  },
-  profileRole: {
-    ...typography(true).footnote,
-    color: colors.apple.glass70,
-  },
-
-  bottomSpacerSection: {
-    backgroundColor: "transparent",
-    gap: 16,
-  },
-  bottomSpacerLogo: {
-    backgroundColor: "transparent",
-    width: 102,
-    height: 88,
+  profileImage: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
     alignSelf: "center",
+    marginVertical: 16,
   },
-  bottomMessage: {
-    ...typography(true).bodyMed,
-    color: colors.light.deepBlue40,
-    textAlign: "center",
+  detailsContainer: {
+    backgroundColor: "#fff",
+    margin: 16,
+    borderRadius: 8,
+    padding: 16,
+    elevation: 2,
   },
-  tagline: {
-    ...typography(true).body,
-    color: colors.apple.secondaryText,
+  detailLabel: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "#888",
+    marginBottom: 4,
+  },
+  detailValue: {
+    fontSize: 16,
+    marginBottom: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ddd",
+  },
+  deleteButton: {
+    backgroundColor: "#FF6B6B",
+    alignItems: "center",
+    borderRadius: 8,
+    padding: 12,
+    marginTop: 16,
+  },
+  deleteButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
 
