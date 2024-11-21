@@ -1,4 +1,4 @@
-import React, {useState, useMemo, useEffect} from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { ScrollView, TouchableOpacity } from "react-native";
 import {
   Layout,
@@ -11,9 +11,8 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "@/components/header/Header";
 import { colors, typography } from "@/css/globals";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDarkMode } from "../context/DarkModeContext";
-
 
 export const AccountScreen = ({ navigation }) => {
   const { isDarkMode, toggleDarkMode } = useDarkMode();
@@ -22,7 +21,7 @@ export const AccountScreen = ({ navigation }) => {
     console.log("Recalculating styles for dark mode:", isDarkMode);
     return getStyles(isDarkMode);
   }, [isDarkMode]);
-  
+
   const ArrowIcon = (props) => (
     <Icon name="arrow-ios-forward-outline" {...props} style={styles.icon} />
   );
@@ -183,13 +182,13 @@ const getStyles = (isDarkMode) => ({
     flexDirection: "row",
     alignItems: "center",
     gap: 16,
-    backgroundColor: "transparent"
+    backgroundColor: "transparent",
   },
   rightSide: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-end",
-    backgroundColor: "transparent"
+    backgroundColor: "transparent",
   },
   sectionItemText: {
     ...typography(true).bodyMed,
@@ -200,11 +199,13 @@ const getStyles = (isDarkMode) => ({
     width: 24,
     height: 24,
     tintColor: isDarkMode ? colors.apple.white : colors.apple.black,
-    backgroundColor: "transparent"
+    backgroundColor: "transparent",
   },
   divider: {
     marginHorizontal: 32,
-    backgroundColor: isDarkMode ? colors.apple.glass20 : colors.apple.lightStroke,
+    backgroundColor: isDarkMode
+      ? colors.apple.glass20
+      : colors.apple.lightStroke,
   },
   logoutSection: {
     backgroundColor: "transparent",
@@ -221,6 +222,3 @@ const getStyles = (isDarkMode) => ({
 });
 
 export default AccountScreen;
-
-
-

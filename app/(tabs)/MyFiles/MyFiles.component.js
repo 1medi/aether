@@ -19,7 +19,7 @@ import ConsoleScreenTwo from "@/components/atoms/ConsoleScreenTwo";
 import ConsoleScreen from "@/components/atoms/ConsoleScreen";
 import { useDarkMode } from "../context/DarkModeContext";
 
-export const MyFilesScreen = () => {
+export const MyFilesScreen = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState("Forms");
   const [filteredData, setFilteredData] = useState(myFormsData);
   const TipsIcon = (props) => <Icon name="bulb-outline" {...props} />;
@@ -53,134 +53,144 @@ export const MyFilesScreen = () => {
   // Render Forms
   const renderForms = () => (
     <>
-    <ScrollView style={styles.scrollContainer}>
-      {/* Spacer */}
-      <View style={{ height: 16 }} />
+      <ScrollView style={styles.scrollContainer}>
+        {/* Spacer */}
+        <View style={{ height: 16 }} />
 
-      {/* Suggestion Banner */}
-      <Layout style={styles.suggestionBanner}>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-            <TipsIcon fill={colors.apple.black} style={styles.tipsIcon} />
-            <Text style={styles.suggestionTitle}>Try Our Scan Feature!</Text>
-          </View>
-          <CloseIcon fill={colors.apple.black} style={styles.closeIcon} />
-        </View>
-        <Text style={styles.suggestionDescription}>
-          Tap the "+" button to upload your own forms. Either take a photo or
-          upload directly from your device.
-        </Text>
-      </Layout>
-
-      {/* Spacer */}
-      <View style={{ height: 24 }} />
-
-      <Layout style={styles.sectionContainer}>
-        <Layout style={styles.myFormsSection}>
-          {filteredData.map((form, index) => (
-            <View key={`${form.id}-${index}`}>
-              <MyFormsCard
-                title={form.title}
-                subheader={form.subheader}
-                footnote={form.footnote}
-              />
-              {index < filteredData.length - 1 && (
-                <Divider style={styles.divider} />
-              )}
+        {/* Suggestion Banner */}
+        <Layout style={styles.suggestionBanner}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <View
+              style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
+            >
+              <TipsIcon fill={colors.apple.black} style={styles.tipsIcon} />
+              <Text style={styles.suggestionTitle}>Try Our Scan Feature!</Text>
             </View>
-          ))}
+            <CloseIcon fill={colors.apple.black} style={styles.closeIcon} />
+          </View>
+          <Text style={styles.suggestionDescription}>
+            Tap the "+" button to upload your own forms. Either take a photo or
+            upload directly from your device.
+          </Text>
         </Layout>
-      </Layout>
 
-      {/* Spacer */}
-      <View style={{ height: 56 }} />
+        {/* Spacer */}
+        <View style={{ height: 24 }} />
 
-      {/* End Image */}
-      <Layout style={styles.bottomSpacerSection}>
-        <Image
-          source={require("@/assets/images/logo40.png")}
-          style={styles.bottomSpacerLogo}
-        />
-        <Text style={styles.bottomMessage}>Aether • 2024</Text>
-      </Layout>
+        <Layout style={styles.sectionContainer}>
+          <Layout style={styles.myFormsSection}>
+            {filteredData.map((form, index) => (
+              <View key={`${form.id}-${index}`}>
+                <MyFormsCard
+                  title={form.title}
+                  subheader={form.subheader}
+                  footnote={form.footnote}
+                  isImportant={form.isImportant}
+                  navigation={navigation} // Pass navigation prop
+                />
+                {index < filteredData.length - 1 && (
+                  <Divider style={styles.divider} />
+                )}
+              </View>
+            ))}
+          </Layout>
+        </Layout>
 
-      {/* Spacer */}
-      <View style={{ height: 98 }} />
-    </ScrollView>
+        {/* Spacer */}
+        <View style={{ height: 56 }} />
+
+        {/* End Image */}
+        <Layout style={styles.bottomSpacerSection}>
+          <Image
+            source={require("@/assets/images/logo40.png")}
+            style={styles.bottomSpacerLogo}
+          />
+          <Text style={styles.bottomMessage}>Aether • 2024</Text>
+        </Layout>
+
+        {/* Spacer */}
+        <View style={{ height: 98 }} />
+      </ScrollView>
       <ConsoleScreen />
-      </>
+    </>
   );
 
   // Render Profiles
   const renderProfiles = () => (
     <>
-    <ScrollView style={styles.scrollContainer}>
-      {/* Spacer */}
-      <View style={{ height: 16 }} />
+      <ScrollView style={styles.scrollContainer}>
+        {/* Spacer */}
+        <View style={{ height: 16 }} />
 
-      {/* Suggestion Banner */}
-      <Layout style={styles.suggestionBanner}>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-            <TipsIcon fill={colors.apple.black} style={styles.tipsIcon} />
-            <Text style={styles.suggestionTitle}>
-              Save Time, Reduce Stress
-            </Text>
+        {/* Suggestion Banner */}
+        <Layout style={styles.suggestionBanner}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <View
+              style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
+            >
+              <TipsIcon fill={colors.apple.black} style={styles.tipsIcon} />
+              <Text style={styles.suggestionTitle}>
+                Save Time, Reduce Stress
+              </Text>
+            </View>
+            <CloseIcon fill={colors.apple.black} style={styles.closeIcon} />
           </View>
-          <CloseIcon fill={colors.apple.black} style={styles.closeIcon} />
+          <Text style={styles.suggestionDescription}>
+            Store your care recipients' information for quick, two-tap
+            autofilling.
+          </Text>
+        </Layout>
+
+        {/* Spacer */}
+        <View style={{ height: 24 }} />
+
+        <View style={styles.profileContainer}>
+          {filteredData.map((profile, index) => (
+            <View
+              key={`${profile.id}-${index}`}
+              style={styles.profileCardContainer}
+            >
+              <SavedProfileCard
+                key={profile.id}
+                name={profile.name}
+                role={profile.role}
+                image={profile.image}
+              />
+            </View>
+          ))}
         </View>
-        <Text style={styles.suggestionDescription}>
-          Store your care recipients' information for quick, two-tap
-          autofilling.
-        </Text>
-      </Layout>
+        {/* Spacer */}
+        <View style={{ height: 56 }} />
 
-      {/* Spacer */}
-      <View style={{ height: 24 }} />
+        {/* End Image */}
+        <Layout style={styles.bottomSpacerSection}>
+          <Image
+            source={require("@/assets/images/logo40.png")}
+            style={styles.bottomSpacerLogo}
+          />
+          <Text style={styles.bottomMessage}>Aether • 2024</Text>
+        </Layout>
 
-      <View style={styles.profileContainer}>
-        {filteredData.map((profile, index) => (
-          <View key={`${profile.id}-${index}`} style={styles.profileCardContainer}>
-            <SavedProfileCard
-              key={profile.id}
-              name={profile.name}
-              role={profile.role}
-              image={profile.image}
-            />
-          </View>
-        ))}
-      </View>
-      {/* Spacer */}
-      <View style={{ height: 56 }} />
-
-      {/* End Image */}
-      <Layout style={styles.bottomSpacerSection}>
-        <Image
-          source={require("@/assets/images/logo40.png")}
-          style={styles.bottomSpacerLogo}
-        />
-        <Text style={styles.bottomMessage}>Aether • 2024</Text>
-      </Layout>
-
-      {/* Spacer */}
-      <View style={{ height: 98 }} />
-    </ScrollView>
+        {/* Spacer */}
+        <View style={{ height: 98 }} />
+      </ScrollView>
       <ConsoleScreenTwo />
     </>
   );
-
+  console.log(filteredData);
+  console.log(navigation);
   return (
     <SafeAreaView style={styles.fullPage}>
       {/* Toggle Buttons */}
