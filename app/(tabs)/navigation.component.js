@@ -17,6 +17,7 @@ import LibraryScreen from "./FormLibrary/library.component";
 import { AccountScreen } from "./Account/Account.component";
 import { colors } from "@/css/globals";
 import { DarkModeProvider } from "./context/DarkModeContext";
+import {FolderScreen} from "./FormLibrary/folder.component"
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -88,6 +89,8 @@ const TabNavigator = () => (
     <Screen name="LibraryScreen" component={LibraryScreen} />
     <Screen name="Camera" component={CameraScreen} />
     <Screen name="PensionPlan" component={AutofilledScreen} />
+    <Screen name="Folder" component={FolderScreen} />
+
   </Navigator>
 );
 
