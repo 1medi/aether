@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "flex-end",
     backgroundColor: "transparent",
-    gap: 8,
+    gap: 12,
     marginHorizontal: 12,
     marginVertical: 12,
   },
