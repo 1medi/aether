@@ -100,7 +100,7 @@ export const HomeScreen = ({ navigation }) => {
                     {/* {"\n"} */}
                     <View style={styles.textContainer}>
                       <Animated.View style={animatedStyle}>
-                        <Text style={styles.greetingText}>
+                        <Text style={styles.greetingTextColored}>
                           {words[currentWordIndex]}
                         </Text>
                       </Animated.View>
@@ -216,16 +216,26 @@ const getStyles = (isDarkMode) => ({
   greetingSection: {
     backgroundColor: "transparent",
     paddingHorizontal: 10,
-    paddingVertical: 8,
+    paddingVertical: 10,
+    height: 500,
+    width: 300,
+    flex: 1,
+    flexDirection: "column"
   },
   greetingText: {
     ...typography(true).display,
     color: colors.apple.white,
   },
+  greetingTextColored: {
+    ...typography(true).display2,
+    
+  },
   textContainer: {
-    height: 50, // Ensure enough space for the drop-down effect
+    height: 60, // Ensure enough space for the drop-down effect
     justifyContent: "center", // Center the text vertically
     overflow: "hidden", // Prevent overflowing text
+    padding: 0,
+    margin: 0
   },
   actionLayout: {
     flexDirection: "row",
