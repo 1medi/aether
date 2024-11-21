@@ -19,7 +19,7 @@ import ConsoleScreenTwo from "@/components/atoms/ConsoleScreenTwo";
 import ConsoleScreen from "@/components/atoms/ConsoleScreen";
 import { useDarkMode } from "../context/DarkModeContext";
 
-export const MyFilesScreen = () => {
+export const MyFilesScreen = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState("Forms");
   const [filteredData, setFilteredData] = useState(myFormsData);
   const [showFormsSuggestionBanner, setShowFormsSuggestionBanner] = useState(true);
@@ -57,7 +57,6 @@ export const MyFilesScreen = () => {
   const renderForms = () => (
     <>
       <ScrollView style={styles.scrollContainer}>
-
         {/* Suggestion Banner */}
         {showFormsSuggestionBanner && (
         <Layout style={styles.suggestionBanner}>
@@ -93,6 +92,8 @@ export const MyFilesScreen = () => {
                   title={form.title}
                   subheader={form.subheader}
                   footnote={form.footnote}
+                  isImportant={form.isImportant}
+                  navigation={navigation} // Pass navigation prop
                 />
                 {index < filteredData.length - 1 && (
                   <Divider style={styles.divider} />
@@ -125,7 +126,6 @@ export const MyFilesScreen = () => {
   const renderProfiles = () => (
     <>
       <ScrollView style={styles.scrollContainer}>
-
         {/* Suggestion Banner */}
         { showProfilesSuggestionBanner && (
         <Layout style={styles.suggestionBanner}>
@@ -186,7 +186,8 @@ export const MyFilesScreen = () => {
       <ConsoleScreenTwo />
     </>
   );
-
+  console.log(filteredData);
+  console.log(navigation);
   return (
     <SafeAreaView style={styles.fullPage}>
       {/* Toggle Buttons */}
