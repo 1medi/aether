@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { SafeAreaView, StyleSheet, ImageBackground, Dimensions, View, TextInput, ScrollView } from "react-native";
-import { Button, Layout } from "@ui-kitten/components";
+import { SafeAreaView, StyleSheet, ImageBackground, Dimensions, View, TextInput, ScrollView, Modal, Text } from "react-native";
+import { Button, Layout, Icon } from "@ui-kitten/components";
 import { colors } from "../css/globals";
 import LangRadio from "@/components/molecules/pdfRadios-1/langRadio"
 import GenRadio from "@/components/molecules/pdfRadios-1/genderRadio"
@@ -15,9 +15,8 @@ import StatusRadio from "@/components/molecules/pdfRadios-3/statusRadio"
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 
 export default function DocumentView({ formData, setFormData }) {
-
-
   const [currentPage, setCurrentPage] = useState(1);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleNextPage = () => {
     if (currentPage < 2) setCurrentPage(currentPage + 1);
@@ -25,6 +24,12 @@ export default function DocumentView({ formData, setFormData }) {
 
   const handlePreviousPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+
+  const handleSave = () => {
+    console.log("Form saved!", formData);
+
+    setIsModalVisible(true);
   };
 
   return (
@@ -396,8 +401,34 @@ export default function DocumentView({ formData, setFormData }) {
         </ScrollView>
       </ScrollView>
 
-      <Layout style={styles.buttonContainer}>
+       {/* Modal for Save Confirmation */}
+       <Modal transparent visible={isModalVisible} animationType="fade">
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalText}>File saved successfully!</Text>
+            <Layout style={styles.modalButtonContainer}>
+            <Button
+              style={styles.modalButton}
+              appearance="ghost"
+              onPress={() => setIsModalVisible(false)}
+              accessoryLeft={(props) => <Icon {...props} name="close-outline" />}
+            >
+              Close
+            </Button>
+            <Button
+              style={styles.modalButton}
+              appearance="ghost"
+              onPress={() => setIsModalVisible(false)}
+              accessoryLeft={(props) => <Icon {...props} name="file-outline" />}
+            >
+              Form Library
+            </Button>
+            </Layout>
+          </View>
+        </View>
+      </Modal>
 
+      <Layout style={styles.buttonContainer}>
         <Button
           onPress={handlePreviousPage}
           disabled={currentPage === 1}
@@ -406,11 +437,10 @@ export default function DocumentView({ formData, setFormData }) {
           Back
         </Button>
         <Button
-          onPress={handleNextPage}
-          disabled={currentPage === 2}
+          onPress={currentPage === 2 ? handleSave : handleNextPage}
           style={styles.button}
         >
-          Next
+          {currentPage === 2 ? "Save" : "Next"}
         </Button>
       </Layout>
     </SafeAreaView>
@@ -450,12 +480,30 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     padding: 10,
   },
+  modalButtonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    padding: 10,
+  },
   button: {
     flex: 1,
     marginHorizontal: 5,
   },
-  infoContainer: {
-    position: "absolute",
-    top: 20
-  }
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  modalText: {
+    color: colors.dark.black,
+    fontSize: 16,
+  },
+
 });
