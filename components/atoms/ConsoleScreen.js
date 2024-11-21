@@ -28,7 +28,7 @@ export default function ConsoleScreen() {
         {expanded && (
           <>
             <FabOption iconName="upload-outline" fadeAnim={fadeAnim} />
-            <FabOption iconName="camera-outline" fadeAnim={fadeAnim} />
+            <FabOption iconName="file-text-outline" fadeAnim={fadeAnim} />
           </>
         )}
         <MainFab expanded={expanded} onPress={toggleMenu} />
