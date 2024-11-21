@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { SafeAreaView, ScrollView, View, registerCallableModule } from "react-native";
+import {
+  SafeAreaView,
+  ScrollView,
+  View,
+  registerCallableModule,
+} from "react-native";
 import {
   Button,
   Divider,
@@ -10,9 +15,7 @@ import {
 import Settings from "@/components/atoms/settings.js";
 import CardSimple from "@/components/atoms/QuickAccessCard";
 import { StyleSheet, Text, Image } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
 import DetectObject from "@/src/index";
 import Header from "@/components/header/Header";
 
@@ -23,14 +26,10 @@ import {
   DMSans_500Medium,
   DMSans_500Medium_Italic,
   DMSans_700Bold,
-  DMSans_700Bold_Italic
+  DMSans_700Bold_Italic,
 } from "@expo-google-fonts/dm-sans";
 
-
 import { LinearGradient } from "expo-linear-gradient";
-
-const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
 
 export const CameraScreen = ({ navigation }) => {
   let [fontsLoaded] = useFonts({
@@ -137,6 +136,6 @@ const styles = StyleSheet.create({
     alignContent: "center",
     paddingTop: 50,
     paddingBottom: 50,
-    margin: "auto"
-  }
+    margin: "auto",
+  },
 });
