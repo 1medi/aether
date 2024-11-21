@@ -27,8 +27,8 @@ export default function Button({
           <View style={styles.iconContainer}>
             <Accessory
               style={{
-                width: 40,
-                height: 40,
+                width: 24,
+                height: 24,
                 tintColor: `${colors.apple.white}`,
               }}
             />
