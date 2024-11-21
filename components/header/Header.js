@@ -97,7 +97,7 @@ const getStyles = (isDarkMode) => ({
     padding: 2,
     backgroundColor: colors.apple.white,
     borderWidth: 3,
-    borderColor: colors.light.deepBlue,
+    borderColor: colors.light.blue,
     borderRadius: 100,
   },
   profileImage: {
