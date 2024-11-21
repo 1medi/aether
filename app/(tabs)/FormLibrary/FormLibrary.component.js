@@ -14,8 +14,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import FormLibraryCard from "@/components/atoms/FormLibraryCard";
 import { useDarkMode } from "../context/DarkModeContext";
 
-
-
 export const FormLibraryScreen = ({ navigation }) => {
   const [filteredForms, setFilteredForms] = useState(formLibraryData);
 
@@ -40,7 +38,6 @@ export const FormLibraryScreen = ({ navigation }) => {
     DMSans_700Bold,
   });
 
-
   return (
     <>
       <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
@@ -57,7 +54,10 @@ export const FormLibraryScreen = ({ navigation }) => {
         >
           <Layout style={styles.container}>
             {filteredForms.map((form, index) => (
-              <View key={`${form.id}-${index}`} style={styles.libraryCardContainer}>
+              <View
+                key={`${form.id}-${index}`}
+                style={styles.libraryCardContainer}
+              >
                 <FormLibraryCard
                   title={form.title}
                   description={form.description}
@@ -67,11 +67,12 @@ export const FormLibraryScreen = ({ navigation }) => {
             ))}
             <View style={[styles.libraryCardContainer, styles.endContainer]}>
               <Text style={styles.endTextTitle}>
-                Your Needs 
+                Your Needs
                 {"\n"}Come First
               </Text>
               <Text style={styles.endTextDescription}>
-                Let us know what forms we are missing, and we'll do our best to include it!
+                Let us know what forms we are missing, and we'll do our best to
+                include it!
               </Text>
             </View>
           </Layout>

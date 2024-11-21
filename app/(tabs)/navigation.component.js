@@ -17,7 +17,7 @@ import LibraryScreen from "./FormLibrary/library.component";
 import { AccountScreen } from "./Account/Account.component";
 import { colors } from "@/css/globals";
 import { DarkModeProvider } from "./context/DarkModeContext";
-import {FolderScreen} from "./FormLibrary/folder.component"
+import { FolderScreen } from "./FormLibrary/folder.component";
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -29,7 +29,7 @@ const BottomTabBar = ({ navigation, state }) => (
         selectedIndex={state.index}
         onSelect={(index) => navigation.navigate(state.routeNames[index])}
         style={styles.navBarContainer}
-        >
+      >
         <BottomNavigationTab
           icon={(props) => (
             <Icon
@@ -90,7 +90,6 @@ const TabNavigator = () => (
     <Screen name="Camera" component={CameraScreen} />
     <Screen name="PensionPlan" component={AutofilledScreen} />
     <Screen name="Folder" component={FolderScreen} />
-
   </Navigator>
 );
 
@@ -99,7 +98,6 @@ const AppNavigator = () => (
     <TabNavigator />
   </DarkModeProvider>
 );
-
 
 const styles = StyleSheet.create({
   navShadowContainer: {
