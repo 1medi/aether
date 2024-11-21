@@ -35,7 +35,10 @@ const BottomTabBar = ({ navigation, state }) => (
             <Icon
               {...props}
               name={state.index === 0 ? "home" : "home-outline"}
-              style={styles.icon}
+              style={[
+                styles.icon,
+                { tintColor: state.index === 0 ? colors.light.blue : colors.apple.black },
+              ]}
             />
           )}
         />
@@ -44,7 +47,10 @@ const BottomTabBar = ({ navigation, state }) => (
             <Icon
               {...props}
               name={state.index === 1 ? "search" : "search-outline"}
-              style={styles.icon}
+              style={[
+                styles.icon,
+                { tintColor: state.index === 1 ? colors.light.blue : colors.apple.black },
+              ]}
             />
           )}
         />
@@ -53,7 +59,10 @@ const BottomTabBar = ({ navigation, state }) => (
             <Icon
               {...props}
               name={state.index === 2 ? "book" : "book-outline"}
-              style={styles.icon}
+              style={[
+                styles.icon,
+                { tintColor: state.index === 2 ? colors.light.blue : colors.apple.black },
+              ]}
             />
           )}
         />
@@ -62,7 +71,10 @@ const BottomTabBar = ({ navigation, state }) => (
             <Icon
               {...props}
               name={state.index === 3 ? "person" : "person-outline"}
-              style={styles.icon}
+              style={[
+                styles.icon,
+                { tintColor: state.index === 3 ? colors.light.blue : colors.apple.black },
+              ]}
             />
           )}
         />

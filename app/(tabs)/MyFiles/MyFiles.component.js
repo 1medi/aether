@@ -22,6 +22,9 @@ import { useDarkMode } from "../context/DarkModeContext";
 export const MyFilesScreen = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState("Forms");
   const [filteredData, setFilteredData] = useState(myFormsData);
+  const [showFormsSuggestionBanner, setShowFormsSuggestionBanner] = useState(true);
+  const [showProfilesSuggestionBanner, setShowProfilesSuggestionBanner] = useState(true);
+
   const TipsIcon = (props) => <Icon name="bulb-outline" {...props} />;
   const CloseIcon = (props) => <Icon name="close-outline" {...props} />;
 
@@ -54,10 +57,8 @@ export const MyFilesScreen = ({ navigation }) => {
   const renderForms = () => (
     <>
       <ScrollView style={styles.scrollContainer}>
-        {/* Spacer */}
-        <View style={{ height: 16 }} />
-
         {/* Suggestion Banner */}
+        {showFormsSuggestionBanner && (
         <Layout style={styles.suggestionBanner}>
           <View
             style={{
@@ -72,16 +73,16 @@ export const MyFilesScreen = ({ navigation }) => {
               <TipsIcon fill={colors.apple.black} style={styles.tipsIcon} />
               <Text style={styles.suggestionTitle}>Try Our Scan Feature!</Text>
             </View>
-            <CloseIcon fill={colors.apple.black} style={styles.closeIcon} />
+            <TouchableOpacity onPress={() => setShowSuggestionBanner(false)}>
+              <CloseIcon fill={colors.apple.black} style={styles.closeIcon} />
+            </TouchableOpacity>
           </View>
           <Text style={styles.suggestionDescription}>
             Tap the "+" button to upload your own forms. Either take a photo or
             upload directly from your device.
           </Text>
         </Layout>
-
-        {/* Spacer */}
-        <View style={{ height: 24 }} />
+        )}
 
         <Layout style={styles.sectionContainer}>
           <Layout style={styles.myFormsSection}>
@@ -125,10 +126,8 @@ export const MyFilesScreen = ({ navigation }) => {
   const renderProfiles = () => (
     <>
       <ScrollView style={styles.scrollContainer}>
-        {/* Spacer */}
-        <View style={{ height: 16 }} />
-
         {/* Suggestion Banner */}
+        { showProfilesSuggestionBanner && (
         <Layout style={styles.suggestionBanner}>
           <View
             style={{
@@ -152,9 +151,7 @@ export const MyFilesScreen = ({ navigation }) => {
             autofilling.
           </Text>
         </Layout>
-
-        {/* Spacer */}
-        <View style={{ height: 24 }} />
+        )}
 
         <View style={styles.profileContainer}>
           {filteredData.map((profile, index) => (
@@ -259,10 +256,10 @@ const styles = StyleSheet.create({
     height: 48,
   },
   activeToggleButton: {
-    backgroundColor: colors.apple.white,
-    borderWidth: 1,
     borderRadius: 100,
-    borderColor: colors.apple.lightStroke,
+    // backgroundColor: colors.apple.white,
+    // borderWidth: 1,
+    // borderColor: colors.apple.lightStroke,
   },
   toggleButtonText: {
     ...typography(true).h4,
@@ -275,6 +272,8 @@ const styles = StyleSheet.create({
 
   suggestionBanner: {
     backgroundColor: "transparent",
+    marginTop: 4,
+    marginBottom: 16,
     marginHorizontal: 24,
     gap: 8,
   },

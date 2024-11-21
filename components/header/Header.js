@@ -9,7 +9,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function Header({
   title,
   greeting,
-  date,
   hasSearchBar,
   onSearch,
   placeholder,
@@ -17,7 +16,23 @@ export default function Header({
   isDarkMode, // Receive dark mode state
 }) {
 
+  const [currentDate, setCurrentDate] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentDate(new Date());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
   const styles = useMemo(() => getStyles(isDarkMode), [isDarkMode]);
+
+  const formattedDate = currentDate.toLocaleDateString(undefined, {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+  });
 
   return (
     <Layout style={styles.headerContainer}>
@@ -27,7 +42,7 @@ export default function Header({
             {greeting ? (
             <>
             <Text style={styles.pageGreeting}>{greeting}!</Text>
-            <Text style={styles.date}>{date}</Text>
+            <Text style={styles.date}>{formattedDate}</Text>
             </>
             ) : (
             <Text style={styles.pageTitle}>{title}</Text>
@@ -97,8 +112,10 @@ const getStyles = (isDarkMode) => ({
     padding: 2,
     backgroundColor: colors.apple.white,
     borderWidth: 3,
-    borderColor: colors.light.deepBlue,
+    borderColor: colors.light.blue,
     borderRadius: 100,
+    backgroundColor: "transparent",
+
   },
   profileImage: {
     width: 32,

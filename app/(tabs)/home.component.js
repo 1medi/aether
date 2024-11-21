@@ -6,6 +6,7 @@ import {
   Text,
   Image,
   ImageBackground,
+  TouchableOpacity,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Divider, Layout, Icon } from "@ui-kitten/components";
@@ -68,7 +69,7 @@ export const HomeScreen = ({ navigation }) => {
 
   const SearchIcon = (props) => <Icon name="search-outline" {...props} />;
   const UploadIcon = (props) => <Icon name="upload-outline" {...props} />;
-  const FileIcon = (props) => <Icon name="camera-outline" {...props} />;
+  const FileIcon = (props) => <Icon name="file-text-outline" {...props} />;
 
   return (
     <>
@@ -76,7 +77,6 @@ export const HomeScreen = ({ navigation }) => {
         {/* Header */}
         <Header
           greeting={"Hello, Chris Topher"}
-          date={"Monday, Nov 18"}
           hasGreeting
           isDarkMode={isDarkMode}
         />
@@ -97,7 +97,7 @@ export const HomeScreen = ({ navigation }) => {
                 <Layout style={styles.greetingSection}>
                   <Text style={styles.greetingText}>
                     Need help
-                    {/* {"\n"} */}
+                    {"\n"}
                     <View style={styles.textContainer}>
                       <Animated.View style={animatedStyle}>
                         <Text style={styles.greetingText}>
@@ -144,10 +144,12 @@ export const HomeScreen = ({ navigation }) => {
           <Layout style={styles.sectionContainer}>
             <Layout style={styles.subhead}>
               <Text style={styles.headline}>Recent</Text>
-              <Icon
-                name="arrow-forward-outline"
-                style={styles.headlineButton}
-              />
+              <TouchableOpacity onPress={() => navigation.navigate("MyFiles")}>
+                <Icon
+                  name="arrow-forward-outline"
+                  style={styles.headlineButton}
+                />
+              </TouchableOpacity>
             </Layout>
             <Layout style={styles.recentFormsSection}>
               {recentForms.map((form, index) => (
@@ -194,6 +196,7 @@ const getStyles = (isDarkMode) => ({
   scrollContainer: {
     paddingTop: 8,
     paddingBottom: 132,
+    gap: 8,
   },
   imageSection: {
     backgroundColor: "transparent",
