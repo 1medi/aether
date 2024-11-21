@@ -112,6 +112,9 @@ export const MyFilesScreen = () => {
           {filteredData.map((profile, index) => (
             <View key={`${profile.id}-${index}`} style={styles.profileCardContainer}>
               <TouchableOpacity onPress={() => setSelectedProfile(profile)}>
+                <View style={{ padding: 16, backgroundColor: 'lightgray'}}>
+                  <Text>{profile.name}</Text>
+                </View>
                 <SavedProfileCard
                   key={profile.id}
                   name={profile.name}
