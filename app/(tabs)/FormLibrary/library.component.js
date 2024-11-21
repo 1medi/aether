@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Pressable, SafeAreaView, View, Modal, StyleSheet, Text } from "react-native";
+import {
+  Pressable,
+  SafeAreaView,
+  View,
+  Modal,
+  StyleSheet,
+  Text,
+} from "react-native";
 import { Button, Layout, Icon } from "@ui-kitten/components";
 import { useNavigation } from "@react-navigation/native";
 import Header from "@/components/header/Header";
@@ -7,7 +14,7 @@ import DocView from "@/src/DocView";
 import { LinearGradient } from "expo-linear-gradient";
 
 export default function LibraryScreen() {
-    const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState({
     Contract_Number: "",
     Member_ID: "",
     Sponsor: "",
@@ -19,26 +26,31 @@ export default function LibraryScreen() {
     Apt_Suite: "",
     City: "",
     Province: "",
-    Postal_Code: ""
+    Postal_Code: "",
   });
 
-
-  const [visible, setVisible] = useState(false); 
+  const [visible, setVisible] = useState(false);
   const navigation = useNavigation();
 
   const ArrowIcon = (props) => (
-    <Icon name="arrow-forward-outline" {...props} style={{ width: 25, height: 20, tint: "white" }} />
+    <Icon
+      name="arrow-forward-outline"
+      {...props}
+      style={{ width: 25, height: 20, tint: "white" }}
+    />
   );
 
   const BackIcon = (props) => (
-    <Icon name="arrow-circle-left-outline" {...props} style={{ width: 30, height: 30, tint: "white" }} />
+    <Icon
+      name="arrow-circle-left-outline"
+      {...props}
+      style={{ width: 30, height: 30, tint: "white" }}
+    />
   );
-
 
   const handleAutofill = () => {
     setVisible(true);
   };
-
 
   const confirmAutofill = () => {
     const mockData = {
@@ -53,8 +65,8 @@ export default function LibraryScreen() {
       Apt_Suite: "101",
       City: "Toronto",
       Province: "ON",
-      Postal_Code: "A1B 2C3"
-  };
+      Postal_Code: "A1B 2C3",
+    };
 
     console.log("Setting formData:", mockData);
     setFormData(mockData);
@@ -63,10 +75,15 @@ export default function LibraryScreen() {
 
   return (
     <>
-      <LinearGradient colors={["#9FC3E5", "#ffff"]} style={styles.gradientContainer} />
+      <LinearGradient
+        colors={["#9FC3E5", "#ffff"]}
+        style={styles.gradientContainer}
+      />
       <SafeAreaView style={styles.homePage}>
         <Header title={"Form Library"} />
-        <Layout style={{ backgroundColor: "none", paddingLeft: 20, width: "auto" }}>
+        <Layout
+          style={{ backgroundColor: "none", paddingLeft: 20, width: "auto" }}
+        >
           <Text style={styles.headerText}>Canadian Pension Plan</Text>
 
           <View style={styles.buttonsRow}>
@@ -75,7 +92,6 @@ export default function LibraryScreen() {
             </Pressable>
 
             <View style={styles.buttons}>
-
               <Pressable
                 style={[styles.formButton, { marginLeft: 15 }]}
                 onPress={handleAutofill}
@@ -92,7 +108,7 @@ export default function LibraryScreen() {
         </Layout>
 
         <Layout style={styles.imageContainer}>
-          <DocView formData={formData} setFormData={setFormData}/>
+          <DocView formData={formData} setFormData={setFormData} />
         </Layout>
       </SafeAreaView>
 
@@ -100,16 +116,22 @@ export default function LibraryScreen() {
         animationType="slide"
         transparent={true}
         visible={visible}
-        onRequestClose={() => setVisible(false)} 
+        onRequestClose={() => setVisible(false)}
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalText}>Would you like to autofill the form with mock data?</Text>
+            <Text style={styles.modalText}>
+              Would you like to autofill the form with mock data?
+            </Text>
             <View style={styles.modalButtons}>
               <Button onPress={confirmAutofill} style={styles.modalButton}>
                 Yes
               </Button>
-              <Button onPress={() => setVisible(false)} style={styles.modalButton} appearance="ghost">
+              <Button
+                onPress={() => setVisible(false)}
+                style={styles.modalButton}
+                appearance="ghost"
+              >
                 No
               </Button>
             </View>

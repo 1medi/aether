@@ -41,7 +41,6 @@ export default function AutofilledScreen() {
     Inter_900Black,
   });
 
-
   const navigateDetails = () => {
     navigation.navigate("Details");
   };
