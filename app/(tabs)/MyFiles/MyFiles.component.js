@@ -19,14 +19,11 @@ import ConsoleScreenTwo from "@/components/atoms/ConsoleScreenTwo";
 import ConsoleScreen from "@/components/atoms/ConsoleScreen";
 import { useDarkMode } from "../context/DarkModeContext";
 
-
 export const MyFilesScreen = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState("Forms");
   const [filteredData, setFilteredData] = useState(myFormsData);
   const TipsIcon = (props) => <Icon name="bulb-outline" {...props} />;
   const CloseIcon = (props) => <Icon name="close-outline" {...props} />;
-
-
 
   // Search Function
   const onSearch = (query) => {
@@ -69,7 +66,9 @@ export const MyFilesScreen = ({ navigation }) => {
               justifyContent: "space-between",
             }}
           >
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+            <View
+              style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
+            >
               <TipsIcon fill={colors.apple.black} style={styles.tipsIcon} />
               <Text style={styles.suggestionTitle}>Try Our Scan Feature!</Text>
             </View>
@@ -85,23 +84,23 @@ export const MyFilesScreen = ({ navigation }) => {
         <View style={{ height: 24 }} />
 
         <Layout style={styles.sectionContainer}>
-      <Layout style={styles.myFormsSection}>
-        {filteredData.map((form, index) => (
-          <View key={`${form.id}-${index}`}>
-            <MyFormsCard
-              title={form.title}
-              subheader={form.subheader}
-              footnote={form.footnote}
-              isImportant={form.isImportant}
-              navigation={navigation} // Pass navigation prop
-            />
-            {index < filteredData.length - 1 && (
-              <Divider style={styles.divider} />
-            )}
-          </View>
-        ))}
-      </Layout>
-    </Layout>
+          <Layout style={styles.myFormsSection}>
+            {filteredData.map((form, index) => (
+              <View key={`${form.id}-${index}`}>
+                <MyFormsCard
+                  title={form.title}
+                  subheader={form.subheader}
+                  footnote={form.footnote}
+                  isImportant={form.isImportant}
+                  navigation={navigation} // Pass navigation prop
+                />
+                {index < filteredData.length - 1 && (
+                  <Divider style={styles.divider} />
+                )}
+              </View>
+            ))}
+          </Layout>
+        </Layout>
 
         {/* Spacer */}
         <View style={{ height: 56 }} />
@@ -138,7 +137,9 @@ export const MyFilesScreen = ({ navigation }) => {
               justifyContent: "space-between",
             }}
           >
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+            <View
+              style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
+            >
               <TipsIcon fill={colors.apple.black} style={styles.tipsIcon} />
               <Text style={styles.suggestionTitle}>
                 Save Time, Reduce Stress
@@ -157,7 +158,10 @@ export const MyFilesScreen = ({ navigation }) => {
 
         <View style={styles.profileContainer}>
           {filteredData.map((profile, index) => (
-            <View key={`${profile.id}-${index}`} style={styles.profileCardContainer}>
+            <View
+              key={`${profile.id}-${index}`}
+              style={styles.profileCardContainer}
+            >
               <SavedProfileCard
                 key={profile.id}
                 name={profile.name}
@@ -185,7 +189,7 @@ export const MyFilesScreen = ({ navigation }) => {
       <ConsoleScreenTwo />
     </>
   );
-  console.log(filteredData)
+  console.log(filteredData);
   console.log(navigation);
   return (
     <SafeAreaView style={styles.fullPage}>

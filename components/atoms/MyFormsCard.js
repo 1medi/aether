@@ -1,7 +1,7 @@
 import React from "react";
 import { TouchableOpacity, StyleSheet, Image, View, Text } from "react-native";
 import { Icon, Layout } from "@ui-kitten/components";
-import { useNavigation } from "@react-navigation/native"; // Import useNavigation
+import { useNavigation } from "@react-navigation/native";
 import { colors, typography } from "@/css/globals";
 
 export default function MyFormsCard({
@@ -14,7 +14,7 @@ export default function MyFormsCard({
 
   const handlePress = () => {
     if (title === "Canadian Pension Plan") {
-      navigation.navigate("LibraryScreen"); 
+      navigation.navigate("LibraryScreen");
     } else if (title === "Disability Tax Credit") {
       navigation.navigate("Folder"); // Navigate to LibraryScreen
     } else if (title === "Assisted Living Application") {
@@ -45,7 +45,11 @@ export default function MyFormsCard({
             <Text style={styles.subheader}>{subheader}</Text>
             <Text style={styles.footnote}>{footnote}</Text>
           </View>
-          <Icon name="more-vertical-outline" style={styles.dotsIcon} fill="#000" />
+          <Icon
+            name="more-vertical-outline"
+            style={styles.dotsIcon}
+            fill="#000"
+          />
         </Layout>
       </View>
     </TouchableOpacity>

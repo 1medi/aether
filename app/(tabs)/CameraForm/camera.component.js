@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { SafeAreaView, ScrollView, View, registerCallableModule } from "react-native";
+import {
+  SafeAreaView,
+  ScrollView,
+  View,
+  registerCallableModule,
+} from "react-native";
 import {
   Button,
   Divider,
@@ -21,12 +26,10 @@ import {
   DMSans_500Medium,
   DMSans_500Medium_Italic,
   DMSans_700Bold,
-  DMSans_700Bold_Italic
+  DMSans_700Bold_Italic,
 } from "@expo-google-fonts/dm-sans";
 
-
 import { LinearGradient } from "expo-linear-gradient";
-
 
 export const CameraScreen = ({ navigation }) => {
   let [fontsLoaded] = useFonts({
@@ -133,6 +136,6 @@ const styles = StyleSheet.create({
     alignContent: "center",
     paddingTop: 50,
     paddingBottom: 50,
-    margin: "auto"
-  }
+    margin: "auto",
+  },
 });
