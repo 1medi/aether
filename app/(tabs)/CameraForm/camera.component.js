@@ -10,9 +10,7 @@ import {
 import Settings from "@/components/atoms/settings.js";
 import CardSimple from "@/components/atoms/QuickAccessCard";
 import { StyleSheet, Text, Image } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
 import DetectObject from "@/src/index";
 import Header from "@/components/header/Header";
 
@@ -29,8 +27,6 @@ import {
 
 import { LinearGradient } from "expo-linear-gradient";
 
-const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
 
 export const CameraScreen = ({ navigation }) => {
   let [fontsLoaded] = useFonts({
