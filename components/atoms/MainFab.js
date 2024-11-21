@@ -23,21 +23,24 @@ const MainFab = ({ expanded, onPress }) => {
 
 const styles = StyleSheet.create({
   fab: {
-    width: 80,
-    height: 80,
-    borderRadius: 40, // Fixed for a circular button
-    backgroundColor: colors.other.lightBlue ,
+    width: 64,
+    height: 64,
+    borderRadius: 100, // Fixed for a circular button
+    backgroundColor: colors.light.blue ,
     justifyContent: "center",
     alignItems: "center",
     elevation: 5, // Android shadow
-    shadowColor: "#000", // iOS shadow
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    shadowColor: colors.light.black20,
+    shadowOffset: {
+      width: 4,
+      height: 4,
+    },
+    shadowOpacity: 0.6,
+    shadowRadius: 8,
   },
   fabIcon: {
-    width: 30,
-    height: 30,
+    width: 24,
+    height: 24,
   },
 });
 

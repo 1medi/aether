@@ -42,23 +42,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#E1EBF2",
     justifyContent: "flex-end",
   },
-  bottomNav: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    paddingVertical: 20,
-    backgroundColor: "#ffffff",
-    borderTopWidth: 1,
-    borderColor: "#ccc",
-  },
   icon: {
-    width: 30,
-    height: 30,
+    width: 24,
+    height: 24,
     tintColor: "#1F2937",
   },
   fabContainer: {
     position: "absolute",
-    right: 20,
-    bottom: 150,
+    right: 16,
+    bottom: 72,
     alignItems: "center",
     zIndex: 20, // Ensures it stays above other elements
   },
