@@ -9,8 +9,8 @@ import {
   TextInput,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Divider, Layout } from "@ui-kitten/components";
-import { colors } from "@/css/globals";
+import { Divider, Layout, Icon } from "@ui-kitten/components";
+import { colors, typography } from "@/css/globals";
 import MyFormsCard from "@/components/atoms/MyFormsCard";
 import SavedProfileCard from "@/components/atoms/SavedProfileCard";
 import Header from "@/components/header/Header";
@@ -24,14 +24,15 @@ export const MyFilesScreen = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState("Forms");
   const [filteredData, setFilteredData] = useState(myFormsData);
 
-  const [showFormsSuggestionBanner, setShowFormsSuggestionBanner] = useState(true);
-  const [showProfilesSuggestionBanner, setShowProfilesSuggestionBanner] = useState(true);
+  const [showFormsSuggestionBanner, setShowFormsSuggestionBanner] =
+    useState(true);
+  const [showProfilesSuggestionBanner, setShowProfilesSuggestionBanner] =
+    useState(true);
 
   const TipsIcon = (props) => <Icon name="bulb-outline" {...props} />;
   const CloseIcon = (props) => <Icon name="close-outline" {...props} />;
 
   const [selectedProfile, setSelectedProfile] = useState(null);
-
 
   // Profile state
   const [name, setName] = useState("");
@@ -42,9 +43,13 @@ export const MyFilesScreen = ({ navigation }) => {
   const [city, setCity] = useState("Vancouver");
   const [province, setProvince] = useState("British Columbia");
   const [postalCode, setPostalCode] = useState("A1B 2C3");
-  const [emergencyContactName, setEmergencyContactName] = useState("John O'Neil");
-  const [emergencyContactPhone, setEmergencyContactPhone] = useState("(321) 654-0987");
-  const [emergencyContactEmail, setEmergencyContactEmail] = useState("john.oneil@gmail.com");
+  const [emergencyContactName, setEmergencyContactName] =
+    useState("John O'Neil");
+  const [emergencyContactPhone, setEmergencyContactPhone] =
+    useState("(321) 654-0987");
+  const [emergencyContactEmail, setEmergencyContactEmail] = useState(
+    "john.oneil@gmail.com"
+  );
   const [relation, setRelation] = useState("Son");
 
   // Search and tab switch logic
@@ -92,29 +97,31 @@ export const MyFilesScreen = ({ navigation }) => {
       <ScrollView style={styles.scrollContainer}>
         {/* Suggestion Banner */}
         {showFormsSuggestionBanner && (
-        <Layout style={styles.suggestionBanner}>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
+          <Layout style={styles.suggestionBanner}>
             <View
-              style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
             >
-              <TipsIcon fill={colors.apple.black} style={styles.tipsIcon} />
-              <Text style={styles.suggestionTitle}>Try Our Scan Feature!</Text>
+              <View
+                style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
+              >
+                <TipsIcon fill={colors.apple.black} style={styles.tipsIcon} />
+                <Text style={styles.suggestionTitle}>
+                  Try Our Scan Feature!
+                </Text>
+              </View>
+              <TouchableOpacity onPress={() => setShowSuggestionBanner(false)}>
+                <CloseIcon fill={colors.apple.black} style={styles.closeIcon} />
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity onPress={() => setShowSuggestionBanner(false)}>
-              <CloseIcon fill={colors.apple.black} style={styles.closeIcon} />
-            </TouchableOpacity>
-          </View>
-          <Text style={styles.suggestionDescription}>
-            Tap the "+" button to upload your own forms. Either take a photo or
-            upload directly from your device.
-          </Text>
-        </Layout>
+            <Text style={styles.suggestionDescription}>
+              Tap the "+" button to upload your own forms. Either take a photo
+              or upload directly from your device.
+            </Text>
+          </Layout>
         )}
 
         <Layout style={styles.sectionContainer}>
@@ -153,90 +160,6 @@ export const MyFilesScreen = ({ navigation }) => {
       </ScrollView>
       <ConsoleScreen />
     </>
-  );
-
-  // Render Profiles
-  const renderProfiles = () => (
-    <>
-      <ScrollView style={styles.scrollContainer}>
-        {/* Suggestion Banner */}
-        { showProfilesSuggestionBanner && (
-        <Layout style={styles.suggestionBanner}>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <View
-              style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
-            >
-              <TipsIcon fill={colors.apple.black} style={styles.tipsIcon} />
-              <Text style={styles.suggestionTitle}>
-                Save Time, Reduce Stress
-              </Text>
-            </View>
-            <CloseIcon fill={colors.apple.black} style={styles.closeIcon} />
-          </View>
-          <Text style={styles.suggestionDescription}>
-            Store your care recipients' information for quick, two-tap
-            autofilling.
-          </Text>
-        </Layout>
-        )}
-
-        <View style={styles.profileContainer}>
-          {filteredData.map((profile, index) => (
-            <View
-              key={`${profile.id}-${index}`}
-              style={styles.profileCardContainer}
-            >
-              <SavedProfileCard
-                key={profile.id}
-                name={profile.name}
-                role={profile.role}
-                image={profile.image}
-              />
-            </View>
-          ))}
-        </View>
-        {/* Spacer */}
-        <View style={{ height: 56 }} />
-
-        {/* End Image */}
-        <Layout style={styles.bottomSpacerSection}>
-          <Image
-            source={require("@/assets/images/logo40.png")}
-            style={styles.bottomSpacerLogo}
-          />
-          <Text style={styles.bottomMessage}>Aether • 2024</Text>
-        </Layout>
-
-        {/* Spacer */}
-        <View style={{ height: 98 }} />
-      </ScrollView>
-      <ConsoleScreenTwo />
-    </>
-    <ScrollView style={styles.scrollContainer}>
-      <Layout style={styles.sectionContainer}>
-        <Layout style={styles.myFormsSection}>
-          {filteredData.map((form, index) => (
-            <View key={`${form.id}-${index}`}>
-              <MyFormsCard
-                title={form.title}
-                subheader={form.subheader}
-                footnote={form.footnote}
-              />
-              {index < filteredData.length - 1 && (
-                <Divider style={styles.divider} />
-              )}
-            </View>
-          ))}
-        </Layout>
-      </Layout>
-      <Footer />
-    </ScrollView>
   );
 
   const renderProfileDetails = () => (
@@ -283,31 +206,94 @@ export const MyFilesScreen = ({ navigation }) => {
     <>
       <View style={styles.detailsContainer}>
         <Text style={styles.detailLabel}>Personal Information</Text>
-        <TextInput style={styles.detailValue} value={name} onChangeText={setName} placeholder="Name" />
-        <TextInput style={styles.detailValue} value={phone} onChangeText={setPhone} placeholder="Phone" />
-        <TextInput style={styles.detailValue} value={dob} onChangeText={setDob} placeholder="Date of Birth" />
-        <TextInput style={styles.detailValue} value={gender} onChangeText={setGender} placeholder="Gender" />
+        <TextInput
+          style={styles.detailValue}
+          value={name}
+          onChangeText={setName}
+          placeholder="Name"
+        />
+        <TextInput
+          style={styles.detailValue}
+          value={phone}
+          onChangeText={setPhone}
+          placeholder="Phone"
+        />
+        <TextInput
+          style={styles.detailValue}
+          value={dob}
+          onChangeText={setDob}
+          placeholder="Date of Birth"
+        />
+        <TextInput
+          style={styles.detailValue}
+          value={gender}
+          onChangeText={setGender}
+          placeholder="Gender"
+        />
       </View>
       <View style={styles.detailsContainer}>
         <Text style={styles.detailLabel}>Address</Text>
-        <TextInput style={styles.detailValue} value={address} onChangeText={setAddress} placeholder="Address" />
-        <TextInput style={styles.detailValue} value={postalCode} onChangeText={setPostalCode} placeholder="Postal Code" />
-        <TextInput style={styles.detailValue} value={province} onChangeText={setProvince} placeholder="Province" />
-        <TextInput style={styles.detailValue} value={city} onChangeText={setCity} placeholder="City" />
+        <TextInput
+          style={styles.detailValue}
+          value={address}
+          onChangeText={setAddress}
+          placeholder="Address"
+        />
+        <TextInput
+          style={styles.detailValue}
+          value={postalCode}
+          onChangeText={setPostalCode}
+          placeholder="Postal Code"
+        />
+        <TextInput
+          style={styles.detailValue}
+          value={province}
+          onChangeText={setProvince}
+          placeholder="Province"
+        />
+        <TextInput
+          style={styles.detailValue}
+          value={city}
+          onChangeText={setCity}
+          placeholder="City"
+        />
       </View>
       <View style={styles.detailsContainer}>
         <Text style={styles.detailLabel}>Emergency Contact</Text>
-        <TextInput style={styles.detailValue} value={emergencyContactName} onChangeText={setEmergencyContactName} placeholder="Contact Name" />
-        <TextInput style={styles.detailValue} value={emergencyContactPhone} onChangeText={setEmergencyContactPhone} placeholder="Phone" />
-        <TextInput style={styles.detailValue} value={emergencyContactEmail} onChangeText={setEmergencyContactEmail} placeholder="Email" />
-        <TextInput style={styles.detailValue} value={relation} onChangeText={setRelation} placeholder="Relation" />
+        <TextInput
+          style={styles.detailValue}
+          value={emergencyContactName}
+          onChangeText={setEmergencyContactName}
+          placeholder="Contact Name"
+        />
+        <TextInput
+          style={styles.detailValue}
+          value={emergencyContactPhone}
+          onChangeText={setEmergencyContactPhone}
+          placeholder="Phone"
+        />
+        <TextInput
+          style={styles.detailValue}
+          value={emergencyContactEmail}
+          onChangeText={setEmergencyContactEmail}
+          placeholder="Email"
+        />
+        <TextInput
+          style={styles.detailValue}
+          value={relation}
+          onChangeText={setRelation}
+          placeholder="Relation"
+        />
       </View>
     </>
   );
 
   const Footer = () => (
     <Layout style={styles.bottomSpacerSection}>
-      <Image source={require("@/assets/images/logo40.png")} style={styles.bottomSpacerLogo} />
+      <Image
+        source={require("@/assets/images/logo40.png")}
+        style={styles.bottomSpacerLogo}
+      />
       <Text style={styles.bottomMessage}>Aether • 2024</Text>
     </Layout>
   );
@@ -319,16 +305,30 @@ export const MyFilesScreen = ({ navigation }) => {
         {["Forms", "Profiles"].map((tab) => (
           <TouchableOpacity
             key={tab}
-            style={[styles.toggleButton, activeTab === tab && styles.activeToggleButton]}
+            style={[
+              styles.toggleButton,
+              activeTab === tab && styles.activeToggleButton,
+            ]}
             onPress={() => switchTab(tab)}
           >
-            <Text style={[styles.toggleButtonText, activeTab === tab && styles.activeToggleButtonText]}>
+            <Text
+              style={[
+                styles.toggleButtonText,
+                activeTab === tab && styles.activeToggleButtonText,
+              ]}
+            >
               {tab}
             </Text>
           </TouchableOpacity>
         ))}
       </View>
-      <Header title="My Files" placeholder="Search my forms and profiles" hasSearchBar onSearch={onSearch} noTitle />
+      <Header
+        title="My Files"
+        placeholder="Search my forms and profiles"
+        hasSearchBar
+        onSearch={onSearch}
+        noTitle
+      />
       {activeTab === "Forms" ? renderForms() : renderProfiles()}
     </SafeAreaView>
   );
@@ -348,6 +348,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginVertical: 16,
     alignSelf: "center",
+    margin: 10,
   },
   toggleButton: {
     flex: 1,
@@ -388,7 +389,6 @@ const styles = StyleSheet.create({
 
     fontWeight: "bold",
     color: "#000",
-
   },
   sectionContainer: {
     backgroundColor: "white",
@@ -453,6 +453,7 @@ const styles = StyleSheet.create({
   bottomSpacerSection: {
     alignItems: "center",
     marginTop: 16,
+    backgroundColor: "none",
   },
   bottomSpacerLogo: {
     width: 40,
