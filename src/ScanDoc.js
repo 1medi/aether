@@ -108,7 +108,7 @@ const ScanDocScreen = ({ navigation }) => {
                 content: `
                   You are a paraphraser for professional use. Rewrite the following content according to these guidelines:
                   
-                  1. Summarize and Simplify: Explain only what the document says, as if explaining to a 10-year-old. Provide one succinct sentence for each subject.
+                  1. Summarize and Simplify: Explain only what the document says, as if explaining to a 10-year-old. Provide one to two succinct sentence for each subject.
                   
                   2. Formatting Rules:
                      - Use **bold** for headers.
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
     width: 300,
     height: 300,
     borderRadius: 20,
-    margin: "auto"
+    margin: "auto",
   },
   button: {
     backgroundColor: colors.light.deepBlue80,
@@ -256,7 +256,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     height: "100%",
     width: "100vw",
-    padding: 30
+    padding: 30,
   },
   closeButton: {
     marginTop: 20,
