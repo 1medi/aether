@@ -1,9 +1,8 @@
-import React, { useMemo }  from "react";
+import React from "react";
 import { TouchableOpacity, StyleSheet, Image, View, Text } from "react-native";
 import { Icon, Layout } from "@ui-kitten/components";
 import { useNavigation } from "@react-navigation/native";
 import { colors, typography } from "@/css/globals";
-import { useDarkMode } from "@/app/(tabs)/context/DarkModeContext";
 
 export default function MyFormsCard({
   title,
@@ -12,9 +11,6 @@ export default function MyFormsCard({
   isImportant,
 }) {
   const navigation = useNavigation();
-
-  const { isDarkMode } = useDarkMode();
-  const styles = useMemo(() => getStyles(isDarkMode), [isDarkMode]);
 
   const handlePress = () => {
     if (title === "Canadian Pension Plan") {
@@ -60,7 +56,7 @@ export default function MyFormsCard({
   );
 }
 
-const getStyles = (isDarkMode) => ({
+const styles = StyleSheet.create({
   touchContainer: {
     backgroundColor: "transparent",
   },
@@ -104,15 +100,13 @@ const getStyles = (isDarkMode) => ({
   },
   title: {
     ...typography(true).h4Med,
-    color: isDarkMode ? colors.apple.white : ''
   },
   subheader: {
     ...typography(true).body,
-    color: isDarkMode ? colors.apple.white : ''
   },
   footnote: {
     ...typography(true).footnoteItalic,
-    color: isDarkMode ? colors.dark.deepWhite60 : colors.light.deepBlue60,
+    color: colors.light.deepBlue60,
     marginTop: 4,
   },
 
