@@ -1,121 +1,132 @@
 import React from "react";
-import { SafeAreaView } from "react-native";
 import {
-  Divider,
-  Layout,
+  View,
   Text,
-  Input,
-  Button,
-  Icon,
-} from "@ui-kitten/components";
-import { LinearGradient } from "expo-linear-gradient";
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-import Header from "@/components/header/Header";
+export default function SavedProfile({ route, navigation }) {
+  const { profile } = route.params;
 
-export const SavedProfileScreen = ({ navigation }) => {
-  const navigateBack = () => {
-    navigation.goBack();
-  };
+  if (!profile) {
+    return (
+      <View style={styles.container}>
+        <Text>No profile data available.</Text>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Text style={styles.backButton}>Go Back</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 
-  const Trash = (props) => (
-    <Icon
-      name="trash-2-outline"
-      {...props}
-      style={{ width: 25, height: 20, tintColor: "red" }}
-    />
-  );
+  const { personalInfo, address, emergencyContact } = profile;
 
   return (
-    <LinearGradient colors={["#9FC3E5", "#ffff"]} style={{ flex: 1 }}>
-      <SafeAreaView style={{ flex: 1 }}>
-        <HeaderProfile />
-        <Divider />
-
-        <Layout
-          style={{
-            flex: 1,
-            alignItems: "center",
-            flexDirection: "column",
-            backgroundColor: "transparent",
-          }}
-        >
-          <Text
-            category="h1"
-            style={{
-              fontSize: 24,
-              fontWeight: "bold",
-              marginTop: 20,
-              marginBottom: 20,
-              alignSelf: "flex-start",
-              width: "100%",
-              paddingLeft: 20,
-            }}
+    <>
+      <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
+        <ScrollView contentContainerStyle={styles.container}>
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={styles.backButtonContainer}
           >
-            Saved Profiles
-          </Text>
+            <Text style={styles.backButton}>Back</Text>
+          </TouchableOpacity>
 
-          {/* Email input */}
-          <Input
-            style={{
-              borderRadius: 20,
-              width: 360,
-              marginBottom: 20,
-            }}
-            placeholder="Email"
-          />
+          {/* Profile Picture and Name */}
+          <View style={styles.profileHeader}>
+            <Image source={personalInfo.image} style={styles.profileImage} />
+            <Text style={styles.profileName}>{personalInfo.fullName}</Text>
+            <Text style={styles.profileRole}>
+              {personalInfo.relationshipToUser}
+            </Text>
+          </View>
 
-          {/* Phone input */}
-          <Input
-            style={{
-              borderTopLeftRadius: 20,
-              borderTopRightRadius: 20,
-              borderBottomLeftRadius: 0,
-              borderBottomRightRadius: 0,
-              width: 360,
-              marginBottom: 0,
-            }}
-            placeholder="Phone Number"
-          />
+          {/* Personal Info Section */}
+          <View style={styles.category}>
+            <Text style={styles.categoryTitle}>Personal Info</Text>
+            <Text style={styles.infoText}>
+              Phone: {personalInfo.phoneNumber}
+            </Text>
+            <Text style={styles.infoText}>DOB: {personalInfo.dateOfBirth}</Text>
+            <Text style={styles.infoText}>Gender: {personalInfo.gender}</Text>
+          </View>
 
-          {/* Birthday input */}
-          <Input
-            style={{
-              borderTopLeftRadius: 0,
-              borderTopRightRadius: 0,
-              borderBottomLeftRadius: 20,
-              borderBottomRightRadius: 20,
-              width: 360,
-              marginBottom: 0,
-            }}
-            placeholder="Date of Birth"
-          />
+          {/* Address Section */}
+          <View style={styles.category}>
+            <Text style={styles.categoryTitle}>Address</Text>
+            <Text style={styles.infoText}>Street: {address.streetAddress}</Text>
+            <Text style={styles.infoText}>City: {address.city}</Text>
+            <Text style={styles.infoText}>Province: {address.province}</Text>
+            <Text style={styles.infoText}>
+              Postal Code: {address.postalCode}
+            </Text>
+          </View>
 
-          <Button
-            appearance="ghost"
-            style={{
-              backgroundColor: "rgba(173, 216, 230, 0.5)",
-              borderRadius: 15,
-              width: 250,
-              marginTop: 20,
-            }}
-          >
-            Log Out
-          </Button>
-
-          <Button
-            appearance="ghost"
-            style={{
-              borderWidth: 0,
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-            accessoryLeft={Trash}
-          >
-            <Text style={{ color: "red" }}>Delete Account</Text>{" "}
-            {/* Don't know why the color won't apply unless i keep this comment here lol */}
-          </Button>
-        </Layout>
+          {/* Emergency Contact Section */}
+          <View style={styles.category}>
+            <Text style={styles.categoryTitle}>Emergency Contact</Text>
+            <Text style={styles.infoText}>
+              Name: {emergencyContact.fullName}
+            </Text>
+            <Text style={styles.infoText}>
+              Phone: {emergencyContact.phoneNumber}
+            </Text>
+            <Text style={styles.infoText}>Email: {emergencyContact.email}</Text>
+            <Text style={styles.infoText}>
+              Relationship: {emergencyContact.relationshipToProfile}
+            </Text>
+          </View>
+        </ScrollView>
       </SafeAreaView>
-    </LinearGradient>
+    </>
   );
-};
+}
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 16,
+    backgroundColor: "#fff",
+  },
+  backButtonContainer: {
+    marginBottom: 16,
+  },
+  backButton: {
+    fontSize: 18,
+    color: "blue",
+  },
+  profileHeader: {
+    alignItems: "center",
+    marginBottom: 24,
+  },
+  profileImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    marginBottom: 16,
+  },
+  profileName: {
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+  profileRole: {
+    fontSize: 18,
+    color: "gray",
+  },
+  category: {
+    marginBottom: 24,
+  },
+  categoryTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 8,
+  },
+  infoText: {
+    fontSize: 16,
+    color: "#333",
+    marginBottom: 4,
+  },
+});

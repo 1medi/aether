@@ -170,10 +170,13 @@ export const MyFilesScreen = ({ navigation }) => {
               style={styles.profileCardContainer}
             >
               <SavedProfileCard
-                key={profile.id}
-                name={profile.personalInfo.fullName}
-                role={profile.personalInfo.relationshipToUser}
-                image={profile.personalInfo.image}
+                // key={profile.id}
+                // name={profile.personalInfo.fullName}
+                // role={profile.personalInfo.relationshipToUser}
+                // image={profile.personalInfo.image}
+                // navigation={navigation}
+                // profileData={profile}
+                profile={profile}
               />
             </View>
           ))}
