@@ -12,7 +12,7 @@ import { LinearGradient } from "expo-linear-gradient";
 
 import Header from "@/components/header/Header";
 
-export const PeopleScreen = ({ navigation }) => {
+export const SavedProfileScreen = ({ navigation }) => {
   const navigateBack = () => {
     navigation.goBack();
   };

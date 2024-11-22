@@ -81,8 +81,9 @@ const getStyles = (isDarkMode) => ({
   headerContainer: {
     backgroundColor: "transparent",
     paddingHorizontal: 16,
-    paddingVertical: 8,
-    gap: 8,
+    paddingTop: 16,
+    paddingBottom: 8,
+    gap: 16,
     // borderBottomColor: colors.apple.lightStroke,
     // borderBottomWidth: 1,
     width: "100%",
@@ -96,7 +97,7 @@ const getStyles = (isDarkMode) => ({
   },
 
   pageTitle: {
-    ...typography(true).h2Med,
+    ...typography(true).h1Med,
     color: isDarkMode ? colors.apple.white : colors.apple.black,
   },
   pageGreeting: {
