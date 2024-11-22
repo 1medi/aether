@@ -75,16 +75,12 @@ export default function LibraryScreen() {
 
   return (
     <>
-      <LinearGradient
-        colors={["#9FC3E5", "#ffff"]}
-        style={styles.gradientContainer}
-      />
       <SafeAreaView style={styles.homePage}>
         <Header title={"Form Library"} />
         <Layout
           style={{ backgroundColor: "none", paddingLeft: 20, width: "auto" }}
         >
-          <Text style={styles.headerText}>Canadian Pension Plan</Text>
+          <Text style={styles.headerText}>Extended Health Care Form</Text>
 
           <View style={styles.buttonsRow}>
             <Pressable>
@@ -121,7 +117,7 @@ export default function LibraryScreen() {
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <Text style={styles.modalText}>
-              Would you like to autofill the form with mock data?
+              Would you like to autofill the form with your data?
             </Text>
             <View style={styles.modalButtons}>
               <Button onPress={confirmAutofill} style={styles.modalButton}>

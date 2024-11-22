@@ -19,6 +19,8 @@ import SavedProfileScreen from "./SavedProfiles/SavedProfile.component";
 import { colors } from "@/css/globals";
 import { DarkModeProvider } from "./context/DarkModeContext";
 import { FolderScreen } from "./FormLibrary/folder.component";
+import ScanDocScreen from "@/src/ScanDoc.js"
+import UploadDocScreen from "@/src/UploadDoc.js"
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -104,6 +106,8 @@ const TabNavigator = () => (
     <Screen name="PensionPlan" component={AutofilledScreen} />
     <Screen name="Folder" component={FolderScreen} />
     <Screen name="SavedProfile" component={SavedProfileScreen} />
+    <Screen name="Scan" component={ScanDocScreen} />
+    <Screen name="Upload" component={UploadDocScreen} />
   </Navigator>
 );
 
