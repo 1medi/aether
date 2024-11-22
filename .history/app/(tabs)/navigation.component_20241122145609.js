@@ -22,25 +22,17 @@ import { useDarkMode } from "./context/DarkModeContext";
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
-const BottomTabBar = ({ navigation, state, isDarkMode }) => (
+const { isDarkMode } = useDarkMode();
+
+const BottomTabBar = ({ navigation, state }) => (
   <View style={styles.navShadowContainer}>
-    <BlurView
-      intensity={24}
-      tint={isDarkMode ? "dark" : "light"} // Adjust BlurView tint
-      style={[
-        styles.navOuterContainer,
-        {
-          backgroundColor: isDarkMode ? colors.apple.black20 : colors.apple.glass70,
-        },
-      ]}
-    >
+    <BlurView intensity={24} tint="light" style={styles.navOuterContainer}>
       <BottomNavigation
         appearance="noIndicator"
         selectedIndex={state.index}
         onSelect={(index) => navigation.navigate(state.routeNames[index])}
         style={styles.navBarContainer}
       >
-        {/* Home Tab */}
         <BottomNavigationTab
           icon={(props) => (
             <Icon
@@ -48,20 +40,11 @@ const BottomTabBar = ({ navigation, state, isDarkMode }) => (
               name={state.index === 0 ? "home" : "home-outline"}
               style={[
                 styles.icon,
-                {
-                  tintColor: state.index === 0
-                    ? isDarkMode
-                      ? colors.apple.white
-                      : colors.light.blue
-                    : isDarkMode
-                    ? colors.light.blue
-                    : colors.apple.black,
-                },
+                { tintColor: state.index === 0 ? (isDarkMode ? colors.dark.white : colors.light.blue) : colors.apple.black },
               ]}
             />
           )}
         />
-        {/* Search Tab */}
         <BottomNavigationTab
           icon={(props) => (
             <Icon
@@ -69,20 +52,11 @@ const BottomTabBar = ({ navigation, state, isDarkMode }) => (
               name={state.index === 1 ? "search" : "search-outline"}
               style={[
                 styles.icon,
-                {
-                  tintColor: state.index === 1
-                    ? isDarkMode
-                      ? colors.apple.white
-                      : colors.light.blue
-                    : isDarkMode
-                    ? colors.light.blue
-                    : colors.apple.black,
-                },
+                { tintColor: state.index === 1 ? colors.light.blue : colors.apple.black },
               ]}
             />
           )}
         />
-        {/* Book Tab */}
         <BottomNavigationTab
           icon={(props) => (
             <Icon
@@ -90,20 +64,11 @@ const BottomTabBar = ({ navigation, state, isDarkMode }) => (
               name={state.index === 2 ? "book" : "book-outline"}
               style={[
                 styles.icon,
-                {
-                  tintColor: state.index === 2
-                    ? isDarkMode
-                      ? colors.apple.white
-                      : colors.light.blue
-                    : isDarkMode
-                    ? colors.light.blue
-                    : colors.apple.black,
-                },
+                { tintColor: state.index === 2 ? colors.light.blue : colors.apple.black },
               ]}
             />
           )}
         />
-        {/* Profile Tab */}
         <BottomNavigationTab
           icon={(props) => (
             <Icon
@@ -111,15 +76,7 @@ const BottomTabBar = ({ navigation, state, isDarkMode }) => (
               name={state.index === 3 ? "person" : "person-outline"}
               style={[
                 styles.icon,
-                {
-                  tintColor: state.index === 3
-                    ? isDarkMode
-                      ? colors.apple.white
-                      : colors.light.blue
-                    : isDarkMode
-                    ? colors.light.blue
-                    : colors.apple.black,
-                },
+                { tintColor: state.index === 3 ? colors.light.blue : colors.apple.black },
               ]}
             />
           )}
@@ -129,63 +86,27 @@ const BottomTabBar = ({ navigation, state, isDarkMode }) => (
   </View>
 );
 
-const TabNavigator = () => {
-  const { isDarkMode } = useDarkMode(); // Get dark mode status here
-
-  return (
-    <Navigator
-      screenOptions={{
-        headerShown: false,
-      }}
-      tabBar={(props) => <BottomTabBar {...props} isDarkMode={isDarkMode} />} // Pass isDarkMode
-    >
-      <Screen
-        name="Home"
-        component={HomeScreen}
-        options={{ title: "Aether Home" }}
-      />
-      <Screen name="FormLibrary" component={FormLibraryScreen} />
-      <Screen name="MyFiles" component={MyFilesScreen} />
-      <Screen name="Account" component={AccountScreen} />
-      <Screen name="LibraryScreen" component={LibraryScreen} />
-      <Screen name="Camera" component={CameraScreen} />
-      <Screen name="PensionPlan" component={AutofilledScreen} />
-      <Screen name="Folder" component={FolderScreen} />
-    </Navigator>
-  );
-};
-
-const getTintColor = (isDarkMode, isActive) =>
-  isActive
-    ? isDarkMode
-      ? colors.apple.white
-      : colors.light.blue
-    : isDarkMode
-    ? colors.light.blue
-    : colors.apple.black;
-
-const BottomNavigationTabIcon = ({ state, index, iconName, isDarkMode }) => (
-  <Icon
-    name={state.index === index ? iconName : `${iconName}-outline`}
-    style={[
-      styles.icon,
-      { tintColor: getTintColor(isDarkMode, state.index === index) },
-    ]}
-  />
-);
-
-<BottomNavigationTab
-  icon={(props) => (
-    <BottomNavigationTabIcon
-      {...props}
-      state={state}
-      index={0}
-      iconName="home"
-      isDarkMode={isDarkMode}
+const TabNavigator = () => (
+  <Navigator
+    screenOptions={{
+      headerShown: false,
+    }}
+    tabBar={(props) => <BottomTabBar {...props} />}
+  >
+    <Screen
+      name="Home"
+      component={HomeScreen}
+      options={{ title: "Aether Home" }}
     />
-  )}
-/>
-
+    <Screen name="FormLibrary" component={FormLibraryScreen} />
+    <Screen name="MyFiles" component={MyFilesScreen} />
+    <Screen name="Account" component={AccountScreen} />
+    <Screen name="LibraryScreen" component={LibraryScreen} />
+    <Screen name="Camera" component={CameraScreen} />
+    <Screen name="PensionPlan" component={AutofilledScreen} />
+    <Screen name="Folder" component={FolderScreen} />
+  </Navigator>
+);
 
 const AppNavigator = () => (
   <DarkModeProvider>
