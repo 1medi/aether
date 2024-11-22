@@ -124,7 +124,7 @@ export const HomeScreen = ({ navigation }) => {
                       buttonTitle="Upload"
                       buttonDesc="from device"
                       accessory={UploadIcon}
-                      destination="Camera"
+                      destination="Upload"
                     />
                   </Layout>
                   <Layout style={styles.actionColumn}>
@@ -132,7 +132,7 @@ export const HomeScreen = ({ navigation }) => {
                       buttonTitle="Scan"
                       buttonDesc="a document"
                       accessory={FileIcon}
-                      destination="Camera"
+                      destination="Scan"
                     />
                   </Layout>
                 </Layout>
