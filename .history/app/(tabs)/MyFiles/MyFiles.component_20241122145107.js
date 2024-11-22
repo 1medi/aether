@@ -272,7 +272,7 @@ const getStyles = (isDarkMode) => ({
   },
   activeToggleButtonText: {
     ...typography(true).h4Med,
-    color: isDarkMode ? colors.dark.black : colors.apple.black,
+    color: isDarkMode ? colors.dark.black colors.apple.black,
   },
 
   suggestionBanner: {
