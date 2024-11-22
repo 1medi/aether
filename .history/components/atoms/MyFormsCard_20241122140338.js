@@ -1,9 +1,10 @@
-import React, { useMemo }  from "react";
+import React from "react";
 import { TouchableOpacity, StyleSheet, Image, View, Text } from "react-native";
 import { Icon, Layout } from "@ui-kitten/components";
 import { useNavigation } from "@react-navigation/native";
 import { colors, typography } from "@/css/globals";
 import { useDarkMode } from "@/app/(tabs)/context/DarkModeContext";
+import { useMemo } from "react";
 
 export default function MyFormsCard({
   title,
@@ -108,7 +109,6 @@ const getStyles = (isDarkMode) => ({
   },
   subheader: {
     ...typography(true).body,
-    color: isDarkMode ? colors.apple.white : ''
   },
   footnote: {
     ...typography(true).footnoteItalic,
