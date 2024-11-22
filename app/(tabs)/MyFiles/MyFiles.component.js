@@ -22,8 +22,10 @@ import { useDarkMode } from "../context/DarkModeContext";
 export const MyFilesScreen = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState("Forms");
   const [filteredData, setFilteredData] = useState(myFormsData);
-  const [showFormsSuggestionBanner, setShowFormsSuggestionBanner] = useState(true);
-  const [showProfilesSuggestionBanner, setShowProfilesSuggestionBanner] = useState(true);
+  const [showFormsSuggestionBanner, setShowFormsSuggestionBanner] =
+    useState(true);
+  const [showProfilesSuggestionBanner, setShowProfilesSuggestionBanner] =
+    useState(true);
 
   const TipsIcon = (props) => <Icon name="bulb-outline" {...props} />;
   const CloseIcon = (props) => <Icon name="close-outline" {...props} />;
@@ -59,29 +61,33 @@ export const MyFilesScreen = ({ navigation }) => {
       <ScrollView style={styles.scrollContainer}>
         {/* Suggestion Banner */}
         {showFormsSuggestionBanner && (
-        <Layout style={styles.suggestionBanner}>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
+          <Layout style={styles.suggestionBanner}>
             <View
-              style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
             >
-              <TipsIcon fill={colors.apple.black} style={styles.tipsIcon} />
-              <Text style={styles.suggestionTitle}>Try Our Scan Feature!</Text>
+              <View
+                style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
+              >
+                <TipsIcon fill={colors.apple.black} style={styles.tipsIcon} />
+                <Text style={styles.suggestionTitle}>
+                  Try Our Scan Feature!
+                </Text>
+              </View>
+              <TouchableOpacity
+                onPress={() => setShowFormsSuggestionBanner(false)}
+              >
+                <CloseIcon fill={colors.apple.black} style={styles.closeIcon} />
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity onPress={() => setShowSuggestionBanner(false)}>
-              <CloseIcon fill={colors.apple.black} style={styles.closeIcon} />
-            </TouchableOpacity>
-          </View>
-          <Text style={styles.suggestionDescription}>
-            Tap the "+" button to upload your own forms. Either take a photo or
-            upload directly from your device.
-          </Text>
-        </Layout>
+            <Text style={styles.suggestionDescription}>
+              Tap the "+" button to upload your own forms. Either take a photo
+              or upload directly from your device.
+            </Text>
+          </Layout>
         )}
 
         <Layout style={styles.sectionContainer}>
@@ -127,30 +133,34 @@ export const MyFilesScreen = ({ navigation }) => {
     <>
       <ScrollView style={styles.scrollContainer}>
         {/* Suggestion Banner */}
-        { showProfilesSuggestionBanner && (
-        <Layout style={styles.suggestionBanner}>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
+        {showProfilesSuggestionBanner && (
+          <Layout style={styles.suggestionBanner}>
             <View
-              style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
             >
-              <TipsIcon fill={colors.apple.black} style={styles.tipsIcon} />
-              <Text style={styles.suggestionTitle}>
-                Save Time, Reduce Stress
-              </Text>
+              <View
+                style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
+              >
+                <TipsIcon fill={colors.apple.black} style={styles.tipsIcon} />
+                <Text style={styles.suggestionTitle}>
+                  Save Time, Reduce Stress
+                </Text>
+              </View>
+              <TouchableOpacity
+                onPress={() => setShowFormsSuggestionBanner(false)}
+              >
+                <CloseIcon fill={colors.apple.black} style={styles.closeIcon} />
+              </TouchableOpacity>
             </View>
-            <CloseIcon fill={colors.apple.black} style={styles.closeIcon} />
-          </View>
-          <Text style={styles.suggestionDescription}>
-            Store your care recipients' information for quick, two-tap
-            autofilling.
-          </Text>
-        </Layout>
+            <Text style={styles.suggestionDescription}>
+              Store your care recipients' information for quick, two-tap
+              autofilling.
+            </Text>
+          </Layout>
         )}
 
         <View style={styles.profileContainer}>

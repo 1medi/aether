@@ -37,11 +37,13 @@ export default function MyFormsCard({
               source={require("@/assets/images/previewImage2.png")}
             />
             {isImportant && (
-              <Icon name="star" style={styles.starIcon} fill="#2E8BB7" />
+              <Icon name="star" style={styles.starIcon} fill={colors.light.blue} />
             )}
           </View>
           <View style={styles.textContainer}>
-            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">
+              {title}
+            </Text>
             <Text style={styles.subheader}>{subheader}</Text>
             <Text style={styles.footnote}>{footnote}</Text>
           </View>
@@ -90,10 +92,10 @@ const styles = StyleSheet.create({
   },
   starIcon: {
     position: "absolute",
-    top: -5,
-    left: -5,
-    width: 18,
-    height: 18,
+    top: -64,
+    left: -8,
+    width: 24,
+    height: 24,
   },
   textContainer: {
     flex: 1,
