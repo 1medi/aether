@@ -101,7 +101,7 @@ const getStyles = (isDarkMode) => ({
     color: isDarkMode ? colors.apple.white : colors.apple.black,
   },
   pageGreeting: {
-    ...typography(true).bodyBold,
+    ...typography(true).h4Bold,
     color: colors.apple.black,
   },
   date: {
