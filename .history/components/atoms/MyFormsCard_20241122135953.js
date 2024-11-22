@@ -1,4 +1,4 @@
-import React, { useMemo }  from "react";
+import React from "react";
 import { TouchableOpacity, StyleSheet, Image, View, Text } from "react-native";
 import { Icon, Layout } from "@ui-kitten/components";
 import { useNavigation } from "@react-navigation/native";
@@ -104,15 +104,13 @@ const getStyles = (isDarkMode) => ({
   },
   title: {
     ...typography(true).h4Med,
-    color: isDarkMode ? colors.apple.white : ''
   },
   subheader: {
     ...typography(true).body,
-    color: isDarkMode ? colors.apple.white : ''
   },
   footnote: {
     ...typography(true).footnoteItalic,
-    color: isDarkMode ? colors.dark.deepWhite60 : colors.light.deepBlue60,
+    color: isDarkMode ? colors.apple.glass70 : colors.light.deepBlue60,
     marginTop: 4,
   },
 

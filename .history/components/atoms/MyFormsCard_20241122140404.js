@@ -108,7 +108,6 @@ const getStyles = (isDarkMode) => ({
   },
   subheader: {
     ...typography(true).body,
-    color: isDarkMode ? colors.apple.white : ''
   },
   footnote: {
     ...typography(true).footnoteItalic,

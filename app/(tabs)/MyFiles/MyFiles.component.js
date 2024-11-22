@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import {
   ScrollView,
   TouchableOpacity,
@@ -28,6 +28,11 @@ export const MyFilesScreen = ({ navigation }) => {
     useState(true);
   const [showProfilesSuggestionBanner, setShowProfilesSuggestionBanner] =
     useState(true);
+
+  const { isDarkMode } = useDarkMode();
+
+  const styles = getStyles(isDarkMode);
+
 
   const TipsIcon = (props) => <Icon name="bulb-outline" {...props} />;
   const CloseIcon = (props) => <Icon name="close-outline" {...props} />;
@@ -334,11 +339,11 @@ export const MyFilesScreen = ({ navigation }) => {
   );
 };
 
-// Full styles at the bottom in the original format
-const styles = StyleSheet.create({
+
+const getStyles = (isDarkMode) => ({
   fullPage: {
     flex: 1,
-    backgroundColor: colors.apple.offWhite,
+    backgroundColor: isDarkMode ? colors.apple.black : colors.apple.offWhite,
   },
   scrollContainer: {
     paddingTop: 8,
@@ -369,7 +374,7 @@ const styles = StyleSheet.create({
   },
   activeToggleButtonText: {
     ...typography(true).h4Med,
-    color: colors.apple.black,
+    color: isDarkMode ? colors.dark.black : colors.apple.black,
   },
 
   suggestionBanner: {
