@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { SafeAreaView, Text, Image, StyleSheet } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { Button } from "@ui-kitten/components";
-import { Icon } from "@ui-kitten/components";
-import { colors } from "@/css/globals";
+import { Button, Layout } from "@ui-kitten/components";
+import Header from "@/components/header/Header";
+import {colors, typography} from '@/css/globals'
+
 
 const UploadDocScreen = ({ navigation }) => {
   const [imageUri, setImageUri] = useState(null);
@@ -39,15 +40,25 @@ const UploadDocScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Upload an Image</Text>
+    <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
+      <Header title={"Upload A File"}/>
+      <Layout style={styles.buttonContainer}>
       {imageUri && (
         <Image source={{ uri: imageUri }} style={styles.image} />
       )}
       <Button onPress={pickImage} style={styles.button}>
         <Text style={styles.buttonText}>Choose a File...</Text>
       </Button>
-    </View>
+      {/* Button to switch to ScanDocScreen */}
+      <Text style={styles.buttonLayoutText}>OR</Text>
+      <Button
+        onPress={() => navigation.navigate("Scan")}
+        style={[styles.button, styles.switchButton]}
+      >
+        <Text style={styles.buttonText}>Switch to Scan</Text>
+      </Button>
+      </Layout>
+    </SafeAreaView>
   );
 };
 
@@ -62,6 +73,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     marginBottom: 20,
+    ...typography(true).display,
   },
   image: {
     width: 300,
@@ -75,8 +87,21 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginVertical: 8,
   },
+  switchButton: {
+    backgroundColor: colors.apple.green,
+    borderWidth: 0
+  },
   buttonText: {
     color: "white",
     fontSize: 18,
   },
+  buttonContainer:{
+    maxWidth: 400,
+    margin:"auto",
+    backgroundColor: "none",
+    textAlign:"center"
+  },
+  buttonLayoutText:{
+    textAlign:"center"
+  }
 });
