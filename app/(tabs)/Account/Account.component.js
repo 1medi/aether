@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { ScrollView, TouchableOpacity } from "react-native";
 import {
   Layout,
@@ -11,8 +11,17 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "@/components/header/Header";
 import { colors, typography } from "@/css/globals";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useDarkMode } from "../context/DarkModeContext";
 
 export const AccountScreen = ({ navigation }) => {
+  const { isDarkMode, toggleDarkMode } = useDarkMode();
+
+  const styles = useMemo(() => {
+    console.log("Recalculating styles for dark mode:", isDarkMode);
+    return getStyles(isDarkMode);
+  }, [isDarkMode]);
+
   const ArrowIcon = (props) => (
     <Icon name="arrow-ios-forward-outline" {...props} style={styles.icon} />
   );
@@ -42,13 +51,16 @@ export const AccountScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
-      <Header title="Account" />
+      <Header
+        title="Account"
+        isDarkMode={isDarkMode} // Pass the dark mode state
+      />
       <ScrollView
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
       >
         <Layout style={styles.section}>
-          <Text style={styles.sectionTitle}>Account Settings</Text>
+          <Text style={styles.sectionTitle}>Settings</Text>
           <SectionItem
             label="Edit Account Info"
             onPress={() => {}}
@@ -76,7 +88,13 @@ export const AccountScreen = ({ navigation }) => {
               <Text style={styles.sectionItemText}>Dark Mode</Text>
             </Layout>
             <Layout style={styles.rightSide}>
-              <Toggle status="primary" onChange={() => {}} />
+              <Toggle
+                status="primary"
+                onChange={toggleDarkMode}
+                checked={isDarkMode}
+                accessibilityRole="switch"
+                accessibilityLabel="Toggle Dark Mode"
+              />
             </Layout>
           </Layout>
         </Layout>
@@ -123,31 +141,28 @@ export const AccountScreen = ({ navigation }) => {
   );
 };
 
-const styles = {
+const getStyles = (isDarkMode) => ({
   fullPage: {
     flex: 1,
-    backgroundColor: colors.apple.offWhite,
+    backgroundColor: isDarkMode ? colors.apple.black : colors.apple.offWhite,
   },
   scrollContainer: {
     paddingTop: 8,
     paddingBottom: 32,
-    // gap: 4,
     gap: 8,
   },
   section: {
-    backgroundColor: colors.apple.white,
+    backgroundColor: isDarkMode ? colors.dark.darkGrey80 : colors.apple.white,
     marginHorizontal: 12,
-    paddingTop: 16,
-    paddingBottom: 8,
-    paddingHorizontal: 8,
+    padding: 16,
     borderRadius: 32,
+    borderColor: isDarkMode ? colors.apple.glass20 : colors.apple.lightStroke,
     borderWidth: 1,
-    borderColor: colors.apple.lightStroke,
   },
   sectionTitle: {
     marginBottom: 8,
     ...typography(true).h4Med,
-    color: colors.apple.black,
+    color: isDarkMode ? colors.apple.white : colors.apple.black,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -155,7 +170,7 @@ const styles = {
     paddingHorizontal: 12,
   },
   sectionItem: {
-    backgroundColor: colors.apple.white,
+    backgroundColor: isDarkMode ? "transparent" : colors.apple.white,
     borderRadius: 100,
     height: 56,
     paddingHorizontal: 12,
@@ -167,24 +182,30 @@ const styles = {
     flexDirection: "row",
     alignItems: "center",
     gap: 16,
+    backgroundColor: "transparent",
   },
   rightSide: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-end",
+    backgroundColor: "transparent",
   },
   sectionItemText: {
     ...typography(true).bodyMed,
-    color: colors.apple.black,
-  },
-  divider: {
-    marginHorizontal: 32,
-    backgroundColor: colors.apple.lightStroke,
+    color: isDarkMode ? colors.apple.white : colors.apple.black,
+    backgroundColor: "transparent",
   },
   icon: {
     width: 24,
     height: 24,
-    tintColor: colors.apple.black,
+    tintColor: isDarkMode ? colors.apple.white : colors.apple.black,
+    backgroundColor: "transparent",
+  },
+  divider: {
+    marginHorizontal: 32,
+    backgroundColor: isDarkMode
+      ? colors.apple.glass20
+      : colors.apple.lightStroke,
   },
   logoutSection: {
     backgroundColor: "transparent",
@@ -195,9 +216,9 @@ const styles = {
     borderRadius: 100,
     borderWidth: 1,
     height: 56,
-    borderColor: colors.apple.red,
-    backgroundColor: colors.apple.white,
+    borderColor: colors.apple.lightStroke,
+    backgroundColor: isDarkMode ? colors.dark.darkGrey80 : colors.apple.white,
   },
-};
+});
 
 export default AccountScreen;

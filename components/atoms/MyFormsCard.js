@@ -1,16 +1,34 @@
 import React from "react";
 import { TouchableOpacity, StyleSheet, Image, View, Text } from "react-native";
 import { Icon, Layout } from "@ui-kitten/components";
+import { useNavigation } from "@react-navigation/native";
 import { colors, typography } from "@/css/globals";
 
-export default function FormListCard({
+export default function MyFormsCard({
   title,
   subheader,
   footnote,
   isImportant,
 }) {
+  const navigation = useNavigation();
+
+  const handlePress = () => {
+    if (title === "Canadian Pension Plan") {
+      navigation.navigate("LibraryScreen");
+    } else if (title === "Disability Tax Credit") {
+      navigation.navigate("Folder"); // Navigate to LibraryScreen
+    } else if (title === "Assisted Living Application") {
+      navigation.navigate("Home"); // Navigate to HOME!
+    } else {
+      console.error("No navigation target defined for this form.");
+    }
+  };
+
   return (
-    <TouchableOpacity style={styles.touchContainer}>
+    <TouchableOpacity
+      style={styles.touchContainer}
+      onPress={handlePress} // Call navigation logic directly
+    >
       <View style={styles.cardContainer}>
         <Layout style={styles.contentContainer}>
           <View style={styles.previewContainer}>
@@ -23,14 +41,14 @@ export default function FormListCard({
             )}
           </View>
           <View style={styles.textContainer}>
-            <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">{title} </Text>
+            <Text style={styles.title}>{title}</Text>
             <Text style={styles.subheader}>{subheader}</Text>
-            <Text style={styles.footnote} numberOfLines={1} ellipsizeMode="tail">{footnote}</Text>
+            <Text style={styles.footnote}>{footnote}</Text>
           </View>
           <Icon
             name="more-vertical-outline"
             style={styles.dotsIcon}
-            fill="#000000"
+            fill="#000"
           />
         </Layout>
       </View>
@@ -50,9 +68,6 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 12,
     overflow: "hidden",
-    // backgroundColor: colors.apple.glass70,
-    // borderWidth: 1,
-    // borderColor: colors.apple.lightStroke,
   },
   contentContainer: {
     flex: 1,

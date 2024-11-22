@@ -76,10 +76,16 @@ export const colors = {
 
 export const typography = (fontsLoaded) => ({
   display: {
-    fontSize: 38,
+    fontSize: 36,
     fontFamily: "DMSans_500Medium",
     color: colors.dark.black,
-    letterSpacing: -0.5,
+    // letterSpacing: -0.5,
+  },
+  display2: {
+    fontSize: 36,
+    fontFamily: "DMSans_700Bold",
+    color: colors.light.bgBlue,
+    // letterSpacing: -0.5,
   },
   displaySubhead: {
     fontSize: 32,
@@ -125,6 +131,11 @@ export const typography = (fontsLoaded) => ({
   h3Med: {
     fontSize: 20,
     fontFamily: "DMSans_500Medium",
+    color: colors.other.black,
+  },
+  h3Bold: {
+    fontSize: 20,
+    fontFamily: "DMSans_700Bold",
     color: colors.other.black,
   },
   h3Italic: {

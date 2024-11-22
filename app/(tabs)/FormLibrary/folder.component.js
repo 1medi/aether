@@ -109,10 +109,9 @@ export const FolderScreen = ({ navigation }) => {
   //   )
   // }, [])
 
-
-    const navigateToCategory = (category) => {
-      navigation.navigate("Library", { category });
-    };
+  const navigateToCategory = (category) => {
+    navigation.navigate("Library", { category });
+  };
 
   return (
     <>

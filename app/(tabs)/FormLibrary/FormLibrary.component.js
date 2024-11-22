@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { Layout } from "@ui-kitten/components";
 import { StyleSheet, Text, ScrollView, View, Image } from "react-native";
 import Header from "@/components/header/Header";
@@ -12,9 +12,14 @@ import {
 } from "@expo-google-fonts/dm-sans";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FormLibraryCard from "@/components/atoms/FormLibraryCard";
+import { useDarkMode } from "../context/DarkModeContext";
 
 export const FormLibraryScreen = ({ navigation }) => {
   const [filteredForms, setFilteredForms] = useState(formLibraryData);
+
+  const { isDarkMode } = useDarkMode();
+
+  const styles = useMemo(() => getStyles(isDarkMode), [isDarkMode]);
 
   const onSearch = (query) => {
     if (query.trim()) {
@@ -33,7 +38,6 @@ export const FormLibraryScreen = ({ navigation }) => {
     DMSans_700Bold,
   });
 
-
   return (
     <>
       <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
@@ -42,6 +46,7 @@ export const FormLibraryScreen = ({ navigation }) => {
           placeholder={"Search for the right form"}
           hasSearchBar
           onSearch={onSearch}
+          isDarkMode={isDarkMode}
         />
         <ScrollView
           contentContainerStyle={styles.scrollContainer}
@@ -49,7 +54,10 @@ export const FormLibraryScreen = ({ navigation }) => {
         >
           <Layout style={styles.container}>
             {filteredForms.map((form, index) => (
-              <View key={`${form.id}-${index}`} style={styles.libraryCardContainer}>
+              <View
+                key={`${form.id}-${index}`}
+                style={styles.libraryCardContainer}
+              >
                 <FormLibraryCard
                   title={form.title}
                   description={form.description}
@@ -59,11 +67,12 @@ export const FormLibraryScreen = ({ navigation }) => {
             ))}
             <View style={[styles.libraryCardContainer, styles.endContainer]}>
               <Text style={styles.endTextTitle}>
-                Your Needs 
+                Your Needs
                 {"\n"}Come First
               </Text>
               <Text style={styles.endTextDescription}>
-                Let us know what forms we are missing, and we'll do our best to include it!
+                Let us know what forms we are missing, and we'll do our best to
+                include it!
               </Text>
             </View>
           </Layout>
@@ -87,10 +96,10 @@ export const FormLibraryScreen = ({ navigation }) => {
 
 export default FormLibraryScreen;
 
-const styles = StyleSheet.create({
+const getStyles = (isDarkMode) => ({
   fullPage: {
     flex: 1,
-    backgroundColor: colors.apple.offWhite,
+    backgroundColor: isDarkMode ? colors.apple.black : colors.apple.offWhite,
   },
   scrollContainer: {
     paddingTop: 8,
@@ -104,7 +113,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     marginHorizontal: 12,
     // gap: 4,
-    justifyContent: "center",
+    // justifyContent: "center",
   },
   libraryCardContainer: {
     // width: "49.4%",
@@ -139,7 +148,7 @@ const styles = StyleSheet.create({
   },
   bottomMessage: {
     ...typography(true).bodyMed,
-    color: colors.light.deepBlue40,
+    color: isDarkMode ? colors.apple.glass20 : colors.light.deepBlue40,
     textAlign: "center",
   },
 });

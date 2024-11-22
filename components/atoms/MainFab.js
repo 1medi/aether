@@ -1,11 +1,17 @@
 import React from "react";
 import { TouchableOpacity, StyleSheet } from "react-native";
 import { Icon } from "@ui-kitten/components";
+import { colors, typography } from "@/css/globals";
 
 const MainFab = ({ expanded, onPress }) => {
-
   return (
-    <TouchableOpacity style={expanded ? styles.mainFab: styles.subFab} onPress={onPress}>
+    <TouchableOpacity
+      style={[
+        styles.fab,
+        expanded && { opacity: 0.5 }, // Add opacity dynamically when expanded
+      ]}
+      onPress={onPress}
+    >
       <Icon
         name={expanded ? "close-outline" : "plus-outline"}
         fill="white"
@@ -16,32 +22,30 @@ const MainFab = ({ expanded, onPress }) => {
 };
 
 const styles = StyleSheet.create({
-  mainFab: {
-    width: 80,
-    height: 80,
-    borderRadius: '50%',
-    backgroundColor: "#71AFCE",
+  fab: {
+    width: 64,
+    height: 64,
+    borderRadius: 100, // Fixed for a circular button
+    backgroundColor: colors.light.blue ,
     justifyContent: "center",
     alignItems: "center",
-    elevation: 5,
-    opacity: '50%'
-  },
-  subFab: {
-    width: 80,
-    height: 80,
-    borderRadius: '50%',
-    backgroundColor: "#71AFCE",
-    justifyContent: "center",
-    alignItems: "center",
-    elevation: 5,
+    elevation: 5, // Android shadow
+    shadowColor: colors.light.black20,
+    shadowOffset: {
+      width: 4,
+      height: 4,
+    },
+    shadowOpacity: 0.6,
+    shadowRadius: 8,
   },
   fabIcon: {
-    width: 30,
-    height: 30,
+    width: 24,
+    height: 24,
   },
 });
 
 export default MainFab;
+
 
 
 

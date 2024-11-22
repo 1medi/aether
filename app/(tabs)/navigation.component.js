@@ -16,6 +16,10 @@ import AutofilledScreen from "./FormLibrary/autofilled.component";
 import LibraryScreen from "./FormLibrary/library.component";
 import { AccountScreen } from "./Account/Account.component";
 import { colors } from "@/css/globals";
+import { DarkModeProvider } from "./context/DarkModeContext";
+import { FolderScreen } from "./FormLibrary/folder.component";
+import ScanDocScreen from "@/src/ScanDoc.js"
+import UploadDocScreen from "@/src/UploadDoc.js"
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -27,13 +31,16 @@ const BottomTabBar = ({ navigation, state }) => (
         selectedIndex={state.index}
         onSelect={(index) => navigation.navigate(state.routeNames[index])}
         style={styles.navBarContainer}
-        >
+      >
         <BottomNavigationTab
           icon={(props) => (
             <Icon
               {...props}
               name={state.index === 0 ? "home" : "home-outline"}
-              style={{ width: 24, height: 24 }}
+              style={[
+                styles.icon,
+                { tintColor: state.index === 0 ? colors.light.blue : colors.apple.black },
+              ]}
             />
           )}
         />
@@ -42,7 +49,10 @@ const BottomTabBar = ({ navigation, state }) => (
             <Icon
               {...props}
               name={state.index === 1 ? "search" : "search-outline"}
-              style={{ width: 24, height: 24 }}
+              style={[
+                styles.icon,
+                { tintColor: state.index === 1 ? colors.light.blue : colors.apple.black },
+              ]}
             />
           )}
         />
@@ -51,7 +61,10 @@ const BottomTabBar = ({ navigation, state }) => (
             <Icon
               {...props}
               name={state.index === 2 ? "book" : "book-outline"}
-              style={{ width: 24, height: 24 }}
+              style={[
+                styles.icon,
+                { tintColor: state.index === 2 ? colors.light.blue : colors.apple.black },
+              ]}
             />
           )}
         />
@@ -60,7 +73,10 @@ const BottomTabBar = ({ navigation, state }) => (
             <Icon
               {...props}
               name={state.index === 3 ? "person" : "person-outline"}
-              style={{ width: 24, height: 24 }}
+              style={[
+                styles.icon,
+                { tintColor: state.index === 3 ? colors.light.blue : colors.apple.black },
+              ]}
             />
           )}
         />
@@ -87,10 +103,17 @@ const TabNavigator = () => (
     <Screen name="LibraryScreen" component={LibraryScreen} />
     <Screen name="Camera" component={CameraScreen} />
     <Screen name="PensionPlan" component={AutofilledScreen} />
+    <Screen name="Folder" component={FolderScreen} />
+    <Screen name="Scan" component={ScanDocScreen} />
+    <Screen name="Upload" component={UploadDocScreen} />
   </Navigator>
 );
 
-const AppNavigator = () => <TabNavigator />;
+const AppNavigator = () => (
+  <DarkModeProvider>
+    <TabNavigator />
+  </DarkModeProvider>
+);
 
 const styles = StyleSheet.create({
   navShadowContainer: {
@@ -122,6 +145,11 @@ const styles = StyleSheet.create({
   },
   navBarContainer: {
     backgroundColor: "transparent",
+  },
+  icon: {
+    width: 24,
+    height: 24,
+    tintColor: colors.light.blue,
   },
 });
 

@@ -16,11 +16,22 @@ import SavedProfileCard from "@/components/atoms/SavedProfileCard";
 import Header from "@/components/header/Header";
 import myFormsData from "@/data/MyFormsData";
 import savedProfilesData from "@/data/SavedProfilesData";
+import ConsoleScreenTwo from "@/components/atoms/ConsoleScreenTwo";
+import ConsoleScreen from "@/components/atoms/ConsoleScreen";
+import { useDarkMode } from "../context/DarkModeContext";
 
-export const MyFilesScreen = () => {
+export const MyFilesScreen = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState("Forms");
   const [filteredData, setFilteredData] = useState(myFormsData);
+
+  const [showFormsSuggestionBanner, setShowFormsSuggestionBanner] = useState(true);
+  const [showProfilesSuggestionBanner, setShowProfilesSuggestionBanner] = useState(true);
+
+  const TipsIcon = (props) => <Icon name="bulb-outline" {...props} />;
+  const CloseIcon = (props) => <Icon name="close-outline" {...props} />;
+
   const [selectedProfile, setSelectedProfile] = useState(null);
+
 
   // Profile state
   const [name, setName] = useState("");
@@ -77,6 +88,136 @@ export const MyFilesScreen = () => {
   };
 
   const renderForms = () => (
+    <>
+      <ScrollView style={styles.scrollContainer}>
+        {/* Suggestion Banner */}
+        {showFormsSuggestionBanner && (
+        <Layout style={styles.suggestionBanner}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <View
+              style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
+            >
+              <TipsIcon fill={colors.apple.black} style={styles.tipsIcon} />
+              <Text style={styles.suggestionTitle}>Try Our Scan Feature!</Text>
+            </View>
+            <TouchableOpacity onPress={() => setShowSuggestionBanner(false)}>
+              <CloseIcon fill={colors.apple.black} style={styles.closeIcon} />
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.suggestionDescription}>
+            Tap the "+" button to upload your own forms. Either take a photo or
+            upload directly from your device.
+          </Text>
+        </Layout>
+        )}
+
+        <Layout style={styles.sectionContainer}>
+          <Layout style={styles.myFormsSection}>
+            {filteredData.map((form, index) => (
+              <View key={`${form.id}-${index}`}>
+                <MyFormsCard
+                  title={form.title}
+                  subheader={form.subheader}
+                  footnote={form.footnote}
+                  isImportant={form.isImportant}
+                  navigation={navigation} // Pass navigation prop
+                />
+                {index < filteredData.length - 1 && (
+                  <Divider style={styles.divider} />
+                )}
+              </View>
+            ))}
+          </Layout>
+        </Layout>
+
+        {/* Spacer */}
+        <View style={{ height: 56 }} />
+
+        {/* End Image */}
+        <Layout style={styles.bottomSpacerSection}>
+          <Image
+            source={require("@/assets/images/logo40.png")}
+            style={styles.bottomSpacerLogo}
+          />
+          <Text style={styles.bottomMessage}>Aether • 2024</Text>
+        </Layout>
+
+        {/* Spacer */}
+        <View style={{ height: 98 }} />
+      </ScrollView>
+      <ConsoleScreen />
+    </>
+  );
+
+  // Render Profiles
+  const renderProfiles = () => (
+    <>
+      <ScrollView style={styles.scrollContainer}>
+        {/* Suggestion Banner */}
+        { showProfilesSuggestionBanner && (
+        <Layout style={styles.suggestionBanner}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <View
+              style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
+            >
+              <TipsIcon fill={colors.apple.black} style={styles.tipsIcon} />
+              <Text style={styles.suggestionTitle}>
+                Save Time, Reduce Stress
+              </Text>
+            </View>
+            <CloseIcon fill={colors.apple.black} style={styles.closeIcon} />
+          </View>
+          <Text style={styles.suggestionDescription}>
+            Store your care recipients' information for quick, two-tap
+            autofilling.
+          </Text>
+        </Layout>
+        )}
+
+        <View style={styles.profileContainer}>
+          {filteredData.map((profile, index) => (
+            <View
+              key={`${profile.id}-${index}`}
+              style={styles.profileCardContainer}
+            >
+              <SavedProfileCard
+                key={profile.id}
+                name={profile.name}
+                role={profile.role}
+                image={profile.image}
+              />
+            </View>
+          ))}
+        </View>
+        {/* Spacer */}
+        <View style={{ height: 56 }} />
+
+        {/* End Image */}
+        <Layout style={styles.bottomSpacerSection}>
+          <Image
+            source={require("@/assets/images/logo40.png")}
+            style={styles.bottomSpacerLogo}
+          />
+          <Text style={styles.bottomMessage}>Aether • 2024</Text>
+        </Layout>
+
+        {/* Spacer */}
+        <View style={{ height: 98 }} />
+      </ScrollView>
+      <ConsoleScreenTwo />
+    </>
     <ScrollView style={styles.scrollContainer}>
       <Layout style={styles.sectionContainer}>
         <Layout style={styles.myFormsSection}>
@@ -170,7 +311,8 @@ export const MyFilesScreen = () => {
       <Text style={styles.bottomMessage}>Aether • 2024</Text>
     </Layout>
   );
-
+  console.log(filteredData);
+  console.log(navigation);
   return (
     <SafeAreaView style={styles.fullPage}>
       <View style={styles.toggleContainer}>
@@ -213,6 +355,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   activeToggleButton: {
+    borderRadius: 100,
+    // backgroundColor: colors.apple.white,
+    // borderWidth: 1,
+    // borderColor: colors.apple.lightStroke,
     backgroundColor: colors.apple.white,
     borderRadius: 100,
   },
@@ -221,8 +367,28 @@ const styles = StyleSheet.create({
     color: "#888",
   },
   activeToggleButtonText: {
+    ...typography(true).h4Med,
+    color: colors.apple.black,
+  },
+
+  suggestionBanner: {
+    backgroundColor: "transparent",
+    marginTop: 4,
+    marginBottom: 16,
+    marginHorizontal: 24,
+    gap: 8,
+  },
+  tipsIcon: {
+    width: 24,
+    height: 24,
+  },
+  closeIcon: {
+    width: 24,
+    height: 24,
+
     fontWeight: "bold",
     color: "#000",
+
   },
   sectionContainer: {
     backgroundColor: "white",
@@ -230,6 +396,11 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 16,
     elevation: 2,
+  },
+
+  divider: {
+    marginHorizontal: 24,
+    backgroundColor: colors.apple.lightStroke,
   },
   profileContainer: {
     flexDirection: "row",

@@ -2,19 +2,52 @@ import React from "react";
 import { StyleSheet, Text, Image, View } from "react-native";
 import { colors, typography } from "../../css/globals";
 import { Layout, Icon, Input } from "@ui-kitten/components";
+import { useState, useEffect, useMemo } from "react";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export default function Header({
   title,
+  greeting,
   hasSearchBar,
   onSearch,
   placeholder,
   noTitle,
+  isDarkMode, // Receive dark mode state
 }) {
+
+  const [currentDate, setCurrentDate] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentDate(new Date());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const styles = useMemo(() => getStyles(isDarkMode), [isDarkMode]);
+
+  const formattedDate = currentDate.toLocaleDateString(undefined, {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+  });
+
   return (
     <Layout style={styles.headerContainer}>
       {!noTitle && (
         <View style={styles.topSection}>
-          <Text style={styles.pageTitle}>{title}</Text>
+          <View style={styles.textSection}>
+            {greeting ? (
+            <>
+            <Text style={styles.pageGreeting}>{greeting}!</Text>
+            <Text style={styles.date}>{formattedDate}</Text>
+            </>
+            ) : (
+            <Text style={styles.pageTitle}>{title}</Text>
+          )}
+          </View>
           <View style={styles.profileBorder}>
             <Image
               style={styles.profileImage}
@@ -29,7 +62,14 @@ export default function Header({
             style={styles.searchInput}
             placeholder={placeholder}
             onChangeText={onSearch}
-            accessoryLeft={<Icon name="search" fill={colors.apple.black} />}
+            accessoryLeft={
+              <Icon
+                name="search"
+                fill={colors.apple.black}
+                width="24"
+                height="24"
+              />
+            }
           />
         </View>
       )}
@@ -37,14 +77,14 @@ export default function Header({
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (isDarkMode) => ({
   headerContainer: {
     backgroundColor: "transparent",
-    paddingHorizontal: 12,
+    paddingHorizontal: 16,
     paddingVertical: 8,
     gap: 8,
-    borderBottomColor: colors.apple.lightStroke,
-    borderBottomWidth: 1,
+    // borderBottomColor: colors.apple.lightStroke,
+    // borderBottomWidth: 1,
     width: "100%",
   },
   topSection: {
@@ -54,22 +94,35 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: 42,
   },
+
+  pageTitle: {
+    ...typography(true).h2Med,
+    color: isDarkMode ? colors.apple.white : colors.apple.black,
+  },
+  pageGreeting: {
+    ...typography(true).bodyBold,
+    color: colors.apple.black,
+  },
+  date: {
+    ...typography(true).footnote,
+    color: colors.apple.black,
+  },
+
   profileBorder: {
     padding: 2,
     backgroundColor: colors.apple.white,
     borderWidth: 3,
-    borderColor: colors.light.deepBlue,
+    borderColor: colors.light.blue,
     borderRadius: 100,
+    backgroundColor: "transparent",
+
   },
   profileImage: {
     width: 32,
     height: 32,
     borderRadius: 100,
   },
-  pageTitle: {
-    ...typography(true).h2Med,
-    color: colors.apple.black,
-  },
+
 
   searchContainer: {
     backgroundColor: colors.apple.white,
@@ -88,3 +141,8 @@ const styles = StyleSheet.create({
     borderColor: "transparent",
   },
 });
+
+
+
+
+
