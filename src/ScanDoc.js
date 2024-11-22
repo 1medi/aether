@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { Button } from "@ui-kitten/components";
-import { Icon } from "@ui-kitten/components";
+import { Button, Layout } from "@ui-kitten/components";
 import { colors } from "@/css/globals";
-
+import Header from "@/components/header/Header";
+import { SafeAreaView } from "react-native-safe-area-context";
 const ScanDocScreen = ({ navigation }) => {
   const [imageUri, setImageUri] = useState(null);
-
 
   const requestCameraPermissions = async () => {
     const { status } = await ImagePicker.requestCameraPermissionsAsync();
@@ -40,12 +39,23 @@ const ScanDocScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Scan with Camera</Text>
+    <SafeAreaView style={[styles.fullPage]} edges={["top", "left", "right"]}>
+      <Header title={"Scan A File"}/>
+      <Layout style={styles.buttonContainer}>
       <Button onPress={takePhoto} style={styles.button}>
         <Text style={styles.buttonText}>Take a Photo...</Text>
       </Button>
-    </View>
+      <Text style={styles.buttonLayoutText}>OR</Text>
+      {/* Button to switch to UploadDocScreen */}
+      <Button
+        onPress={() => navigation.navigate("Upload")}
+        style={[styles.button, styles.switchButton]}
+      >
+        <Text style={styles.buttonText}>Switch to Upload</Text>
+      </Button>
+      </Layout>
+
+    </SafeAreaView>
   );
 };
 
@@ -67,8 +77,21 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginVertical: 8,
   },
+  switchButton: {
+    backgroundColor: colors.apple.green,
+    borderWidth: 0
+  },
   buttonText: {
     color: "white",
     fontSize: 18,
   },
+  buttonContainer:{
+    maxWidth: 400,
+    margin:"auto",
+    backgroundColor: "none",
+    textAlign: "center"
+  },
+  buttonLayoutText:{
+    textAlign:"center"
+  }
 });
