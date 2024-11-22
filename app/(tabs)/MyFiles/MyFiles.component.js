@@ -90,23 +90,21 @@ export const MyFilesScreen = ({ navigation }) => {
           </Layout>
         )}
 
-        <Layout style={styles.sectionContainer}>
-          <Layout style={styles.myFormsSection}>
-            {filteredData.map((form, index) => (
-              <View key={`${form.id}-${index}`}>
-                <MyFormsCard
-                  title={form.title}
-                  subheader={form.subheader}
-                  footnote={form.footnote}
-                  isImportant={form.isImportant}
-                  navigation={navigation} // Pass navigation prop
-                />
-                {index < filteredData.length - 1 && (
-                  <Divider style={styles.divider} />
-                )}
-              </View>
-            ))}
-          </Layout>
+        <Layout style={styles.myFormsSection}>
+          {filteredData.map((form, index) => (
+            <View key={`${form.id}-${index}`}>
+              <MyFormsCard
+                title={form.title}
+                subheader={form.subheader}
+                footnote={form.footnote}
+                isImportant={form.isImportant}
+                navigation={navigation} // Pass navigation prop
+              />
+              {index < filteredData.length - 1 && (
+                <Divider style={styles.divider} />
+              )}
+            </View>
+          ))}
         </Layout>
 
         {/* Spacer */}
@@ -310,7 +308,10 @@ const styles = StyleSheet.create({
     color: colors.apple.secondaryText,
   },
 
-  sectionContainer: {
+  myFormsSection: {
+    display: "flex",
+    flexDirection: "column",
+    backgroundColor: "transparent",
     backgroundColor: colors.apple.white,
     marginHorizontal: 12,
     paddingVertical: 8,
@@ -318,11 +319,6 @@ const styles = StyleSheet.create({
     borderRadius: 32,
     borderWidth: 1,
     borderColor: colors.apple.lightStroke,
-  },
-  myFormsSection: {
-    display: "flex",
-    flexDirection: "column",
-    backgroundColor: "transparent",
   },
 
   divider: {
