@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
 
   toggleContainer: {
     flexDirection: "row",
-    backgroundColor: colors.apple.glass70,
+    backgroundColor: colors.apple.white,
     borderRadius: 100,
     borderWidth: 1,
     borderColor: colors.apple.lightStroke,
