@@ -108,7 +108,7 @@ const ScanDocScreen = ({ navigation }) => {
                 content: `
                   You are a paraphraser for professional use. Rewrite the following content according to these guidelines:
                   
-                  1. Summarize and Simplify: Explain only what the document says, as if explaining to a 10-year-old. Provide one to two succinct sentence for each subject.
+                  1. Summarize and Simplify: Explain only what the document says, as if explaining to a 10-year-old. Provide one succinct sentence for each subject.
                   
                   2. Formatting Rules:
                      - Use **bold** for headers.
