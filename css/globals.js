@@ -119,7 +119,7 @@ export const typography = (fontsLoaded) => ({
   },
   h3: {
     fontSize: 20,
-    fontFamily: "DMSans_700Bold",
+    fontFamily: "DMSans_400Regular",
     color: colors.other.black,
   },
   h3Med: {

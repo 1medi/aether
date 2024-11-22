@@ -171,9 +171,9 @@ export const MyFilesScreen = ({ navigation }) => {
             >
               <SavedProfileCard
                 key={profile.id}
-                name={profile.name}
-                role={profile.role}
-                image={profile.image}
+                name={profile.personalInfo.fullName}
+                role={profile.personalInfo.relationshipToUser}
+                image={profile.personalInfo.image}
               />
             </View>
           ))}
@@ -200,6 +200,14 @@ export const MyFilesScreen = ({ navigation }) => {
   console.log(navigation);
   return (
     <SafeAreaView style={styles.fullPage}>
+      {/* Header and Search Bar */}
+      <Header
+        title="My Files"
+        placeholder="Search my forms and profiles"
+        hasSearchBar
+        onSearch={onSearch}
+        // noTitle
+      />
       {/* Toggle Buttons */}
       <View style={styles.toggleContainer}>
         {["Forms", "Profiles"].map((tab) => (
@@ -223,15 +231,6 @@ export const MyFilesScreen = ({ navigation }) => {
         ))}
       </View>
 
-      {/* Header and Search Bar */}
-      <Header
-        title="My Files"
-        placeholder="Search my forms and profiles"
-        hasSearchBar
-        onSearch={onSearch}
-        noTitle
-      />
-
       {/* Render Forms or Profiles */}
       {activeTab === "Forms" ? renderForms() : renderProfiles()}
     </SafeAreaView>
@@ -251,13 +250,15 @@ const styles = StyleSheet.create({
 
   toggleContainer: {
     flexDirection: "row",
-    backgroundColor: colors.apple.white,
-    borderRadius: 100,
-    borderWidth: 1,
+    // backgroundColor: colors.apple.white,
+    // borderRadius: 100,
+    // borderWidth: 1,
     borderColor: colors.apple.lightStroke,
-    width: 200,
+    // width: 200,
     alignSelf: "center",
     alignItems: "center",
+    paddingHorizontal: 8,
+    marginHorizontal: 16,
   },
   toggleButton: {
     flex: 1,
@@ -266,23 +267,25 @@ const styles = StyleSheet.create({
     height: 48,
   },
   activeToggleButton: {
-    borderRadius: 100,
+    // borderRadius: 100,
+    borderBottomWidth: 4,
+    borderColor: colors.light.blue,
     // backgroundColor: colors.apple.white,
     // borderWidth: 1,
     // borderColor: colors.apple.lightStroke,
   },
   toggleButtonText: {
-    ...typography(true).h4,
+    ...typography(true).h3,
     color: colors.apple.secondaryText,
   },
   activeToggleButtonText: {
-    ...typography(true).h4Med,
+    ...typography(true).h3Med,
     color: colors.apple.black,
   },
 
   suggestionBanner: {
     backgroundColor: "transparent",
-    marginTop: 4,
+    marginTop: 8,
     marginBottom: 16,
     marginHorizontal: 24,
     gap: 8,
