@@ -18,7 +18,6 @@ export default function SavedProfileCard({
 }) {
 
   return (
-    <TouchableOpacity style={styles.touchContainer}>
       <ImageBackground
         source={image}
         style={styles.cardBackground}
@@ -33,7 +32,6 @@ export default function SavedProfileCard({
           </Layout>
         </LinearGradient>
       </ImageBackground>
-    </TouchableOpacity>
   );
 }
 

@@ -19,6 +19,8 @@ import { colors } from "@/css/globals";
 import { DarkModeProvider } from "./context/DarkModeContext";
 import { FolderScreen } from "./FormLibrary/folder.component";
 import { useDarkMode } from "./context/DarkModeContext";
+import ScanDocScreen from "@/src/ScanDoc.js"
+import UploadDocScreen from "@/src/UploadDoc.js"
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
