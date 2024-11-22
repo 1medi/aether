@@ -91,7 +91,7 @@ export const HomeScreen = ({ navigation }) => {
               style={styles.imageBackground}
             >
               <LinearGradient
-                colors={["rgba(0,0,0,0.15)", "rgba(0,0,0,1)"]}
+                colors={["rgba(0,0,0,0.1)", "rgba(0,0,0,0.8)"]}
                 style={styles.gradientOverlay}
               >
                 <Layout style={styles.greetingSection}>
@@ -231,14 +231,12 @@ const getStyles = (isDarkMode) => ({
   },
   greetingTextColored: {
     ...typography(true).display2,
-    
+    color: colors.light.bgBlue,
   },
   textContainer: {
-    height: 60, // Ensure enough space for the drop-down effect
+    height: 50, // Ensure enough space for the drop-down effect
     justifyContent: "center", // Center the text vertically
     overflow: "hidden", // Prevent overflowing text
-    padding: 0,
-    margin: 0
   },
   actionLayout: {
     flexDirection: "row",

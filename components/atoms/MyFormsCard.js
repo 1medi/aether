@@ -16,9 +16,9 @@ export default function MyFormsCard({
     if (title === "Canadian Pension Plan") {
       navigation.navigate("LibraryScreen");
     } else if (title === "Disability Tax Credit") {
-      navigation.navigate("Folder"); // Navigate to LibraryScreen
+      navigation.navigate("Home");
     } else if (title === "Assisted Living Application") {
-      navigation.navigate("Home"); // Navigate to HOME!
+      navigation.navigate("Home");
     } else {
       console.error("No navigation target defined for this form.");
     }
