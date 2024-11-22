@@ -82,7 +82,7 @@ export const typography = (fontsLoaded) => ({
     // letterSpacing: -0.5,
   },
   display2: {
-    fontSize: 42,
+    fontSize: 36,
     fontFamily: "DMSans_700Bold",
     color: colors.light.bgBlue,
     // letterSpacing: -0.5,
