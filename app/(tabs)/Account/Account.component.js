@@ -149,7 +149,7 @@ const getStyles = (isDarkMode) => ({
   scrollContainer: {
     paddingTop: 8,
     paddingBottom: 32,
-    gap: 8,
+    gap: 16,
   },
   section: {
     backgroundColor: isDarkMode ? colors.dark.darkGrey80 : colors.apple.white,
@@ -210,7 +210,7 @@ const getStyles = (isDarkMode) => ({
   logoutSection: {
     backgroundColor: "transparent",
     marginHorizontal: 12,
-    marginTop: 24,
+    // marginTop: 24,
   },
   logoutButton: {
     borderRadius: 100,
