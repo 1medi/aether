@@ -11,6 +11,7 @@ import { Layout, Button, Icon, Toggle, Divider } from "@ui-kitten/components";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors, typography } from "@/css/globals";
 import { useDarkMode } from "../context/DarkModeContext";
+import { color } from "@rneui/base";
 
 export default function SavedProfile({ route, navigation }) {
   const { isDarkMode, toggleDarkMode } = useDarkMode();
@@ -54,6 +55,7 @@ export default function SavedProfile({ route, navigation }) {
             />
             <Text style={styles.backButton}>Back</Text>
           </TouchableOpacity>
+
           {/* Profile Picture and Name */}
           <View style={styles.profileHeader}>
             <Image source={personalInfo.image} style={styles.profileImage} />
@@ -62,75 +64,214 @@ export default function SavedProfile({ route, navigation }) {
               {personalInfo.relationshipToUser}
             </Text>
           </View>
+
           {/* Personal Info Section */}
           <View style={styles.category}>
             <Text style={styles.categoryTitle}>Personal Info</Text>
             <View style={styles.infoItem}>
-              <Text style={styles.infoText}>
-                Phone: {personalInfo.phoneNumber}
-              </Text>
+              <View style={styles.leftSide}>
+                <Text style={styles.infoText}>{personalInfo.fullName}</Text>
+              </View>
+              <View style={styles.rightSide}>
+                <Icon
+                  name="person-outline"
+                  fill={colors.apple.black}
+                  width="24"
+                  height="24"
+                />
+              </View>
             </View>
             <Divider style={styles.divider} />
             <View style={styles.infoItem}>
-              <Text style={styles.infoText}>
-                Date of Birth: {personalInfo.dateOfBirth}
-              </Text>
+              <View style={styles.leftSide}>
+                <Text style={styles.infoText}>{personalInfo.phoneNumber}</Text>
+              </View>
+              <View style={styles.rightSide}>
+                <Icon
+                  name="phone-outline"
+                  fill={colors.apple.black}
+                  width="24"
+                  height="24"
+                />
+              </View>
             </View>
             <Divider style={styles.divider} />
             <View style={styles.infoItem}>
-              <Text style={styles.infoText}>Gender: {personalInfo.gender}</Text>
+              <View style={styles.leftSide}>
+                <Text style={styles.infoText}>{personalInfo.dateOfBirth}</Text>
+              </View>
+              <View style={styles.rightSide}>
+                <Icon
+                  name="calendar-outline"
+                  fill={colors.apple.black}
+                  width="24"
+                  height="24"
+                />
+              </View>
+            </View>
+            <Divider style={styles.divider} />
+            <View style={styles.infoItem}>
+              <View style={styles.leftSide}>
+                <Text style={styles.infoText}>{personalInfo.gender}</Text>
+              </View>
+              <View style={styles.rightSide}>
+                <Icon
+                  name="arrow-ios-downward-outline"
+                  fill={colors.apple.black}
+                  width="24"
+                  height="24"
+                />
+              </View>
+            </View>
+            <Divider style={styles.divider} />
+            <View style={styles.infoItem}>
+              <View style={styles.leftSide}>
+                <Text style={styles.infoText}>
+                  {personalInfo.relationshipToUser}
+                </Text>
+              </View>
+              <View style={styles.rightSide}>
+                <Icon
+                  name="arrow-ios-downward-outline"
+                  fill={colors.apple.black}
+                  width="24"
+                  height="24"
+                />
+              </View>
             </View>
           </View>
+
           {/* Address Section */}
           <View style={styles.category}>
             <Text style={styles.categoryTitle}>Address</Text>
             <View style={styles.infoItem}>
-              <Text style={styles.infoText}>
-                Street: {address.streetAddress}
-              </Text>
+              <View style={styles.leftSide}>
+                <Text style={styles.infoText}>{address.streetAddress}</Text>
+              </View>
+              <View style={styles.rightSide}>
+                <Icon
+                  name="home-outline"
+                  fill={colors.apple.black}
+                  width="24"
+                  height="24"
+                />
+              </View>
             </View>
             <Divider style={styles.divider} />
             <View style={styles.infoItem}>
-              <Text style={styles.infoText}>City: {address.city}</Text>
+              <View style={styles.leftSide}>
+                <Text style={styles.infoText}>{address.province}</Text>
+              </View>
+              <View style={styles.rightSide}>
+                <Icon
+                  name="arrow-ios-downward-outline"
+                  fill={colors.apple.black}
+                  width="24"
+                  height="24"
+                />
+              </View>
+            </View>
+                <Divider style={styles.divider} />
+            <View style={styles.infoItem}>
+              <View style={styles.leftSide}>
+                <Text style={styles.infoText}>{address.city}</Text>
+              </View>
+              <View style={styles.rightSide}>
+                <Icon
+                  name="arrow-ios-downward-outline"
+                  fill={colors.apple.black}
+                  width="24"
+                  height="24"
+                />
+              </View>
             </View>
             <Divider style={styles.divider} />
             <View style={styles.infoItem}>
-              <Text style={styles.infoText}>Province: {address.province}</Text>
-            </View>
-            <Divider style={styles.divider} />
-            <View style={styles.infoItem}>
-              <Text style={styles.infoText}>
-                Postal Code: {address.postalCode}
-              </Text>
+              <View style={styles.leftSide}>
+                <Text style={styles.infoText}>{address.postalCode}</Text>
+              </View>
+              <View style={styles.rightSide}>
+                <Icon
+                  name="pin-outline"
+                  fill={colors.apple.black}
+                  width="24"
+                  height="24"
+                />
+              </View>
             </View>
           </View>
+
           {/* Emergency Contact Section */}
           <View style={styles.category}>
             <Text style={styles.categoryTitle}>Emergency Contact</Text>
             <View style={styles.infoItem}>
-              <Text style={styles.infoText}>
-                Name: {emergencyContact.fullName}
-              </Text>
+              <View style={styles.leftSide}>
+              <Text style={styles.infoText}>{emergencyContact.fullName}</Text>
+              </View>
+              <View style={styles.rightSide}>
+                <Icon
+                  name="people-outline"
+                  fill={colors.apple.black}
+                  width="24"
+                  height="24"
+                />
+              </View>
             </View>
             <Divider style={styles.divider} />
             <View style={styles.infoItem}>
+              <View style={styles.leftSide}>
               <Text style={styles.infoText}>
-                Phone: {emergencyContact.phoneNumber}
+                {emergencyContact.phoneNumber}
               </Text>
+              </View>
+              <View style={styles.rightSide}>
+                <Icon
+                  name="phone-outline"
+                  fill={colors.apple.black}
+                  width="24"
+                  height="24"
+                />
+              </View>
             </View>
             <Divider style={styles.divider} />
             <View style={styles.infoItem}>
-              <Text style={styles.infoText}>
-                Email: {emergencyContact.email}
-              </Text>
+              <View style={styles.leftSide}>
+              <Text style={styles.infoText}>{emergencyContact.email}</Text>
+              </View>
+              <View style={styles.rightSide}>
+                <Icon name="email-outline" fill={colors.apple.black} width="24" height="24" />
+                </View>
             </View>
             <Divider style={styles.divider} />
             <View style={styles.infoItem}>
+              <View style={styles.leftSide}>
               <Text style={styles.infoText}>
-                Relationship: {emergencyContact.relationshipToProfile}
+                {emergencyContact.relationshipToProfile}
               </Text>
+              </View>
+              <View style={styles.rightSide}>
+                <Icon
+                  name="arrow-ios-downward-outline"
+                  fill={colors.apple.black}
+                  width="24"
+                  height="24"
+                />
+              </View>
             </View>
           </View>
+
+          {/* Delete Button */}
+          <TouchableOpacity style={styles.touchContainer}>
+            <Layout style={styles.deleteSection}>
+              <Button
+                status="danger"
+                appearance="filled"
+                style={styles.deleteButton}
+              >
+                Delete Profile
+              </Button>
+            </Layout>
+          </TouchableOpacity>
         </ScrollView>
       </SafeAreaView>
     </>
@@ -144,7 +285,7 @@ const getStyles = (isDarkMode) => ({
   },
   scrollContainer: {
     paddingTop: 8,
-    paddingBottom: 32,
+    paddingBottom: 132,
     gap: 16,
   },
 
@@ -172,10 +313,10 @@ const getStyles = (isDarkMode) => ({
     marginBottom: 16,
   },
   profileName: {
-    ...typography(true).h1Med,
+    ...typography(true).h2Med,
   },
   profileRole: {
-    ...typography(true).h3Italic,
+    ...typography(true).h4,
     color: colors.apple.secondaryText,
   },
 
@@ -202,12 +343,13 @@ const getStyles = (isDarkMode) => ({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 12,
     height: 56,
   },
   infoText: {
     backgroundColor: isDarkMode ? "transparent" : colors.apple.white,
     borderRadius: 100,
-    paddingHorizontal: 12,
     ...typography(true).body,
     color: isDarkMode ? colors.apple.white : colors.apple.black,
   },
@@ -216,5 +358,15 @@ const getStyles = (isDarkMode) => ({
     backgroundColor: isDarkMode
       ? colors.apple.glass20
       : colors.apple.lightStroke,
+  },
+
+  touchContainer: {
+    backgroundColor: "transparent",
+  },
+  deleteButton: {
+    borderRadius: 100,
+    marginHorizontal: 12,
+    backgroundColor: colors.apple.red,
+    height: 56,
   },
 });

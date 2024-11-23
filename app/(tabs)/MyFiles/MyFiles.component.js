@@ -294,7 +294,7 @@ const getStyles = (isDarkMode) => ({
 
   suggestionBanner: {
     backgroundColor: "transparent",
-    marginTop: 16,
+    marginTop: 8,
     marginBottom: 24,
     // marginVertical: 24,
     marginHorizontal: 24,
