@@ -18,7 +18,7 @@ export default function FormLibraryCard({ image, title, description }) {
     <TouchableOpacity style={styles.touchContainer}>
       <ImageBackground source={image} style={styles.cardBackground}>
         <LinearGradient
-          colors={["rgba(0,0,0,0.15)", "rgba(0,0,0,1)"]}
+          colors={["rgba(0,0,0,0.1)", "rgba(0,0,0,0.8)"]}
           style={styles.gradientOverlay}
         >
           {/* Centered text container */}
