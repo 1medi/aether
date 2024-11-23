@@ -15,6 +15,7 @@ import { FormLibraryScreen } from "./FormLibrary/FormLibrary.component";
 import AutofilledScreen from "./FormLibrary/autofilled.component";
 import LibraryScreen from "./FormLibrary/library.component";
 import { AccountScreen } from "./Account/Account.component";
+import SavedProfileScreen from "./SavedProfiles/SavedProfile.component";
 import { colors } from "@/css/globals";
 import { DarkModeProvider } from "./context/DarkModeContext";
 import { FolderScreen } from "./FormLibrary/folder.component";
@@ -146,14 +147,17 @@ const TabNavigator = () => {
         component={HomeScreen}
         options={{ title: "Aether Home" }}
       />
-      <Screen name="FormLibrary" component={FormLibraryScreen} />
-      <Screen name="MyFiles" component={MyFilesScreen} />
-      <Screen name="Account" component={AccountScreen} />
-      <Screen name="LibraryScreen" component={LibraryScreen} />
-      <Screen name="Camera" component={CameraScreen} />
-      <Screen name="PensionPlan" component={AutofilledScreen} />
-      <Screen name="Folder" component={FolderScreen} />
-    </Navigator>
+    <Screen name="FormLibrary" component={FormLibraryScreen} />
+    <Screen name="MyFiles" component={MyFilesScreen} />
+    <Screen name="Account" component={AccountScreen} />
+    <Screen name="LibraryScreen" component={LibraryScreen} />
+    <Screen name="Camera" component={CameraScreen} />
+    <Screen name="PensionPlan" component={AutofilledScreen} />
+    <Screen name="Folder" component={FolderScreen} />
+    <Screen name="SavedProfile" component={SavedProfileScreen} />
+    <Screen name="Scan" component={ScanDocScreen} />
+    <Screen name="Upload" component={UploadDocScreen} />
+  </Navigator>
   );
 };
 

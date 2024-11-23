@@ -6,20 +6,29 @@ import {
   View,
   Text,
 } from "react-native";
-import { Icon, Layout } from "@ui-kitten/components";
-import { colors, typography } from "@/css/globals";
+import { Layout } from "@ui-kitten/components";
 import { LinearGradient } from "expo-linear-gradient";
+import { useNavigation } from "@react-navigation/native";
+import { colors, typography } from "@/css/globals";
 
-export default function SavedProfileCard({
-  image,
-  name,
-  role,
-  destination,
-}) {
+export default function SavedProfileCard({ profile }) {
+  const navigation = useNavigation();
+
+  const handlePress = () => {
+    if (profile) {
+      navigation.navigate("SavedProfile", { profile });
+    } else {
+      console.error("No profile data provided.");
+    }
+  };
 
   return (
+    <TouchableOpacity
+      style={styles.touchContainer}
+      onPress={handlePress} // Navigate with profile data
+    >
       <ImageBackground
-        source={image}
+        source={profile.personalInfo.image}
         style={styles.cardBackground}
       >
         <LinearGradient
@@ -27,11 +36,14 @@ export default function SavedProfileCard({
           style={styles.gradientOverlay}
         >
           <Layout style={styles.textContainer}>
-            <Text style={styles.name}>{name}</Text>
-            <Text style={styles.role}>{role}</Text>
+            <Text style={styles.name}>{profile.personalInfo.fullName}</Text>
+            <Text style={styles.role}>
+              {profile.personalInfo.relationshipToUser}
+            </Text>
           </Layout>
         </LinearGradient>
       </ImageBackground>
+    </TouchableOpacity>
   );
 }
 
@@ -54,7 +66,6 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     backgroundColor: "transparent",
-    // gap: 8,
   },
   name: {
     ...typography(true).h4Med,
