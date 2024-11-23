@@ -31,7 +31,6 @@ export const MyFilesScreen = ({ navigation }) => {
 
   const styles = getStyles(isDarkMode);
 
-
   const TipsIcon = (props) => <Icon name="bulb-outline" {...props} />;
   const CloseIcon = (props) => <Icon name="close-outline" {...props} />;
 
@@ -45,11 +44,15 @@ export const MyFilesScreen = ({ navigation }) => {
     }
 
     const lowerQuery = query.toLowerCase();
-    const filtered = data.filter((item) =>
-      activeTab === "Forms"
-        ? item.title.toLowerCase().includes(lowerQuery)
-        : item.name.toLowerCase().includes(lowerQuery)
-    );
+
+    const filtered = data.filter((item) => {
+      if (activeTab === "Forms") {
+        return item.title.toLowerCase().includes(lowerQuery);
+      } else {
+        const fullName = profile.personalInfo.fullName || ""; // Safely access fullName
+        return fullName.toLowerCase().includes(lowerQuery);
+      }
+    });
 
     setFilteredData(filtered);
   };
@@ -134,7 +137,10 @@ export const MyFilesScreen = ({ navigation }) => {
   // Render Profiles
   const renderProfiles = () => (
     <>
-      <ScrollView style={styles.scrollContainer}>
+      <ScrollView
+        contentContainerStyle={styles.scrollContainer}
+        showsVerticalScrollIndicator={false}
+      >
         {/* Suggestion Banner */}
         {showProfilesSuggestionBanner && (
           <Layout style={styles.suggestionBanner}>
@@ -154,7 +160,7 @@ export const MyFilesScreen = ({ navigation }) => {
                 </Text>
               </View>
               <TouchableOpacity
-                onPress={() => setShowFormsSuggestionBanner(false)}
+                onPress={() => setShowProfilesSuggestionBanner(false)}
               >
                 <CloseIcon fill={colors.apple.black} style={styles.closeIcon} />
               </TouchableOpacity>
@@ -165,7 +171,6 @@ export const MyFilesScreen = ({ navigation }) => {
             </Text>
           </Layout>
         )}
-
         <View style={styles.profileContainer}>
           {filteredData.map((profile, index) => (
             <View
@@ -186,7 +191,6 @@ export const MyFilesScreen = ({ navigation }) => {
         </View>
         {/* Spacer */}
         <View style={{ height: 56 }} />
-
         {/* End Image */}
         <Layout style={styles.bottomSpacerSection}>
           <Image
@@ -195,7 +199,6 @@ export const MyFilesScreen = ({ navigation }) => {
           />
           <Text style={styles.bottomMessage}>Aether • 2024</Text>
         </Layout>
-
         {/* Spacer */}
         <View style={{ height: 98 }} />
       </ScrollView>
@@ -249,7 +252,7 @@ const getStyles = (isDarkMode) => ({
     backgroundColor: isDarkMode ? colors.apple.black : colors.apple.offWhite,
   },
   scrollContainer: {
-    paddingTop: 8,
+    paddingTop: 16,
     paddingBottom: 132,
     gap: 8,
   },
@@ -259,8 +262,8 @@ const getStyles = (isDarkMode) => ({
     // backgroundColor: colors.apple.white,
     // borderRadius: 100,
     // borderWidth: 1,
-    borderColor: colors.apple.lightStroke,
     // width: 200,
+    borderColor: colors.apple.lightStroke,
     alignSelf: "center",
     alignItems: "center",
     paddingHorizontal: 8,
@@ -273,9 +276,9 @@ const getStyles = (isDarkMode) => ({
     height: 48,
   },
   activeToggleButton: {
-    // borderRadius: 100,
     borderBottomWidth: 4,
     borderColor: colors.light.blue,
+    // borderRadius: 100,
     // backgroundColor: colors.apple.white,
     // borderWidth: 1,
     // borderColor: colors.apple.lightStroke,
@@ -292,7 +295,8 @@ const getStyles = (isDarkMode) => ({
   suggestionBanner: {
     backgroundColor: "transparent",
     marginTop: 8,
-    marginBottom: 16,
+    marginBottom: 24,
+    // marginVertical: 24,
     marginHorizontal: 24,
     gap: 8,
   },

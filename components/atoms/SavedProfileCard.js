@@ -32,7 +32,7 @@ export default function SavedProfileCard({ profile }) {
         style={styles.cardBackground}
       >
         <LinearGradient
-          colors={["rgba(0,0,0,0.15)", "rgba(0,0,0,1)"]}
+          colors={["rgba(0,0,0,0.1)", "rgba(0,0,0,0.8)"]}
           style={styles.gradientOverlay}
         >
           <Layout style={styles.textContainer}>
