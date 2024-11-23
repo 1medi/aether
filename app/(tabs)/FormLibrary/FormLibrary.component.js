@@ -10,6 +10,7 @@ import {
   DMSans_500Medium,
   DMSans_700Bold,
 } from "@expo-google-fonts/dm-sans";
+import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FormLibraryCard from "@/components/atoms/FormLibraryCard";
 import { useDarkMode } from "../context/DarkModeContext";
@@ -41,6 +42,12 @@ export const FormLibraryScreen = ({ navigation }) => {
   return (
     <>
       <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
+        <LinearGradient
+          colors={[colors.apple.offWhite, "#D8ECFF"]}
+          style={styles.bgGradient}
+          start={{ x: 0.5, y: 0.75 }} // Adjust the starting point
+          end={{ x: 0.5, y: 1 }} // Adjust the ending point
+        >
         <Header
           title={"Form Library"}
           placeholder={"Search for the right form"}
@@ -89,6 +96,7 @@ export const FormLibraryScreen = ({ navigation }) => {
             <Text style={styles.bottomMessage}>Aether • 2024</Text>
           </Layout>
         </ScrollView>
+          </LinearGradient>
       </SafeAreaView>
     </>
   );
@@ -97,6 +105,11 @@ export const FormLibraryScreen = ({ navigation }) => {
 export default FormLibraryScreen;
 
 const getStyles = (isDarkMode) => ({
+  bgGradient: {
+    flex: 1,
+    // paddingBottom: 132,
+  },
+
   fullPage: {
     flex: 1,
     backgroundColor: isDarkMode ? colors.apple.black : colors.apple.offWhite,

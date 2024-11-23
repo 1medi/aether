@@ -11,6 +11,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "@/components/header/Header";
 import { colors, typography } from "@/css/globals";
+import { LinearGradient } from "expo-linear-gradient";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDarkMode } from "../context/DarkModeContext";
 
@@ -51,6 +52,12 @@ export const AccountScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
+              <LinearGradient
+          colors={[colors.apple.offWhite, "#D8ECFF"]}
+          style={styles.bgGradient}
+          start={{ x: 0.5, y: 0.75 }} // Adjust the starting point
+          end={{ x: 0.5, y: 1 }} // Adjust the ending point
+        >
       <Header
         title="Account"
         isDarkMode={isDarkMode} // Pass the dark mode state
@@ -137,11 +144,16 @@ export const AccountScreen = ({ navigation }) => {
           </Layout>
         </TouchableOpacity>
       </ScrollView>
+      </LinearGradient>
     </SafeAreaView>
   );
 };
 
 const getStyles = (isDarkMode) => ({
+  bgGradient: {
+    flex: 1,
+  },
+
   fullPage: {
     flex: 1,
     backgroundColor: isDarkMode ? colors.apple.black : colors.apple.offWhite,

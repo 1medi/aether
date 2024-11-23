@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   fabContainer: {
     position: "absolute",
     right: 16,
-    bottom: 72,
+    bottom: 112,
     alignItems: "center",
     zIndex: 10, // Ensures it stays above other elements
   },
