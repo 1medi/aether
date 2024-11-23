@@ -154,7 +154,7 @@ export default function SavedProfile({ route, navigation }) {
             </View>
             <View style={styles.rightSide}>
               <Icon
-                name="home-outline"
+                name="pin-outline"
                 fill={colors.apple.black}
                 width={24}
                 height={24}
@@ -196,7 +196,7 @@ export default function SavedProfile({ route, navigation }) {
             </View>
             <View style={styles.rightSide}>
               <Icon
-                name="pin-outline"
+                name="home-outline"
                 fill={colors.apple.black}
                 width={24}
                 height={24}

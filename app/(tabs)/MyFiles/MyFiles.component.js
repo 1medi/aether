@@ -285,7 +285,7 @@ const getStyles = (isDarkMode) => ({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    height: 48,
+    height: 40,
   },
   activeToggleButton: {
     borderBottomWidth: 4,
@@ -296,11 +296,11 @@ const getStyles = (isDarkMode) => ({
     // borderColor: colors.apple.lightStroke,
   },
   toggleButtonText: {
-    ...typography(true).h3,
+    ...typography(true).h4,
     color: colors.apple.secondaryText,
   },
   activeToggleButtonText: {
-    ...typography(true).h3Med,
+    ...typography(true).h4Med,
     color: isDarkMode ? colors.dark.black : colors.apple.black,
   },
 

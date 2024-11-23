@@ -104,7 +104,7 @@ const getStyles = (isDarkMode) => ({
     flex: 1,
   },
   title: {
-    ...typography(true).h4Med,
+    ...typography(true).bodyMed,
     color: isDarkMode ? colors.apple.white : ''
   },
   subheader: {
