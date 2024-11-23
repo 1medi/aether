@@ -11,12 +11,27 @@ import CoverageRadio2 from "@/components/molecules/pdfRadios-2/coverageRadio2"
 import AdditionalMember from "@/components/molecules/pdfRadios-2/additionalMember"
 import EmploymentRadio from "@/components/molecules/pdfRadios-2/employmentRadio"
 import StatusRadio from "@/components/molecules/pdfRadios-3/statusRadio"
+import { captureRef } from 'react-native-view-shot';
+
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 
-export default function DocumentView({ formData, setFormData }) {
+export default async function DocumentView({ formData, setFormData }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const targetPixelCount = 1080; // If you want full HD pictures
+const pixelRatio = PixelRatio.get(); // The pixel ratio of the device
+// pixels * pixelRatio = targetPixelCount, so pixels = targetPixelCount / pixelRatio
+const pixels = targetPixelCount / pixelRatio;
+
+const result = await captureRef(this.imageContainer, {
+  result: 'tmpfile',
+  height: pixels,
+  width: pixels,
+  quality: 1,
+  format: 'png',
+});
 
   const handleNextPage = () => {
     if (currentPage < 2) setCurrentPage(currentPage + 1);
@@ -369,10 +384,7 @@ export default function DocumentView({ formData, setFormData }) {
                       <AdditionalMember />
                     </View>
                   </View>
-
                 </View>
-
-
               </ImageBackground>
 
             )}
@@ -401,7 +413,6 @@ export default function DocumentView({ formData, setFormData }) {
         </ScrollView>
       </ScrollView>
 
-       {/* Modal for Save Confirmation */}
        <Modal transparent visible={isModalVisible} animationType="fade">
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
