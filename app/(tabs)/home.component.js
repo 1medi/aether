@@ -74,6 +74,12 @@ export const HomeScreen = ({ navigation }) => {
   return (
     <>
       <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
+        <LinearGradient
+          colors={[colors.apple.offWhite, "#D8ECFF"]}
+          style={styles.bgGradient}
+          start={{ x: 0.5, y: 0.75 }} // Adjust the starting point
+          end={{ x: 0.5, y: 1 }} // Adjust the ending point
+        >
         {/* Header */}
         <Header
           greeting={"Hello, Chris Topher"}
@@ -84,103 +90,106 @@ export const HomeScreen = ({ navigation }) => {
           contentContainerStyle={styles.scrollContainer}
           showsVerticalScrollIndicator={false}
         >
-          {/* Home Banner */}
-          <Layout style={styles.imageSection}>
-            <ImageBackground
-              source={require("@/assets/images/homePhoto2.png")}
-              style={styles.imageBackground}
-            >
-              <LinearGradient
-                colors={["rgba(0,0,0,0.1)", "rgba(0,0,0,0.8)"]}
-                style={styles.gradientOverlay}
+            {/* Home Banner */}
+            <Layout style={styles.imageSection}>
+              <ImageBackground
+                source={require("@/assets/images/homePhoto2.png")}
+                style={styles.imageBackground}
               >
-                <Layout style={styles.greetingSection}>
-                  <Text style={styles.greetingText}>
-                    Need help
-                    {"\n"}
-                    <View style={styles.textContainer}>
-                      <Animated.View style={animatedStyle}>
-                        <Text style={styles.greetingTextColored}>
-                          {words[currentWordIndex]}
-                        </Text>
-                      </Animated.View>
+                <LinearGradient
+                  colors={["rgba(0,0,0,0.1)", "rgba(0,0,0,0.8)"]}
+                  style={styles.gradientOverlay}
+                >
+                  <Layout style={styles.greetingSection}>
+                    <Text style={styles.greetingText}>
+                      Need help
+                      {"\n"}
+                      <View style={styles.textContainer}>
+                        <Animated.View style={animatedStyle}>
+                          <Text style={styles.greetingTextColored}>
+                            {words[currentWordIndex]}
+                          </Text>
+                        </Animated.View>
+                      </View>
+                      {"\n"}a form today?
+                    </Text>
+                  </Layout>
+
+                  {/* Action Buttons */}
+                  <Layout style={styles.actionLayout}>
+                    <Layout style={styles.actionColumn}>
+                      <ActionButton
+                        buttonTitle="Search"
+                        buttonDesc="our library"
+                        accessory={SearchIcon}
+                        destination="FormLibrary"
+                      />
+                    </Layout>
+                    <Layout style={styles.actionColumn}>
+                      <ActionButton
+                        buttonTitle="Upload"
+                        buttonDesc="from device"
+                        accessory={UploadIcon}
+                        destination="Upload"
+                      />
+                    </Layout>
+                    <Layout style={styles.actionColumn}>
+                      <ActionButton
+                        buttonTitle="Scan"
+                        buttonDesc="a document"
+                        accessory={FileIcon}
+                        destination="Scan"
+                      />
+                    </Layout>
+                  </Layout>
+                </LinearGradient>
+              </ImageBackground>
+            </Layout>
+
+            {/* Recent Forms Section */}
+            <Layout style={styles.sectionContainer}>
+              <Layout style={styles.subhead}>
+                <Text style={styles.headline}>Recent</Text>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate("MyFiles")}
+                >
+                  <Icon
+                    name="arrow-forward-outline"
+                    style={styles.headlineButton}
+                  />
+                </TouchableOpacity>
+              </Layout>
+              <Layout style={styles.recentFormsSection}>
+                {recentForms.map((form, index) => (
+                  <React.Fragment key={`${form.id}-${index}`}>
+                    <View style={styles.formButtonContainer}>
+                      <MyFormsCard
+                        title={form.title}
+                        subheader={form.subheader}
+                        footnote={form.footnote}
+                      />
                     </View>
-                    {"\n"}a form today?
-                  </Text>
-                </Layout>
-
-                {/* Action Buttons */}
-                <Layout style={styles.actionLayout}>
-                  <Layout style={styles.actionColumn}>
-                    <ActionButton
-                      buttonTitle="Search"
-                      buttonDesc="our library"
-                      accessory={SearchIcon}
-                      destination="FormLibrary"
-                    />
-                  </Layout>
-                  <Layout style={styles.actionColumn}>
-                    <ActionButton
-                      buttonTitle="Upload"
-                      buttonDesc="from device"
-                      accessory={UploadIcon}
-                      destination="Upload"
-                    />
-                  </Layout>
-                  <Layout style={styles.actionColumn}>
-                    <ActionButton
-                      buttonTitle="Scan"
-                      buttonDesc="a document"
-                      accessory={FileIcon}
-                      destination="Scan"
-                    />
-                  </Layout>
-                </Layout>
-              </LinearGradient>
-            </ImageBackground>
-          </Layout>
-
-          {/* Recent Forms Section */}
-          <Layout style={styles.sectionContainer}>
-            <Layout style={styles.subhead}>
-              <Text style={styles.headline}>Recent</Text>
-              <TouchableOpacity onPress={() => navigation.navigate("MyFiles")}>
-                <Icon
-                  name="arrow-forward-outline"
-                  style={styles.headlineButton}
-                />
-              </TouchableOpacity>
+                    {index < recentForms.length - 1 && (
+                      <Divider style={styles.divider} />
+                    )}
+                  </React.Fragment>
+                ))}
+              </Layout>
             </Layout>
-            <Layout style={styles.recentFormsSection}>
-              {recentForms.map((form, index) => (
-                <React.Fragment key={`${form.id}-${index}`}>
-                  <View style={styles.formButtonContainer}>
-                    <MyFormsCard
-                      title={form.title}
-                      subheader={form.subheader}
-                      footnote={form.footnote}
-                    />
-                  </View>
-                  {index < recentForms.length - 1 && (
-                    <Divider style={styles.divider} />
-                  )}
-                </React.Fragment>
-              ))}
+
+            {/* Spacer */}
+            <View style={{ height: 48 }} />
+
+            {/* End Image */}
+            <Layout style={styles.bottomSpacerSection}>
+              <Image
+                source={require("@/assets/images/logo40.png")}
+                style={styles.bottomSpacerLogo}
+              />
+              <Text style={styles.bottomMessage}>Aether • 2024</Text>
             </Layout>
-          </Layout>
-
-          {/* Spacer */}
-          <View style={{ height: 48 }} />
-
-          {/* End Image */}
-          <Layout style={styles.bottomSpacerSection}>
-            <Image
-              source={require("@/assets/images/logo40.png")}
-              style={styles.bottomSpacerLogo}
-            />
-            <Text style={styles.bottomMessage}>Aether • 2024</Text>
-          </Layout>
         </ScrollView>
+          </LinearGradient>
       </SafeAreaView>
     </>
   );
@@ -189,6 +198,11 @@ export const HomeScreen = ({ navigation }) => {
 export default HomeScreen;
 
 const getStyles = (isDarkMode) => ({
+  bgGradient: {
+    flex: 1,
+    // paddingBottom: 132,
+  },
+
   fullPage: {
     flex: 1,
     backgroundColor: isDarkMode ? colors.apple.black : colors.apple.offWhite,
@@ -223,7 +237,7 @@ const getStyles = (isDarkMode) => ({
     height: 500,
     width: 300,
     flex: 1,
-    flexDirection: "column"
+    flexDirection: "column",
   },
   greetingText: {
     ...typography(true).display,
