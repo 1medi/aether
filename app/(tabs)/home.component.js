@@ -50,10 +50,10 @@ export const HomeScreen = ({ navigation }) => {
         translateY.value = withTiming(-100, { duration: 0 });
 
         // Fade in and move the new word down into place
-        opacity.value = withTiming(1, { duration: 1000 }); // Fade the new word in
-        translateY.value = withTiming(0, { duration: 500 }); // Move the new word into place (drop down)
+        opacity.value = withTiming(1, { duration: 1250 }); // Fade the new word in
+        translateY.value = withTiming(0, { duration: 750 }); // Move the new word into place (drop down)
       }, 500); // Wait for the first transition to complete before changing the word
-    }, 3500);
+    }, 5000);
 
     return () => {
       clearInterval(interval);
@@ -91,7 +91,7 @@ export const HomeScreen = ({ navigation }) => {
               style={styles.imageBackground}
             >
               <LinearGradient
-                colors={["rgba(0,0,0,0.15)", "rgba(0,0,0,1)"]}
+                colors={["rgba(0,0,0,0.1)", "rgba(0,0,0,0.8)"]}
                 style={styles.gradientOverlay}
               >
                 <Layout style={styles.greetingSection}>
@@ -196,7 +196,7 @@ const getStyles = (isDarkMode) => ({
   scrollContainer: {
     paddingTop: 8,
     paddingBottom: 132,
-    gap: 8,
+    gap: 16,
   },
   imageSection: {
     backgroundColor: "transparent",
@@ -231,14 +231,12 @@ const getStyles = (isDarkMode) => ({
   },
   greetingTextColored: {
     ...typography(true).display2,
-    
+    color: colors.light.bgBlue,
   },
   textContainer: {
-    height: 60, // Ensure enough space for the drop-down effect
+    height: 50, // Ensure enough space for the drop-down effect
     justifyContent: "center", // Center the text vertically
     overflow: "hidden", // Prevent overflowing text
-    padding: 0,
-    margin: 0
   },
   actionLayout: {
     flexDirection: "row",

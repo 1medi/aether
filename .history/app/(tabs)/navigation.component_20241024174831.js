@@ -6,7 +6,7 @@ import { HomeScreen } from './home.component';
 import { DetailsScreen } from './FormHistory/details.component';
 import { CameraScreen } from './CameraForm/camera.component';
 import { FolderScreen } from './FormLibrary/folder.component';
-import { PeopleScreen } from './SavedProfiles/people.component';
+import { ProfilesScreen } from './SavedProfiles/people.component';
 import { StyleSheet } from 'react-native';
 
 const { Navigator, Screen } = createBottomTabNavigator();
@@ -66,7 +66,7 @@ const TabNavigator = () => (
     <Screen name="Details" component={DetailsScreen} />
     <Screen name="Camera" component={CameraScreen} />
     <Screen name="Folder" component={FolderScreen} />
-    <Screen name="People" component={PeopleScreen} />
+    <Screen name="Profiles" component={ProfilesScreen} />
   </Navigator>
 );
 
