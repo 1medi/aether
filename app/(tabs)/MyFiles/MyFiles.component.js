@@ -49,8 +49,8 @@ export const MyFilesScreen = ({ navigation }) => {
       if (activeTab === "Forms") {
         return item.title.toLowerCase().includes(lowerQuery);
       } else {
-        const fullName = profile.personalInfo.fullName || ""; // Safely access fullName
-        return fullName.toLowerCase().includes(lowerQuery);
+        // const fullName = profile.personalInfo.fullName || ""; // Safely access fullName
+        return item.personalInfo.fullName.toLowerCase().includes(lowerQuery);
       }
     });
 
@@ -179,7 +179,7 @@ export const MyFilesScreen = ({ navigation }) => {
             >
               <SavedProfileCard
                 // key={profile.id}
-                // name={profile.personalInfo.fullName}
+                name={profile.personalInfo.fullName}
                 // role={profile.personalInfo.relationshipToUser}
                 // image={profile.personalInfo.image}
                 // navigation={navigation}
