@@ -1,8 +1,15 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { StyleSheet, Text, Image, View, TouchableOpacity, Keyboard } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  Image,
+  View,
+  TouchableOpacity,
+  Keyboard,
+} from "react-native";
 import { colors, typography } from "../../css/globals";
 import { Layout, Icon, Input } from "@ui-kitten/components";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Header({
   title,
@@ -28,9 +35,9 @@ export default function Header({
   const styles = useMemo(() => getStyles(isDarkMode), [isDarkMode]);
 
   const formattedDate = currentDate.toLocaleDateString(undefined, {
-    weekday: 'short',
-    month: 'short',
-    day: 'numeric',
+    weekday: "long",
+    month: "short",
+    day: "numeric",
   });
 
   const handleSearchChange = (text) => {
@@ -57,22 +64,24 @@ export default function Header({
     <Layout style={styles.headerContainer}>
       {!noTitle && (
         <View style={styles.topSection}>
-          <View style={styles.textSection}>
-            {greeting ? (
-              <>
+          {greeting ? (
+            <>
+                <View style={styles.profileBorder}>
+                  <Image
+                    style={styles.profileImage}
+                    source={require("@/assets/images/lbj.jpg")}
+                  />
+                </View>
+              <View style={styles.textSection}>
                 <Text style={styles.pageGreeting}>{greeting}!</Text>
                 <Text style={styles.date}>{formattedDate}</Text>
-              </>
-            ) : (
+              </View>
+            </>
+          ) : (
+            <View style={styles.textSection}>
               <Text style={styles.pageTitle}>{title}</Text>
-            )}
-          </View>
-          <View style={styles.profileBorder}>
-            <Image
-              style={styles.profileImage}
-              source={require("@/assets/images/lbj.jpg")}
-            />
-          </View>
+            </View>
+          )}
         </View>
       )}
       {hasSearchBar && (
@@ -96,7 +105,10 @@ export default function Header({
             />
           </View>
           {showCancelButton && (
-            <TouchableOpacity onPress={handleCancelPress} style={styles.cancelButton}>
+            <TouchableOpacity
+              onPress={handleCancelPress}
+              style={styles.cancelButton}
+            >
               <Text style={styles.cancelButtonText}>Cancel</Text>
             </TouchableOpacity>
           )}
@@ -117,9 +129,10 @@ const getStyles = (isDarkMode) => ({
   },
   topSection: {
     backgroundColor: "transparent",
-    justifyContent: "space-between",
+    // justifyContent: "space-between",
     flexDirection: "row",
     alignItems: "center",
+    gap: 8,
     height: 42,
   },
   pageTitle: {
@@ -127,7 +140,7 @@ const getStyles = (isDarkMode) => ({
     color: isDarkMode ? colors.apple.white : colors.apple.black,
   },
   pageGreeting: {
-    ...typography(true).h4Bold,
+    ...typography(true).h4Med,
     color: colors.apple.black,
   },
   date: {
@@ -135,16 +148,16 @@ const getStyles = (isDarkMode) => ({
     color: colors.apple.black,
   },
   profileBorder: {
-    padding: 2,
-    backgroundColor: colors.apple.white,
-    borderWidth: 3,
-    borderColor: colors.light.blue,
-    borderRadius: 100,
-    backgroundColor: "transparent",
+    // padding: 2,
+    // backgroundColor: colors.apple.white,
+    // borderWidth: 3,
+    // borderColor: colors.light.blue,
+    // borderRadius: 100,
+    // backgroundColor: "transparent",
   },
   profileImage: {
-    width: 32,
-    height: 32,
+    width: 48,
+    height: 48,
     borderRadius: 100,
   },
   searchSection: {
