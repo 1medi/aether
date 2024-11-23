@@ -22,10 +22,8 @@ import { useDarkMode } from "../context/DarkModeContext";
 export const MyFilesScreen = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState("Forms");
   const [filteredData, setFilteredData] = useState(myFormsData);
-  const [showFormsSuggestionBanner, setShowFormsSuggestionBanner] =
-    useState(true);
-  const [showProfilesSuggestionBanner, setShowProfilesSuggestionBanner] =
-    useState(true);
+  const [showFormsSuggestionBanner, setShowFormsSuggestionBanner] = useState(true);
+  const [showProfilesSuggestionBanner, setShowProfilesSuggestionBanner] = useState(true);
 
   const { isDarkMode } = useDarkMode();
 
@@ -66,50 +64,48 @@ export const MyFilesScreen = ({ navigation }) => {
       <ScrollView style={styles.scrollContainer}>
         {/* Suggestion Banner */}
         {showFormsSuggestionBanner && (
-          <Layout style={styles.suggestionBanner}>
+        <Layout style={styles.suggestionBanner}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
             <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
+              style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
             >
-              <View
-                style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
-              >
-                <TipsIcon fill={colors.apple.black} style={styles.tipsIcon} />
-                <Text style={styles.suggestionTitle}>
-                  Try Our Scan Feature!
-                </Text>
-              </View>
-              <TouchableOpacity
-                onPress={() => setShowFormsSuggestionBanner(false)}
-              >
-                <CloseIcon fill={colors.apple.black} style={styles.closeIcon} />
-              </TouchableOpacity>
+              <TipsIcon fill={colors.apple.black} style={styles.tipsIcon} />
+              <Text style={styles.suggestionTitle}>Try Our Scan Feature!</Text>
             </View>
-            <Text style={styles.suggestionDescription}>
-              Tap the "+" button to upload your own forms. Either take a photo
-              or upload directly from your device.
-            </Text>
-          </Layout>
+            <TouchableOpacity onPress={() => setShowSuggestionBanner(false)}>
+              <CloseIcon fill={colors.apple.black} style={styles.closeIcon} />
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.suggestionDescription}>
+            Tap the "+" button to upload your own forms. Either take a photo or
+            upload directly from your device.
+          </Text>
+        </Layout>
         )}
 
-        <Layout style={styles.myFormsSection}>
-          {filteredData.map((form, index) => (
-            <View key={`${form.id}-${index}`}>
-              <MyFormsCard
-                title={form.title}
-                subheader={form.subheader}
-                footnote={form.footnote}
-                isImportant={form.isImportant}
-                navigation={navigation} // Pass navigation prop
-              />
-              {index < filteredData.length - 1 && (
-                <Divider style={styles.divider} />
-              )}
-            </View>
-          ))}
+        <Layout style={styles.sectionContainer}>
+          <Layout style={styles.myFormsSection}>
+            {filteredData.map((form, index) => (
+              <View key={`${form.id}-${index}`}>
+                <MyFormsCard
+                  title={form.title}
+                  subheader={form.subheader}
+                  footnote={form.footnote}
+                  isImportant={form.isImportant}
+                  navigation={navigation} // Pass navigation prop
+                />
+                {index < filteredData.length - 1 && (
+                  <Divider style={styles.divider} />
+                )}
+              </View>
+            ))}
+          </Layout>
         </Layout>
 
         {/* Spacer */}
@@ -136,34 +132,30 @@ export const MyFilesScreen = ({ navigation }) => {
     <>
       <ScrollView style={styles.scrollContainer}>
         {/* Suggestion Banner */}
-        {showProfilesSuggestionBanner && (
-          <Layout style={styles.suggestionBanner}>
+        { showProfilesSuggestionBanner && (
+        <Layout style={styles.suggestionBanner}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
             <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
+              style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
             >
-              <View
-                style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
-              >
-                <TipsIcon fill={colors.apple.black} style={styles.tipsIcon} />
-                <Text style={styles.suggestionTitle}>
-                  Save Time, Reduce Stress
-                </Text>
-              </View>
-              <TouchableOpacity
-                onPress={() => setShowFormsSuggestionBanner(false)}
-              >
-                <CloseIcon fill={colors.apple.black} style={styles.closeIcon} />
-              </TouchableOpacity>
+              <TipsIcon fill={colors.apple.black} style={styles.tipsIcon} />
+              <Text style={styles.suggestionTitle}>
+                Save Time, Reduce Stress
+              </Text>
             </View>
-            <Text style={styles.suggestionDescription}>
-              Store your care recipients' information for quick, two-tap
-              autofilling.
-            </Text>
-          </Layout>
+            <CloseIcon fill={colors.apple.black} style={styles.closeIcon} />
+          </View>
+          <Text style={styles.suggestionDescription}>
+            Store your care recipients' information for quick, two-tap
+            autofilling.
+          </Text>
+        </Layout>
         )}
 
         <View style={styles.profileContainer}>
@@ -173,13 +165,10 @@ export const MyFilesScreen = ({ navigation }) => {
               style={styles.profileCardContainer}
             >
               <SavedProfileCard
-                // key={profile.id}
-                // name={profile.personalInfo.fullName}
-                // role={profile.personalInfo.relationshipToUser}
-                // image={profile.personalInfo.image}
-                // navigation={navigation}
-                // profileData={profile}
-                profile={profile}
+                key={profile.id}
+                name={profile.name}
+                role={profile.role}
+                image={profile.image}
               />
             </View>
           ))}
@@ -206,14 +195,6 @@ export const MyFilesScreen = ({ navigation }) => {
   console.log(navigation);
   return (
     <SafeAreaView style={styles.fullPage}>
-      {/* Header and Search Bar */}
-      <Header
-        title="My Files"
-        placeholder="Search my forms and profiles"
-        hasSearchBar
-        onSearch={onSearch}
-        // noTitle
-      />
       {/* Toggle Buttons */}
       <View style={styles.toggleContainer}>
         {["Forms", "Profiles"].map((tab) => (
@@ -237,6 +218,15 @@ export const MyFilesScreen = ({ navigation }) => {
         ))}
       </View>
 
+      {/* Header and Search Bar */}
+      <Header
+        title="My Files"
+        placeholder="Search my forms and profiles"
+        hasSearchBar
+        onSearch={onSearch}
+        noTitle
+      />
+
       {/* Render Forms or Profiles */}
       {activeTab === "Forms" ? renderForms() : renderProfiles()}
     </SafeAreaView>
@@ -256,15 +246,13 @@ const getStyles = (isDarkMode) => ({
 
   toggleContainer: {
     flexDirection: "row",
-    // backgroundColor: colors.apple.white,
-    // borderRadius: 100,
-    // borderWidth: 1,
+    backgroundColor: colors.apple.glass70,
+    borderRadius: 100,
+    borderWidth: 1,
     borderColor: colors.apple.lightStroke,
-    // width: 200,
+    width: 200,
     alignSelf: "center",
     alignItems: "center",
-    paddingHorizontal: 8,
-    marginHorizontal: 16,
   },
   toggleButton: {
     flex: 1,
@@ -273,25 +261,23 @@ const getStyles = (isDarkMode) => ({
     height: 48,
   },
   activeToggleButton: {
-    // borderRadius: 100,
-    borderBottomWidth: 4,
-    borderColor: colors.light.blue,
+    borderRadius: 100,
     // backgroundColor: colors.apple.white,
     // borderWidth: 1,
     // borderColor: colors.apple.lightStroke,
   },
   toggleButtonText: {
-    ...typography(true).h3,
+    ...typography(true).h4,
     color: colors.apple.secondaryText,
   },
   activeToggleButtonText: {
-    ...typography(true).h3Med,
-    color: isDarkMode ? colors.dark.black : colors.apple.black,
+    ...typography(true).h4Med,
+    color: colors.apple.black,
   },
 
   suggestionBanner: {
     backgroundColor: "transparent",
-    marginTop: 8,
+    marginTop: 4,
     marginBottom: 16,
     marginHorizontal: 24,
     gap: 8,
@@ -313,10 +299,7 @@ const getStyles = (isDarkMode) => ({
     color: colors.apple.secondaryText,
   },
 
-  myFormsSection: {
-    display: "flex",
-    flexDirection: "column",
-    backgroundColor: "transparent",
+  sectionContainer: {
     backgroundColor: colors.apple.white,
     marginHorizontal: 12,
     paddingVertical: 8,
@@ -324,6 +307,11 @@ const getStyles = (isDarkMode) => ({
     borderRadius: 32,
     borderWidth: 1,
     borderColor: colors.apple.lightStroke,
+  },
+  myFormsSection: {
+    display: "flex",
+    flexDirection: "column",
+    backgroundColor: "transparent",
   },
 
   divider: {
