@@ -10,6 +10,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Divider, Layout, Icon } from "@ui-kitten/components";
 import { colors, typography } from "@/css/globals";
+import { LinearGradient } from "expo-linear-gradient";
 import MyFormsCard from "@/components/atoms/MyFormsCard";
 import SavedProfileCard from "@/components/atoms/SavedProfileCard";
 import Header from "@/components/header/Header";
@@ -205,48 +206,59 @@ export const MyFilesScreen = ({ navigation }) => {
       <ConsoleScreenTwo />
     </>
   );
-  console.log(filteredData);
-  console.log(navigation);
-  return (
-    <SafeAreaView style={styles.fullPage}>
-      {/* Header and Search Bar */}
-      <Header
-        title="My Files"
-        placeholder="Search my forms and profiles"
-        hasSearchBar
-        onSearch={onSearch}
-        // noTitle
-      />
-      {/* Toggle Buttons */}
-      <View style={styles.toggleContainer}>
-        {["Forms", "Profiles"].map((tab) => (
-          <TouchableOpacity
-            key={tab}
-            style={[
-              styles.toggleButton,
-              activeTab === tab && styles.activeToggleButton,
-            ]}
-            onPress={() => switchTab(tab)}
-          >
-            <Text
-              style={[
-                styles.toggleButtonText,
-                activeTab === tab && styles.activeToggleButtonText,
-              ]}
-            >
-              {tab}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
 
-      {/* Render Forms or Profiles */}
-      {activeTab === "Forms" ? renderForms() : renderProfiles()}
+  return (
+    <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
+      <LinearGradient
+        colors={[colors.apple.offWhite, "#D8ECFF"]}
+        style={styles.bgGradient}
+        start={{ x: 0.5, y: 0.75 }} // Adjust the starting point
+        end={{ x: 0.5, y: 1 }} // Adjust the ending point
+      >
+        {/* Header and Search Bar */}
+        <Header
+          title="My Files"
+          placeholder="Search my forms and profiles"
+          hasSearchBar
+          onSearch={onSearch}
+          // noTitle
+        />
+        {/* Toggle Buttons */}
+        <View style={styles.toggleContainer}>
+          {["Forms", "Profiles"].map((tab) => (
+            <TouchableOpacity
+              key={tab}
+              style={[
+                styles.toggleButton,
+                activeTab === tab && styles.activeToggleButton,
+              ]}
+              onPress={() => switchTab(tab)}
+            >
+              <Text
+                style={[
+                  styles.toggleButtonText,
+                  activeTab === tab && styles.activeToggleButtonText,
+                ]}
+              >
+                {tab}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        {/* Render Forms or Profiles */}
+        {activeTab === "Forms" ? renderForms() : renderProfiles()}
+      </LinearGradient>
     </SafeAreaView>
   );
 };
 
 const getStyles = (isDarkMode) => ({
+  bgGradient: {
+    flex: 1,
+    // paddingBottom: 132,
+  },
+
   fullPage: {
     flex: 1,
     backgroundColor: isDarkMode ? colors.apple.black : colors.apple.offWhite,
@@ -273,7 +285,7 @@ const getStyles = (isDarkMode) => ({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    height: 48,
+    height: 40,
   },
   activeToggleButton: {
     borderBottomWidth: 4,
@@ -284,11 +296,11 @@ const getStyles = (isDarkMode) => ({
     // borderColor: colors.apple.lightStroke,
   },
   toggleButtonText: {
-    ...typography(true).h3,
+    ...typography(true).h4,
     color: colors.apple.secondaryText,
   },
   activeToggleButtonText: {
-    ...typography(true).h3Med,
+    ...typography(true).h4Med,
     color: isDarkMode ? colors.dark.black : colors.apple.black,
   },
 
@@ -375,10 +387,6 @@ const getStyles = (isDarkMode) => ({
     ...typography(true).bodyMed,
     color: colors.light.deepBlue40,
     textAlign: "center",
-  },
-  tagline: {
-    ...typography(true).body,
-    color: colors.apple.secondaryText,
   },
 });
 

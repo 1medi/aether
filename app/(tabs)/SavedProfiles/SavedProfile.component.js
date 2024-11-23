@@ -8,6 +8,7 @@ import {
   ScrollView,
 } from "react-native";
 import { Layout, Button, Icon, Divider } from "@ui-kitten/components";
+import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors, typography } from "@/css/globals";
 import { useDarkMode } from "../context/DarkModeContext";
@@ -36,6 +37,12 @@ export default function SavedProfile({ route, navigation }) {
 
   return (
     <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
+              <LinearGradient
+          colors={[colors.apple.offWhite, "#D8ECFF"]}
+          style={styles.bgGradient}
+          start={{ x: 0.5, y: 0.75 }} // Adjust the starting point
+          end={{ x: 0.5, y: 1 }} // Adjust the ending point
+        >
       <TouchableOpacity
         onPress={() => navigation.navigate("MyFiles")}
         style={styles.backButtonContainer}
@@ -147,7 +154,7 @@ export default function SavedProfile({ route, navigation }) {
             </View>
             <View style={styles.rightSide}>
               <Icon
-                name="home-outline"
+                name="pin-outline"
                 fill={colors.apple.black}
                 width={24}
                 height={24}
@@ -189,7 +196,7 @@ export default function SavedProfile({ route, navigation }) {
             </View>
             <View style={styles.rightSide}>
               <Icon
-                name="pin-outline"
+                name="home-outline"
                 fill={colors.apple.black}
                 width={24}
                 height={24}
@@ -273,11 +280,17 @@ export default function SavedProfile({ route, navigation }) {
           </Layout>
         </TouchableOpacity>
       </ScrollView>
+      </LinearGradient>
     </SafeAreaView>
   );
 }
 
 const getStyles = (isDarkMode) => ({
+  bgGradient: {
+    flex: 1,
+    // paddingBottom: 132,
+  },
+
   fullPage: {
     flex: 1,
     backgroundColor: isDarkMode ? colors.apple.black : colors.apple.offWhite,
