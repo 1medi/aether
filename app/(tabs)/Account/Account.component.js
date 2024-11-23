@@ -32,7 +32,7 @@ export const AccountScreen = ({ navigation }) => {
 
   const SectionItem = ({ label, onPress, accessoryLeft, accessoryRight }) => (
     <TouchableOpacity onPress={onPress}>
-      <Layout appearance="ghost" style={styles.sectionItem}>
+      <Layout style={styles.sectionItem}>
         <Layout style={styles.leftSide}>
           {accessoryLeft && <Icon name={accessoryLeft} style={styles.icon} />}
           <Text style={styles.sectionItemText}>{label}</Text>
@@ -154,7 +154,9 @@ const getStyles = (isDarkMode) => ({
   section: {
     backgroundColor: isDarkMode ? colors.dark.darkGrey80 : colors.apple.white,
     marginHorizontal: 12,
-    padding: 16,
+    paddingTop: 16,
+    paddingBottom: 8,
+    paddingHorizontal: 8,
     borderRadius: 32,
     borderColor: isDarkMode ? colors.apple.glass20 : colors.apple.lightStroke,
     borderWidth: 1,

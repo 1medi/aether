@@ -67,8 +67,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-start",
     borderRadius: 24,
-    paddingVertical: 12,
-    paddingHorizontal: 12,
+    padding: 12,
     overflow: "hidden",
   },
   contentContainer: {
