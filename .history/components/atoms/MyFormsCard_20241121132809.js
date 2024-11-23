@@ -1,9 +1,8 @@
-import React, { useMemo }  from "react";
+import React from "react";
 import { TouchableOpacity, StyleSheet, Image, View, Text } from "react-native";
 import { Icon, Layout } from "@ui-kitten/components";
 import { useNavigation } from "@react-navigation/native";
 import { colors, typography } from "@/css/globals";
-import { useDarkMode } from "@/app/(tabs)/context/DarkModeContext";
 
 export default function MyFormsCard({
   title,
@@ -13,16 +12,13 @@ export default function MyFormsCard({
 }) {
   const navigation = useNavigation();
 
-  const { isDarkMode } = useDarkMode();
-  const styles = useMemo(() => getStyles(isDarkMode), [isDarkMode]);
-
   const handlePress = () => {
     if (title === "Canadian Pension Plan") {
       navigation.navigate("LibraryScreen");
     } else if (title === "Disability Tax Credit") {
-      navigation.navigate("Home");
+      navigation.navigate("Folder"); // Navigate to LibraryScreen
     } else if (title === "Assisted Living Application") {
-      navigation.navigate("Home");
+      navigation.navigate("Home"); // Navigate to HOME!
     } else {
       console.error("No navigation target defined for this form.");
     }
@@ -41,13 +37,11 @@ export default function MyFormsCard({
               source={require("@/assets/images/previewImage2.png")}
             />
             {isImportant && (
-              <Icon name="star" style={styles.starIcon} fill={colors.light.blue} />
+              <Icon name="star" style={styles.starIcon} fill="#2E8BB7" />
             )}
           </View>
           <View style={styles.textContainer}>
-            <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">
-              {title}
-            </Text>
+            <Text style={styles.title}>{title}</Text>
             <Text style={styles.subheader}>{subheader}</Text>
             <Text style={styles.footnote}>{footnote}</Text>
           </View>
@@ -62,7 +56,7 @@ export default function MyFormsCard({
   );
 }
 
-const getStyles = (isDarkMode) => ({
+const styles = StyleSheet.create({
   touchContainer: {
     backgroundColor: "transparent",
   },
@@ -71,7 +65,8 @@ const getStyles = (isDarkMode) => ({
     flexDirection: "row",
     alignItems: "flex-start",
     borderRadius: 24,
-    padding: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 12,
     overflow: "hidden",
   },
   contentContainer: {
@@ -95,25 +90,23 @@ const getStyles = (isDarkMode) => ({
   },
   starIcon: {
     position: "absolute",
-    top: -64,
-    left: -8,
-    width: 24,
-    height: 24,
+    top: -5,
+    left: -5,
+    width: 18,
+    height: 18,
   },
   textContainer: {
     flex: 1,
   },
   title: {
     ...typography(true).h4Med,
-    color: isDarkMode ? colors.apple.white : ''
   },
   subheader: {
     ...typography(true).body,
-    color: isDarkMode ? colors.apple.white : ''
   },
   footnote: {
     ...typography(true).footnoteItalic,
-    color: isDarkMode ? colors.dark.deepWhite60 : colors.light.deepBlue60,
+    color: colors.light.deepBlue60,
     marginTop: 4,
   },
 
