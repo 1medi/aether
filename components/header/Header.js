@@ -1,10 +1,8 @@
-import React from "react";
-import { StyleSheet, Text, Image, View } from "react-native";
+import React, { useState, useEffect, useMemo } from "react";
+import { StyleSheet, Text, Image, View, TouchableOpacity, Keyboard } from "react-native";
 import { colors, typography } from "../../css/globals";
 import { Layout, Icon, Input } from "@ui-kitten/components";
-import { useState, useEffect, useMemo } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 
 export default function Header({
   title,
@@ -15,8 +13,9 @@ export default function Header({
   noTitle,
   isDarkMode, // Receive dark mode state
 }) {
-
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [searchText, setSearchText] = useState("");
+  const [showCancelButton, setShowCancelButton] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -34,19 +33,39 @@ export default function Header({
     day: 'numeric',
   });
 
+  const handleSearchChange = (text) => {
+    setSearchText(text);
+    onSearch(text);
+  };
+
+  const handleCancelPress = () => {
+    setSearchText("");
+    onSearch("");
+    setShowCancelButton(false);
+    Keyboard.dismiss();
+  };
+
+  const handleFocus = () => {
+    setShowCancelButton(true);
+  };
+
+  const handleBlur = () => {
+    setShowCancelButton(false);
+  };
+
   return (
     <Layout style={styles.headerContainer}>
       {!noTitle && (
         <View style={styles.topSection}>
           <View style={styles.textSection}>
             {greeting ? (
-            <>
-            <Text style={styles.pageGreeting}>{greeting}!</Text>
-            <Text style={styles.date}>{formattedDate}</Text>
-            </>
+              <>
+                <Text style={styles.pageGreeting}>{greeting}!</Text>
+                <Text style={styles.date}>{formattedDate}</Text>
+              </>
             ) : (
-            <Text style={styles.pageTitle}>{title}</Text>
-          )}
+              <Text style={styles.pageTitle}>{title}</Text>
+            )}
           </View>
           <View style={styles.profileBorder}>
             <Image
@@ -57,20 +76,30 @@ export default function Header({
         </View>
       )}
       {hasSearchBar && (
-        <View style={styles.searchContainer}>
-          <Input
-            style={styles.searchInput}
-            placeholder={placeholder}
-            onChangeText={onSearch}
-            accessoryLeft={
-              <Icon
-                name="search"
-                fill={colors.apple.black}
-                width="24"
-                height="24"
-              />
-            }
-          />
+        <View style={styles.searchSection}>
+          <View style={styles.searchContainer}>
+            <Input
+              style={styles.searchInput}
+              placeholder={placeholder}
+              value={searchText}
+              onChangeText={handleSearchChange}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+              accessoryLeft={
+                <Icon
+                  name="search"
+                  fill={colors.apple.black}
+                  width="24"
+                  height="24"
+                />
+              }
+            />
+          </View>
+          {showCancelButton && (
+            <TouchableOpacity onPress={handleCancelPress} style={styles.cancelButton}>
+              <Text style={styles.cancelButtonText}>Cancel</Text>
+            </TouchableOpacity>
+          )}
         </View>
       )}
     </Layout>
@@ -84,8 +113,6 @@ const getStyles = (isDarkMode) => ({
     paddingTop: 16,
     paddingBottom: 8,
     gap: 16,
-    // borderBottomColor: colors.apple.lightStroke,
-    // borderBottomWidth: 1,
     width: "100%",
   },
   topSection: {
@@ -95,7 +122,6 @@ const getStyles = (isDarkMode) => ({
     alignItems: "center",
     height: 42,
   },
-
   pageTitle: {
     ...typography(true).h1Med,
     color: isDarkMode ? colors.apple.white : colors.apple.black,
@@ -108,7 +134,6 @@ const getStyles = (isDarkMode) => ({
     ...typography(true).footnote,
     color: colors.apple.black,
   },
-
   profileBorder: {
     padding: 2,
     backgroundColor: colors.apple.white,
@@ -116,24 +141,25 @@ const getStyles = (isDarkMode) => ({
     borderColor: colors.light.blue,
     borderRadius: 100,
     backgroundColor: "transparent",
-
   },
   profileImage: {
     width: 32,
     height: 32,
     borderRadius: 100,
   },
-
-
+  searchSection: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
   searchContainer: {
     backgroundColor: colors.apple.white,
     flexDirection: "row",
     alignItems: "center",
-    // marginTop: 16,
     borderRadius: 100,
     borderWidth: 1,
     borderColor: colors.apple.lightStroke,
     height: 48,
+    flex: 1,
   },
   searchInput: {
     ...typography(true).body,
@@ -141,9 +167,12 @@ const getStyles = (isDarkMode) => ({
     backgroundColor: "transparent",
     borderColor: "transparent",
   },
+  cancelButton: {
+    paddingLeft: 8,
+    justifyContent: "center",
+  },
+  cancelButtonText: {
+    ...typography(true).bodyMed,
+    color: colors.apple.black,
+  },
 });
-
-
-
-
-
