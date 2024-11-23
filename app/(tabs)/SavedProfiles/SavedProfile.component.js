@@ -153,7 +153,8 @@ const getStyles = (isDarkMode) => ({
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
-    marginBottom: 16,
+    marginHorizontal: 12,
+    // marginBottom: 16,
   },
   backButton: {
     ...typography(true).h3Med,
@@ -165,24 +166,25 @@ const getStyles = (isDarkMode) => ({
     marginBottom: 24,
   },
   profileImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+    width: 104,
+    height: 104,
+    borderRadius: 100,
     marginBottom: 16,
   },
   profileName: {
-    fontSize: 24,
-    fontWeight: "bold",
+    ...typography(true).h1Med,
   },
   profileRole: {
-    fontSize: 18,
-    color: "gray",
+    ...typography(true).h3Italic,
+    color: colors.apple.secondaryText,
   },
 
   category: {
     backgroundColor: isDarkMode ? colors.dark.darkGrey80 : colors.apple.white,
     marginHorizontal: 12,
-    padding: 16,
+    paddingTop: 16,
+    paddingBottom: 8,
+    paddingHorizontal: 8,
     borderRadius: 32,
     borderColor: isDarkMode ? colors.apple.glass20 : colors.apple.lightStroke,
     borderWidth: 1,
@@ -206,13 +208,11 @@ const getStyles = (isDarkMode) => ({
     backgroundColor: isDarkMode ? "transparent" : colors.apple.white,
     borderRadius: 100,
     paddingHorizontal: 12,
-    alignSelf: "center",
-
     ...typography(true).body,
     color: isDarkMode ? colors.apple.white : colors.apple.black,
   },
   divider: {
-    marginHorizontal: 16,
+    marginHorizontal: 12,
     backgroundColor: isDarkMode
       ? colors.apple.glass20
       : colors.apple.lightStroke,
