@@ -62,92 +62,92 @@ export const AccountScreen = ({ navigation }) => {
         start={{ x: 0.5, y: 0.75 }} // Adjust the starting point for visual appeal
         end={{ x: 0.5, y: 1 }} // Adjust the ending point
       >
-        <Header
-          title="Account"
-          isDarkMode={isDarkMode} // Pass the dark mode state
-        />
-        <ScrollView
-          contentContainerStyle={styles.scrollContainer}
-          showsVerticalScrollIndicator={false}
-        >
-          <Layout style={styles.section}>
-            <Text style={styles.sectionTitle}>Settings</Text>
-            <SectionItem
-              label="Edit Account Info"
-              onPress={() => {}}
-              accessoryLeft="edit-outline"
-              accessoryRight={ArrowIcon}
-            />
-            <Divider style={styles.divider} />
-            <SectionItem
-              label="Change Password"
-              onPress={() => {}}
-              accessoryLeft="lock-outline"
-              accessoryRight={ArrowIcon}
-            />
-            <Divider style={styles.divider} />
-            <SectionItem
-              label="Set Language"
-              onPress={() => {}}
-              accessoryLeft="globe-2-outline"
-              accessoryRight={ArrowIcon}
-            />
-            <Divider style={styles.divider} />
-            <Layout style={styles.sectionItem}>
-              <Layout style={styles.leftSide}>
-                <MoonIcon />
-                <Text style={styles.sectionItemText}>Dark Mode</Text>
-              </Layout>
-              <Layout style={styles.rightSide}>
-                <Toggle
-                  status="primary"
-                  onChange={toggleDarkMode}
-                  checked={isDarkMode}
-                  accessibilityRole="switch"
-                  accessibilityLabel="Toggle Dark Mode"
-                />
-              </Layout>
+      <Header
+        title="Account"
+        isDarkMode={isDarkMode} // Pass the dark mode state
+      />
+      <ScrollView
+        contentContainerStyle={styles.scrollContainer}
+        showsVerticalScrollIndicator={false}
+      >
+        <Layout style={styles.section}>
+          <Text style={styles.sectionTitle}>Settings</Text>
+          <SectionItem
+            label="Edit Account Info"
+            onPress={() => {}}
+            accessoryLeft="edit-outline"
+            accessoryRight={ArrowIcon}
+          />
+          <Divider style={styles.divider} />
+          <SectionItem
+            label="Change Password"
+            onPress={() => {}}
+            accessoryLeft="lock-outline"
+            accessoryRight={ArrowIcon}
+          />
+          <Divider style={styles.divider} />
+          <SectionItem
+            label="Set Language"
+            onPress={() => {}}
+            accessoryLeft="globe-2-outline"
+            accessoryRight={ArrowIcon}
+          />
+          <Divider style={styles.divider} />
+          <Layout style={styles.sectionItem}>
+            <Layout style={styles.leftSide}>
+              <MoonIcon />
+              <Text style={styles.sectionItemText}>Dark Mode</Text>
+            </Layout>
+            <Layout style={styles.rightSide}>
+              <Toggle
+                status="primary"
+                onChange={toggleDarkMode}
+                checked={isDarkMode}
+                accessibilityRole="switch"
+                accessibilityLabel="Toggle Dark Mode"
+              />
             </Layout>
           </Layout>
+        </Layout>
 
-          <Layout style={styles.section}>
-            <Text style={styles.sectionTitle}>Support</Text>
-            <SectionItem
-              label="FAQ"
-              onPress={() => {}}
-              accessoryLeft="question-mark-circle-outline"
-              accessoryRight={ArrowIcon}
-            />
-            <Divider style={styles.divider} />
-            <SectionItem
-              label="Contact Support"
-              onPress={() => {}}
-              accessoryLeft="phone-outline"
-              accessoryRight={ArrowIcon}
-            />
-            <Divider style={styles.divider} />
-            <SectionItem
-              label="Report an Issue"
-              onPress={() => {}}
-              accessoryLeft="alert-triangle-outline"
-              accessoryRight={ArrowIcon}
-            />
+        <Layout style={styles.section}>
+          <Text style={styles.sectionTitle}>Support</Text>
+          <SectionItem
+            label="FAQ"
+            onPress={() => {}}
+            accessoryLeft="question-mark-circle-outline"
+            accessoryRight={ArrowIcon}
+          />
+          <Divider style={styles.divider} />
+          <SectionItem
+            label="Contact Support"
+            onPress={() => {}}
+            accessoryLeft="phone-outline"
+            accessoryRight={ArrowIcon}
+          />
+          <Divider style={styles.divider} />
+          <SectionItem
+            label="Report an Issue"
+            onPress={() => {}}
+            accessoryLeft="alert-triangle-outline"
+            accessoryRight={ArrowIcon}
+          />
+        </Layout>
+
+        {/* Log Out Button */}
+        <TouchableOpacity style={styles.touchContainer}>
+          <Layout style={styles.logoutSection}>
+            <Button
+              status="danger"
+              appearance="outline"
+              style={styles.logoutButton}
+              onPress={handleLogout}
+            >
+              Log Out
+            </Button>
           </Layout>
-
-          {/* Log Out Button */}
-          <TouchableOpacity style={styles.touchContainer}>
-            <Layout style={styles.logoutSection}>
-              <Button
-                status="danger"
-                appearance="outline"
-                style={styles.logoutButton}
-                onPress={handleLogout}
-              >
-                Log Out
-              </Button>
-            </Layout>
-          </TouchableOpacity>
-        </ScrollView>
+        </TouchableOpacity>
+      </ScrollView>
       </LinearGradient>
     </SafeAreaView>
   );

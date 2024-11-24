@@ -76,11 +76,11 @@ export const HomeScreen = ({ navigation }) => {
         <LinearGradient
           colors={
             isDarkMode
-              ? [colors.dark.black, colors.dark.darkGrey80] // Smooth dark gradient
-              : [colors.apple.offWhite, "#D8ECFF"] // Smooth light gradient
+              ? [colors.apple.back, colors.apple.darkGrey80] // Dark mode gradient colors
+              : [colors.apple.offWhite, "#D8ECFF"] // Light mode gradient colors
           }
           style={styles.bgGradient}
-          start={{ x: 0.5, y: 0.75 }} // Adjust the starting point for visual appeal
+          start={{ x: 0.5, y: 0.75 }} // Adjust the starting point
           end={{ x: 0.5, y: 1 }} // Adjust the ending point
         >
         {/* Header */}
