@@ -23,7 +23,6 @@ import {
 } from "react-native-reanimated";
 import Animated from "react-native-reanimated";
 import { useDarkMode } from "./context/DarkModeContext";
-import { appendBaseUrl } from "expo-router/build/fork/getPathFromState-forks";
 
 export const HomeScreen = ({ navigation }) => {
   const [recentForms, setRecentForms] = useState(myFormsData);

@@ -264,6 +264,10 @@ Output: Provide the rewritten and formatted content based on the instructions ab
     />
   );
 
+  const DragCloseDrawer = () => {
+    return <></>;
+  }
+
   return (
     <View style={styles.container}>
       <Text
@@ -353,7 +357,8 @@ Output: Provide the rewritten and formatted content based on the instructions ab
         transparent={true}
         onRequestClose={toggleModal}
       >
-        <SafeAreaView style={styles.modalOverlay}>
+        <DragCloseDrawer/>
+        {/* <SafeAreaView style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <Text
               style={{
@@ -392,7 +397,7 @@ Output: Provide the rewritten and formatted content based on the instructions ab
               </Layout>
             </ScrollView>
           </View>
-        </SafeAreaView>
+        </SafeAreaView> */}
       </Modal>
     </View>
   );
