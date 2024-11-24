@@ -107,20 +107,22 @@ const ScanDocScreen = ({ navigation }) => {
           {
             model: "gpt-4o-mini",
             messages: [
-              {
-                role: "system",
+              { role: "system",
                 content: `
                 You are a paraphraser for professional use. Rewrite the following content according to these guidelines:
-
+                  
                 1. Summarize and Simplify: Explain only what the document says, as if explaining to a 10-year-old. Provide one succinct sentence for each subject.
                 
                 2. Formatting Rules:
-                   - Use plain text without special formatting or markup (e.g., no **bold** or *italics*).
-                   - Indent each paragraph for clarity.
+                   - Use **bold** for headers.
+                   - Use *italics* for emphasis.
+                   - Indent each paragraph.
+                   - Avoid any markup or special characters such as "**".
                 
-                3. Output Requirements:
-                   - Return the results in the following parsable JSON format: [{"Title":string, "description":string}].
-              `,
+                Input Content:
+                ${chunk}
+                
+                Return the results in this parsable json form [{"Title":string, "description":string}]`
               },
             ],
             max_tokens: 4096,
@@ -194,7 +196,7 @@ const ScanDocScreen = ({ navigation }) => {
           <Text style={styles.modalHeader}>Paraphrased Results</Text>
             {Array.isArray(paraphrasedText) &&
               paraphrasedText.map((o, i) => (
-                <View key={`para_${i}`}>
+                <View style={styles.promptOutput} key={`para_${i}`}>
                   <Text style={{ fontWeight: "bold", color: "blue" }}>
                     {o.Title}
                   </Text>
@@ -257,7 +259,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   modalContent: {
-    backgroundColor: "white",
+    backgroundColor: colors.light.bgBlue,
     padding: 20,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
@@ -282,4 +284,7 @@ const styles = StyleSheet.create({
     width: "100vw",
     padding: 30,
   },
+  promptOutput: {
+    height: 100%
+  }
 });
