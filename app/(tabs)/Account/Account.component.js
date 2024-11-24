@@ -11,6 +11,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "@/components/header/Header";
 import { colors, typography } from "@/css/globals";
+import { LinearGradient } from "expo-linear-gradient";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDarkMode } from "../context/DarkModeContext";
 
@@ -32,7 +33,7 @@ export const AccountScreen = ({ navigation }) => {
 
   const SectionItem = ({ label, onPress, accessoryLeft, accessoryRight }) => (
     <TouchableOpacity onPress={onPress}>
-      <Layout appearance="ghost" style={styles.sectionItem}>
+      <Layout style={styles.sectionItem}>
         <Layout style={styles.leftSide}>
           {accessoryLeft && <Icon name={accessoryLeft} style={styles.icon} />}
           <Text style={styles.sectionItemText}>{label}</Text>
@@ -51,6 +52,12 @@ export const AccountScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
+              <LinearGradient
+          colors={[colors.apple.offWhite, "#D8ECFF"]}
+          style={styles.bgGradient}
+          start={{ x: 0.5, y: 0.75 }} // Adjust the starting point
+          end={{ x: 0.5, y: 1 }} // Adjust the ending point
+        >
       <Header
         title="Account"
         isDarkMode={isDarkMode} // Pass the dark mode state
@@ -137,11 +144,16 @@ export const AccountScreen = ({ navigation }) => {
           </Layout>
         </TouchableOpacity>
       </ScrollView>
+      </LinearGradient>
     </SafeAreaView>
   );
 };
 
 const getStyles = (isDarkMode) => ({
+  bgGradient: {
+    flex: 1,
+  },
+
   fullPage: {
     flex: 1,
     backgroundColor: isDarkMode ? colors.apple.black : colors.apple.offWhite,
@@ -149,12 +161,14 @@ const getStyles = (isDarkMode) => ({
   scrollContainer: {
     paddingTop: 8,
     paddingBottom: 32,
-    gap: 8,
+    gap: 16,
   },
   section: {
     backgroundColor: isDarkMode ? colors.dark.darkGrey80 : colors.apple.white,
     marginHorizontal: 12,
-    padding: 16,
+    paddingTop: 16,
+    paddingBottom: 8,
+    paddingHorizontal: 8,
     borderRadius: 32,
     borderColor: isDarkMode ? colors.apple.glass20 : colors.apple.lightStroke,
     borderWidth: 1,
@@ -202,7 +216,7 @@ const getStyles = (isDarkMode) => ({
     backgroundColor: "transparent",
   },
   divider: {
-    marginHorizontal: 32,
+    marginHorizontal: 12,
     backgroundColor: isDarkMode
       ? colors.apple.glass20
       : colors.apple.lightStroke,
@@ -210,7 +224,7 @@ const getStyles = (isDarkMode) => ({
   logoutSection: {
     backgroundColor: "transparent",
     marginHorizontal: 12,
-    marginTop: 24,
+    // marginTop: 24,
   },
   logoutButton: {
     borderRadius: 100,
