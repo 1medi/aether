@@ -182,7 +182,7 @@ const getStyles = (isDarkMode) => ({
     flex: 1,
     backgroundColor: "transparent",
     borderColor: "transparent",
-    color: isDarkMode ? colors.dark.deepWhite80 : '',
+    color: isDarkMode ? colors.dark.darkGrey80 : '',
   },
   cancelButton: {
     paddingLeft: 8,
