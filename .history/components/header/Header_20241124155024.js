@@ -176,13 +176,13 @@ const getStyles = (isDarkMode) => ({
     borderColor: colors.apple.lightStroke,
     height: 48,
     flex: 1,
+    color: isDarkMode ? colors.dark.darkGrey80 : '',
   },
   searchInput: {
     ...typography(true).body,
     flex: 1,
     backgroundColor: "transparent",
     borderColor: "transparent",
-    color: isDarkMode ? colors.dark.deepWhite80 : '',
   },
   cancelButton: {
     paddingLeft: 8,

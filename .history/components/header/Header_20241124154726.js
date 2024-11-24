@@ -97,7 +97,7 @@ export default function Header({
               accessoryLeft={
                 <Icon
                   name="search"
-                  fill={isDarkMode ? colors.apple.white : colors.apple.black}
+                  fill={colors.apple.black}
                   width="24"
                   height="24"
                 />
@@ -168,7 +168,7 @@ const getStyles = (isDarkMode) => ({
     alignItems: "center",
   },
   searchContainer: {
-    backgroundColor: isDarkMode ? colors.dark.deepWhite20 : colors.apple.white,
+    backgroundColor: isDarkMode ? colors.apple.glass20 : colors.apple.white,
     flexDirection: "row",
     alignItems: "center",
     borderRadius: 100,
@@ -182,7 +182,6 @@ const getStyles = (isDarkMode) => ({
     flex: 1,
     backgroundColor: "transparent",
     borderColor: "transparent",
-    color: isDarkMode ? colors.dark.deepWhite80 : '',
   },
   cancelButton: {
     paddingLeft: 8,
