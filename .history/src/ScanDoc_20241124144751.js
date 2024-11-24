@@ -285,6 +285,6 @@ const styles = StyleSheet.create({
     padding: 30,
   },
   promptOutput: {
-    flexShrink: 1
+    height: 100%
   },
 });

@@ -283,8 +283,7 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100vw",
     padding: 30,
-  },
   promptOutput: {
-    flexShrink: 1
-  },
+    height: 100%
+  }
 });
