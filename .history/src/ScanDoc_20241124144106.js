@@ -1,10 +1,9 @@
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import {
   SafeAreaView,
   Text,
   Image,
   StyleSheet,
-  Modal,
   ScrollView,
   TouchableOpacity,
   View,
@@ -15,31 +14,32 @@ import { Button, Layout } from "@ui-kitten/components";
 import Header from "@/components/header/Header";
 import { colors, typography } from "@/css/globals";
 import axios from "axios";
-import { useDarkMode } from "@/app/(tabs)/context/DarkModeContext";
-import { color } from "@rneui/base";
-import { ColorSpace } from "react-native-reanimated";
+import Modal from "react-native-modal";
 
-
-const UploadDocScreen = ({ navigation }) => {
+const ScanDocScreen = ({ navigation }) => {
   const [imageUri, setImageUri] = useState(null);
   const [paraphrasedText, setParaphrasedText] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
 
-  const requestMediaLibraryPermissions = async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+  const toggleModal = () => {
+    setModalVisible(modalVisible);
+  };
+
+  const requestCameraPermissions = async () => {
+    const { status } = await ImagePicker.requestCameraPermissionsAsync();
     if (status !== "granted") {
-      alert("Sorry, we need camera roll permissions to make this work!");
+      alert("Sorry, we need camera permissions to make this work!");
       return false;
     }
     return true;
   };
 
-  const pickImage = async () => {
-    const hasPermission = await requestMediaLibraryPermissions();
+  const takePhoto = async () => {
+    const hasPermission = await requestCameraPermissions();
     if (!hasPermission) return;
 
     try {
-      let result = await ImagePicker.launchImageLibraryAsync({
+      let result = await ImagePicker.launchCameraAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [3, 4],
@@ -51,7 +51,7 @@ const UploadDocScreen = ({ navigation }) => {
       }
       console.log(result);
     } catch (error) {
-      console.error("Error picking Image: ", error);
+      console.error("Error taking photo: ", error);
     }
   };
 
@@ -107,24 +107,22 @@ const UploadDocScreen = ({ navigation }) => {
           {
             model: "gpt-4o-mini",
             messages: [
-              {
-                role: "system",
+              { role: "system",
                 content: `
-                  You are a paraphraser for professional use. Rewrite the following content according to these guidelines:
+                You are a paraphraser for professional use. Rewrite the following content according to these guidelines:
                   
-                  1. Summarize and Simplify: Explain only what the document says, as if explaining to a 10-year-old. Provide one succinct sentence for each subject.
-                  
-                  2. Formatting Rules:
-                     - Use **bold** for headers.
-                     - Use *italics* for emphasis.
-                     - Indent each paragraph.
-                     - Avoid any markup or special characters such as "**".
-                  
-                  Input Content:
-                  ${chunk}
-                  
-                  Return the results in this parsable json form [{"Title":string, "description":string}]
-                `,
+                1. Summarize and Simplify: Explain only what the document says, as if explaining to a 10-year-old. Provide one succinct sentence for each subject.
+                
+                2. Formatting Rules:
+                   - Use **bold** for headers.
+                   - Use *italics* for emphasis.
+                   - Indent each paragraph.
+                   - Avoid any markup or special characters such as "**".
+                
+                Input Content:
+                ${chunk}
+                
+                Return the results in this parsable json form [{"Title":string, "description":string}]`
               },
             ],
             max_tokens: 4096,
@@ -136,7 +134,9 @@ const UploadDocScreen = ({ navigation }) => {
             },
           }
         );
-        const arr = JSON.parse(paraphraseResponse.data.choices[0].message.content);
+        const arr = JSON.parse(
+          paraphraseResponse.data.choices[0].message.content
+        );
         paraphrasedContent = [...paraphrasedContent, ...arr];
       }
       console.log(paraphrasedContent);
@@ -148,91 +148,87 @@ const UploadDocScreen = ({ navigation }) => {
     }
   };
 
-  const { isDarkMode } = useDarkMode();
-
-  const styles = useMemo(() => getStyles(isDarkMode), [isDarkMode]);
-
   return (
     <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
-      <Header 
-        title={"Upload A File"} 
-        isDarkMode={isDarkMode}
-      />
+      <Header title={"Scan A File"} />
       <Layout style={styles.buttonContainer}>
         <Text style={styles.greetingMessage}>
-          Upload a document to detect text and paraphrase it.
+          Scan a document here to detect text and paraphrase it.
         </Text>
         {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
-        <Button onPress={pickImage} style={styles.button}>
+        <Button onPress={takePhoto} style={styles.button}>
           <Text style={styles.buttonText}>Choose a File</Text>
         </Button>
 
         {/* Show Analyze Button Only When Image is Selected */}
         {imageUri && (
-          <Button onPress={analyzeAndParaphrase} style={styles.analyzeButton}>
+          <TouchableOpacity onPress={analyzeAndParaphrase} style={styles.analyzeButton}>
             <Text style={styles.buttonText}>Analyze & Paraphrase</Text>
-          </Button>
+          </TouchableOpacity>
         )}
 
         <Button
-          onPress={() => navigation.navigate("Scan")}
+          onPress={() => navigation.navigate("Upload")}
           style={[styles.button, styles.switchButton]}
         >
-          <Text style={styles.buttonText}>Switch to Scan</Text>
+          <Text style={styles.buttonText}>Switch to Upload</Text>
         </Button>
       </Layout>
       <Modal
         visible={modalVisible}
         animationType="slide"
         transparent={true}
-        onRequestClose={() => setModalVisible(false)}
+        onBackdropPress={() => setModalVisible(false)}
+        onBackButtonPress={() => setModalVisible(false)}
+        swipeDirection="down"
+        onSwipeComplete={() => setModalVisible(false)}
+        animationIn="slideInUp"
+        animationOut="slideOutDown"
+        animationInTiming={500}
+        animationOutTiming={500}
+        backdropTransitionInTiming={500}
+        backdropTransitionOutTiming={500}
+        style={styles.modal}
+        backdropColor="transparent"
       >
-        <SafeAreaView style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalHeader}>Paraphrased Results</Text>
-            <ScrollView style={styles.textContainer}>
-              <Text style={styles.modalText}>
-                {Array.isArray(paraphrasedText) && paraphrasedText.map((o,i)=><View key={`para_${i}`}>
-                  <Text style={{fontWeight:"bold", color: "blue"}}>{o.Title}</Text>
+        <View style={styles.modalContent}>
+          <View style={styles.barIcon} />
+          <Text style={styles.modalHeader}>Paraphrased Results</Text>
+            {Array.isArray(paraphrasedText) &&
+              paraphrasedText.map((o, i) => (
+                <View style={styles.promptOutput} key={`para_${i}`}>
+                  <Text style={{ fontWeight: "bold", color: "blue" }}>
+                    {o.Title}
+                  </Text>
                   <Text>{o.description}</Text>
-                </View>)}
-              </Text>
-            </ScrollView>
-            <TouchableOpacity
-              onPress={() => setModalVisible(false)}
-              style={styles.closeButton}
-            >
-              <Text style={styles.buttonText}>Close</Text>
-            </TouchableOpacity>
-          </View>
-        </SafeAreaView>
+                </View>
+              ))}
+        </View>
       </Modal>
     </SafeAreaView>
   );
 };
 
-export default UploadDocScreen;
+export default ScanDocScreen;
 
-const getStyles = (isDarkMode) => ({
+const styles = StyleSheet.create({
   fullPage: {
     flex: 1,
-    backgroundColor: isDarkMode ? colors.dark.black : colors.apple.offWhite,
+    backgroundColor: "white",
   },
   buttonContainer: {
     margin: 20,
-    backgroundColor: "transparent",
   },
   greetingMessage: {
     ...typography(true).h1Med,
     fontSize: 24,
     marginBottom: 20,
-    color: isDarkMode ? colors.apple.white : colors.apple.black,
   },
   image: {
     width: 300,
     height: 300,
     borderRadius: 20,
-    margin: "auto"
+    margin: "auto",
   },
   button: {
     backgroundColor: colors.light.deepBlue80,
@@ -252,20 +248,30 @@ const getStyles = (isDarkMode) => ({
   buttonText: {
     color: "white",
     fontSize: 18,
+    textAlign: "center"
+  },
+  modal: {
+    justifyContent: "flex-end",
+    margin: 0,
   },
   modalOverlay: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "flex-end",
   },
   modalContent: {
-    width: "80%",
-    height: "80%",
+    backgroundColor: colors.light.bgBlue,
     padding: 20,
-    backgroundColor: "white",
-    borderRadius: 10,
-    alignItems: "center",
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    height: "80%",
+  },
+  barIcon: {
+    width: 50,
+    height: 5,
+    backgroundColor: "#ccc",
+    borderRadius: 3,
+    alignSelf: "center",
+    marginBottom: 10,
   },
   modalHeader: {
     fontSize: 24,
@@ -276,12 +282,8 @@ const getStyles = (isDarkMode) => ({
     fontSize: 16,
     height: "100%",
     width: "100vw",
-    padding: 30
-  },
-  closeButton: {
-    marginTop: 20,
-    backgroundColor: colors.light.deepBlue80,
-    padding: 10,
-    borderRadius: 10,
-  },
+    padding: 30,
+  promptOutput: {
+    height: 100%
+  }
 });

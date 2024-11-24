@@ -74,13 +74,9 @@ export const HomeScreen = ({ navigation }) => {
     <>
       <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
         <LinearGradient
-          colors={
-            isDarkMode
-              ? [colors.dark.black, colors.dark.darkGrey80] // Smooth dark gradient
-              : [colors.apple.offWhite, "#D8ECFF"] // Smooth light gradient
-          }
+          colors={[colors.apple.offWhite, "#D8ECFF"]}
           style={styles.bgGradient}
-          start={{ x: 0.5, y: 0.75 }} // Adjust the starting point for visual appeal
+          start={{ x: 0.5, y: 0.75 }} // Adjust the starting point
           end={{ x: 0.5, y: 1 }} // Adjust the ending point
         >
         {/* Header */}

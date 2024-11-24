@@ -220,7 +220,6 @@ const getStyles = (isDarkMode) => ({
   },
   buttonContainer: {
     margin: 20,
-    backgroundColor: "transparent",
   },
   greetingMessage: {
     ...typography(true).h1Med,

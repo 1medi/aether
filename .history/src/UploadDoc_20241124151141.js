@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import {
   SafeAreaView,
   Text,
@@ -220,7 +220,6 @@ const getStyles = (isDarkMode) => ({
   },
   buttonContainer: {
     margin: 20,
-    backgroundColor: "transparent",
   },
   greetingMessage: {
     ...typography(true).h1Med,

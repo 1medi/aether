@@ -280,7 +280,7 @@ const getStyles = (isDarkMode) => ({
     // borderRadius: 100,
     // borderWidth: 1,
     // width: 200,
-    borderColor: isDarkMode ? colors.dark.deepWhite20 : colors.apple.lightStroke,
+    borderColor: colors.apple.lightStroke,
     alignSelf: "center",
     alignItems: "center",
     paddingHorizontal: 8,
@@ -302,12 +302,11 @@ const getStyles = (isDarkMode) => ({
   },
   toggleButtonText: {
     ...typography(true).h4,
-    color: isDarkMode ? colors.dark.deepWhite60 : colors.apple.secondaryText,
-    paddingHorizontal: 5,
+    color: colors.apple.secondaryText,
   },
   activeToggleButtonText: {
     ...typography(true).h4Med,
-    color: isDarkMode ? colors.apple.white : colors.apple.black,
+    color: isDarkMode ? colors.dark.black : colors.apple.black,
   },
 
   suggestionBanner: {
@@ -328,29 +327,29 @@ const getStyles = (isDarkMode) => ({
   },
   suggestionTitle: {
     ...typography(true).bodyMed,
-    color: isDarkMode ? colors.apple.white : colors.apple.black,
+    color: colors.apple.black,
   },
   suggestionDescription: {
     ...typography(true).footnote,
-    color: isDarkMode ? colors.dark.deepWhite60 : colors.apple.secondaryText,
+    color: colors.apple.secondaryText,
   },
 
   myFormsSection: {
     display: "flex",
     flexDirection: "column",
     backgroundColor: "transparent",
-    backgroundColor: isDarkMode ? colors.dark.darkGrey80 : colors.apple.white,
+    backgroundColor: colors.apple.white,
     marginHorizontal: 12,
     paddingVertical: 8,
     paddingHorizontal: 8,
     borderRadius: 32,
     borderWidth: 1,
-    borderColor: isDarkMode ? colors.apple.glass20 : colors.apple.lightStroke,
+    borderColor: colors.apple.lightStroke,
   },
 
   divider: {
     marginHorizontal: 24,
-    backgroundColor: isDarkMode ? colors.apple.glass20 : colors.apple.lightStroke,
+    backgroundColor: colors.apple.lightStroke,
   },
 
   profileContainer: {
@@ -372,11 +371,11 @@ const getStyles = (isDarkMode) => ({
 
   profileName: {
     ...typography(true).h4Med,
-    color: isDarkMode ? colors.dark.darkGrey80 : colors.apple.white,
+    color: colors.apple.white,
   },
   profileRole: {
     ...typography(true).footnote,
-    color: isDarkMode ? colors.dark.darkGrey80 : colors.apple.glass70,
+    color: colors.apple.glass70,
   },
 
   bottomSpacerSection: {
@@ -391,7 +390,7 @@ const getStyles = (isDarkMode) => ({
   },
   bottomMessage: {
     ...typography(true).bodyMed,
-    color: isDarkMode ? colors.apple.glass20 : colors.light.deepBlue40,
+    color: colors.light.deepBlue40,
     textAlign: "center",
   },
 });
