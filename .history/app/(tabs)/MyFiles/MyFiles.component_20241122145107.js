@@ -10,7 +10,6 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Divider, Layout, Icon } from "@ui-kitten/components";
 import { colors, typography } from "@/css/globals";
-import { LinearGradient } from "expo-linear-gradient";
 import MyFormsCard from "@/components/atoms/MyFormsCard";
 import SavedProfileCard from "@/components/atoms/SavedProfileCard";
 import Header from "@/components/header/Header";
@@ -23,14 +22,13 @@ import { useDarkMode } from "../context/DarkModeContext";
 export const MyFilesScreen = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState("Forms");
   const [filteredData, setFilteredData] = useState(myFormsData);
-  const [showFormsSuggestionBanner, setShowFormsSuggestionBanner] =
-    useState(true);
-  const [showProfilesSuggestionBanner, setShowProfilesSuggestionBanner] =
-    useState(true);
+  const [showFormsSuggestionBanner, setShowFormsSuggestionBanner] = useState(true);
+  const [showProfilesSuggestionBanner, setShowProfilesSuggestionBanner] = useState(true);
 
   const { isDarkMode } = useDarkMode();
 
   const styles = getStyles(isDarkMode);
+
 
   const TipsIcon = (props) => <Icon name="bulb-outline" {...props} />;
   const CloseIcon = (props) => <Icon name="close-outline" {...props} />;
@@ -45,15 +43,11 @@ export const MyFilesScreen = ({ navigation }) => {
     }
 
     const lowerQuery = query.toLowerCase();
-
-    const filtered = data.filter((item) => {
-      if (activeTab === "Forms") {
-        return item.title.toLowerCase().includes(lowerQuery);
-      } else {
-        // const fullName = profile.personalInfo.fullName || ""; // Safely access fullName
-        return item.personalInfo.fullName.toLowerCase().includes(lowerQuery);
-      }
-    });
+    const filtered = data.filter((item) =>
+      activeTab === "Forms"
+        ? item.title.toLowerCase().includes(lowerQuery)
+        : item.name.toLowerCase().includes(lowerQuery)
+    );
 
     setFilteredData(filtered);
   };
@@ -70,50 +64,48 @@ export const MyFilesScreen = ({ navigation }) => {
       <ScrollView style={styles.scrollContainer}>
         {/* Suggestion Banner */}
         {showFormsSuggestionBanner && (
-          <Layout style={styles.suggestionBanner}>
+        <Layout style={styles.suggestionBanner}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
             <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
+              style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
             >
-              <View
-                style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
-              >
-                <TipsIcon fill={colors.apple.black} style={styles.tipsIcon} />
-                <Text style={styles.suggestionTitle}>
-                  Try Our Scan Feature!
-                </Text>
-              </View>
-              <TouchableOpacity
-                onPress={() => setShowFormsSuggestionBanner(false)}
-              >
-                <CloseIcon fill={colors.apple.black} style={styles.closeIcon} />
-              </TouchableOpacity>
+              <TipsIcon fill={colors.apple.black} style={styles.tipsIcon} />
+              <Text style={styles.suggestionTitle}>Try Our Scan Feature!</Text>
             </View>
-            <Text style={styles.suggestionDescription}>
-              Tap the "+" button to upload your own forms. Either take a photo
-              or upload directly from your device.
-            </Text>
-          </Layout>
+            <TouchableOpacity onPress={() => setShowSuggestionBanner(false)}>
+              <CloseIcon fill={colors.apple.black} style={styles.closeIcon} />
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.suggestionDescription}>
+            Tap the "+" button to upload your own forms. Either take a photo or
+            upload directly from your device.
+          </Text>
+        </Layout>
         )}
 
-        <Layout style={styles.myFormsSection}>
-          {filteredData.map((form, index) => (
-            <View key={`${form.id}-${index}`}>
-              <MyFormsCard
-                title={form.title}
-                subheader={form.subheader}
-                footnote={form.footnote}
-                isImportant={form.isImportant}
-                navigation={navigation} // Pass navigation prop
-              />
-              {index < filteredData.length - 1 && (
-                <Divider style={styles.divider} />
-              )}
-            </View>
-          ))}
+        <Layout style={styles.sectionContainer}>
+          <Layout style={styles.myFormsSection}>
+            {filteredData.map((form, index) => (
+              <View key={`${form.id}-${index}`}>
+                <MyFormsCard
+                  title={form.title}
+                  subheader={form.subheader}
+                  footnote={form.footnote}
+                  isImportant={form.isImportant}
+                  navigation={navigation} // Pass navigation prop
+                />
+                {index < filteredData.length - 1 && (
+                  <Divider style={styles.divider} />
+                )}
+              </View>
+            ))}
+          </Layout>
         </Layout>
 
         {/* Spacer */}
@@ -138,40 +130,34 @@ export const MyFilesScreen = ({ navigation }) => {
   // Render Profiles
   const renderProfiles = () => (
     <>
-      <ScrollView
-        contentContainerStyle={styles.scrollContainer}
-        showsVerticalScrollIndicator={false}
-      >
+      <ScrollView style={styles.scrollContainer}>
         {/* Suggestion Banner */}
-        {showProfilesSuggestionBanner && (
-          <Layout style={styles.suggestionBanner}>
+        { showProfilesSuggestionBanner && (
+        <Layout style={styles.suggestionBanner}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
             <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
+              style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
             >
-              <View
-                style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
-              >
-                <TipsIcon fill={colors.apple.black} style={styles.tipsIcon} />
-                <Text style={styles.suggestionTitle}>
-                  Save Time, Reduce Stress
-                </Text>
-              </View>
-              <TouchableOpacity
-                onPress={() => setShowProfilesSuggestionBanner(false)}
-              >
-                <CloseIcon fill={colors.apple.black} style={styles.closeIcon} />
-              </TouchableOpacity>
+              <TipsIcon fill={colors.apple.black} style={styles.tipsIcon} />
+              <Text style={styles.suggestionTitle}>
+                Save Time, Reduce Stress
+              </Text>
             </View>
-            <Text style={styles.suggestionDescription}>
-              Store your care recipients' information for quick, two-tap
-              autofilling.
-            </Text>
-          </Layout>
+            <CloseIcon fill={colors.apple.black} style={styles.closeIcon} />
+          </View>
+          <Text style={styles.suggestionDescription}>
+            Store your care recipients' information for quick, two-tap
+            autofilling.
+          </Text>
+        </Layout>
         )}
+
         <View style={styles.profileContainer}>
           {filteredData.map((profile, index) => (
             <View
@@ -179,19 +165,17 @@ export const MyFilesScreen = ({ navigation }) => {
               style={styles.profileCardContainer}
             >
               <SavedProfileCard
-                // key={profile.id}
-                name={profile.personalInfo.fullName}
-                // role={profile.personalInfo.relationshipToUser}
-                // image={profile.personalInfo.image}
-                // navigation={navigation}
-                // profileData={profile}
-                profile={profile}
+                key={profile.id}
+                name={profile.name}
+                role={profile.role}
+                image={profile.image}
               />
             </View>
           ))}
         </View>
         {/* Spacer */}
         <View style={{ height: 56 }} />
+
         {/* End Image */}
         <Layout style={styles.bottomSpacerSection}>
           <Image
@@ -200,115 +184,101 @@ export const MyFilesScreen = ({ navigation }) => {
           />
           <Text style={styles.bottomMessage}>Aether • 2024</Text>
         </Layout>
+
         {/* Spacer */}
         <View style={{ height: 98 }} />
       </ScrollView>
       <ConsoleScreenTwo />
     </>
   );
-
+  console.log(filteredData);
+  console.log(navigation);
   return (
-    <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
-      <LinearGradient
-        colors={[colors.apple.offWhite, "#D8ECFF"]}
-        style={styles.bgGradient}
-        start={{ x: 0.5, y: 0.75 }} // Adjust the starting point
-        end={{ x: 0.5, y: 1 }} // Adjust the ending point
-      >
-        {/* Header and Search Bar */}
-        <Header
-          title="My Files"
-          placeholder="Search my forms and profiles"
-          hasSearchBar
-          onSearch={onSearch}
-          // noTitle
-        />
-        {/* Toggle Buttons */}
-        <View style={styles.toggleContainer}>
-          {["Forms", "Profiles"].map((tab) => (
-            <TouchableOpacity
-              key={tab}
+    <SafeAreaView style={styles.fullPage}>
+      {/* Toggle Buttons */}
+      <View style={styles.toggleContainer}>
+        {["Forms", "Profiles"].map((tab) => (
+          <TouchableOpacity
+            key={tab}
+            style={[
+              styles.toggleButton,
+              activeTab === tab && styles.activeToggleButton,
+            ]}
+            onPress={() => switchTab(tab)}
+          >
+            <Text
               style={[
-                styles.toggleButton,
-                activeTab === tab && styles.activeToggleButton,
+                styles.toggleButtonText,
+                activeTab === tab && styles.activeToggleButtonText,
               ]}
-              onPress={() => switchTab(tab)}
             >
-              <Text
-                style={[
-                  styles.toggleButtonText,
-                  activeTab === tab && styles.activeToggleButtonText,
-                ]}
-              >
-                {tab}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </View>
+              {tab}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>
 
-        {/* Render Forms or Profiles */}
-        {activeTab === "Forms" ? renderForms() : renderProfiles()}
-      </LinearGradient>
+      {/* Header and Search Bar */}
+      <Header
+        title="My Files"
+        placeholder="Search my forms and profiles"
+        hasSearchBar
+        onSearch={onSearch}
+        noTitle
+      />
+
+      {/* Render Forms or Profiles */}
+      {activeTab === "Forms" ? renderForms() : renderProfiles()}
     </SafeAreaView>
   );
 };
 
 const getStyles = (isDarkMode) => ({
-  bgGradient: {
-    flex: 1,
-    // paddingBottom: 132,
-  },
-
   fullPage: {
     flex: 1,
     backgroundColor: isDarkMode ? colors.apple.black : colors.apple.offWhite,
   },
   scrollContainer: {
-    paddingTop: 16,
+    paddingTop: 8,
     paddingBottom: 132,
     gap: 8,
   },
 
   toggleContainer: {
     flexDirection: "row",
-    // backgroundColor: colors.apple.white,
-    // borderRadius: 100,
-    // borderWidth: 1,
-    // width: 200,
+    backgroundColor: colors.apple.glass70,
+    borderRadius: 100,
+    borderWidth: 1,
     borderColor: colors.apple.lightStroke,
+    width: 200,
     alignSelf: "center",
     alignItems: "center",
-    paddingHorizontal: 8,
-    marginHorizontal: 16,
   },
   toggleButton: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    height: 40,
+    height: 48,
   },
   activeToggleButton: {
-    borderBottomWidth: 4,
-    borderColor: colors.light.blue,
-    // borderRadius: 100,
+    borderRadius: 100,
     // backgroundColor: colors.apple.white,
     // borderWidth: 1,
     // borderColor: colors.apple.lightStroke,
   },
   toggleButtonText: {
     ...typography(true).h4,
-    color: colors.apple.secondaryText,
+    color: isDarkMode? colors.dark.darkGrey80 : colors.apple.secondaryText,
   },
   activeToggleButtonText: {
     ...typography(true).h4Med,
-    color: isDarkMode ? colors.dark.black : colors.apple.black,
+    color: isDarkMode ? colors.dark.black colors.apple.black,
   },
 
   suggestionBanner: {
     backgroundColor: "transparent",
-    marginTop: 8,
-    marginBottom: 24,
-    // marginVertical: 24,
+    marginTop: 4,
+    marginBottom: 16,
     marginHorizontal: 24,
     gap: 8,
   },
@@ -329,10 +299,7 @@ const getStyles = (isDarkMode) => ({
     color: colors.apple.secondaryText,
   },
 
-  myFormsSection: {
-    display: "flex",
-    flexDirection: "column",
-    backgroundColor: "transparent",
+  sectionContainer: {
     backgroundColor: colors.apple.white,
     marginHorizontal: 12,
     paddingVertical: 8,
@@ -340,6 +307,11 @@ const getStyles = (isDarkMode) => ({
     borderRadius: 32,
     borderWidth: 1,
     borderColor: colors.apple.lightStroke,
+  },
+  myFormsSection: {
+    display: "flex",
+    flexDirection: "column",
+    backgroundColor: "transparent",
   },
 
   divider: {
@@ -387,6 +359,10 @@ const getStyles = (isDarkMode) => ({
     ...typography(true).bodyMed,
     color: colors.light.deepBlue40,
     textAlign: "center",
+  },
+  tagline: {
+    ...typography(true).body,
+    color: colors.apple.secondaryText,
   },
 });
 
