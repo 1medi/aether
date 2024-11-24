@@ -97,7 +97,7 @@ export default function Header({
               accessoryLeft={
                 <Icon
                   name="search"
-                  fill={isDarkMode ? colors.apple.white : colors.apple.black}
+                  fill={colors.apple.black}
                   width="24"
                   height="24"
                 />
@@ -176,13 +176,13 @@ const getStyles = (isDarkMode) => ({
     borderColor: colors.apple.lightStroke,
     height: 48,
     flex: 1,
+    color: isDarkMode ? colors.dark.darkGrey80 : '',
   },
   searchInput: {
     ...typography(true).body,
     flex: 1,
     backgroundColor: "transparent",
     borderColor: "transparent",
-    color: isDarkMode ? colors.dark.deepWhite80 : '',
   },
   cancelButton: {
     paddingLeft: 8,
