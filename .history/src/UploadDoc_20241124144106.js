@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import {
   SafeAreaView,
   Text,
@@ -15,10 +15,6 @@ import { Button, Layout } from "@ui-kitten/components";
 import Header from "@/components/header/Header";
 import { colors, typography } from "@/css/globals";
 import axios from "axios";
-import { useDarkMode } from "@/app/(tabs)/context/DarkModeContext";
-import { color } from "@rneui/base";
-import { ColorSpace } from "react-native-reanimated";
-
 
 const UploadDocScreen = ({ navigation }) => {
   const [imageUri, setImageUri] = useState(null);
@@ -148,16 +144,9 @@ const UploadDocScreen = ({ navigation }) => {
     }
   };
 
-  const { isDarkMode } = useDarkMode();
-
-  const styles = useMemo(() => getStyles(isDarkMode), [isDarkMode]);
-
   return (
     <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
-      <Header 
-        title={"Upload A File"} 
-        isDarkMode={isDarkMode}
-      />
+      <Header title={"Upload A File"} />
       <Layout style={styles.buttonContainer}>
         <Text style={styles.greetingMessage}>
           Upload a document to detect text and paraphrase it.
@@ -213,20 +202,18 @@ const UploadDocScreen = ({ navigation }) => {
 
 export default UploadDocScreen;
 
-const getStyles = (isDarkMode) => ({
+const styles = StyleSheet.create({
   fullPage: {
     flex: 1,
-    backgroundColor: isDarkMode ? colors.dark.black : colors.apple.offWhite,
+    backgroundColor: "white",
   },
   buttonContainer: {
     margin: 20,
-    backgroundColor: "transparent",
   },
   greetingMessage: {
     ...typography(true).h1Med,
     fontSize: 24,
     marginBottom: 20,
-    color: isDarkMode ? colors.apple.white : colors.apple.black,
   },
   image: {
     width: 300,
