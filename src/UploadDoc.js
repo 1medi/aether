@@ -95,13 +95,13 @@ const UploadDocScreen = ({ navigation }) => {
 
       // Split detected text into smaller chunks if necessary
       const chunks = detectedText.match(/[\s\S]{1,1500}/g) || [];
-      let paraphrasedContent = "";
+      let paraphrasedContent = [];
 
       for (const chunk of chunks) {
         const paraphraseResponse = await axios.post(
           "https://api.openai.com/v1/chat/completions",
           {
-            model: "gpt-3.5-turbo",
+            model: "gpt-4o-mini",
             messages: [
               {
                 role: "system",
@@ -118,6 +118,8 @@ const UploadDocScreen = ({ navigation }) => {
                   
                   Input Content:
                   ${chunk}
+                  
+                  Return the results in this parsable json form [{"Title":string, "description":string}]
                 `,
               },
             ],
@@ -130,12 +132,11 @@ const UploadDocScreen = ({ navigation }) => {
             },
           }
         );
-
-        paraphrasedContent +=
-          paraphraseResponse.data.choices[0].message.content + "\n\n";
+        const arr = JSON.parse(paraphraseResponse.data.choices[0].message.content);
+        paraphrasedContent = [...paraphrasedContent, ...arr];
       }
-
-      setParaphrasedText(paraphrasedContent.trim());
+      console.log(paraphrasedContent);
+      setParaphrasedText(paraphrasedContent);
       setModalVisible(true);
     } catch (error) {
       console.error("Error during analysis or paraphrasing:", error);
@@ -180,7 +181,10 @@ const UploadDocScreen = ({ navigation }) => {
             <Text style={styles.modalHeader}>Paraphrased Results</Text>
             <ScrollView style={styles.textContainer}>
               <Text style={styles.modalText}>
-                {paraphrasedText || "No paraphrased text available."}
+                {Array.isArray(paraphrasedText) && paraphrasedText.map((o,i)=><View key={`para_${i}`}>
+                  <Text style={{fontWeight:"bold", color: "blue"}}>{o.Title}</Text>
+                  <Text>{o.description}</Text>
+                </View>)}
               </Text>
             </ScrollView>
             <TouchableOpacity

@@ -143,6 +143,9 @@ const getStyles = (isDarkMode) => ({
     ...typography(true).h4Med,
     color: colors.apple.black,
   },
+  textSection: {
+    ...typography(true).h1,
+  },
   date: {
     ...typography(true).footnote,
     color: colors.apple.black,
