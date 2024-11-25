@@ -16,22 +16,9 @@ import { captureRef } from 'react-native-view-shot';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 
-export default async function DocumentView({ formData, setFormData }) {
+export default function DocumentView({ formData, setFormData }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const targetPixelCount = 1080; // If you want full HD pictures
-const pixelRatio = PixelRatio.get(); // The pixel ratio of the device
-// pixels * pixelRatio = targetPixelCount, so pixels = targetPixelCount / pixelRatio
-const pixels = targetPixelCount / pixelRatio;
-
-const result = await captureRef(this.imageContainer, {
-  result: 'tmpfile',
-  height: pixels,
-  width: pixels,
-  quality: 1,
-  format: 'png',
-});
 
   const handleNextPage = () => {
     if (currentPage < 2) setCurrentPage(currentPage + 1);
