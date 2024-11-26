@@ -19,7 +19,7 @@ import savedProfilesData from "@/data/SavedProfilesData";
 import ConsoleScreenTwo from "@/components/atoms/ConsoleScreenTwo";
 import ConsoleScreen from "@/components/atoms/ConsoleScreen";
 import { useDarkMode } from "../context/DarkModeContext";
-
+import PensionPlanModal from "./PensionPlanModal"
 export const MyFilesScreen = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState("Forms");
   const [filteredData, setFilteredData] = useState(myFormsData);
@@ -108,6 +108,7 @@ export const MyFilesScreen = ({ navigation }) => {
                 footnote={form.footnote}
                 isImportant={form.isImportant}
                 navigation={navigation} // Pass navigation prop
+                onClick
               />
               {index < filteredData.length - 1 && (
                 <Divider style={styles.divider} />
