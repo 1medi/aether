@@ -16,6 +16,7 @@ import { colors, typography } from "@/css/globals";
 import axios from "axios";
 import Modal from "react-native-modal";
 import { useDarkMode } from "@/app/(tabs)/context/DarkModeContext";
+import ScanAnimation from "@/components/atoms/scanAnimation"
 
 const ScanDocScreen = ({ navigation }) => {
   const [imageUri, setImageUri] = useState(null);
@@ -108,7 +109,8 @@ const ScanDocScreen = ({ navigation }) => {
           {
             model: "gpt-4o-mini",
             messages: [
-              { role: "system",
+              {
+                role: "system",
                 content: `
                 You are a paraphraser for professional use. Rewrite the following content according to these guidelines:
                   
@@ -123,7 +125,7 @@ const ScanDocScreen = ({ navigation }) => {
                 Input Content:
                 ${chunk}
                 
-                Return the results in this parsable json form [{"Title":string, "description":string}]`
+                Return the results in this parsable json form [{"Title":string, "description":string}]`,
               },
             ],
             max_tokens: 4096,
@@ -155,63 +157,62 @@ const ScanDocScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
-      <Header 
-        title={"Scan A File"} 
-        isDarkMode={isDarkMode}
-      />
-      <Layout style={styles.buttonContainer}>
-        <Text style={styles.greetingMessage}>
-          Scan a document here to detect text and paraphrase it.
-        </Text>
-        {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
-        <Button onPress={takePhoto} style={styles.button}>
-          <Text style={styles.buttonText}>Choose a File</Text>
-        </Button>
+      <Header title={"Scan A File"} isDarkMode={isDarkMode} />
 
-        {/* Show Analyze Button Only When Image is Selected */}
-        {imageUri && (
-          <TouchableOpacity onPress={analyzeAndParaphrase} style={styles.analyzeButton}>
-            <Text style={styles.buttonText}>Analyze & Paraphrase</Text>
-          </TouchableOpacity>
+      <Layout style={styles.buttonContainer}>
+      <Text style={styles.greetingMessage}>
+          Scan a document here to detect text and paraphrase it.
+      </Text>
+
+        {!imageUri ? (
+          <View style={styles.animationContainer}>
+            <ScanAnimation/>
+          </View>
+        ) : (
+          <Image source={{ uri: imageUri }} style={styles.image} />
         )}
 
-        <Button
+        <TouchableOpacity onPress={takePhoto} style={styles.button}>
+          <Text style={styles.buttonText}>Scan a File</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
           onPress={() => navigation.navigate("Upload")}
           style={[styles.button, styles.switchButton]}
         >
           <Text style={styles.buttonText}>Switch to Upload</Text>
-        </Button>
+        </TouchableOpacity>
+        {imageUri && (
+          <TouchableOpacity
+            onPress={analyzeAndParaphrase}
+            style={styles.analyzeButton}
+          >
+            <Text style={styles.buttonText}>Analyze & Paraphrase</Text>
+          </TouchableOpacity>
+        )}
+
       </Layout>
       <Modal
         visible={modalVisible}
         animationType="slide"
-        transparent={true}
-        onBackdropPress={() => setModalVisible(false)}
-        onBackButtonPress={() => setModalVisible(false)}
         swipeDirection="down"
         onSwipeComplete={() => setModalVisible(false)}
-        animationIn="slideInUp"
-        animationOut="slideOutDown"
-        animationInTiming={500}
-        animationOutTiming={500}
-        backdropTransitionInTiming={500}
-        backdropTransitionOutTiming={500}
         style={styles.modal}
-        backdropColor="transparent"
+        presentationStyle="formScreen"
+        propagateSwipe={true}
       >
-        <View style={styles.modalContent}>
+        <ScrollView style={styles.modalContent}>
           <View style={styles.barIcon} />
           <Text style={styles.modalHeader}>Paraphrased Results</Text>
-            {Array.isArray(paraphrasedText) &&
-              paraphrasedText.map((o, i) => (
-                <View style={styles.promptOutput} key={`para_${i}`}>
-                  <Text style={{ fontWeight: "bold", color: "blue" }}>
-                    {o.Title}
-                  </Text>
-                  <Text>{o.description}</Text>
-                </View>
-              ))}
-        </View>
+          {Array.isArray(paraphrasedText) &&
+            paraphrasedText.map((o, i) => (
+              <View style={styles.promptOutput} key={`para_${i}`}>
+                <Text style={{ fontWeight: "bold", color: "blue" }}>
+                  {o.Title}
+                </Text>
+                <Text>{o.description}</Text>
+              </View>
+            ))}
+        </ScrollView>
       </Modal>
     </SafeAreaView>
   );
@@ -254,11 +255,13 @@ const getStyles = (isDarkMode) => ({
   },
   switchButton: {
     backgroundColor: colors.light.bgBlue,
+    width: "50%",
+    margin:"auto"
   },
   buttonText: {
     color: "white",
     fontSize: 18,
-    textAlign: "center"
+    textAlign: "center",
   },
   modal: {
     justifyContent: "flex-end",
@@ -273,7 +276,7 @@ const getStyles = (isDarkMode) => ({
     padding: 20,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    height: "80%",
+
   },
   barIcon: {
     width: 50,
@@ -290,11 +293,6 @@ const getStyles = (isDarkMode) => ({
   },
   modalText: {
     fontSize: 16,
-    height: "100%",
-    width: "100vw",
     padding: 30,
-  },
-  promptOutput: {
-    flexShrink: 1
   },
 });
