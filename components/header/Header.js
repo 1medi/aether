@@ -138,6 +138,7 @@ const getStyles = (isDarkMode) => ({
   pageTitle: {
     ...typography(true).h1Med,
     color: isDarkMode ? colors.apple.white : colors.apple.black,
+    width: "100%",
   },
   pageGreeting: {
     ...typography(true).h4Med,
@@ -145,6 +146,7 @@ const getStyles = (isDarkMode) => ({
   },
   textSection: {
     ...typography(true).h1,
+    width: "100%",
   },
   date: {
     ...typography(true).footnote,
