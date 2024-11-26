@@ -76,7 +76,7 @@ export const HomeScreen = ({ navigation }) => {
         <LinearGradient
           colors={
             isDarkMode
-              ? ['transparent', colors.dark.black] // Smooth dark gradient
+              ? [colors.dark.darkGrey80, colors.dark.black] // Smooth dark gradient
               : [colors.apple.offWhite, "#D8ECFF"] // Smooth light gradient
           }
           style={styles.bgGradient}

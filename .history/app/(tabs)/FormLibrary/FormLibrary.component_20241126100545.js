@@ -150,7 +150,7 @@ const getStyles = (isDarkMode) => ({
   },
   endTextDescription: {
     ...typography(true).footnote,
-    color: isDarkMode ? colors.dark.deepWhite60 : colors.apple.secondaryText,
+    color: isDarkMode ? colors.apple.glass20 : colors.apple.secondaryText,
   },
 
   bottomSpacerSection: {
