@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useRef } from "react";
 import {
   SafeAreaView,
   Text,
@@ -17,15 +17,16 @@ import axios from "axios";
 import Modal from "react-native-modal";
 import { useDarkMode } from "@/app/(tabs)/context/DarkModeContext";
 import ScanAnimation from "@/components/atoms/scanAnimation"
+import BottomSheetModal from "@/components/molecules/BottomSheetModal"
 
 const ScanDocScreen = ({ navigation }) => {
   const [imageUri, setImageUri] = useState(null);
   const [paraphrasedText, setParaphrasedText] = useState("");
-  const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const sheetRef = useRef(null);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [isAnalyzed, setIsAnalyzed] = useState(false);
 
-  const toggleModal = () => {
-    setModalVisible(modalVisible);
-  };
 
   const requestCameraPermissions = async () => {
     const { status } = await ImagePicker.requestCameraPermissionsAsync();
@@ -143,12 +144,25 @@ const ScanDocScreen = ({ navigation }) => {
         paraphrasedContent = [...paraphrasedContent, ...arr];
       }
       console.log(paraphrasedContent);
+
       setParaphrasedText(paraphrasedContent);
-      setModalVisible(true);
+
+      setIsSheetOpen(true);
+      setIsAnalyzed(true);
+      sheetRef.current?.snapToIndex(0);
     } catch (error) {
       console.error("Error during analysis or paraphrasing:", error);
       alert("An error occurred. Please try again.");
+    } finally {
+      setLoading(false)
     }
+  };
+
+  const handleReset = () => {
+    setImageUri(null);
+    setParaphrasedText("");
+    setIsSheetOpen(false);
+    setIsAnalyzed(false);
   };
 
   const { isDarkMode } = useDarkMode();
@@ -172,48 +186,46 @@ const ScanDocScreen = ({ navigation }) => {
           <Image source={{ uri: imageUri }} style={styles.image} />
         )}
 
-        <TouchableOpacity onPress={takePhoto} style={styles.button}>
-          <Text style={styles.buttonText}>Scan a File</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
+        {!isAnalyzed ? (
+          <Button onPress={takePhoto} style={styles.button}>
+            <Text style={styles.buttonText}>Choose a File</Text>
+          </Button>
+        ) : (
+          <Button
+            onPress={handleReset}
+            style={[styles.button, styles.resetButton]}
+          >
+            <Text style={styles.buttonText}>Generate Another File</Text>
+          </Button>
+        )}
+
+        <Button
+          onPress={analyzeAndParaphrase}
+          disabled={!imageUri || isAnalyzed}
+          style={[
+            styles.analyzeButton,
+            (!imageUri || isAnalyzed) && styles.disabledButton,
+          ]}
+        >
+          <Text style={styles.buttonText}>Analyze & Paraphrase</Text>
+        </Button>
+
+
+        <Button
           onPress={() => navigation.navigate("Upload")}
           style={[styles.button, styles.switchButton]}
         >
           <Text style={styles.buttonText}>Switch to Upload</Text>
-        </TouchableOpacity>
-        {imageUri && (
-          <TouchableOpacity
-            onPress={analyzeAndParaphrase}
-            style={styles.analyzeButton}
-          >
-            <Text style={styles.buttonText}>Analyze & Paraphrase</Text>
-          </TouchableOpacity>
-        )}
+        </Button>
+
+        {isSheetOpen && (
+        <BottomSheetModal
+          sheetRef={sheetRef}
+          paraphrasedText={paraphrasedText}
+        />
+      )}
 
       </Layout>
-      <Modal
-        visible={modalVisible}
-        animationType="slide"
-        swipeDirection="down"
-        onSwipeComplete={() => setModalVisible(false)}
-        style={styles.modal}
-        presentationStyle="formScreen"
-        propagateSwipe={true}
-      >
-        <ScrollView style={styles.modalContent}>
-          <View style={styles.barIcon} />
-          <Text style={styles.modalHeader}>Paraphrased Results</Text>
-          {Array.isArray(paraphrasedText) &&
-            paraphrasedText.map((o, i) => (
-              <View style={styles.promptOutput} key={`para_${i}`}>
-                <Text style={{ fontWeight: "bold", color: "blue" }}>
-                  {o.Title}
-                </Text>
-                <Text>{o.description}</Text>
-              </View>
-            ))}
-        </ScrollView>
-      </Modal>
     </SafeAreaView>
   );
 };
@@ -255,7 +267,7 @@ const getStyles = (isDarkMode) => ({
   },
   switchButton: {
     backgroundColor: colors.light.bgBlue,
-    width: "50%",
+    width: "100%",
     margin:"auto"
   },
   buttonText: {
@@ -294,5 +306,8 @@ const getStyles = (isDarkMode) => ({
   modalText: {
     fontSize: 16,
     padding: 30,
+  },
+  disabledButton: {
+    backgroundColor: "#d3d3d3",
   },
 });
