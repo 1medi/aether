@@ -316,7 +316,7 @@ const getStyles = (isDarkMode) => ({
   },
   backButton: {
     ...typography(true).h3Med,
-    color: isDarkMode ? colors.apple.white : colors.apple.black,
+    color: colors.apple.black,
   },
 
   profileHeader: {
@@ -335,7 +335,7 @@ const getStyles = (isDarkMode) => ({
   },
   profileRole: {
     ...typography(true).h4,
-    color: isDarkMode ? colors.dark.deepWhite60 : colors.apple.secondaryText,
+    color: isDarkMode ? colors.dark.deepWhite40 : colors.apple.secondaryText,
   },
 
   category: {

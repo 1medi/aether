@@ -34,15 +34,11 @@ export default function SavedProfile({ route, navigation }) {
   }
 
   const { personalInfo, address, emergencyContact } = profile;
-  
+
   return (
     <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
-        <LinearGradient
-          colors={
-            isDarkMode
-              ? ['transparent', colors.dark.black] // Smooth dark gradient
-              : [colors.apple.offWhite, "#D8ECFF"] // Smooth light gradient
-          }
+              <LinearGradient
+          colors={[colors.apple.offWhite, "#D8ECFF"]}
           style={styles.bgGradient}
           start={{ x: 0.5, y: 0.75 }} // Adjust the starting point
           end={{ x: 0.5, y: 1 }} // Adjust the ending point
@@ -316,7 +312,7 @@ const getStyles = (isDarkMode) => ({
   },
   backButton: {
     ...typography(true).h3Med,
-    color: isDarkMode ? colors.apple.white : colors.apple.black,
+    color: colors.apple.black,
   },
 
   profileHeader: {
@@ -331,11 +327,10 @@ const getStyles = (isDarkMode) => ({
   },
   profileName: {
     ...typography(true).h2Med,
-    color: isDarkMode ? colors.apple.white : '',
   },
   profileRole: {
     ...typography(true).h4,
-    color: isDarkMode ? colors.dark.deepWhite60 : colors.apple.secondaryText,
+    color: colors.apple.secondaryText,
   },
 
   category: {
@@ -378,9 +373,6 @@ const getStyles = (isDarkMode) => ({
       : colors.apple.lightStroke,
   },
 
-  deleteSection: {
-    backgroundColor: "transparent"
-  },
   touchContainer: {
     backgroundColor: "transparent",
   },
