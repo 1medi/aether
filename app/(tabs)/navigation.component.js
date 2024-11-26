@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer } from "@react-navigation/native";
 import {
   BottomNavigation,
   BottomNavigationTab,
   Icon,
   Layout,
 } from "@ui-kitten/components";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, AsyncStorage } from "react-native";
 import { BlurView } from "expo-blur";
 import { HomeScreen } from "./home.component";
 import { MyFilesScreen } from "./MyFiles/MyFiles.component";
@@ -20,8 +21,11 @@ import { colors } from "@/css/globals";
 import { DarkModeProvider } from "./context/DarkModeContext";
 import { FolderScreen } from "./FormLibrary/folder.component";
 import { useDarkMode } from "./context/DarkModeContext";
-import ScanDocScreen from "@/src/ScanDoc.js"
-import UploadDocScreen from "@/src/UploadDoc.js"
+import ScanDocScreen from "@/src/ScanDoc.js";
+import UploadDocScreen from "@/src/UploadDoc.js";
+
+// Onboarding Screens
+import OnboardingScreens from "./components/molecules/onboardingScreens"; // Import onboarding screens
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -147,57 +151,52 @@ const TabNavigator = () => {
         component={HomeScreen}
         options={{ title: "Aether Home" }}
       />
-    <Screen name="FormLibrary" component={FormLibraryScreen} />
-    <Screen name="MyFiles" component={MyFilesScreen} />
-    <Screen name="Account" component={AccountScreen} />
-    <Screen name="LibraryScreen" component={LibraryScreen} />
-    <Screen name="Camera" component={CameraScreen} />
-    <Screen name="PensionPlan" component={AutofilledScreen} />
-    <Screen name="Folder" component={FolderScreen} />
-    <Screen name="SavedProfile" component={SavedProfileScreen} />
-    <Screen name="Scan" component={ScanDocScreen} />
-    <Screen name="Upload" component={UploadDocScreen} />
-  </Navigator>
+      <Screen name="FormLibrary" component={FormLibraryScreen} />
+      <Screen name="MyFiles" component={MyFilesScreen} />
+      <Screen name="Account" component={AccountScreen} />
+      <Screen name="LibraryScreen" component={LibraryScreen} />
+      <Screen name="Camera" component={CameraScreen} />
+      <Screen name="PensionPlan" component={AutofilledScreen} />
+      <Screen name="Folder" component={FolderScreen} />
+      <Screen name="SavedProfile" component={SavedProfileScreen} />
+      <Screen name="Scan" component={ScanDocScreen} />
+      <Screen name="Upload" component={UploadDocScreen} />
+    </Navigator>
   );
 };
 
-const getTintColor = (isDarkMode, isActive) =>
-  isActive
-    ? isDarkMode
-      ? colors.apple.white
-      : colors.light.blue
-    : isDarkMode
-    ? colors.light.blue
-    : colors.apple.black;
+const AppNavigator = () => {
+  const [isFirstLaunch, setIsFirstLaunch] = useState(null); // State for tracking first launch
 
-const BottomNavigationTabIcon = ({ state, index, iconName, isDarkMode }) => (
-  <Icon
-    name={state.index === index ? iconName : `${iconName}-outline`}
-    style={[
-      styles.icon,
-      { tintColor: getTintColor(isDarkMode, state.index === index) },
-    ]}
-  />
-);
+  useEffect(() => {
+    const checkFirstLaunch = async () => {
+      const hasLaunched = await AsyncStorage.getItem("hasLaunched");
+      if (hasLaunched === null) {
+        // If first launch, show onboarding
+        setIsFirstLaunch(true);
+        await AsyncStorage.setItem("hasLaunched", "true"); // Set the "hasLaunched" flag
+      } else {
+        // Skip onboarding on subsequent launches
+        setIsFirstLaunch(false);
+      }
+    };
 
-<BottomNavigationTab
-  icon={(props) => (
-    <BottomNavigationTabIcon
-      {...props}
-      state={state}
-      index={0}
-      iconName="home"
-      isDarkMode={isDarkMode}
-    />
-  )}
-/>
+    checkFirstLaunch();
+  }, []);
 
+  if (isFirstLaunch === null) {
+    // Add a loading state to wait for the check
+    return <Layout><Text>Loading...</Text></Layout>;
+  }
 
-const AppNavigator = () => (
-  <DarkModeProvider>
-    <TabNavigator />
-  </DarkModeProvider>
-);
+  return (
+    <NavigationContainer>
+      <DarkModeProvider>
+        {isFirstLaunch ? <OnboardingScreens /> : <TabNavigator />}
+      </DarkModeProvider>
+    </NavigationContainer>
+  );
+};
 
 const styles = StyleSheet.create({
   navShadowContainer: {
