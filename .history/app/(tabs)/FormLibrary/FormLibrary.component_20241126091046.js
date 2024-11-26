@@ -146,11 +146,11 @@ const getStyles = (isDarkMode) => ({
   },
   endTextTitle: {
     ...typography(true).h2Med,
-    color:isDarkMode ? colors.apple.white : colors.apple.black,
+    color: isDarkMode ? colors.apple.white : colors.apple.black,
   },
   endTextDescription: {
     ...typography(true).footnote,
-    color: isDarkMode ? colors.apple.glass20 : colors.apple.secondaryText,
+    color: colors.apple.secondaryText,
   },
 
   bottomSpacerSection: {
