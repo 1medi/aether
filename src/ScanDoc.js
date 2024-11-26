@@ -217,15 +217,14 @@ const ScanDocScreen = ({ navigation }) => {
         >
           <Text style={styles.buttonText}>Switch to Upload</Text>
         </Button>
+      </Layout>
 
-        {isSheetOpen && (
+      {isSheetOpen && (
         <BottomSheetModal
           sheetRef={sheetRef}
           paraphrasedText={paraphrasedText}
         />
       )}
-
-      </Layout>
     </SafeAreaView>
   );
 };
