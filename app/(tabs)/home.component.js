@@ -247,8 +247,9 @@ const getStyles = (isDarkMode) => ({
     color: colors.apple.white,
   },
   greetingTextColored: {
-    ...typography(true).display2,
-    color: colors.light.bgBlue,
+    ...typography(true).display,
+    // color: colors.light.bgBlue,
+    color: colors.apple.white,
   },
   textContainer: {
     height: 50, // Ensure enough space for the drop-down effect
