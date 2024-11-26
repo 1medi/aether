@@ -316,7 +316,7 @@ const getStyles = (isDarkMode) => ({
   },
   backButton: {
     ...typography(true).h3Med,
-    color: isDarkMode ? colors.apple.white : colors.apple.black,
+    color: colors.apple.black,
   },
 
   profileHeader: {

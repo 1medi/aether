@@ -45,7 +45,7 @@ export const FormLibraryScreen = ({ navigation }) => {
         <LinearGradient
           colors={
             isDarkMode
-              ? ['transparent', colors.dark.black] // Smooth dark gradient
+              ? [colors.dark.black, colors.dark.darkGrey80] // Smooth dark gradient
               : [colors.apple.offWhite, "#D8ECFF"] // Smooth light gradient
           }
           style={styles.bgGradient}
@@ -53,7 +53,7 @@ export const FormLibraryScreen = ({ navigation }) => {
           end={{ x: 0.5, y: 1 }} // Adjust the ending point
         >
         <Header
-          title={"Form Library"}
+          title={"Form Computer"}
           placeholder={"Search for the right form"}
           hasSearchBar
           onSearch={onSearch}
@@ -150,7 +150,7 @@ const getStyles = (isDarkMode) => ({
   },
   endTextDescription: {
     ...typography(true).footnote,
-    color: isDarkMode ? colors.dark.deepWhite60 : colors.apple.secondaryText,
+    color: isDarkMode ? colors.apple.glass20 : colors.apple.secondaryText,
   },
 
   bottomSpacerSection: {

@@ -146,7 +146,6 @@ const getStyles = (isDarkMode) => ({
   },
   textSection: {
     ...typography(true).h1,
-    width: "100%",
   },
   date: {
     ...typography(true).footnote,
