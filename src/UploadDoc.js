@@ -18,13 +18,16 @@ import axios from "axios";
 import { useDarkMode } from "@/app/(tabs)/context/DarkModeContext";
 import { color } from "@rneui/base";
 import { ColorSpace } from "react-native-reanimated";
-import UploadAnimation from "../components/atoms/uploadAnimation"
-
+import UploadAnimation from "../components/atoms/uploadAnimation";
+import BottomSheetModal from "@/components/molecules/BottomSheetModal";
 
 const UploadDocScreen = ({ navigation }) => {
   const [imageUri, setImageUri] = useState(null);
   const [paraphrasedText, setParaphrasedText] = useState("");
-  const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const sheetRef = useRef(null);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [isAnalyzed, setIsAnalyzed] = useState(false);
 
   const requestMediaLibraryPermissions = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -62,6 +65,8 @@ const UploadDocScreen = ({ navigation }) => {
       return;
     }
 
+    setLoading(true);
+
     try {
       const googleAPIKey = process.env.EXPO_PUBLIC_GOOGLE_KEY;
       const apiURL = `https://vision.googleapis.com/v1/images:annotate?key=${googleAPIKey}`;
@@ -95,6 +100,7 @@ const UploadDocScreen = ({ navigation }) => {
         detectedText = apiResponse.data.responses[0].fullTextAnnotation.text;
       } else {
         alert("No text detected in the image.");
+        setLoading(false);
         return;
       }
 
@@ -143,12 +149,25 @@ const UploadDocScreen = ({ navigation }) => {
         paraphrasedContent = [...paraphrasedContent, ...arr];
       }
       console.log(paraphrasedContent);
+
       setParaphrasedText(paraphrasedContent);
-      setModalVisible(true);
+
+      setIsSheetOpen(true);
+      setIsAnalyzed(true);
+      sheetRef.current?.snapToIndex(0);
     } catch (error) {
       console.error("Error during analysis or paraphrasing:", error);
       alert("An error occurred. Please try again.");
+    } finally {
+      setLoading(false);
     }
+  };
+
+  const handleReset = () => {
+    setImageUri(null);
+    setParaphrasedText("");
+    setIsSheetOpen(false);
+    setIsAnalyzed(false);
   };
 
   const { isDarkMode } = useDarkMode();
@@ -164,21 +183,35 @@ const UploadDocScreen = ({ navigation }) => {
         </Text>
         {!imageUri ? (
           <View style={styles.animationContainer}>
-            <UploadAnimation/>
+            <UploadAnimation />
           </View>
         ) : (
           <Image source={{ uri: imageUri }} style={styles.image} />
         )}
-        <Button onPress={pickImage} style={styles.button}>
-          <Text style={styles.buttonText}>Choose a File</Text>
-        </Button>
 
-        {/* Show Analyze Button Only When Image is Selected */}
-        {imageUri && (
-          <Button onPress={analyzeAndParaphrase} style={styles.analyzeButton}>
-            <Text style={styles.buttonText}>Analyze & Paraphrase</Text>
+        {!isAnalyzed ? (
+          <Button onPress={pickImage} style={styles.button}>
+            <Text style={styles.buttonText}>Choose a File</Text>
+          </Button>
+        ) : (
+          <Button
+            onPress={handleReset}
+            style={[styles.button, styles.resetButton]}
+          >
+            <Text style={styles.buttonText}>Generate Another File</Text>
           </Button>
         )}
+
+        <Button
+          onPress={analyzeAndParaphrase}
+          disabled={!imageUri || isAnalyzed}
+          style={[
+            styles.analyzeButton,
+            (!imageUri || isAnalyzed) && styles.disabledButton,
+          ]}
+        >
+          <Text style={styles.buttonText}>Analyze & Paraphrase</Text>
+        </Button>
 
         <Button
           onPress={() => navigation.navigate("Scan")}
@@ -187,26 +220,13 @@ const UploadDocScreen = ({ navigation }) => {
           <Text style={styles.buttonText}>Switch to Scan</Text>
         </Button>
       </Layout>
-      <Modal
-        style={styles.modal}
-        visible={modalVisible}
-        animationType="slide"
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <ScrollView style={styles.modalContent}>
-          <View style={styles.barIcon} />
-          <Text style={styles.modalHeader}>Paraphrased Results</Text>
-          {Array.isArray(paraphrasedText) &&
-            paraphrasedText.map((o, i) => (
-              <View style={styles.promptOutput} key={`para_${i}`}>
-                <Text style={{ fontWeight: "bold", color: "blue" }}>
-                  {o.Title}
-                </Text>
-                <Text>{o.description}</Text>
-              </View>
-            ))}
-        </ScrollView>
-      </Modal>
+
+      {isSheetOpen && (
+        <BottomSheetModal
+          sheetRef={sheetRef}
+          paraphrasedText={paraphrasedText}
+        />
+      )}
     </SafeAreaView>
   );
 };
@@ -253,30 +273,7 @@ const getStyles = (isDarkMode) => ({
     color: "white",
     fontSize: 18,
   },
-  modalContent: {
-    backgroundColor: colors.light.bgBlue,
-    padding: 20,
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-    height: "80%",
-  },
-  barIcon: {
-    width: 50,
-    height: 5,
-    backgroundColor: "#ccc",
-    borderRadius: 3,
-    alignSelf: "center",
-    marginBottom: 10,
-  },
-  modalHeader: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
-  modal: {
-    height: "80%",
-  },
-  promptOutput: {
-    flexShrink: 1,
+  disabledButton: {
+    backgroundColor: "#d3d3d3",
   },
 });
