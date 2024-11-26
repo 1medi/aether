@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native"; // Maybe take this out for now?
 import {
   BottomNavigation,
   BottomNavigationTab,
