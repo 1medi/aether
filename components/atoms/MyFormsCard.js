@@ -1,10 +1,10 @@
-import React, { useMemo }  from "react";
-import { TouchableOpacity, StyleSheet, Image, View, Text } from "react-native";
+import React, { useMemo, useState } from "react";
+import { TouchableOpacity, StyleSheet, Image, View, Text, Modal } from "react-native";
 import { Icon, Layout } from "@ui-kitten/components";
 import { useNavigation } from "@react-navigation/native";
 import { colors, typography } from "@/css/globals";
 import { useDarkMode } from "@/app/(tabs)/context/DarkModeContext";
-
+import PensionPlanModal from "@/app/(tabs)/MyFiles/PensionPlanModal";
 export default function MyFormsCard({
   title,
   subheader,
@@ -12,13 +12,14 @@ export default function MyFormsCard({
   isImportant,
 }) {
   const navigation = useNavigation();
+  const [isModalVisible, setModalVisible] = useState(false);
 
   const { isDarkMode } = useDarkMode();
   const styles = useMemo(() => getStyles(isDarkMode), [isDarkMode]);
 
   const handlePress = () => {
-    if (title === "Canadian Pension Plan") {
-      navigation.navigate("LibraryScreen");
+    if (title === "Extended Health Care") {
+      setModalVisible(true);
     } else if (title === "Disability Tax Credit") {
       navigation.navigate("Home");
     } else if (title === "Assisted Living Application") {
@@ -41,7 +42,11 @@ export default function MyFormsCard({
               source={require("@/assets/images/previewImage2.png")}
             />
             {isImportant && (
-              <Icon name="star" style={styles.starIcon} fill={colors.light.blue} />
+              <Icon
+                name="star"
+                style={styles.starIcon}
+                fill={colors.light.blue}
+              />
             )}
           </View>
           <View style={styles.textContainer}>
@@ -57,6 +62,7 @@ export default function MyFormsCard({
             fill="#000"
           />
         </Layout>
+          <PensionPlanModal visible={isModalVisible} onClose={() => setModalVisible(false)}/>
       </View>
     </TouchableOpacity>
   );
@@ -105,11 +111,11 @@ const getStyles = (isDarkMode) => ({
   },
   title: {
     ...typography(true).bodyMed,
-    color: isDarkMode ? colors.apple.white : ''
+    color: isDarkMode ? colors.apple.white : "",
   },
   subheader: {
     ...typography(true).body,
-    color: isDarkMode ? colors.apple.white : ''
+    color: isDarkMode ? colors.apple.white : "",
   },
   footnote: {
     ...typography(true).footnoteItalic,
