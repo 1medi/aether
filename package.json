@@ -54,6 +54,7 @@
     "expo-system-ui": "~4.0.4",
     "expo-web-browser": "~14.0.1",
     "framer-motion": "^11.11.17",
+    "lottie-react-native": "7.1.0",
     "metro": "^0.81.0",
     "metro-resolver": "^0.81.0",
     "prettier": "^3.3.3",
