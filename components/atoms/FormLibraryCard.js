@@ -15,7 +15,7 @@ export default function FormLibraryCard({ image, title, description}) {
   const ArrowIcon = (props) => <Icon name="arrow-forward-outline" {...props} />;
 
   return (
-    <TouchableOpacity style={styles.touchContainer} onClick={onClick}>
+    <TouchableOpacity style={styles.touchContainer} >
       <ImageBackground source={image} style={styles.cardBackground}>
         <LinearGradient
           colors={["rgba(0,0,0,0.1)", "rgba(0,0,0,0.8)"]}
