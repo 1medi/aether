@@ -146,7 +146,7 @@ const getStyles = (isDarkMode) => ({
   },
   endTextTitle: {
     ...typography(true).h2Med,
-    color:isDarkMode ? colors.apple.white : colors.apple.black,
+    color: colors.apple.white,
   },
   endTextDescription: {
     ...typography(true).footnote,
