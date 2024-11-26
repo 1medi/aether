@@ -1,17 +1,20 @@
 import React, { useState } from "react";
 import {
   Pressable,
-  SafeAreaView,
   View,
   Modal,
   StyleSheet,
+  TouchableOpacity,
   Text,
+  ScrollView,
 } from "react-native";
 import { Button, Layout, Icon } from "@ui-kitten/components";
 import { useNavigation } from "@react-navigation/native";
 import Header from "@/components/header/Header";
 import DocView from "@/src/DocView";
 import { LinearGradient } from "expo-linear-gradient";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { colors, typography } from "@/css/globals";
 
 export default function LibraryScreen() {
   const [formData, setFormData] = useState({
@@ -75,18 +78,25 @@ export default function LibraryScreen() {
 
   return (
     <>
-      <SafeAreaView style={styles.homePage}>
-        <Header title={"Form Library"} />
+      <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
+        <View style={styles.topButtonContainer}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("MyFiles")}
+            style={styles.leftIcons}
+          >
+            <Icon name="arrow-back" style={styles.headerIcon} />
+            <Text style={styles.backButton}>Back</Text>
+          </TouchableOpacity>
+          <View style={styles.rightIcons}>
+            <Icon name="star-outline" style={styles.headerIcon} />
+            <Icon name="checkmark-square-2-outline" style={styles.headerIcon} />
+            <Icon name="info-outline" style={styles.headerIcon} />
+          </View>
+        </View>
         <Layout
           style={{ backgroundColor: "none", paddingLeft: 20, width: "auto" }}
         >
-          <Text style={styles.headerText}>Extended Health Care Form</Text>
-
           <View style={styles.buttonsRow}>
-            <Pressable>
-              <BackIcon onPress={() => navigation.goBack()} />
-            </Pressable>
-
             <View style={styles.buttons}>
               <Pressable
                 style={[styles.formButton, { marginLeft: 15 }]}
@@ -139,19 +149,38 @@ export default function LibraryScreen() {
 }
 
 const styles = StyleSheet.create({
-  gradientContainer: {
-    ...StyleSheet.absoluteFillObject,
-    zIndex: -1,
+  topButtonContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginHorizontal: 16,
+    marginTop: 20,
+    marginBottom: 8,
   },
-  homePage: {
-    flex: 1,
-    backgroundColor: "none",
+  headerIcon: {
+    width: 24,
+    height: 24,
+    fill: colors.apple.black,
   },
-  headerText: {
-    fontSize: 32,
-    fontFamily: "Inter_400Regular",
-    color: "#08415C",
+
+  leftIcons: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
   },
+  backButton: {
+    ...typography(true).h3Med,
+    color: colors.apple.black,
+  },
+
+  rightIcons: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 16,
+  },
+
   buttonsRow: {
     backgroundColor: "none",
     display: "flex",
@@ -176,12 +205,14 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     alignContent: "center",
   },
+
   textContainer: {
     display: "flex",
     flexDirection: "column",
     padding: 5,
     backgroundColor: "none",
   },
+
   viewContainer: {
     display: "flex",
     flexDirection: "row",
@@ -194,12 +225,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#08415C",
   },
+
   imageContainer: {
     width: "100%",
-    height: 500,
+    height: 600,
     alignItems: "center",
     justifyContent: "center",
   },
+
   modalOverlay: {
     flex: 1,
     justifyContent: "center",

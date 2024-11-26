@@ -306,7 +306,7 @@ const getStyles = (isDarkMode) => ({
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
-    marginHorizontal: 12,
+    marginHorizontal: 16,
     marginTop: 20,
     marginBottom: 8,
   },
