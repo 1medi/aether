@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useRef } from "react";
 import {
   SafeAreaView,
   Text,
@@ -18,6 +18,7 @@ import axios from "axios";
 import { useDarkMode } from "@/app/(tabs)/context/DarkModeContext";
 import { color } from "@rneui/base";
 import { ColorSpace } from "react-native-reanimated";
+import UploadAnimation from "../components/atoms/uploadAnimation"
 
 
 const UploadDocScreen = ({ navigation }) => {
@@ -136,7 +137,9 @@ const UploadDocScreen = ({ navigation }) => {
             },
           }
         );
-        const arr = JSON.parse(paraphraseResponse.data.choices[0].message.content);
+        const arr = JSON.parse(
+          paraphraseResponse.data.choices[0].message.content
+        );
         paraphrasedContent = [...paraphrasedContent, ...arr];
       }
       console.log(paraphrasedContent);
@@ -154,15 +157,18 @@ const UploadDocScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
-      <Header 
-        title={"Upload A File"} 
-        isDarkMode={isDarkMode}
-      />
+      <Header title={"Upload A File"} isDarkMode={isDarkMode} />
       <Layout style={styles.buttonContainer}>
         <Text style={styles.greetingMessage}>
           Upload a document to detect text and paraphrase it.
         </Text>
-        {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
+        {!imageUri ? (
+          <View style={styles.animationContainer}>
+            <UploadAnimation/>
+          </View>
+        ) : (
+          <Image source={{ uri: imageUri }} style={styles.image} />
+        )}
         <Button onPress={pickImage} style={styles.button}>
           <Text style={styles.buttonText}>Choose a File</Text>
         </Button>
@@ -182,30 +188,24 @@ const UploadDocScreen = ({ navigation }) => {
         </Button>
       </Layout>
       <Modal
+        style={styles.modal}
         visible={modalVisible}
         animationType="slide"
-        transparent={true}
         onRequestClose={() => setModalVisible(false)}
       >
-        <SafeAreaView style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalHeader}>Paraphrased Results</Text>
-            <ScrollView style={styles.textContainer}>
-              <Text style={styles.modalText}>
-                {Array.isArray(paraphrasedText) && paraphrasedText.map((o,i)=><View key={`para_${i}`}>
-                  <Text style={{fontWeight:"bold", color: "blue"}}>{o.Title}</Text>
-                  <Text>{o.description}</Text>
-                </View>)}
-              </Text>
-            </ScrollView>
-            <TouchableOpacity
-              onPress={() => setModalVisible(false)}
-              style={styles.closeButton}
-            >
-              <Text style={styles.buttonText}>Close</Text>
-            </TouchableOpacity>
-          </View>
-        </SafeAreaView>
+        <ScrollView style={styles.modalContent}>
+          <View style={styles.barIcon} />
+          <Text style={styles.modalHeader}>Paraphrased Results</Text>
+          {Array.isArray(paraphrasedText) &&
+            paraphrasedText.map((o, i) => (
+              <View style={styles.promptOutput} key={`para_${i}`}>
+                <Text style={{ fontWeight: "bold", color: "blue" }}>
+                  {o.Title}
+                </Text>
+                <Text>{o.description}</Text>
+              </View>
+            ))}
+        </ScrollView>
       </Modal>
     </SafeAreaView>
   );
@@ -232,7 +232,7 @@ const getStyles = (isDarkMode) => ({
     width: 300,
     height: 300,
     borderRadius: 20,
-    margin: "auto"
+    margin: "auto",
   },
   button: {
     backgroundColor: colors.light.deepBlue80,
@@ -253,35 +253,30 @@ const getStyles = (isDarkMode) => ({
     color: "white",
     fontSize: 18,
   },
-  modalOverlay: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
   modalContent: {
-    width: "80%",
-    height: "80%",
+    backgroundColor: colors.light.bgBlue,
     padding: 20,
-    backgroundColor: "white",
-    borderRadius: 10,
-    alignItems: "center",
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    height: "80%",
+  },
+  barIcon: {
+    width: 50,
+    height: 5,
+    backgroundColor: "#ccc",
+    borderRadius: 3,
+    alignSelf: "center",
+    marginBottom: 10,
   },
   modalHeader: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 20,
   },
-  modalText: {
-    fontSize: 16,
-    height: "100%",
-    width: "100vw",
-    padding: 30
+  modal: {
+    height: "80%",
   },
-  closeButton: {
-    marginTop: 20,
-    backgroundColor: colors.light.deepBlue80,
-    padding: 10,
-    borderRadius: 10,
+  promptOutput: {
+    flexShrink: 1,
   },
 });
