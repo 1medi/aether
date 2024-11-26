@@ -23,7 +23,6 @@ import {
 } from "react-native-reanimated";
 import Animated from "react-native-reanimated";
 import { useDarkMode } from "./context/DarkModeContext";
-import { appendBaseUrl } from "expo-router/build/fork/getPathFromState-forks";
 
 export const HomeScreen = ({ navigation }) => {
   const [recentForms, setRecentForms] = useState(myFormsData);
@@ -50,10 +49,10 @@ export const HomeScreen = ({ navigation }) => {
         translateY.value = withTiming(-100, { duration: 0 });
 
         // Fade in and move the new word down into place
-        opacity.value = withTiming(1, { duration: 1000 }); // Fade the new word in
-        translateY.value = withTiming(0, { duration: 500 }); // Move the new word into place (drop down)
+        opacity.value = withTiming(1, { duration: 1250 }); // Fade the new word in
+        translateY.value = withTiming(0, { duration: 750 }); // Move the new word into place (drop down)
       }, 500); // Wait for the first transition to complete before changing the word
-    }, 3500);
+    }, 5000);
 
     return () => {
       clearInterval(interval);
@@ -74,6 +73,16 @@ export const HomeScreen = ({ navigation }) => {
   return (
     <>
       <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
+        <LinearGradient
+          colors={
+            isDarkMode
+              ? [colors.dark.black, colors.dark.darkGrey80] // Smooth dark gradient
+              : [colors.apple.offWhite, "#D8ECFF"] // Smooth light gradient
+          }
+          style={styles.bgGradient}
+          start={{ x: 0.5, y: 0.75 }} // Adjust the starting point for visual appeal
+          end={{ x: 0.5, y: 1 }} // Adjust the ending point
+        >
         {/* Header */}
         <Header
           greeting={"Hello, Chris Topher"}
@@ -84,103 +93,106 @@ export const HomeScreen = ({ navigation }) => {
           contentContainerStyle={styles.scrollContainer}
           showsVerticalScrollIndicator={false}
         >
-          {/* Home Banner */}
-          <Layout style={styles.imageSection}>
-            <ImageBackground
-              source={require("@/assets/images/homePhoto2.png")}
-              style={styles.imageBackground}
-            >
-              <LinearGradient
-                colors={["rgba(0,0,0,0.15)", "rgba(0,0,0,1)"]}
-                style={styles.gradientOverlay}
+            {/* Home Banner */}
+            <Layout style={styles.imageSection}>
+              <ImageBackground
+                source={require("@/assets/images/homePhoto2.png")}
+                style={styles.imageBackground}
               >
-                <Layout style={styles.greetingSection}>
-                  <Text style={styles.greetingText}>
-                    Need help
-                    {"\n"}
-                    <View style={styles.textContainer}>
-                      <Animated.View style={animatedStyle}>
-                        <Text style={styles.greetingTextColored}>
-                          {words[currentWordIndex]}
-                        </Text>
-                      </Animated.View>
+                <LinearGradient
+                  colors={["rgba(0,0,0,0.1)", "rgba(0,0,0,0.8)"]}
+                  style={styles.gradientOverlay}
+                >
+                  <Layout style={styles.greetingSection}>
+                    <Text style={styles.greetingText}>
+                      Need help
+                      {"\n"}
+                      <View style={styles.textContainer}>
+                        <Animated.View style={animatedStyle}>
+                          <Text style={styles.greetingTextColored}>
+                            {words[currentWordIndex]}
+                          </Text>
+                        </Animated.View>
+                      </View>
+                      {"\n"}a form today?
+                    </Text>
+                  </Layout>
+
+                  {/* Action Buttons */}
+                  <Layout style={styles.actionLayout}>
+                    <Layout style={styles.actionColumn}>
+                      <ActionButton
+                        buttonTitle="Search"
+                        buttonDesc="our library"
+                        accessory={SearchIcon}
+                        destination="FormLibrary"
+                      />
+                    </Layout>
+                    <Layout style={styles.actionColumn}>
+                      <ActionButton
+                        buttonTitle="Upload"
+                        buttonDesc="from device"
+                        accessory={UploadIcon}
+                        destination="Upload"
+                      />
+                    </Layout>
+                    <Layout style={styles.actionColumn}>
+                      <ActionButton
+                        buttonTitle="Scan"
+                        buttonDesc="a document"
+                        accessory={FileIcon}
+                        destination="Scan"
+                      />
+                    </Layout>
+                  </Layout>
+                </LinearGradient>
+              </ImageBackground>
+            </Layout>
+
+            {/* Recent Forms Section */}
+            <Layout style={styles.sectionContainer}>
+              <Layout style={styles.subhead}>
+                <Text style={styles.headline}>Recent</Text>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate("MyFiles")}
+                >
+                  <Icon
+                    name="arrow-forward-outline"
+                    style={styles.headlineButton}
+                  />
+                </TouchableOpacity>
+              </Layout>
+              <Layout style={styles.recentFormsSection}>
+                {recentForms.map((form, index) => (
+                  <React.Fragment key={`${form.id}-${index}`}>
+                    <View style={styles.formButtonContainer}>
+                      <MyFormsCard
+                        title={form.title}
+                        subheader={form.subheader}
+                        footnote={form.footnote}
+                      />
                     </View>
-                    {"\n"}a form today?
-                  </Text>
-                </Layout>
-
-                {/* Action Buttons */}
-                <Layout style={styles.actionLayout}>
-                  <Layout style={styles.actionColumn}>
-                    <ActionButton
-                      buttonTitle="Search"
-                      buttonDesc="our library"
-                      accessory={SearchIcon}
-                      destination="FormLibrary"
-                    />
-                  </Layout>
-                  <Layout style={styles.actionColumn}>
-                    <ActionButton
-                      buttonTitle="Upload"
-                      buttonDesc="from device"
-                      accessory={UploadIcon}
-                      destination="Upload"
-                    />
-                  </Layout>
-                  <Layout style={styles.actionColumn}>
-                    <ActionButton
-                      buttonTitle="Scan"
-                      buttonDesc="a document"
-                      accessory={FileIcon}
-                      destination="Scan"
-                    />
-                  </Layout>
-                </Layout>
-              </LinearGradient>
-            </ImageBackground>
-          </Layout>
-
-          {/* Recent Forms Section */}
-          <Layout style={styles.sectionContainer}>
-            <Layout style={styles.subhead}>
-              <Text style={styles.headline}>Recent</Text>
-              <TouchableOpacity onPress={() => navigation.navigate("MyFiles")}>
-                <Icon
-                  name="arrow-forward-outline"
-                  style={styles.headlineButton}
-                />
-              </TouchableOpacity>
+                    {index < recentForms.length - 1 && (
+                      <Divider style={styles.divider} />
+                    )}
+                  </React.Fragment>
+                ))}
+              </Layout>
             </Layout>
-            <Layout style={styles.recentFormsSection}>
-              {recentForms.map((form, index) => (
-                <React.Fragment key={`${form.id}-${index}`}>
-                  <View style={styles.formButtonContainer}>
-                    <MyFormsCard
-                      title={form.title}
-                      subheader={form.subheader}
-                      footnote={form.footnote}
-                    />
-                  </View>
-                  {index < recentForms.length - 1 && (
-                    <Divider style={styles.divider} />
-                  )}
-                </React.Fragment>
-              ))}
+
+            {/* Spacer */}
+            <View style={{ height: 48 }} />
+
+            {/* End Image */}
+            <Layout style={styles.bottomSpacerSection}>
+              <Image
+                source={require("@/assets/images/logo40.png")}
+                style={styles.bottomSpacerLogo}
+              />
+              <Text style={styles.bottomMessage}>Aether • 2024</Text>
             </Layout>
-          </Layout>
-
-          {/* Spacer */}
-          <View style={{ height: 48 }} />
-
-          {/* End Image */}
-          <Layout style={styles.bottomSpacerSection}>
-            <Image
-              source={require("@/assets/images/logo40.png")}
-              style={styles.bottomSpacerLogo}
-            />
-            <Text style={styles.bottomMessage}>Aether • 2024</Text>
-          </Layout>
         </ScrollView>
+          </LinearGradient>
       </SafeAreaView>
     </>
   );
@@ -189,6 +201,11 @@ export const HomeScreen = ({ navigation }) => {
 export default HomeScreen;
 
 const getStyles = (isDarkMode) => ({
+  bgGradient: {
+    flex: 1,
+    // paddingBottom: 132,
+  },
+
   fullPage: {
     flex: 1,
     backgroundColor: isDarkMode ? colors.apple.black : colors.apple.offWhite,
@@ -196,7 +213,7 @@ const getStyles = (isDarkMode) => ({
   scrollContainer: {
     paddingTop: 8,
     paddingBottom: 132,
-    gap: 8,
+    gap: 16,
   },
   imageSection: {
     backgroundColor: "transparent",
@@ -223,22 +240,21 @@ const getStyles = (isDarkMode) => ({
     height: 500,
     width: 300,
     flex: 1,
-    flexDirection: "column"
+    flexDirection: "column",
   },
   greetingText: {
     ...typography(true).display,
     color: colors.apple.white,
   },
   greetingTextColored: {
-    ...typography(true).display2,
-    
+    ...typography(true).display,
+    // color: colors.light.bgBlue,
+    color: colors.apple.white,
   },
   textContainer: {
-    height: 60, // Ensure enough space for the drop-down effect
+    height: 50, // Ensure enough space for the drop-down effect
     justifyContent: "center", // Center the text vertically
     overflow: "hidden", // Prevent overflowing text
-    padding: 0,
-    margin: 0
   },
   actionLayout: {
     flexDirection: "row",

@@ -1,25 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useMemo, useRef } from "react";
 import {
-  View,
+  SafeAreaView,
   Text,
-  StyleSheet,
   Image,
-  Modal,
+  StyleSheet,
   ScrollView,
   TouchableOpacity,
+  View,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
 import { Button, Layout } from "@ui-kitten/components";
-import { colors, typography } from "@/css/globals";
 import Header from "@/components/header/Header";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { colors, typography } from "@/css/globals";
 import axios from "axios";
+import Modal from "react-native-modal";
+import { useDarkMode } from "@/app/(tabs)/context/DarkModeContext";
+import ScanAnimation from "@/components/atoms/scanAnimation"
+import BottomSheetModal from "@/components/molecules/BottomSheetModal"
 
 const ScanDocScreen = ({ navigation }) => {
   const [imageUri, setImageUri] = useState(null);
   const [paraphrasedText, setParaphrasedText] = useState("");
-  const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const sheetRef = useRef(null);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [isAnalyzed, setIsAnalyzed] = useState(false);
+
 
   const requestCameraPermissions = async () => {
     const { status } = await ImagePicker.requestCameraPermissionsAsync();
@@ -53,7 +60,7 @@ const ScanDocScreen = ({ navigation }) => {
 
   const analyzeAndParaphrase = async () => {
     if (!imageUri) {
-      alert("Please take a photo first!");
+      alert("Please upload an image first!");
       return;
     }
 
@@ -95,30 +102,31 @@ const ScanDocScreen = ({ navigation }) => {
 
       // Split detected text into smaller chunks if necessary
       const chunks = detectedText.match(/[\s\S]{1,1500}/g) || [];
-      let paraphrasedContent = "";
+      let paraphrasedContent = [];
 
       for (const chunk of chunks) {
         const paraphraseResponse = await axios.post(
           "https://api.openai.com/v1/chat/completions",
           {
-            model: "gpt-3.5-turbo",
+            model: "gpt-4o-mini",
             messages: [
               {
                 role: "system",
                 content: `
-                  You are a paraphraser for professional use. Rewrite the following content according to these guidelines:
+                You are a paraphraser for professional use. Rewrite the following content according to these guidelines:
                   
-                  1. Summarize and Simplify: Explain only what the document says, as if explaining to a 10-year-old. Provide one succinct sentence for each subject.
-                  
-                  2. Formatting Rules:
-                     - Use **bold** for headers.
-                     - Use *italics* for emphasis.
-                     - Indent each paragraph.
-                     - Avoid any markup or special characters such as "**".
-                  
-                  Input Content:
-                  ${chunk}
-                `,
+                1. Summarize and Simplify: Explain only what the document says, as if explaining to a 10-year-old. Provide one succinct sentence for each subject.
+                
+                2. Formatting Rules:
+                   - Use **bold** for headers.
+                   - Use *italics* for emphasis.
+                   - Indent each paragraph.
+                   - Avoid any markup or special characters such as "**".
+                
+                Input Content:
+                ${chunk}
+                
+                Return the results in this parsable json form [{"Title":string, "description":string}]`,
               },
             ],
             max_tokens: 4096,
@@ -130,35 +138,79 @@ const ScanDocScreen = ({ navigation }) => {
             },
           }
         );
-
-        paraphrasedContent +=
-          paraphraseResponse.data.choices[0].message.content + "\n\n";
+        const arr = JSON.parse(
+          paraphraseResponse.data.choices[0].message.content
+        );
+        paraphrasedContent = [...paraphrasedContent, ...arr];
       }
+      console.log(paraphrasedContent);
 
-      setParaphrasedText(paraphrasedContent.trim());
-      setModalVisible(true);
+      setParaphrasedText(paraphrasedContent);
+
+      setIsSheetOpen(true);
+      setIsAnalyzed(true);
+      sheetRef.current?.snapToIndex(0);
     } catch (error) {
       console.error("Error during analysis or paraphrasing:", error);
       alert("An error occurred. Please try again.");
+    } finally {
+      setLoading(false)
     }
   };
 
+  const handleReset = () => {
+    setImageUri(null);
+    setParaphrasedText("");
+    setIsSheetOpen(false);
+    setIsAnalyzed(false);
+  };
+
+  const { isDarkMode } = useDarkMode();
+
+  const styles = useMemo(() => getStyles(isDarkMode), [isDarkMode]);
+
   return (
     <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
-      <Header title={"Scan A File"} />
+      <Header title={"Scan A File"} isDarkMode={isDarkMode} />
+
       <Layout style={styles.buttonContainer}>
-        <Text style={styles.greetingMessage}>
-          Scan a document to detect text and paraphrase it.
-        </Text>
-        {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
-        <Button onPress={takePhoto} style={styles.button}>
-          <Text style={styles.buttonText}>Take a Photo</Text>
-        </Button>
-        {imageUri && (
-          <Button onPress={analyzeAndParaphrase} style={styles.analyzeButton}>
-            <Text style={styles.buttonText}>Analyze & Paraphrase</Text>
+      <Text style={styles.greetingMessage}>
+          Scan a document here to detect text and paraphrase it.
+      </Text>
+
+        {!imageUri ? (
+          <View style={styles.animationContainer}>
+            <ScanAnimation/>
+          </View>
+        ) : (
+          <Image source={{ uri: imageUri }} style={styles.image} />
+        )}
+
+        {!isAnalyzed ? (
+          <Button onPress={takePhoto} style={styles.button}>
+            <Text style={styles.buttonText}>Choose a File</Text>
+          </Button>
+        ) : (
+          <Button
+            onPress={handleReset}
+            style={[styles.button, styles.resetButton]}
+          >
+            <Text style={styles.buttonText}>Generate Another File</Text>
           </Button>
         )}
+
+        <Button
+          onPress={analyzeAndParaphrase}
+          disabled={!imageUri || isAnalyzed}
+          style={[
+            styles.analyzeButton,
+            (!imageUri || isAnalyzed) && styles.disabledButton,
+          ]}
+        >
+          <Text style={styles.buttonText}>Analyze & Paraphrase</Text>
+        </Button>
+
+
         <Button
           onPress={() => navigation.navigate("Upload")}
           style={[styles.button, styles.switchButton]}
@@ -166,53 +218,39 @@ const ScanDocScreen = ({ navigation }) => {
           <Text style={styles.buttonText}>Switch to Upload</Text>
         </Button>
       </Layout>
-      <Modal
-        visible={modalVisible}
-        animationType="slide"
-        transparent={true}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <SafeAreaView style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalHeader}>Paraphrased Results</Text>
-            <ScrollView style={styles.textContainer}>
-              <Text style={styles.modalText}>
-                {paraphrasedText || "No paraphrased text available."}
-              </Text>
-            </ScrollView>
-            <TouchableOpacity
-              onPress={() => setModalVisible(false)}
-              style={styles.closeButton}
-            >
-              <Text style={styles.buttonText}>Close</Text>
-            </TouchableOpacity>
-          </View>
-        </SafeAreaView>
-      </Modal>
+
+      {isSheetOpen && (
+        <BottomSheetModal
+          sheetRef={sheetRef}
+          paraphrasedText={paraphrasedText}
+        />
+      )}
     </SafeAreaView>
   );
 };
 
 export default ScanDocScreen;
 
-const styles = StyleSheet.create({
+const getStyles = (isDarkMode) => ({
   fullPage: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: isDarkMode ? colors.dark.black : colors.apple.offWhite,
   },
   buttonContainer: {
     margin: 20,
+    backgroundColor: "transparent",
   },
   greetingMessage: {
     ...typography(true).h1Med,
     fontSize: 24,
     marginBottom: 20,
+    color: isDarkMode ? colors.apple.white : colors.apple.black,
   },
   image: {
     width: 300,
     height: 300,
     borderRadius: 20,
-    margin: "auto"
+    margin: "auto",
   },
   button: {
     backgroundColor: colors.light.deepBlue80,
@@ -228,24 +266,36 @@ const styles = StyleSheet.create({
   },
   switchButton: {
     backgroundColor: colors.light.bgBlue,
+    width: "100%",
+    margin:"auto"
   },
   buttonText: {
     color: "white",
     fontSize: 18,
+    textAlign: "center",
+  },
+  modal: {
+    justifyContent: "flex-end",
+    margin: 0,
   },
   modalOverlay: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "flex-end",
   },
   modalContent: {
-    width: "80%",
-    height: "80%",
+    backgroundColor: colors.light.bgBlue,
     padding: 20,
-    backgroundColor: "white",
-    borderRadius: 10,
-    alignItems: "center",
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+
+  },
+  barIcon: {
+    width: 50,
+    height: 5,
+    backgroundColor: "#ccc",
+    borderRadius: 3,
+    alignSelf: "center",
+    marginBottom: 10,
   },
   modalHeader: {
     fontSize: 24,
@@ -254,14 +304,9 @@ const styles = StyleSheet.create({
   },
   modalText: {
     fontSize: 16,
-    height: "100%",
-    width: "100vw",
-    padding: 30
+    padding: 30,
   },
-  closeButton: {
-    marginTop: 20,
-    backgroundColor: colors.light.deepBlue80,
-    padding: 10,
-    borderRadius: 10,
+  disabledButton: {
+    backgroundColor: "#d3d3d3",
   },
 });

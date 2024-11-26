@@ -11,6 +11,8 @@ import CoverageRadio2 from "@/components/molecules/pdfRadios-2/coverageRadio2"
 import AdditionalMember from "@/components/molecules/pdfRadios-2/additionalMember"
 import EmploymentRadio from "@/components/molecules/pdfRadios-2/employmentRadio"
 import StatusRadio from "@/components/molecules/pdfRadios-3/statusRadio"
+import { captureRef } from 'react-native-view-shot';
+
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 
@@ -369,10 +371,7 @@ export default function DocumentView({ formData, setFormData }) {
                       <AdditionalMember />
                     </View>
                   </View>
-
                 </View>
-
-
               </ImageBackground>
 
             )}
@@ -401,7 +400,6 @@ export default function DocumentView({ formData, setFormData }) {
         </ScrollView>
       </ScrollView>
 
-       {/* Modal for Save Confirmation */}
        <Modal transparent visible={isModalVisible} animationType="fade">
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>

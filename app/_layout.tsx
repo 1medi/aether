@@ -6,19 +6,22 @@ import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import AppNavigator from './(tabs)/navigation.component';
 import { default as theme } from '@/custom-theme.json';
 import { colors } from '@/css/globals';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 // const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <>
-      <IconRegistry icons={EvaIconsPack} />
+    <GestureHandlerRootView>
+    <IconRegistry icons={EvaIconsPack} />
       <ApplicationProvider
         {...eva}
         theme={{ ...eva.light, ...theme }}
       >
         <AppNavigator />
       </ApplicationProvider>
+    </GestureHandlerRootView>
     </>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo, useRef } from "react";
 import {
   SafeAreaView,
   Text,
@@ -15,11 +15,19 @@ import { Button, Layout } from "@ui-kitten/components";
 import Header from "@/components/header/Header";
 import { colors, typography } from "@/css/globals";
 import axios from "axios";
+import { useDarkMode } from "@/app/(tabs)/context/DarkModeContext";
+import { color } from "@rneui/base";
+import { ColorSpace } from "react-native-reanimated";
+import UploadAnimation from "../components/atoms/uploadAnimation";
+import BottomSheetModal from "@/components/molecules/BottomSheetModal";
 
 const UploadDocScreen = ({ navigation }) => {
   const [imageUri, setImageUri] = useState(null);
   const [paraphrasedText, setParaphrasedText] = useState("");
-  const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const sheetRef = useRef(null);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [isAnalyzed, setIsAnalyzed] = useState(false);
 
   const requestMediaLibraryPermissions = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -57,6 +65,8 @@ const UploadDocScreen = ({ navigation }) => {
       return;
     }
 
+    setLoading(true);
+
     try {
       const googleAPIKey = process.env.EXPO_PUBLIC_GOOGLE_KEY;
       const apiURL = `https://vision.googleapis.com/v1/images:annotate?key=${googleAPIKey}`;
@@ -90,18 +100,19 @@ const UploadDocScreen = ({ navigation }) => {
         detectedText = apiResponse.data.responses[0].fullTextAnnotation.text;
       } else {
         alert("No text detected in the image.");
+        setLoading(false);
         return;
       }
 
       // Split detected text into smaller chunks if necessary
       const chunks = detectedText.match(/[\s\S]{1,1500}/g) || [];
-      let paraphrasedContent = "";
+      let paraphrasedContent = [];
 
       for (const chunk of chunks) {
         const paraphraseResponse = await axios.post(
           "https://api.openai.com/v1/chat/completions",
           {
-            model: "gpt-3.5-turbo",
+            model: "gpt-4o-mini",
             messages: [
               {
                 role: "system",
@@ -118,6 +129,8 @@ const UploadDocScreen = ({ navigation }) => {
                   
                   Input Content:
                   ${chunk}
+                  
+                  Return the results in this parsable json form [{"Title":string, "description":string}]
                 `,
               },
             ],
@@ -130,37 +143,75 @@ const UploadDocScreen = ({ navigation }) => {
             },
           }
         );
-
-        paraphrasedContent +=
-          paraphraseResponse.data.choices[0].message.content + "\n\n";
+        const arr = JSON.parse(
+          paraphraseResponse.data.choices[0].message.content
+        );
+        paraphrasedContent = [...paraphrasedContent, ...arr];
       }
+      console.log(paraphrasedContent);
 
-      setParaphrasedText(paraphrasedContent.trim());
-      setModalVisible(true);
+      setParaphrasedText(paraphrasedContent);
+
+      setIsSheetOpen(true);
+      setIsAnalyzed(true);
+      sheetRef.current?.snapToIndex(0);
     } catch (error) {
       console.error("Error during analysis or paraphrasing:", error);
       alert("An error occurred. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
+  const handleReset = () => {
+    setImageUri(null);
+    setParaphrasedText("");
+    setIsSheetOpen(false);
+    setIsAnalyzed(false);
+  };
+
+  const { isDarkMode } = useDarkMode();
+
+  const styles = useMemo(() => getStyles(isDarkMode), [isDarkMode]);
+
   return (
     <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
-      <Header title={"Upload A File"} />
+      <Header title={"Upload A File"} isDarkMode={isDarkMode} />
       <Layout style={styles.buttonContainer}>
         <Text style={styles.greetingMessage}>
           Upload a document to detect text and paraphrase it.
         </Text>
-        {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
-        <Button onPress={pickImage} style={styles.button}>
-          <Text style={styles.buttonText}>Choose a File</Text>
-        </Button>
+        {!imageUri ? (
+          <View style={styles.animationContainer}>
+            <UploadAnimation />
+          </View>
+        ) : (
+          <Image source={{ uri: imageUri }} style={styles.image} />
+        )}
 
-        {/* Show Analyze Button Only When Image is Selected */}
-        {imageUri && (
-          <Button onPress={analyzeAndParaphrase} style={styles.analyzeButton}>
-            <Text style={styles.buttonText}>Analyze & Paraphrase</Text>
+        {!isAnalyzed ? (
+          <Button onPress={pickImage} style={styles.button}>
+            <Text style={styles.buttonText}>Choose a File</Text>
+          </Button>
+        ) : (
+          <Button
+            onPress={handleReset}
+            style={[styles.button, styles.resetButton]}
+          >
+            <Text style={styles.buttonText}>Generate Another File</Text>
           </Button>
         )}
+
+        <Button
+          onPress={analyzeAndParaphrase}
+          disabled={!imageUri || isAnalyzed}
+          style={[
+            styles.analyzeButton,
+            (!imageUri || isAnalyzed) && styles.disabledButton,
+          ]}
+        >
+          <Text style={styles.buttonText}>Analyze & Paraphrase</Text>
+        </Button>
 
         <Button
           onPress={() => navigation.navigate("Scan")}
@@ -169,53 +220,39 @@ const UploadDocScreen = ({ navigation }) => {
           <Text style={styles.buttonText}>Switch to Scan</Text>
         </Button>
       </Layout>
-      <Modal
-        visible={modalVisible}
-        animationType="slide"
-        transparent={true}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <SafeAreaView style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalHeader}>Paraphrased Results</Text>
-            <ScrollView style={styles.textContainer}>
-              <Text style={styles.modalText}>
-                {paraphrasedText || "No paraphrased text available."}
-              </Text>
-            </ScrollView>
-            <TouchableOpacity
-              onPress={() => setModalVisible(false)}
-              style={styles.closeButton}
-            >
-              <Text style={styles.buttonText}>Close</Text>
-            </TouchableOpacity>
-          </View>
-        </SafeAreaView>
-      </Modal>
+
+      {isSheetOpen && (
+        <BottomSheetModal
+          sheetRef={sheetRef}
+          paraphrasedText={paraphrasedText}
+        />
+      )}
     </SafeAreaView>
   );
 };
 
 export default UploadDocScreen;
 
-const styles = StyleSheet.create({
+const getStyles = (isDarkMode) => ({
   fullPage: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: isDarkMode ? colors.dark.black : colors.apple.offWhite,
   },
   buttonContainer: {
     margin: 20,
+    backgroundColor: "transparent",
   },
   greetingMessage: {
     ...typography(true).h1Med,
     fontSize: 24,
     marginBottom: 20,
+    color: isDarkMode ? colors.apple.white : colors.apple.black,
   },
   image: {
     width: 300,
     height: 300,
     borderRadius: 20,
-    margin: "auto"
+    margin: "auto",
   },
   button: {
     backgroundColor: colors.light.deepBlue80,
@@ -236,35 +273,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 18,
   },
-  modalOverlay: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  modalContent: {
-    width: "80%",
-    height: "80%",
-    padding: 20,
-    backgroundColor: "white",
-    borderRadius: 10,
-    alignItems: "center",
-  },
-  modalHeader: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
-  modalText: {
-    fontSize: 16,
-    height: "100%",
-    width: "100vw",
-    padding: 30
-  },
-  closeButton: {
-    marginTop: 20,
-    backgroundColor: colors.light.deepBlue80,
-    padding: 10,
-    borderRadius: 10,
+  disabledButton: {
+    backgroundColor: "#d3d3d3",
   },
 });
