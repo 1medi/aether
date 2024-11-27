@@ -8,6 +8,7 @@ import {
   ScrollView,
   TouchableOpacity,
   View,
+  Touchable,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
@@ -190,19 +191,19 @@ const UploadDocScreen = ({ navigation }) => {
         )}
 
         {!isAnalyzed ? (
-          <Button onPress={pickImage} style={styles.button}>
+          <TouchableOpacity onPress={pickImage} style={styles.button}>
             <Text style={styles.buttonText}>Choose a File</Text>
-          </Button>
+          </TouchableOpacity>
         ) : (
-          <Button
+          <TouchableOpacity
             onPress={handleReset}
             style={[styles.button, styles.resetButton]}
           >
             <Text style={styles.buttonText}>Generate Another File</Text>
-          </Button>
+          </TouchableOpacity>
         )}
 
-        <Button
+        <TouchableOpacity
           onPress={analyzeAndParaphrase}
           disabled={!imageUri || isAnalyzed}
           style={[
@@ -211,14 +212,14 @@ const UploadDocScreen = ({ navigation }) => {
           ]}
         >
           <Text style={styles.buttonText}>Analyze & Paraphrase</Text>
-        </Button>
+        </TouchableOpacity>
 
-        <Button
+        <TouchableOpacity
           onPress={() => navigation.navigate("Scan")}
           style={[styles.button, styles.switchButton]}
         >
           <Text style={styles.buttonText}>Switch to Scan</Text>
-        </Button>
+        </TouchableOpacity>
       </Layout>
 
       {isSheetOpen && (
