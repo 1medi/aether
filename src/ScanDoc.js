@@ -187,19 +187,19 @@ const ScanDocScreen = ({ navigation }) => {
         )}
 
         {!isAnalyzed ? (
-          <Button onPress={takePhoto} style={styles.button}>
+          <TouchableOpacity onPress={takePhoto} style={styles.button}>
             <Text style={styles.buttonText}>Choose a File</Text>
-          </Button>
+          </TouchableOpacity>
         ) : (
-          <Button
+          <TouchableOpacity
             onPress={handleReset}
             style={[styles.button, styles.resetButton]}
           >
             <Text style={styles.buttonText}>Generate Another File</Text>
-          </Button>
+          </TouchableOpacity>
         )}
 
-        <Button
+        <TouchableOpacity
           onPress={analyzeAndParaphrase}
           disabled={!imageUri || isAnalyzed}
           style={[
@@ -208,15 +208,15 @@ const ScanDocScreen = ({ navigation }) => {
           ]}
         >
           <Text style={styles.buttonText}>Analyze & Paraphrase</Text>
-        </Button>
+        </TouchableOpacity>
 
 
-        <Button
+        <TouchableOpacity
           onPress={() => navigation.navigate("Upload")}
           style={[styles.button, styles.switchButton]}
         >
           <Text style={styles.buttonText}>Switch to Upload</Text>
-        </Button>
+        </TouchableOpacity>
       </Layout>
 
       {isSheetOpen && (
