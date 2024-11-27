@@ -273,6 +273,7 @@ const getStyles = (isDarkMode) => ({
   buttonText: {
     color: "white",
     fontSize: 18,
+    textAlign: "center",
   },
   disabledButton: {
     backgroundColor: "#d3d3d3",
