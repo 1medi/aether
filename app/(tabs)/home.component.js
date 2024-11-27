@@ -169,6 +169,7 @@ export const HomeScreen = ({ navigation }) => {
                       <MyFormsCard
                         title={form.title}
                         subheader={form.subheader}
+                        isImportant={form.isImportant}
                         footnote={form.footnote}
                       />
                     </View>
