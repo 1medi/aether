@@ -267,7 +267,8 @@ const getStyles = (isDarkMode) => ({
   switchButton: {
     backgroundColor: colors.light.bgBlue,
     width: "100%",
-    margin:"auto"
+    margin:"auto",
+    textAlign: "center"
   },
   buttonText: {
     color: "white",
