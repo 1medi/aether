@@ -12,7 +12,7 @@ import AdditionalMember from "@/components/molecules/pdfRadios-2/additionalMembe
 import EmploymentRadio from "@/components/molecules/pdfRadios-2/employmentRadio"
 import StatusRadio from "@/components/molecules/pdfRadios-3/statusRadio"
 import { captureRef } from 'react-native-view-shot';
-
+import { useNavigation } from "@react-navigation/native";
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 
@@ -20,6 +20,7 @@ export default function DocumentView({ formData, setFormData }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
+  const navigation = useNavigation();
   const handleNextPage = () => {
     if (currentPage < 2) setCurrentPage(currentPage + 1);
   };
@@ -34,6 +35,10 @@ export default function DocumentView({ formData, setFormData }) {
     setIsModalVisible(true);
   };
 
+const handleNavigation = () => {
+  setIsModalVisible(false)
+  navigation.navigate("MyFiles")
+}
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
@@ -416,7 +421,8 @@ export default function DocumentView({ formData, setFormData }) {
             <Button
               style={styles.modalButton}
               appearance="ghost"
-              onPress={() => setIsModalVisible(false)}
+              onPress={handleNavigation}
+
               accessoryLeft={(props) => <Icon {...props} name="file-outline" />}
             >
               Form Library
@@ -468,7 +474,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     backgroundColor: "rgba(255, 255, 255, 0)",
     borderColor: colors.dark.black,
-    fontSize: 7,
+    fontSize: 5,
     padding: 5,
     borderWidth: 1,
     color: "black",

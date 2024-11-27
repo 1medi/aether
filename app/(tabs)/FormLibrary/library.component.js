@@ -15,6 +15,7 @@ import DocView from "@/src/DocView";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors, typography } from "@/css/globals";
+import { Dropdown } from "react-native-element-dropdown";
 
 export default function LibraryScreen() {
   const [formData, setFormData] = useState({
@@ -31,9 +32,14 @@ export default function LibraryScreen() {
     Province: "",
     Postal_Code: "",
   });
-
+  const [imageUri, setImageUri] = useState(null); // State to hold the image URI
+  const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   const navigation = useNavigation();
+  const [value, setValue] = useState(null);
+
+
+
 
   const ArrowIcon = (props) => (
     <Icon
@@ -55,27 +61,107 @@ export default function LibraryScreen() {
     setVisible(true);
   };
 
-  const confirmAutofill = () => {
-    const mockData = {
-      Contract_Number: "123456",
-      Member_ID: "789012",
-      Sponsor: "ABC Corp",
-      Your_Last_Name: "Doe",
-      Your_First_Name: "John",
-      DOB: "1990-01-01",
-      Phone_Number: "123-456-7890",
-      Your_Address: "123 Main St",
-      Apt_Suite: "101",
-      City: "Toronto",
-      Province: "ON",
-      Postal_Code: "A1B 2C3",
-    };
-
-    console.log("Setting formData:", mockData);
-    setFormData(mockData);
-    setVisible(false);
+  const dropdownData = [
+    {
+      label: "Chris Topher",
+      value: {
+        Contract_Number: "123456",
+        Member_ID: "789012",
+        Sponsor: "ABC Corp",
+        Your_Last_Name: "Doe",
+        Your_First_Name: "John",
+        DOB: "1990-01-01",
+        Phone_Number: "123-456-7890",
+        Your_Address: "123 Main St",
+        Apt_Suite: "101",
+        City: "Toronto",
+        Province: "ON",
+        Postal_Code: "A1B 2C3",
+        Spouse_Last_Name: "Doe",
+        Spouse_First_Name: "Jane",
+        Spouse_DOB: "1990-05-01",
+        Spouse_Specification: "Dependent",
+        Spouse_Contract_Number: "654321",
+        Spouse_Member_ID: "987654",
+        Signature_Date: "2024-11-27",
+      },
+    },
+    {
+      label: "Sarah O'Neil",
+      value: {
+        Contract_Number: "789456",
+        Member_ID: "123987",
+        Sponsor: "XYZ Inc",
+        Your_Last_Name: "O'Neil",
+        Your_First_Name: "Sarah",
+        DOB: "1985-07-15",
+        Phone_Number: "987-654-3210",
+        Your_Address: "456 Elm St",
+        Apt_Suite: "202",
+        City: "Vancouver",
+        Province: "BC",
+        Postal_Code: "V6B 2C3",
+        Spouse_Last_Name: "Smith",
+        Spouse_First_Name: "John",
+        Spouse_DOB: "1983-08-25",
+        Spouse_Specification: "Dependent",
+        Spouse_Contract_Number: "456789",
+        Spouse_Member_ID: "321654",
+        Signature_Date: "2024-11-27",
+      },
+    },
+    {
+      label: "Pat Rick",
+      value: {
+        Contract_Number: "654987",
+        Member_ID: "321789",
+        Sponsor: "DEF Ltd",
+        Your_Last_Name: "Rick",
+        Your_First_Name: "Pat",
+        DOB: "1975-12-25",
+        Phone_Number: "555-666-7777",
+        Your_Address: "789 Oak St",
+        Apt_Suite: "303",
+        City: "Montreal",
+        Province: "QC",
+        Postal_Code: "H1A 2B3",
+        Spouse_Last_Name: "Rick",
+        Spouse_First_Name: "Sam",
+        Spouse_DOB: "1978-05-30",
+        Spouse_Specification: "Dependent",
+        Spouse_Contract_Number: "789123",
+        Spouse_Member_ID: "654987",
+        Signature_Date: "2024-11-27",
+      },
+    },
+  ];
+  
+  const handleDropdownChange = (item) => {
+    setValue(item.label); // Store the selected label
   };
-
+  
+  const confirmAutofill = () => {
+    if (!value) {
+      alert("Please select a profile from the dropdown first!");
+      return;
+    }
+  
+    // Find the selected profile
+    const selectedProfile = dropdownData.find((item) => item.label === value);
+  
+    if (selectedProfile) {
+      setFormData((prevState) => ({
+        ...prevState,
+        ...selectedProfile.value, // Merge selected profile values into formData
+      }));
+      setVisible(false); // Close the modal
+      console.log("Form updated with:", selectedProfile.value); // Debug log
+      alert("Form has been autofilled!");
+    } else {
+      alert("No matching profile found!");
+    }
+  };
+  
   return (
     <>
       <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
@@ -94,27 +180,60 @@ export default function LibraryScreen() {
           </View>
         </View>
         <Layout
-          style={{ backgroundColor: "none", paddingLeft: 20, width: "auto" }}
+          style={{ backgroundColor: "none", margin:10, width: "auto", }}
         >
+          <Dropdown
+            style={styles.dropdown}
+            placeholderStyle={styles.placeholderStyle}
+            selectedTextStyle={styles.selectedTextStyle}
+            inputSearchStyle={styles.inputSearchStyle}
+            iconStyle={styles.iconStyle}
+            data={dropdownData}
+            search
+            maxHeight={200}
+            labelField="label"
+            valueField="label"
+            placeholder="Select Profile"
+            searchPlaceholder="Search..."
+            value={value}
+            onChange={handleDropdownChange}
+            // renderLeftIcon={() => (
+            //   <AntDesign style={styles.icon} color="black" name="Safety" size={20} />
+            // )}
+          />
           <View style={styles.buttonsRow}>
+
             <View style={styles.buttons}>
-              <Pressable
+              <TouchableOpacity
                 style={[styles.formButton, { marginLeft: 15 }]}
-                onPress={handleAutofill}
+                onPress={() => setVisible(true)}
               >
-                <Layout style={styles.textContainer}>
+                <View style={styles.viewContainer}>
+                  <Text style={styles.title}>Autofill</Text>
+                  <ArrowIcon />
+                </View>
+              </TouchableOpacity>
+            </View>
+            {/* <View style={styles.buttons}>
+              <TouchableOpacity
+                style={[styles.formButton, { marginLeft: 15 }]}
+                onPress={analyzeAndParaphrase}
+              >
                   <View style={styles.viewContainer}>
-                    <Text style={styles.title}>Autofill</Text>
+                    <Text style={styles.title}>Analyze</Text>
                     <ArrowIcon />
                   </View>
-                </Layout>
-              </Pressable>
-            </View>
+              </TouchableOpacity>
+            </View> */}
           </View>
         </Layout>
 
         <Layout style={styles.imageContainer}>
-          <DocView formData={formData} setFormData={setFormData} />
+          <DocView
+            formData={formData}
+            setFormData={setFormData}
+            onImageReady={setImageUri}
+          />
         </Layout>
       </SafeAreaView>
 
@@ -185,9 +304,6 @@ const styles = StyleSheet.create({
     backgroundColor: "none",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
-    paddingRight: 20,
-    paddingTop: 10,
   },
   buttons: {
     display: "flex",
@@ -218,6 +334,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    margin: "auto",
   },
   title: {
     fontSize: 10,
@@ -228,7 +345,7 @@ const styles = StyleSheet.create({
 
   imageContainer: {
     width: "100%",
-    height: 600,
+    height: 500,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -259,5 +376,28 @@ const styles = StyleSheet.create({
   modalButton: {
     flex: 1,
     marginHorizontal: 5,
+  },
+  dropdown: {
+    margin: 16,
+    height: 50,
+    borderBottomColor: "gray",
+    borderBottomWidth: 0.5,
+  },
+  icon: {
+    marginRight: 5,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
   },
 });

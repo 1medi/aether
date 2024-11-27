@@ -2,7 +2,7 @@ const myFormsData = [
   {
     id: 1,
     title: "Extended Health Care",
-    subheader: "Sarah O'Neil",
+    subheader: "Sun Life Financial",
     footnote: "Edited Oct 16, 2024 - Draft",
     isImportant: true,
   },
