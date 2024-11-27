@@ -83,7 +83,7 @@ export const MyFilesScreen = ({ navigation }) => {
               >
                 <TipsIcon fill={colors.apple.black} style={styles.tipsIcon} />
                 <Text style={styles.suggestionTitle}>
-                  Try Our Scan Feature!
+                  Looking For A Form?
                 </Text>
               </View>
               <TouchableOpacity
@@ -93,8 +93,7 @@ export const MyFilesScreen = ({ navigation }) => {
               </TouchableOpacity>
             </View>
             <Text style={styles.suggestionDescription}>
-              Tap the "+" button to upload your own forms. Either take a photo
-              or upload directly from your device.
+              Head to our form library to browse or search for a specific form.
             </Text>
           </Layout>
         )}
