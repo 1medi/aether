@@ -19,7 +19,9 @@ import savedProfilesData from "@/data/SavedProfilesData";
 import ConsoleScreenTwo from "@/components/atoms/ConsoleScreenTwo";
 import ConsoleScreen from "@/components/atoms/ConsoleScreen";
 import { useDarkMode } from "../context/DarkModeContext";
-import PensionPlanModal from "./PensionPlanModal"
+import PensionPlanModal from "./PensionPlanModal";
+import FetchParaphrases from "@/src/fetchparaphrases"
+
 export const MyFilesScreen = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState("Forms");
   const [filteredData, setFilteredData] = useState(myFormsData);
@@ -206,13 +208,21 @@ export const MyFilesScreen = ({ navigation }) => {
       <ConsoleScreenTwo />
     </>
   );
+
+  const renderHistory = () => {
+    return (
+      <ScrollView style={styles.scrollContainer}>
+        <FetchParaphrases/>
+      </ScrollView>
+    );
+  };
   
   return (
     <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
       <LinearGradient
         colors={
           isDarkMode
-            ? ['transparent', colors.dark.black] // Smooth dark gradient
+            ? ["transparent", colors.dark.black] // Smooth dark gradient
             : [colors.apple.offWhite, "#D8ECFF"] // Smooth light gradient
         }
         style={styles.bgGradient}
@@ -230,7 +240,7 @@ export const MyFilesScreen = ({ navigation }) => {
         />
         {/* Toggle Buttons */}
         <View style={styles.toggleContainer}>
-          {["Forms", "Profiles"].map((tab) => (
+          {["Forms", "Profiles", "History"].map((tab) => (
             <TouchableOpacity
               key={tab}
               style={[
@@ -252,7 +262,11 @@ export const MyFilesScreen = ({ navigation }) => {
         </View>
 
         {/* Render Forms or Profiles */}
-        {activeTab === "Forms" ? renderForms() : renderProfiles()}
+        {activeTab === "Forms"
+          ? renderForms()
+          : activeTab === "Profiles"
+            ? renderProfiles()
+            : renderHistory()}
       </LinearGradient>
     </SafeAreaView>
   );
@@ -280,7 +294,9 @@ const getStyles = (isDarkMode) => ({
     // borderRadius: 100,
     // borderWidth: 1,
     // width: 200,
-    borderColor: isDarkMode ? colors.dark.deepWhite20 : colors.apple.lightStroke,
+    borderColor: isDarkMode
+      ? colors.dark.deepWhite20
+      : colors.apple.lightStroke,
     alignSelf: "center",
     alignItems: "center",
     paddingHorizontal: 8,
@@ -350,7 +366,9 @@ const getStyles = (isDarkMode) => ({
 
   divider: {
     marginHorizontal: 24,
-    backgroundColor: isDarkMode ? colors.apple.glass20 : colors.apple.lightStroke,
+    backgroundColor: isDarkMode
+      ? colors.apple.glass20
+      : colors.apple.lightStroke,
   },
 
   profileContainer: {
