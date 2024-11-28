@@ -55,9 +55,6 @@ const LoadParaphrasesScreen = ({ paraphrasedText }) => {
                 index % 2 === 0 ? styles.evenBackground : styles.oddBackground,
               ]}
             >
-              <Text style={styles.title}>Input Text:</Text>
-              <Text style={styles.description}>{item.inputText}</Text>
-
               <Text style={styles.title}>Paraphrased Text:</Text>
               {Array.isArray(item.paraphrasedText) ? (
                 item.paraphrasedText.map((o, i) => (
