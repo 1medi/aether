@@ -7,7 +7,7 @@ import {
   View,
   ActivityIndicator,
 } from "react-native";
-import BottomSheet, {BottomSheetView } from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 
 const LoadParaphrasesScreen = ({ paraphrasedText }) => {
   const [paraphrases, setParaphrases] = useState([]); // State for fetched paraphrases
@@ -38,36 +38,39 @@ const LoadParaphrasesScreen = ({ paraphrasedText }) => {
         <ActivityIndicator size="large" color="#0000ff" /> // Show spinner while loading
       ) : (
         <ScrollView>
-                    {/* {Array.isArray(paraphrasedText) &&
-            paraphrasedText.map((o, i) => (
-              <View style={styles.promptOutput} key={`para_${i}`}>
-                <Text style={{ fontWeight: "bold", color: "blue" }}>
-                  {o.Title}
+          {paraphrases
+            .slice()
+            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // Sort by newest first
+            .map((item, index) => (
+              <View
+                key={item._id}
+                style={[
+                  styles.paraphraseContainer,
+                  index % 2 === 0
+                    ? styles.evenBackground
+                    : styles.oddBackground,
+                ]}
+              >
+                {/* Display the date */}
+                <Text style={styles.title}>
+                  Uploaded on: {new Date(item.createdAt).toLocaleString()}
                 </Text>
-                <Text>{o.description}</Text>
+
+                {/* Check if paraphrasedText is a valid array */}
+                {Array.isArray(JSON.parse(item.paraphrasedText)) ? (
+                  JSON.parse(item.paraphrasedText).map((o, i) => (
+                    <View style={styles.jsonBlock} key={`para_${index}_${i}`}>
+                      <Text style={styles.subtitle}>{o.Title}</Text>
+                      <Text style={styles.description}>{o.description}</Text>
+                    </View>
+                  ))
+                ) : (
+                  <Text style={styles.description}>
+                    No paraphrased text available.
+                  </Text>
+                )}
               </View>
-            ))} */}
-          {paraphrases.map((item, index) => (
-            <View
-              key={item._id}
-              style={[
-                styles.paraphraseContainer,
-                index % 2 === 0 ? styles.evenBackground : styles.oddBackground,
-              ]}
-            >
-              <Text style={styles.title}>Paraphrased Text:</Text>
-              {Array.isArray(item.paraphrasedText) ? (
-                item.paraphrasedText.map((o, i) => (
-                  <View style={styles.jsonBlock} key={`para_${index}_${i}`}>
-                    <Text style={styles.subtitle}>{o.Title}</Text>
-                    <Text style={styles.description}>{o.description}</Text>
-                  </View>
-                ))
-              ) : (
-                <Text style={styles.description}>{item.paraphrasedText}</Text>
-              )}
-            </View>
-          ))}
+            ))}
         </ScrollView>
       )}
     </SafeAreaView>

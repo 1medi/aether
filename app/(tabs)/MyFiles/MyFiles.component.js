@@ -144,7 +144,6 @@ export const MyFilesScreen = ({ navigation }) => {
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
       >
-        {/* Suggestion Banner */}
         {showProfilesSuggestionBanner && (
           <Layout style={styles.suggestionBanner}>
             <View
