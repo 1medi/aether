@@ -1,22 +1,7 @@
 import React, { useState } from "react";
-import {
-  Pressable,
-  View,
-  Modal,
-  StyleSheet,
-  TouchableOpacity,
-  Text,
-  ScrollView,
-} from "react-native";
-import { Button, Layout, Icon } from "@ui-kitten/components";
-import { useNavigation } from "@react-navigation/native";
-import Header from "@/components/header/Header";
-import DocView from "@/src/DocView";
-import { LinearGradient } from "expo-linear-gradient";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { colors, typography } from "@/css/globals";
+import { View, Modal, TouchableOpacity, Text } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
-import UserData from './UserData.json'
+import userData from './path/to/user_data.json'; // Adjust the path as needed
 
 export default function LibraryScreen() {
   const [formData, setFormData] = useState({
@@ -37,10 +22,10 @@ export default function LibraryScreen() {
   const [value, setValue] = useState(null);
   const [visible, setVisible] = useState(false);
 
-  const dropdownData = profiles; // Use imported JSON data
+  const dropdownData = userData;
 
   const handleDropdownChange = (item) => {
-    setValue(item.label); // Store the selected label
+    setValue(item.label);
   };
 
   const confirmAutofill = () => {
@@ -62,7 +47,7 @@ export default function LibraryScreen() {
       alert("No matching profile found!");
     }
   };
-
+  
   return (
     <>
       <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
@@ -84,13 +69,24 @@ export default function LibraryScreen() {
           style={{ backgroundColor: "none", margin:10, width: "auto", }}
         >
           <Dropdown
-        data={dropdownData} // Bind dropdown to imported JSON
-        labelField="label"
-        valueField="label"
-        placeholder="Select Profile"
-        value={value}
-        onChange={handleDropdownChange}
-      />
+            style={styles.dropdown}
+            placeholderStyle={styles.placeholderStyle}
+            selectedTextStyle={styles.selectedTextStyle}
+            inputSearchStyle={styles.inputSearchStyle}
+            iconStyle={styles.iconStyle}
+            data={dropdownData}
+            search
+            maxHeight={200}
+            labelField="label"
+            valueField="label"
+            placeholder="Select Profile"
+            searchPlaceholder="Search..."
+            value={value}
+            onChange={handleDropdownChange}
+            // renderLeftIcon={() => (
+            //   <AntDesign style={styles.icon} color="black" name="Safety" size={20} />
+            // )}
+          />
           <View style={styles.buttonsRow}>
 
             <View style={styles.buttons}>
