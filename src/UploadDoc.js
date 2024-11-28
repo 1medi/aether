@@ -214,10 +214,6 @@ const UploadDocScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
       <Header title={"Upload A File"} isDarkMode={isDarkMode} />
-      <BottomSheetModal>
-      <FetchParaphrases paraphrasedText={paraphrasedText}/>
-      </BottomSheetModal>
-
       <Layout style={styles.buttonContainer}>
         <Text style={styles.greetingMessage}>
           Upload a document to detect text and paraphrase it.
@@ -262,7 +258,7 @@ const UploadDocScreen = ({ navigation }) => {
         </TouchableOpacity>
       </Layout>
 
-
+        
 
 
       {isSheetOpen && (
