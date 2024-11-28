@@ -7,12 +7,11 @@ import {
   View,
   ActivityIndicator,
 } from "react-native";
-import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+import BottomSheet, {BottomSheetView } from '@gorhom/bottom-sheet';
 
 const LoadParaphrasesScreen = ({ paraphrasedText }) => {
   const [paraphrases, setParaphrases] = useState([]); // State for fetched paraphrases
   const [loading, setLoading] = useState(true); // State for loading spinner
-  const snapPoints = ["30%", "60%", "90%"];
 
   // Function to fetch paraphrases
   const FetchParaphrases = async () => {
@@ -34,18 +33,12 @@ const LoadParaphrasesScreen = ({ paraphrasedText }) => {
   }, []);
 
   return (
-    <BottomSheet
-      ref={sheetRef}
-      snapPoints={snapPoints}
-      enablePanDownToClose
-      style={styles.container}
-    >
-      <BottomSheetView style={styles.container}>
-        {loading ? (
-          <ActivityIndicator size="large" color="#0000ff" /> // Show spinner while loading
-        ) : (
-          <ScrollView>
-            {/* {Array.isArray(paraphrasedText) &&
+    <SafeAreaView style={styles.container}>
+      {loading ? (
+        <ActivityIndicator size="large" color="#0000ff" /> // Show spinner while loading
+      ) : (
+        <ScrollView>
+                    {/* {Array.isArray(paraphrasedText) &&
             paraphrasedText.map((o, i) => (
               <View style={styles.promptOutput} key={`para_${i}`}>
                 <Text style={{ fontWeight: "bold", color: "blue" }}>
@@ -54,36 +47,33 @@ const LoadParaphrasesScreen = ({ paraphrasedText }) => {
                 <Text>{o.description}</Text>
               </View>
             ))} */}
-            {paraphrases.map((item, index) => (
-              <View
-                key={item._id}
-                style={[
-                  styles.paraphraseContainer,
-                  index % 2 === 0
-                    ? styles.evenBackground
-                    : styles.oddBackground,
-                ]}
-              >
-                <Text style={styles.title}>Input Text:</Text>
-                <Text style={styles.description}>{item.inputText}</Text>
+          {paraphrases.map((item, index) => (
+            <View
+              key={item._id}
+              style={[
+                styles.paraphraseContainer,
+                index % 2 === 0 ? styles.evenBackground : styles.oddBackground,
+              ]}
+            >
+              <Text style={styles.title}>Input Text:</Text>
+              <Text style={styles.description}>{item.inputText}</Text>
 
-                <Text style={styles.title}>Paraphrased Text:</Text>
-                {Array.isArray(item.paraphrasedText) ? (
-                  item.paraphrasedText.map((o, i) => (
-                    <View style={styles.jsonBlock} key={`para_${index}_${i}`}>
-                      <Text style={styles.subtitle}>{o.Title}</Text>
-                      <Text style={styles.description}>{o.description}</Text>
-                    </View>
-                  ))
-                ) : (
-                  <Text style={styles.description}>{item.paraphrasedText}</Text>
-                )}
-              </View>
-            ))}
-          </ScrollView>
-        )}
-      </BottomSheetView>
-    </BottomSheet>
+              <Text style={styles.title}>Paraphrased Text:</Text>
+              {Array.isArray(item.paraphrasedText) ? (
+                item.paraphrasedText.map((o, i) => (
+                  <View style={styles.jsonBlock} key={`para_${index}_${i}`}>
+                    <Text style={styles.subtitle}>{o.Title}</Text>
+                    <Text style={styles.description}>{o.description}</Text>
+                  </View>
+                ))
+              ) : (
+                <Text style={styles.description}>{item.paraphrasedText}</Text>
+              )}
+            </View>
+          ))}
+        </ScrollView>
+      )}
+    </SafeAreaView>
   );
 };
 
