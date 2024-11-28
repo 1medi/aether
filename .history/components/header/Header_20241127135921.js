@@ -80,7 +80,7 @@ export default function Header({
           dateOfBirth: "01/01/1990",
           gender: "Male",
           relationshipToUser: "Self",
-          image: require("@/assets/images/lbj.jpg"),
+          image: require("@/assets/images/sample-profile.jpg"),
         },
         address: {
           streetAddress: "123 Main St",

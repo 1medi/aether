@@ -63,6 +63,7 @@ export default function LibraryScreen() {
     }
   };
 
+  
   return (
     <>
       <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
@@ -84,13 +85,24 @@ export default function LibraryScreen() {
           style={{ backgroundColor: "none", margin:10, width: "auto", }}
         >
           <Dropdown
-        data={dropdownData} // Bind dropdown to imported JSON
-        labelField="label"
-        valueField="label"
-        placeholder="Select Profile"
-        value={value}
-        onChange={handleDropdownChange}
-      />
+            style={styles.dropdown}
+            placeholderStyle={styles.placeholderStyle}
+            selectedTextStyle={styles.selectedTextStyle}
+            inputSearchStyle={styles.inputSearchStyle}
+            iconStyle={styles.iconStyle}
+            data={dropdownData}
+            search
+            maxHeight={200}
+            labelField="label"
+            valueField="label"
+            placeholder="Select Profile"
+            searchPlaceholder="Search..."
+            value={value}
+            onChange={handleDropdownChange}
+            // renderLeftIcon={() => (
+            //   <AntDesign style={styles.icon} color="black" name="Safety" size={20} />
+            // )}
+          />
           <View style={styles.buttonsRow}>
 
             <View style={styles.buttons}>
