@@ -10,7 +10,7 @@ import {
 import { colors, typography } from "../../css/globals";
 import { Layout, Icon, Input } from "@ui-kitten/components";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import SavedProfile from "@/app/(tabs)/SavedProfiles/SavedProfile.component";
+import AccountScreen from "@/app/(tabs)/Account/Account.component";
 import { useNavigation } from "@react-navigation/native";
 
 export default function Header({
@@ -20,9 +20,9 @@ export default function Header({
   onSearch,
   placeholder,
   noTitle,
+  navigation,
   isDarkMode, // Receive dark mode state
 }) {
-  const navigation = useNavigation();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [searchText, setSearchText] = useState("");
   const [showCancelButton, setShowCancelButton] = useState(false);
@@ -71,33 +71,8 @@ export default function Header({
             <>
                 <View style={styles.profileBorder}>
                 <TouchableOpacity
-  onPress={() =>
-    navigation.navigate("SavedProfile", {
-      profile: {
-        personalInfo: {
-          fullName: "John Doe",
-          phoneNumber: "123-456-7890",
-          dateOfBirth: "01/01/1990",
-          gender: "Male",
-          relationshipToUser: "Self",
-          image: require("@/assets/images/lbj.jpg"),
-        },
-        address: {
-          streetAddress: "123 Main St",
-          city: "New York",
-          province: "NY",
-          postalCode: "10001",
-        },
-        emergencyContact: {
-          fullName: "Jane Doe",
-          phoneNumber: "987-654-3210",
-          email: "jane.doe@example.com",
-          relationshipToProfile: "Spouse",
-        },
-      },
-    })
-  }
->
+                  onPress={() => navigation.navigate("AccountScreen")}
+                >
                   <Image
                     style={styles.profileImage}
                     source={require("@/assets/images/lbj.jpg")}

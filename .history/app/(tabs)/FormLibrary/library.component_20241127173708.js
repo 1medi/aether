@@ -1,22 +1,7 @@
 import React, { useState } from "react";
-import {
-  Pressable,
-  View,
-  Modal,
-  StyleSheet,
-  TouchableOpacity,
-  Text,
-  ScrollView,
-} from "react-native";
-import { Button, Layout, Icon } from "@ui-kitten/components";
-import { useNavigation } from "@react-navigation/native";
-import Header from "@/components/header/Header";
-import DocView from "@/src/DocView";
-import { LinearGradient } from "expo-linear-gradient";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { colors, typography } from "@/css/globals";
+import { Pressable, View, Modal, StyleSheet, TouchableOpacity, Text } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
-import UserData from './UserData.json'
+import UserData from "@./UserData.json"; // Import the JSON file
 
 export default function LibraryScreen() {
   const [formData, setFormData] = useState({
@@ -83,7 +68,7 @@ export default function LibraryScreen() {
         <Layout
           style={{ backgroundColor: "none", margin:10, width: "auto", }}
         >
-          <Dropdown
+      <Dropdown
         data={dropdownData} // Bind dropdown to imported JSON
         labelField="label"
         valueField="label"
