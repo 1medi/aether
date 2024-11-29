@@ -199,13 +199,6 @@ const UploadDocScreen = ({ navigation }) => {
     setIsAnalyzed(false);
   };
 
-  const handleFetchParaphrases = async () => {
-    const fetchedData = await FetchParaphrases();
-    if (fetchedData) {
-      setParaphrases(fetchedData); // Store paraphrases in state
-    }
-  };
-
   const { isDarkMode } = useDarkMode();
 
   const styles = useMemo(() => getStyles(isDarkMode), [isDarkMode]);
