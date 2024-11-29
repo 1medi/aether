@@ -44,6 +44,8 @@ export const MyFilesScreen = ({ navigation }) => {
     if (query.trim() === "") {
       setFilteredData(data); // Reset to original data
       return;
+    } else {
+
     }
 
     const lowerQuery = query.toLowerCase();
@@ -228,16 +230,17 @@ export const MyFilesScreen = ({ navigation }) => {
         start={{ x: 0.5, y: 0.75 }} // Adjust the starting point for visual appeal
         end={{ x: 0.5, y: 1 }} // Adjust the ending point
       >
-        {/* Header and Search Bar */}
-        <Header
-          title="My Files"
-          placeholder="Search my forms and profiles"
-          hasSearchBar
-          onSearch={onSearch}
-          isDarkMode={isDarkMode}
-          // noTitle
-        />
-        {/* Toggle Buttons */}
+
+        {activeTab !== "History" && (
+  <Header
+    title="My Files"
+    placeholder="Search my forms and profiles"
+    hasSearchBar
+    onSearch={onSearch}
+    isDarkMode={isDarkMode}
+  />
+)}
+
         <View style={styles.toggleContainer}>
           {["Forms", "Profiles", "History"].map((tab) => (
             <TouchableOpacity
