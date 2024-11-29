@@ -12,7 +12,7 @@ const app = express();
 app.use(bodyParser.json());
 
 const openai = new OpenAI({
-  apiKey: process.env.EXPO_PUBLIC_OPENAI_API_KEY,
+  apiKey: `${process.env.EXPO_PUBLIC_OPENAI_API_KEY}`,
 });
 
 const dbName = 'ae_responses';

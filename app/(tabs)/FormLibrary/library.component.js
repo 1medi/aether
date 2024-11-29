@@ -37,7 +37,8 @@ export default function LibraryScreen() {
   const [value, setValue] = useState(null);
   const [visible, setVisible] = useState(false);
 
-  const dropdownData = profiles; // Use imported JSON data
+  const dropdownData = UserData; // Use imported JSON data
+  const navigation = useNavigation();
 
   const handleDropdownChange = (item) => {
     setValue(item.label); // Store the selected label
@@ -100,7 +101,7 @@ export default function LibraryScreen() {
               >
                 <View style={styles.viewContainer}>
                   <Text style={styles.title}>Autofill</Text>
-                  <ArrowIcon />
+                  <Icon name='arrow-right-outline'/>
                 </View>
               </TouchableOpacity>
             </View>
@@ -122,7 +123,6 @@ export default function LibraryScreen() {
           <DocView
             formData={formData}
             setFormData={setFormData}
-            onImageReady={setImageUri}
           />
         </Layout>
       </SafeAreaView>

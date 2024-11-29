@@ -7,11 +7,12 @@ import {
   View,
   ActivityIndicator,
 } from "react-native";
-import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+import { Icon } from "@ui-kitten/components";
 
 const LoadParaphrasesScreen = ({ paraphrasedText }) => {
-  const [paraphrases, setParaphrases] = useState([]); // State for fetched paraphrases
-  const [loading, setLoading] = useState(true); // State for loading spinner
+  const [paraphrases, setParaphrases] = useState([]); 
+  const [loading, setLoading] = useState(true); 
+
 
   // Function to fetch paraphrases
   const FetchParaphrases = async () => {
@@ -51,7 +52,6 @@ const LoadParaphrasesScreen = ({ paraphrasedText }) => {
                     : styles.oddBackground,
                 ]}
               >
-                {/* Display the date */}
                 <Text style={styles.title}>
                   Uploaded on: {new Date(item.createdAt).toLocaleString()}
                 </Text>
