@@ -252,8 +252,6 @@ const UploadDocScreen = ({ navigation }) => {
       </Layout>
 
         
-
-
       {isSheetOpen && (
         <BottomSheetModal
           sheetRef={sheetRef}
