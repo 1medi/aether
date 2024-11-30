@@ -40,7 +40,7 @@ export const AccountScreen = ({ navigation }) => {
       <Layout style={styles.sectionItem}>
         <Layout style={styles.leftSide}>
           {accessoryLeft && <Icon name={accessoryLeft} style={styles.icon} />}
-          <Text style={styles.sectionItemText}>{label}</Text>
+          <AppText style={styles.sectionItemText}>{label}</AppText>
         </Layout>
         <Layout style={styles.rightSide}>
           {accessoryRight && accessoryRight()}
@@ -189,6 +189,7 @@ const getStyles = (isDarkMode) => ({
   },
   sectionTitle: {
     marginBottom: 8,
+  
     color: isDarkMode ? colors.apple.white : colors.apple.black,
     flexDirection: "row",
     justifyContent: "space-between",
@@ -218,7 +219,7 @@ const getStyles = (isDarkMode) => ({
     backgroundColor: "transparent",
   },
   sectionItemText: {
-    // ...typography().bodyMed,
+    ...typography(true).bodyMed,
     color: isDarkMode ? colors.apple.white : colors.apple.black,
     backgroundColor: "transparent",
   },
