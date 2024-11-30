@@ -78,7 +78,7 @@ const [imageUri, setImageUri] = useState(null);
         <View style={styles.topButtonContainer}>
 
           <TouchableOpacity
-            onPress={() => navigation.navigate("MyFiles")}
+            onPress={() => navigation.navigate("Home")}
             style={styles.leftIcons}
           >
             <Icon name="arrow-back" style={styles.headerIcon} />

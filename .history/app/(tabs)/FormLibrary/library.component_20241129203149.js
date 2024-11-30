@@ -10,15 +10,12 @@ import {
 } from "react-native";
 import { Button, Layout, Icon } from "@ui-kitten/components";
 import { useNavigation } from "@react-navigation/native";
-import Header from "@/components/header/Header";
-import DocView from "@/src/DocView";
-import { LinearGradient } from "expo-linear-gradient";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { colors, typography } from "@/css/globals";
 import { Dropdown } from "react-native-element-dropdown";
-import UserData from './UserData'; 
+import { SafeAreaView } from "react-native-safe-area-context";
+import UserData from "./UserData"; // Import updated UserData.js
 
-export default function LibraryScreen({navigation}) {
+export default function LibraryScreen() {
+  const navigation = useNavigation();
   const [formData, setFormData] = useState({
     Contract_Number: "",
     Member_ID: "",
@@ -37,46 +34,36 @@ export default function LibraryScreen({navigation}) {
   const [value, setValue] = useState(null);
   const [visible, setVisible] = useState(false);
 
-  const dropdownData = UserData; // Use imported JSON data
+  const dropdownData = UserData; // Use the imported UserData.js
 
   const handleDropdownChange = (item) => {
     setValue(item.label); // Store the selected label
   };
 
-const confirmAutofill = () => {
-  if (!value) {
-    alert("Please select a profile from the dropdown first!");
-    return;
-  }
+  const confirmAutofill = () => {
+    if (!value) {
+      alert("Please select a profile from the dropdown first!");
+      return;
+    }
 
-  const selectedProfile = UserData.find((item) => item.label === value);
+    const selectedProfile = dropdownData.find((item) => item.label === value);
 
-  if (selectedProfile) {
-    setFormData((prevState) => ({
-      ...prevState,
-      ...selectedProfile.value,
-    }));
-    setVisible(false);
-    alert("Form has been autofilled!");
-  } else {
-    alert("No matching profile found!");
-  }
-};
-
-const ArrowIcon = () => (
-  <Icon
-    name="arrow-forward-outline" // Choose an appropriate name
-    style={{ width: 24, height: 24, tintColor: "#000" }} // Customize as needed
-  />
-);
-
-const [imageUri, setImageUri] = useState(null);
+    if (selectedProfile) {
+      setFormData((prevState) => ({
+        ...prevState,
+        ...selectedProfile.value,
+      }));
+      setVisible(false);
+      alert("Form has been autofilled!");
+    } else {
+      alert("No matching profile found!");
+    }
+  };
 
   return (
     <>
       <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
         <View style={styles.topButtonContainer}>
-
           <TouchableOpacity
             onPress={() => navigation.navigate("MyFiles")}
             style={styles.leftIcons}
@@ -90,19 +77,16 @@ const [imageUri, setImageUri] = useState(null);
             <Icon name="info-outline" style={styles.headerIcon} />
           </View>
         </View>
-        <Layout
-          style={{ backgroundColor: "none", margin:10, width: "auto", }}
-        >
+        <Layout style={{ backgroundColor: "none", margin: 10 }}>
           <Dropdown
-        data={dropdownData} // Bind dropdown to imported JSON
-        labelField="label"
-        valueField="label"
-        placeholder="Select Profile"
-        value={value}
-        onChange={handleDropdownChange}
-      />
+            data={dropdownData}
+            labelField="label"
+            valueField="label"
+            placeholder="Select Profile"
+            value={value}
+            onChange={handleDropdownChange}
+          />
           <View style={styles.buttonsRow}>
-
             <View style={styles.buttons}>
               <TouchableOpacity
                 style={[styles.formButton, { marginLeft: 15 }]}
@@ -110,30 +94,14 @@ const [imageUri, setImageUri] = useState(null);
               >
                 <View style={styles.viewContainer}>
                   <Text style={styles.title}>Autofill</Text>
-                  <ArrowIcon />
                 </View>
               </TouchableOpacity>
             </View>
-            {/* <View style={styles.buttons}>
-              <TouchableOpacity
-                style={[styles.formButton, { marginLeft: 15 }]}
-                onPress={analyzeAndParaphrase}
-              >
-                  <View style={styles.viewContainer}>
-                    <Text style={styles.title}>Analyze</Text>
-                    <ArrowIcon />
-                  </View>
-              </TouchableOpacity>
-            </View> */}
           </View>
         </Layout>
 
         <Layout style={styles.imageContainer}>
-          <DocView
-            formData={formData}
-            setFormData={setFormData}
-            onImageReady={setImageUri}
-          />
+          {/* Placeholder for DocView */}
         </Layout>
       </SafeAreaView>
 
@@ -166,6 +134,7 @@ const [imageUri, setImageUri] = useState(null);
     </>
   );
 }
+
 
 const styles = StyleSheet.create({
   topButtonContainer: {
