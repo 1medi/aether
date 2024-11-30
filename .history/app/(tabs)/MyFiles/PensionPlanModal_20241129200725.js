@@ -11,7 +11,7 @@ const PensionPlanModal = ({ visible, onClose }) => {
   const navigation = useNavigation();
 
   const handleNavigation = () => {
-    navigation.navigate("LibraryScreen");
+    navigation.navigate(LibraryScreen);
     onClose(true)
   }
 

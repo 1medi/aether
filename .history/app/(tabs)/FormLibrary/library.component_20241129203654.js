@@ -18,7 +18,7 @@ import { colors, typography } from "@/css/globals";
 import { Dropdown } from "react-native-element-dropdown";
 import UserData from './UserData'; 
 
-export default function LibraryScreen({navigation}) {
+export default function LibraryScreen() {
   const [formData, setFormData] = useState({
     Contract_Number: "",
     Member_ID: "",
@@ -76,7 +76,6 @@ const [imageUri, setImageUri] = useState(null);
     <>
       <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
         <View style={styles.topButtonContainer}>
-
           <TouchableOpacity
             onPress={() => navigation.navigate("MyFiles")}
             style={styles.leftIcons}

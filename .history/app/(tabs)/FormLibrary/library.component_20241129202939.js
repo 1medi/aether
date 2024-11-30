@@ -18,7 +18,7 @@ import { colors, typography } from "@/css/globals";
 import { Dropdown } from "react-native-element-dropdown";
 import UserData from './UserData'; 
 
-export default function LibraryScreen({navigation}) {
+export default function LibraryScreen() {
   const [formData, setFormData] = useState({
     Contract_Number: "",
     Member_ID: "",
@@ -43,40 +43,30 @@ export default function LibraryScreen({navigation}) {
     setValue(item.label); // Store the selected label
   };
 
-const confirmAutofill = () => {
-  if (!value) {
-    alert("Please select a profile from the dropdown first!");
-    return;
-  }
-
-  const selectedProfile = UserData.find((item) => item.label === value);
-
-  if (selectedProfile) {
-    setFormData((prevState) => ({
-      ...prevState,
-      ...selectedProfile.value,
-    }));
-    setVisible(false);
-    alert("Form has been autofilled!");
-  } else {
-    alert("No matching profile found!");
-  }
-};
-
-const ArrowIcon = () => (
-  <Icon
-    name="arrow-forward-outline" // Choose an appropriate name
-    style={{ width: 24, height: 24, tintColor: "#000" }} // Customize as needed
-  />
-);
-
-const [imageUri, setImageUri] = useState(null);
+  const confirmAutofill = () => {
+    if (!value) {
+      alert("Please select a profile from the dropdown first!");
+      return;
+    }
+  
+    const selectedProfile = UserData.find((item) => item.label === value);
+  
+    if (selectedProfile) {
+      setFormData((prevState) => ({
+        ...prevState,
+        ...selectedProfile.value,
+      }));
+      setVisible(false);
+      alert("Form has been autofilled!");
+    } else {
+      alert("No matching profile found!");
+    }
+  };
 
   return (
     <>
       <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
         <View style={styles.topButtonContainer}>
-
           <TouchableOpacity
             onPress={() => navigation.navigate("MyFiles")}
             style={styles.leftIcons}

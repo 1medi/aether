@@ -5,7 +5,6 @@ import { Icon, Button } from "@ui-kitten/components";
 import { colors,typography } from "@/css/globals";
 import { color } from "@rneui/base";
 import LibraryScreen from "../FormLibrary/library.component";
-
 const PensionPlanModal = ({ visible, onClose }) => {
 
   const navigation = useNavigation();
