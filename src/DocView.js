@@ -26,16 +26,17 @@ import StatusRadio from "@/components/molecules/pdfRadios-3/statusRadio";
 import { captureRef } from "react-native-view-shot";
 import { useNavigation } from "@react-navigation/native";
 import SignatureModal from "@/components/molecules/signatureModal";
+import Signature from "react-native-signature-canvas";
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
-
 
 export default function DocumentView({ formData, setFormData }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [signature, setSignature] = useState(null); // State for signature
-  const [isCanvasVisible, setIsCanvasVisible] = useState(false); 
+  const [isCanvasVisible, setIsCanvasVisible] = useState(false);
   const viewToSnapshotRef = useRef();
+  const sigref = useRef();
   const [snapshotImg, setSnapshotImg] = useState();
 
   const navigation = useNavigation();
@@ -61,14 +62,31 @@ export default function DocumentView({ formData, setFormData }) {
     }
   };
 
-  const handleSaveSignature = (capturedSignature) => {
-    console.log("Captured Signature:", capturedSignature);
-    setSignature(capturedSignature); // Save signature to state
-    setIsCanvasVisible(false); // Hide canvas after saving
+
+  // Called after ref.current.readSignature() reads a non-empty base64 string
+  const handleOK = (signature) => {
+    console.log(signature);
+    setSignature(signature); // Callback from Component props
   };
 
-  const handleClearSignature = () => {
-    setSignature(null); // Clear the signature
+  // Called after ref.current.readSignature() reads an empty string
+  const handleEmpty = () => {
+    console.log("Empty");
+  };
+
+  // Called after ref.current.clearSignature()
+  const handleClear = () => {
+    console.log("clear success!");
+  };
+
+  // Called after end of stroke
+  const handleEnd = () => {
+    sigref.current.readSignature();
+  };
+
+  // Called after ref.current.getData()
+  const handleData = (data) => {
+    console.log(data);
   };
 
   const handleNavigation = () => {
@@ -314,12 +332,52 @@ export default function DocumentView({ formData, setFormData }) {
                         setFormData({ ...formData, Spouse_Member_ID: text })
                       }
                     />
-                    <TouchableOpacity
-                      style={[
-                        styles.textInput,
-                        { top: 269, left: 28, width: 57, height: 17 },
-                      ]}
-                    ></TouchableOpacity>
+
+                    <View style={styles.sigContainer}>
+                      <Text style={styles.title}>Signature Example</Text>
+
+                      {/* Toggle Signature Canvas */}
+                      <View style={styles.signatureRow}>
+                        <Button
+                          onPress={() => setIsCanvasVisible(!isCanvasVisible)}
+                          style={styles.toggleButton}
+                        >
+                          {signature ? "Edit Signature" : "Add Signature"}
+                        </Button>
+
+                        {/* Signature Preview */}
+                        {signature ? (
+                          <Image
+                            source={{ uri: signature }}
+                            style={styles.signaturePreview}
+                            resizeMode="contain"
+                          />
+                        ) : (
+                          <Text style={styles.placeholderText}>
+                            No signature yet
+                          </Text>
+                        )}
+                      </View>
+
+                      {/* Render Canvas */}
+                      {isCanvasVisible && (
+                        <View style={styles.signatureCanvasContainer}>
+                          <Signature
+                            ref={sigref}
+                            onEnd={handleEnd}
+                            onOK={handleOK}
+                            onEmpty={handleEmpty}
+                            onClear={handleClear}
+                            onGetData={handleData}
+                            autoClear={true}
+                            descriptionText="Sign here"
+                            clearText="Clear"
+                            webStyle={styles.signaturePad}
+                          />
+                        </View>
+                      )}
+                    </View>
+
                     <TextInput
                       style={[
                         styles.textInput,
@@ -845,5 +903,49 @@ const styles = StyleSheet.create({
   button: {
     flex: 1,
     marginHorizontal: 5,
+  },
+  signatureRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 10,
+  },
+  signaturePreview: {
+    width: 150,
+    height: 75,
+    marginLeft: 10,
+    borderWidth: 1,
+    borderColor: "#ccc",
+  },
+  placeholderText: {
+    marginLeft: 10,
+    fontSize: 14,
+    color: "#aaa",
+  },
+  signatureCanvasContainer: {
+    height: 250, // Fixed height for canvas
+    width: screenWidth - 40, // Adjust width to fit the screen
+    borderWidth: 1,
+    borderColor: "#ccc",
+    marginTop: 10,
+    alignSelf: "center", // Center the canvas
+    zIndex: 9999,
+  },
+  signaturePad: `
+    .m-signature-pad {
+      box-shadow: none; 
+      border: none; 
+    }
+    .m-signature-pad--body {
+      border: 2px solid #ddd;
+      border-radius: 10px;
+    }
+    .m-signature-pad--footer {
+      display: none;
+    }
+  `,
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: "#f8f8f8",
   },
 });
