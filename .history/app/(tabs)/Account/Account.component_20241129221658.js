@@ -218,7 +218,7 @@ const getStyles = (isDarkMode) => ({
     backgroundColor: "transparent",
   },
   sectionItemText: {
-    // ...typography().bodyMed,
+   
     color: isDarkMode ? colors.apple.white : colors.apple.black,
     backgroundColor: "transparent",
   },

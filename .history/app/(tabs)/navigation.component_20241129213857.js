@@ -22,7 +22,6 @@ import { FolderScreen } from "./FormLibrary/folder.component";
 import { useDarkMode } from "./context/DarkModeContext";
 import ScanDocScreen from "@/src/ScanDoc.js"
 import UploadDocScreen from "@/src/UploadDoc.js"
-import ChangeTextSize from "./Account/ChangeTextSize";
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -158,7 +157,6 @@ const TabNavigator = () => {
     <Screen name="SavedProfile" component={SavedProfileScreen} />
     <Screen name="Scan" component={ScanDocScreen} />
     <Screen name="Upload" component={UploadDocScreen} />
-    <Screen name="ChangeTextSize" component={ChangeTextSize} />
   </Navigator>
   );
 };

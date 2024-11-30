@@ -7,6 +7,8 @@ import {
   Toggle,
   Divider,
 } from "@ui-kitten/components";
+import AppText from "./AppText"; 
+const Text = AppText; 
 
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "@/components/header/Header";
@@ -14,9 +16,7 @@ import { colors, typography } from "@/css/globals";
 import { LinearGradient } from "expo-linear-gradient";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDarkMode } from "../context/DarkModeContext";
-import AppText from "./AppText"; 
-const Text = AppText; 
-
+import AppText from "@/components/AppText";
 
 
 export const AccountScreen = ({ navigation }) => {
@@ -75,7 +75,7 @@ export const AccountScreen = ({ navigation }) => {
           showsVerticalScrollIndicator={false}
         >
           <Layout style={styles.section}>
-            <AppText style={styles.sectionTitle}>Settings</AppText>
+            <Text style={styles.sectionTitle}>Settings</Text>
             <SectionItem
               label="Edit Account Info"
               onPress={() => {}}
@@ -106,7 +106,7 @@ export const AccountScreen = ({ navigation }) => {
             <Layout style={styles.sectionItem}>
               <Layout style={styles.leftSide}>
                 <MoonIcon />
-                <AppText style={styles.sectionItemText}>Dark Mode</AppText>
+                <Text style={styles.sectionItemText}>Dark Mode</Text>
               </Layout>
               <Layout style={styles.rightSide}>
                 <Toggle
@@ -121,7 +121,7 @@ export const AccountScreen = ({ navigation }) => {
           </Layout>
 
           <Layout style={styles.section}>
-            <AppText style={styles.sectionTitle}>Support</AppText>
+            <Text style={styles.sectionTitle}>Support</Text>
             <SectionItem
               label="FAQ"
               onPress={() => {}}
@@ -189,6 +189,7 @@ const getStyles = (isDarkMode) => ({
   },
   sectionTitle: {
     marginBottom: 8,
+    ...typography(true).h4Med,
     color: isDarkMode ? colors.apple.white : colors.apple.black,
     flexDirection: "row",
     justifyContent: "space-between",
@@ -218,7 +219,7 @@ const getStyles = (isDarkMode) => ({
     backgroundColor: "transparent",
   },
   sectionItemText: {
-    // ...typography().bodyMed,
+    ...typography(true).bodyMed,
     color: isDarkMode ? colors.apple.white : colors.apple.black,
     backgroundColor: "transparent",
   },

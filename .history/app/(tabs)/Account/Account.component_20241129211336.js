@@ -1,32 +1,50 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { ScrollView, TouchableOpacity } from "react-native";
+import { ScrollView, TouchableOpacity,  } from "react-native";
 import {
   Layout,
+  Text,
   Button,
   Icon,
   Toggle,
   Divider,
+  Select, 
+  SelectItem,
+  Index
 } from "@ui-kitten/components";
-
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "@/components/header/Header";
 import { colors, typography } from "@/css/globals";
 import { LinearGradient } from "expo-linear-gradient";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDarkMode } from "../context/DarkModeContext";
-import AppText from "./AppText"; 
-const Text = AppText; 
 
-
+const TEXT_SIZE_OPTIONS = [
+  { label: 'Small', value: 12 },
+  { label: 'Medium', value: 16 },
+  { label: 'Large', value: 20 },
+  { label: 'Extra Large', value: 24 },
+];
 
 export const AccountScreen = ({ navigation }) => {
   const { isDarkMode, toggleDarkMode } = useDarkMode();
+
+  const [textSize, setTextSize] = useState(16); // Default text size
+
+  // Handle text size change
+  const handleTextSizeChange = (index) => {
+    setTextSize(TEXT_SIZE_OPTIONS[index].value);
+    // You can store the selected size in AsyncStorage or global state if needed
+  };
 
   const styles = useMemo(() => {
     console.log("Recalculating styles for dark mode:", isDarkMode);
     return getStyles(isDarkMode);
   }, [isDarkMode]);
 
+  const selectedIndex = useMemo(() => {
+    return new Index(TEXT_SIZE_OPTIONS.findIndex(item => item.value === textSize));
+  }, [textSize]);
+  
   const ArrowIcon = (props) => (
     <Icon name="arrow-ios-forward-outline" {...props} style={styles.icon} />
   );
@@ -75,7 +93,7 @@ export const AccountScreen = ({ navigation }) => {
           showsVerticalScrollIndicator={false}
         >
           <Layout style={styles.section}>
-            <AppText style={styles.sectionTitle}>Settings</AppText>
+            <Text style={styles.sectionTitle}>Settings</Text>
             <SectionItem
               label="Edit Account Info"
               onPress={() => {}}
@@ -90,23 +108,36 @@ export const AccountScreen = ({ navigation }) => {
               accessoryRight={ArrowIcon}
             />
             <Divider style={styles.divider} />
-            {/* <SectionItem
+            <SectionItem
               label="Set Language"
               onPress={() => {}}
               accessoryLeft="globe-2-outline"
               accessoryRight={ArrowIcon}
-            /> */}
-            <SectionItem
-              label="Change Text Size"
-              onPress={() => navigation.navigate("ChangeTextSize")}
-              accessoryLeft="globe-2-outline"
-              accessoryRight={ArrowIcon}
             />
+            <Divider style={styles.divider} />
+            {/* Add Dropdown for Text Size */}
+            <Layout style={styles.sectionItem}>
+              <Layout style={styles.leftSide}>
+                <Text style={styles.sectionItemText}>Text Size</Text>
+              </Layout>
+              <Layout style={styles.rightSide}>
+                <Select
+                  selectedIndex={selectedIndex}
+                  onSelect={index => handleTextSizeChange(index.row)}
+                  style={{ width: 120 }}
+                >
+                  {TEXT_SIZE_OPTIONS.map((option, idx) => (
+                    <SelectItem key={idx} title={option.label} />
+                  ))}
+                </Select>
+              </Layout>
+            </Layout>
+
             <Divider style={styles.divider} />
             <Layout style={styles.sectionItem}>
               <Layout style={styles.leftSide}>
                 <MoonIcon />
-                <AppText style={styles.sectionItemText}>Dark Mode</AppText>
+                <Text style={styles.sectionItemText}>Dark Mode</Text>
               </Layout>
               <Layout style={styles.rightSide}>
                 <Toggle
@@ -121,7 +152,7 @@ export const AccountScreen = ({ navigation }) => {
           </Layout>
 
           <Layout style={styles.section}>
-            <AppText style={styles.sectionTitle}>Support</AppText>
+            <Text style={styles.sectionTitle}>Support</Text>
             <SectionItem
               label="FAQ"
               onPress={() => {}}
@@ -189,6 +220,7 @@ const getStyles = (isDarkMode) => ({
   },
   sectionTitle: {
     marginBottom: 8,
+    ...typography(true).h4Med,
     color: isDarkMode ? colors.apple.white : colors.apple.black,
     flexDirection: "row",
     justifyContent: "space-between",
@@ -218,7 +250,7 @@ const getStyles = (isDarkMode) => ({
     backgroundColor: "transparent",
   },
   sectionItemText: {
-    // ...typography().bodyMed,
+    ...typography(true).bodyMed,
     color: isDarkMode ? colors.apple.white : colors.apple.black,
     backgroundColor: "transparent",
   },

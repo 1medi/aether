@@ -178,14 +178,7 @@ const getStyles = (isDarkMode) => ({
     gap: 16,
   },
   section: {
-    backgroundColor: isDarkMode ? colors.dark.darkGrey80 : colors.apple.white,
-    marginHorizontal: 12,
-    paddingTop: 16,
-    paddingBottom: 8,
-    paddingHorizontal: 8,
-    borderRadius: 32,
-    borderColor: isDarkMode ? colors.apple.glass20 : colors.apple.lightStroke,
-    borderWidth: 1,
+
   },
   sectionTitle: {
     marginBottom: 8,
@@ -218,7 +211,7 @@ const getStyles = (isDarkMode) => ({
     backgroundColor: "transparent",
   },
   sectionItemText: {
-    // ...typography().bodyMed,
+    ...typography(true).bodyMed,
     color: isDarkMode ? colors.apple.white : colors.apple.black,
     backgroundColor: "transparent",
   },

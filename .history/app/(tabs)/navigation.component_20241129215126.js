@@ -158,7 +158,6 @@ const TabNavigator = () => {
     <Screen name="SavedProfile" component={SavedProfileScreen} />
     <Screen name="Scan" component={ScanDocScreen} />
     <Screen name="Upload" component={UploadDocScreen} />
-    <Screen name="ChangeTextSize" component={ChangeTextSize} />
   </Navigator>
   );
 };
