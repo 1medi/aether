@@ -17,7 +17,7 @@ const LoadParaphrasesScreen = ({ paraphrasedText }) => {
   // Function to fetch paraphrases
   const FetchParaphrases = async () => {
     try {
-      const response = await fetch("http://10.65.96.95:8888/paraphrases"); // Backend endpoint
+      const response = await fetch("http://10.0.0.235:8888/paraphrases"); // Backend endpoint, change ip depending on whos using lmao
       const data = await response.json(); // Parse response JSON
       console.log("Fetched Paraphrases:", data);
       setParaphrases(data); // Set fetched data to state
