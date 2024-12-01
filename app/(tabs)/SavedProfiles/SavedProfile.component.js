@@ -193,20 +193,8 @@ export default function SavedProfile({ route, navigation }) {
           {/* Profile Picture and Name */}
           <View style={styles.profileHeader}>
             <Image source={personalInfo.image} style={styles.profileImage} />
-            <TextInput
-              style={styles.profileName}
-              value={personalInfo.fullName}
-              onChangeText={(text) =>
-                setPersonalInfo({ ...personalInfo, fullName: text })
-              }
-            />
-            <TextInput
-              style={styles.profileRole}
-              value={personalInfo.relationshipToUser}
-              onChangeText={(text) =>
-                setPersonalInfo({ ...personalInfo, relationshipToUser: text })
-              }
-            />
+            <Text style={styles.profileName}>{personalInfo.fullName}</Text>
+            <Text style={styles.profileRole}>{personalInfo.relationshipToUser}</Text>
           </View>
 
           {/* Personal Info Section */}
@@ -495,7 +483,7 @@ export default function SavedProfile({ route, navigation }) {
               </View>
               <View style={styles.rightSide}>
                 <Icon
-                  name="arrow-ios-downward-outline"
+                  name="heart-outline"
                   fill={colors.apple.black}
                   width={24}
                   height={24}
@@ -507,13 +495,10 @@ export default function SavedProfile({ route, navigation }) {
           {/* Delete Button */}
           <TouchableOpacity style={styles.touchContainer}>
             <Layout style={styles.deleteSection}>
-              <Button
-                status="danger"
-                appearance="filled"
-                style={styles.deleteButton}
-              >
-                Delete Profile
-              </Button>
+              <View style={styles.deleteButton}>
+                <Text style={styles.buttonText}>Delete Profile</Text>
+                <Icon name="trash-2-outline" fill={colors.apple.white} width={24} height={24} />
+              </View>
             </Layout>
           </TouchableOpacity>
         </ScrollView>
@@ -629,9 +614,17 @@ const getStyles = (isDarkMode) => ({
     backgroundColor: "transparent",
   },
   deleteButton: {
+    flexDirection: "row",
+    gap: 8,
     borderRadius: 100,
     marginHorizontal: 12,
     backgroundColor: colors.apple.red,
     height: 56,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttonText: {
+    ...typography(true).h4Med,
+    color: colors.apple.white,
   },
 });

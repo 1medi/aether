@@ -135,7 +135,7 @@ export default function AddProfile({ route, navigation }) {
   useEffect(() => {
     if (address.province) {
       setCityOptions(citiesByProvince[address.province] || []);
-      setAddress(prevAddress => ({ ...prevAddress, city: "Select a city" }));
+      setAddress((prevAddress) => ({ ...prevAddress, city: "Select a city" }));
     }
   }, [address.province]);
 
@@ -173,205 +173,107 @@ export default function AddProfile({ route, navigation }) {
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={{ flex: 1 }}
         >
-        <ScrollView
-          contentContainerStyle={styles.scrollContainer}
-          showsVerticalScrollIndicator={false}
-        >
-          {/* Profile Picture and Name */}
-          <View style={styles.profileHeader}>
-            <Image source={personalInfo.image} style={styles.profileImage} />
-            <TextInput
-              style={styles.profileName}
-              value={personalInfo.fullName}
-              onChangeText={(text) =>
-                setPersonalInfo({ ...personalInfo, fullName: text })
-              }
-            />
-            <TextInput
-              style={styles.profileRole}
-              value={personalInfo.relationshipToUser}
-              onChangeText={(text) =>
-                setPersonalInfo({ ...personalInfo, relationshipToUser: text })
-              }
-            />
-          </View>
+          <ScrollView
+            contentContainerStyle={styles.scrollContainer}
+            showsVerticalScrollIndicator={false}
+          >
+            {/* Profile Picture and Name */}
+            <View style={styles.profileHeader}>
+              <View style={styles.profileImage}>
+                <Icon
+                  name="person"
+                  fill={colors.apple.white}
+                  width={64}
+                  height={64}
+                />
+              </View>
+              <Text style={styles.profileName}>{personalInfo.fullName}</Text>
+              <Text style={styles.profileRole}>
+                {personalInfo.relationshipToUser}
+              </Text>
+            </View>
 
-          {/* Personal Info Section */}
-          <View style={styles.category}>
-            <Text style={styles.categoryTitle}>Personal Info</Text>
-            <View style={styles.infoItem}>
-              <View style={styles.leftSide}>
-                <TextInput
-                  style={styles.infoText}
-                  value={personalInfo.fullName}
-                  placeholder="Enter full name"
-                  placeholderTextColor={colors.apple.secondaryText}
-                  onChangeText={(text) =>
-                    setPersonalInfo({ ...personalInfo, fullName: text })
-                  }
-                />
-              </View>
-              <View style={styles.rightSide}>
-                <Icon
-                  name="person-outline"
-                  fill={colors.apple.black}
-                  width={24}
-                  height={24}
-                />
-              </View>
-            </View>
-            <Divider style={styles.divider} />
-            <View style={styles.infoItem}>
-              <View style={styles.leftSide}>
-                <TextInput
-                  style={styles.infoText}
-                  value={personalInfo.phoneNumber}
-                  placeholder="Enter phone number"
-                  placeholderTextColor={colors.apple.secondaryText}
-                  onChangeText={(text) =>
-                    setPersonalInfo({ ...personalInfo, phoneNumber: text })
-                  }
-                />
-              </View>
-              <View style={styles.rightSide}>
-                <Icon
-                  name="phone-outline"
-                  fill={colors.apple.black}
-                  width={24}
-                  height={24}
-                />
-              </View>
-            </View>
-            <Divider style={styles.divider} />
-            <View style={styles.infoItem}>
-              <View style={styles.leftSide}>
-                <TextInput
-                  style={styles.infoText}
-                  value={personalInfo.dateOfBirth}
-                  placeholder="Enter date of birth"
-                  placeholderTextColor={colors.apple.secondaryText}
-                  onChangeText={(text) =>
-                    setPersonalInfo({ ...personalInfo, dateOfBirth: text })
-                  }
-                />
-              </View>
-              <View style={styles.rightSide}>
-                <Icon
-                  name="calendar-outline"
-                  fill={colors.apple.black}
-                  width={24}
-                  height={24}
-                />
-              </View>
-            </View>
-            <Divider style={styles.divider} />
-            <View style={styles.infoItem}>
-              <Dropdown
-                style={styles.dropdown}
-                data={genderOptions}
-                labelField="label"
-                valueField="value"
-                value={personalInfo.gender}
-                placeholder="Select gender"
-                placeholderStyle={styles.placeholderText}
-                onChange={(item) =>
-                  setPersonalInfo({ ...personalInfo, gender: item.value })
-                }
-                renderRightIcon={() => (
+            {/* Personal Info Section */}
+            <View style={styles.category}>
+              <Text style={styles.categoryTitle}>Personal Info</Text>
+              <View style={styles.infoItem}>
+                <View style={styles.leftSide}>
+                  <TextInput
+                    style={styles.infoText}
+                    value={personalInfo.fullName}
+                    placeholder="Enter full name"
+                    placeholderTextColor={colors.apple.secondaryText}
+                    onChangeText={(text) =>
+                      setPersonalInfo({ ...personalInfo, fullName: text })
+                    }
+                  />
+                </View>
+                <View style={styles.rightSide}>
                   <Icon
-                    name="arrow-ios-downward-outline"
+                    name="person-outline"
                     fill={colors.apple.black}
                     width={24}
                     height={24}
                   />
-                )}
-              />
-            </View>
-            <Divider style={styles.divider} />
-            <View style={styles.infoItem}>
-              <View style={styles.leftSide}>
-                <TextInput
-                  style={styles.infoText}
-                  value={personalInfo.relationshipToUser}
-                  placeholder="Enter relation to yourself"
-                  placeholderTextColor={colors.apple.secondaryText}
-                  onChangeText={(text) =>
-                    setPersonalInfo({
-                      ...personalInfo,
-                      relationshipToUser: text,
-                    })
-                  }
-                />
+                </View>
               </View>
-              <View style={styles.rightSide}>
-                <Icon
-                  name="heart-outline"
-                  fill={colors.apple.black}
-                  width={24}
-                  height={24}
-                />
-              </View>
-            </View>
-          </View>
-
-          {/* Address Section */}
-          <View style={styles.category}>
-            <Text style={styles.categoryTitle}>Address</Text>
-            <View style={styles.infoItem}>
-              <View style={styles.leftSide}>
-                <TextInput
-                  style={styles.infoText}
-                  value={address.streetAddress}
-                  placeholder="Enter street address"
-                  placeholderTextColor={colors.apple.secondaryText}
-                  onChangeText={(text) =>
-                    setAddress({ ...address, streetAddress: text })
-                  }
-                />
-              </View>
-              <View style={styles.rightSide}>
-                <Icon
-                  name="pin-outline"
-                  fill={colors.apple.black}
-                  width={24}
-                  height={24}
-                />
-              </View>
-            </View>
-            <Divider style={styles.divider} />
-            <View style={styles.infoItem}>
-              <Dropdown
-                style={styles.dropdown}
-                data={provinceOptions}
-                labelField="label"
-                valueField="value"
-                value={address.province}
-                placeholder="Select province"
-                placeholderStyle={styles.placeholderText}
-                onChange={(item) =>
-                  setAddress({ ...address, province: item.value })
-                }
-                renderRightIcon={() => (
+              <Divider style={styles.divider} />
+              <View style={styles.infoItem}>
+                <View style={styles.leftSide}>
+                  <TextInput
+                    style={styles.infoText}
+                    value={personalInfo.phoneNumber}
+                    placeholder="Enter phone number"
+                    placeholderTextColor={colors.apple.secondaryText}
+                    onChangeText={(text) =>
+                      setPersonalInfo({ ...personalInfo, phoneNumber: text })
+                    }
+                  />
+                </View>
+                <View style={styles.rightSide}>
                   <Icon
-                    name="arrow-ios-downward-outline"
+                    name="phone-outline"
                     fill={colors.apple.black}
                     width={24}
                     height={24}
                   />
-                )}
-              />
-            </View>
-            <Divider style={styles.divider} />
-            <View style={styles.infoItem}>
-            <Dropdown
+                </View>
+              </View>
+              <Divider style={styles.divider} />
+              <View style={styles.infoItem}>
+                <View style={styles.leftSide}>
+                  <TextInput
+                    style={styles.infoText}
+                    value={personalInfo.dateOfBirth}
+                    placeholder="Enter date of birth"
+                    placeholderTextColor={colors.apple.secondaryText}
+                    onChangeText={(text) =>
+                      setPersonalInfo({ ...personalInfo, dateOfBirth: text })
+                    }
+                  />
+                </View>
+                <View style={styles.rightSide}>
+                  <Icon
+                    name="calendar-outline"
+                    fill={colors.apple.black}
+                    width={24}
+                    height={24}
+                  />
+                </View>
+              </View>
+              <Divider style={styles.divider} />
+              <View style={styles.infoItem}>
+                <Dropdown
                   style={styles.dropdown}
-                  data={cityOptions}
+                  data={genderOptions}
                   labelField="label"
                   valueField="value"
-                  value={address.city}
-                  placeholder="Select city"
+                  value={personalInfo.gender}
+                  placeholder="Select gender"
                   placeholderStyle={styles.placeholderText}
-                  onChange={(item) => setAddress({ ...address, city: item.value })}
+                  onChange={(item) =>
+                    setPersonalInfo({ ...personalInfo, gender: item.value })
+                  }
                   renderRightIcon={() => (
                     <Icon
                       name="arrow-ios-downward-outline"
@@ -381,142 +283,239 @@ export default function AddProfile({ route, navigation }) {
                     />
                   )}
                 />
-            </View>
-            <Divider style={styles.divider} />
-            <View style={styles.infoItem}>
-              <View style={styles.leftSide}>
-                <TextInput
-                  style={styles.infoText}
-                  value={address.postalCode}
-                  placeholder="Enter postal code"
-                  placeholderTextColor={colors.apple.secondaryText}
-                  onChangeText={(text) =>
-                    setAddress({ ...address, postalCode: text })
-                  }
-                />
               </View>
-              <View style={styles.rightSide}>
-                <Icon
-                  name="home-outline"
-                  fill={colors.apple.black}
-                  width={24}
-                  height={24}
-                />
+              <Divider style={styles.divider} />
+              <View style={styles.infoItem}>
+                <View style={styles.leftSide}>
+                  <TextInput
+                    style={styles.infoText}
+                    value={personalInfo.relationshipToUser}
+                    placeholder="Enter relation to yourself"
+                    placeholderTextColor={colors.apple.secondaryText}
+                    onChangeText={(text) =>
+                      setPersonalInfo({
+                        ...personalInfo,
+                        relationshipToUser: text,
+                      })
+                    }
+                  />
+                </View>
+                <View style={styles.rightSide}>
+                  <Icon
+                    name="heart-outline"
+                    fill={colors.apple.black}
+                    width={24}
+                    height={24}
+                  />
+                </View>
               </View>
             </View>
-          </View>
 
-          {/* Emergency Contact Section */}
-          <View style={styles.category}>
-            <Text style={styles.categoryTitle}>Emergency Contact</Text>
-            <View style={styles.infoItem}>
-              <View style={styles.leftSide}>
-                <TextInput
-                  style={styles.infoText}
-                  value={emergencyContact.fullName}
-                  placeholder="Enter their full name"
-                  placeholderTextColor={colors.apple.secondaryText}
-                  onChangeText={(text) =>
-                    setEmergencyContact({ ...emergencyContact, fullName: text })
+            {/* Address Section */}
+            <View style={styles.category}>
+              <Text style={styles.categoryTitle}>Address</Text>
+              <View style={styles.infoItem}>
+                <View style={styles.leftSide}>
+                  <TextInput
+                    style={styles.infoText}
+                    value={address.streetAddress}
+                    placeholder="Enter street address"
+                    placeholderTextColor={colors.apple.secondaryText}
+                    onChangeText={(text) =>
+                      setAddress({ ...address, streetAddress: text })
+                    }
+                  />
+                </View>
+                <View style={styles.rightSide}>
+                  <Icon
+                    name="pin-outline"
+                    fill={colors.apple.black}
+                    width={24}
+                    height={24}
+                  />
+                </View>
+              </View>
+              <Divider style={styles.divider} />
+              <View style={styles.infoItem}>
+                <Dropdown
+                  style={styles.dropdown}
+                  data={provinceOptions}
+                  labelField="label"
+                  valueField="value"
+                  value={address.province}
+                  placeholder="Select province"
+                  placeholderStyle={styles.placeholderText}
+                  onChange={(item) =>
+                    setAddress({ ...address, province: item.value })
                   }
+                  renderRightIcon={() => (
+                    <Icon
+                      name="arrow-ios-downward-outline"
+                      fill={colors.apple.black}
+                      width={24}
+                      height={24}
+                    />
+                  )}
                 />
               </View>
-              <View style={styles.rightSide}>
-                <Icon
-                  name="people-outline"
-                  fill={colors.apple.black}
-                  width={24}
-                  height={24}
+              <Divider style={styles.divider} />
+              <View style={styles.infoItem}>
+                <Dropdown
+                  style={styles.dropdown}
+                  data={cityOptions}
+                  labelField="label"
+                  valueField="value"
+                  value={address.city}
+                  placeholder="Select city"
+                  placeholderStyle={styles.placeholderText}
+                  onChange={(item) =>
+                    setAddress({ ...address, city: item.value })
+                  }
+                  renderRightIcon={() => (
+                    <Icon
+                      name="arrow-ios-downward-outline"
+                      fill={colors.apple.black}
+                      width={24}
+                      height={24}
+                    />
+                  )}
                 />
+              </View>
+              <Divider style={styles.divider} />
+              <View style={styles.infoItem}>
+                <View style={styles.leftSide}>
+                  <TextInput
+                    style={styles.infoText}
+                    value={address.postalCode}
+                    placeholder="Enter postal code"
+                    placeholderTextColor={colors.apple.secondaryText}
+                    onChangeText={(text) =>
+                      setAddress({ ...address, postalCode: text })
+                    }
+                  />
+                </View>
+                <View style={styles.rightSide}>
+                  <Icon
+                    name="home-outline"
+                    fill={colors.apple.black}
+                    width={24}
+                    height={24}
+                  />
+                </View>
               </View>
             </View>
-            <Divider style={styles.divider} />
-            <View style={styles.infoItem}>
-              <View style={styles.leftSide}>
-                <TextInput
-                  style={styles.infoText}
-                  value={emergencyContact.phoneNumber}
-                  placeholder="Enter their phone number"
-                  placeholderTextColor={colors.apple.secondaryText}
-                  onChangeText={(text) =>
-                    setEmergencyContact({
-                      ...emergencyContact,
-                      phoneNumber: text,
-                    })
-                  }
-                />
-              </View>
-              <View style={styles.rightSide}>
-                <Icon
-                  name="phone-outline"
-                  fill={colors.apple.black}
-                  width={24}
-                  height={24}
-                />
-              </View>
-            </View>
-            <Divider style={styles.divider} />
-            <View style={styles.infoItem}>
-              <View style={styles.leftSide}>
-                <TextInput
-                  style={styles.infoText}
-                  value={emergencyContact.email}
-                  placeholder="Enter their email"
-                  placeholderTextColor={colors.apple.secondaryText}
-                  onChangeText={(text) =>
-                    setEmergencyContact({ ...emergencyContact, email: text })
-                  }
-                />
-              </View>
-              <View style={styles.rightSide}>
-                <Icon
-                  name="email-outline"
-                  fill={colors.apple.black}
-                  width={24}
-                  height={24}
-                />
-              </View>
-            </View>
-            <Divider style={styles.divider} />
-            <View style={styles.infoItem}>
-              <View style={styles.leftSide}>
-                <TextInput
-                  style={styles.infoText}
-                  value={emergencyContact.relationshipToProfile}
-                  placeholder="Enter their relation to this profile"
-                  placeholderTextColor={colors.apple.secondaryText}
-                  onChangeText={(text) =>
-                    setEmergencyContact({
-                      ...emergencyContact,
-                      relationshipToProfile: text,
-                    })
-                  }
-                />
-              </View>
-              <View style={styles.rightSide}>
-                <Icon
-                  name="arrow-ios-downward-outline"
-                  fill={colors.apple.black}
-                  width={24}
-                  height={24}
-                />
-              </View>
-            </View>
-          </View>
 
-          {/* Delete Button */}
-          <TouchableOpacity style={styles.touchContainer}>
+            {/* Emergency Contact Section */}
+            <View style={styles.category}>
+              <Text style={styles.categoryTitle}>Emergency Contact</Text>
+              <View style={styles.infoItem}>
+                <View style={styles.leftSide}>
+                  <TextInput
+                    style={styles.infoText}
+                    value={emergencyContact.fullName}
+                    placeholder="Enter their full name"
+                    placeholderTextColor={colors.apple.secondaryText}
+                    onChangeText={(text) =>
+                      setEmergencyContact({
+                        ...emergencyContact,
+                        fullName: text,
+                      })
+                    }
+                  />
+                </View>
+                <View style={styles.rightSide}>
+                  <Icon
+                    name="people-outline"
+                    fill={colors.apple.black}
+                    width={24}
+                    height={24}
+                  />
+                </View>
+              </View>
+              <Divider style={styles.divider} />
+              <View style={styles.infoItem}>
+                <View style={styles.leftSide}>
+                  <TextInput
+                    style={styles.infoText}
+                    value={emergencyContact.phoneNumber}
+                    placeholder="Enter their phone number"
+                    placeholderTextColor={colors.apple.secondaryText}
+                    onChangeText={(text) =>
+                      setEmergencyContact({
+                        ...emergencyContact,
+                        phoneNumber: text,
+                      })
+                    }
+                  />
+                </View>
+                <View style={styles.rightSide}>
+                  <Icon
+                    name="phone-outline"
+                    fill={colors.apple.black}
+                    width={24}
+                    height={24}
+                  />
+                </View>
+              </View>
+              <Divider style={styles.divider} />
+              <View style={styles.infoItem}>
+                <View style={styles.leftSide}>
+                  <TextInput
+                    style={styles.infoText}
+                    value={emergencyContact.email}
+                    placeholder="Enter their email"
+                    placeholderTextColor={colors.apple.secondaryText}
+                    onChangeText={(text) =>
+                      setEmergencyContact({ ...emergencyContact, email: text })
+                    }
+                  />
+                </View>
+                <View style={styles.rightSide}>
+                  <Icon
+                    name="email-outline"
+                    fill={colors.apple.black}
+                    width={24}
+                    height={24}
+                  />
+                </View>
+              </View>
+              <Divider style={styles.divider} />
+              <View style={styles.infoItem}>
+                <View style={styles.leftSide}>
+                  <TextInput
+                    style={styles.infoText}
+                    value={emergencyContact.relationshipToProfile}
+                    placeholder="Enter their relation to this profile"
+                    placeholderTextColor={colors.apple.secondaryText}
+                    onChangeText={(text) =>
+                      setEmergencyContact({
+                        ...emergencyContact,
+                        relationshipToProfile: text,
+                      })
+                    }
+                  />
+                </View>
+                <View style={styles.rightSide}>
+                  <Icon
+                    name="arrow-ios-downward-outline"
+                    fill={colors.apple.black}
+                    width={24}
+                    height={24}
+                  />
+                </View>
+              </View>
+            </View>
+
+            {/* Delete Button */}
             <Layout style={styles.deleteSection}>
-              <Button
-                status="danger"
-                appearance="filled"
-                style={styles.deleteButton}
-              >
-                Delete Profile
-              </Button>
+              <TouchableOpacity style={styles.touchContainer}>
+                <View style={styles.saveButton}>
+                  <Text style={styles.buttonText}>Save Profile</Text>
+                  <Icon name="person-add-outline" fill={colors.apple.white}  width={24} height={24} />
+                </View>
+              </TouchableOpacity>
             </Layout>
-          </TouchableOpacity>
-        </ScrollView>
+          </ScrollView>
         </KeyboardAvoidingView>
       </LinearGradient>
     </SafeAreaView>
@@ -558,6 +557,9 @@ const getStyles = (isDarkMode) => ({
     marginBottom: 24,
   },
   profileImage: {
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: colors.apple.lightStroke,
     width: 104,
     height: 104,
     borderRadius: 100,
@@ -610,7 +612,6 @@ const getStyles = (isDarkMode) => ({
     color: colors.apple.secondaryText,
   },
 
-
   leftSide: {
     flex: 1,
   },
@@ -632,10 +633,18 @@ const getStyles = (isDarkMode) => ({
   touchContainer: {
     backgroundColor: "transparent",
   },
-  deleteButton: {
+  saveButton: {
+    flexDirection: "row",
+    gap: 8,
     borderRadius: 100,
     marginHorizontal: 12,
-    backgroundColor: colors.apple.red,
+    backgroundColor: colors.light.blue,
     height: 56,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttonText: {
+    ...typography(true).h4Med,
+    color: colors.apple.white,
   },
 });
