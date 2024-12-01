@@ -51,17 +51,19 @@ app.post('/store', async (req, res) => {
 });
 
 // Endpoint to get all paraphrases
-app.get('/paraphrases', async (req, res) => {
+app.get("/paraphrases", async (req, res) => {
   try {
     const db = client.db(dbName);
     const collection = db.collection(collectionName);
 
     const paraphrases = await collection.find({}).toArray();
+    res.setHeader("Content-Type", "application/json");
     res.status(200).json(paraphrases);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
+
 
 // Endpoint to update a paraphrase
 app.put('/update/:id', async (req, res) => {
