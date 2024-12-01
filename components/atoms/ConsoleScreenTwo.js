@@ -3,10 +3,12 @@ import { View, Animated, StyleSheet, TouchableWithoutFeedback } from "react-nati
 import MainFab from "./MainFab";
 import FabOption from "./FabOption";
 import { colors, typography } from "@/css/globals";
+import { useNavigation } from "@react-navigation/native";
 
 export default function ConsoleScreenTwo() {
   const [expanded, setExpanded] = useState(false);
   const [fadeAnim] = useState(new Animated.Value(0));
+  const navigation = useNavigation();
 
   const toggleMenu = () => {
     setExpanded((prev) => !prev);
@@ -27,7 +29,11 @@ export default function ConsoleScreenTwo() {
       <View style={styles.fabContainer}>
         {expanded && (
           <>
-            <FabOption iconName="person-add-outline" fadeAnim={fadeAnim} />
+            <FabOption
+              iconName="person-add-outline"
+              fadeAnim={fadeAnim}
+              onPress={() => navigation.navigate("AddProfile")}
+            />
           </>
         )}
         <MainFab expanded={expanded} onPress={toggleMenu} />
@@ -60,6 +66,3 @@ const styles = StyleSheet.create({
     zIndex: 9,
   },
 });
-
-
-
