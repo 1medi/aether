@@ -85,7 +85,7 @@ export const HomeScreen = ({ navigation }) => {
         >
         {/* Header */}
         <Header
-          greeting={"Hello, Chris Topher"}
+          greeting={"Good morning, Chris Topher"}
           hasGreeting
           isDarkMode={isDarkMode}
         />
