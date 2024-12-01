@@ -11,7 +11,11 @@ import {
 import { Button, Layout, Icon } from "@ui-kitten/components";
 import { useNavigation } from "@react-navigation/native";
 import Header from "@/components/header/Header";
-import DocView from "@/src/DocView";
+import DocView, {
+  handleNextPage,
+  handlePreviousPage,
+  handleSave,
+} from "@/src/DocView";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors, typography } from "@/css/globals";
@@ -119,12 +123,13 @@ export default function LibraryScreen() {
           </View>
         </Layout>
 
-        <Layout style={styles.imageContainer}>
+        <View style={styles.imageContainer}>
           <DocView
             formData={formData}
             setFormData={setFormData}
           />
-        </Layout>
+        </View>
+
       </SafeAreaView>
 
       <Modal
@@ -234,10 +239,9 @@ const styles = StyleSheet.create({
   },
 
   imageContainer: {
-    width: "100%",
-    height: 500,
     alignItems: "center",
     justifyContent: "center",
+    height: 575
   },
 
   modalOverlay: {
@@ -290,4 +294,5 @@ const styles = StyleSheet.create({
     height: 40,
     fontSize: 16,
   },
+
 });
