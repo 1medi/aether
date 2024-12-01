@@ -20,9 +20,10 @@ import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors, typography } from "@/css/globals";
 import { Dropdown } from "react-native-element-dropdown";
-import UserData from "./UserData.json";
+import UserData from './UserData'; 
 
-export default function LibraryScreen() {
+
+export default function LibraryScreen({navigation}) {
   const [formData, setFormData] = useState({
     Contract_Number: "",
     Member_ID: "",
@@ -42,36 +43,47 @@ export default function LibraryScreen() {
   const [visible, setVisible] = useState(false);
 
   const dropdownData = UserData; // Use imported JSON data
-  const navigation = useNavigation();
+
+
 
   const handleDropdownChange = (item) => {
     setValue(item.label); // Store the selected label
   };
 
-  const confirmAutofill = () => {
-    if (!value) {
-      alert("Please select a profile from the dropdown first!");
-      return;
-    }
+const confirmAutofill = () => {
+  if (!value) {
+    alert("Please select a profile from the dropdown first!");
+    return;
+  }
 
-    const selectedProfile = dropdownData.find((item) => item.label === value);
+  const selectedProfile = UserData.find((item) => item.label === value);
 
-    if (selectedProfile) {
-      setFormData((prevState) => ({
-        ...prevState,
-        ...selectedProfile.value,
-      }));
-      setVisible(false);
-      alert("Form has been autofilled!");
-    } else {
-      alert("No matching profile found!");
-    }
-  };
+  if (selectedProfile) {
+    setFormData((prevState) => ({
+      ...prevState,
+      ...selectedProfile.value,
+    }));
+    setVisible(false);
+    alert("Form has been autofilled!");
+  } else {
+    alert("No matching profile found!");
+  }
+};
+
+const ArrowIcon = () => (
+  <Icon
+    name="arrow-forward-outline" // Choose an appropriate name
+    style={{ width: 24, height: 24, tintColor: "#000" }} // Customize as needed
+  />
+);
+
+const [imageUri, setImageUri] = useState(null);
 
   return (
     <>
       <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
         <View style={styles.topButtonContainer}>
+
           <TouchableOpacity
             onPress={() => navigation.navigate("MyFiles")}
             style={styles.leftIcons}
