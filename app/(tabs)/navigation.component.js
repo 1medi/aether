@@ -21,127 +21,139 @@ import { colors } from "@/css/globals";
 import { DarkModeProvider } from "./context/DarkModeContext";
 import { FolderScreen } from "./FormLibrary/folder.component";
 import { useDarkMode } from "./context/DarkModeContext";
-import ScanDocScreen from "@/src/ScanDoc.js"
-import UploadDocScreen from "@/src/UploadDoc.js"
+import ScanDocScreen from "@/src/ScanDoc.js";
+import UploadDocScreen from "@/src/UploadDoc.js";
 import ChangeTextSize from "./Account/ChangeTextSize";
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
-const BottomTabBar = ({ navigation, state, isDarkMode }) => (
-  <View style={styles.navShadowContainer}>
-    <BlurView
-      intensity={24}
-      tint={isDarkMode ? "dark" : "light"} // Adjust BlurView tint
-      style={[
-        styles.navOuterContainer,
-        {
-          backgroundColor: isDarkMode ? colors.apple.black20 : colors.apple.glass70,
-        },
-      ]}
-    >
-      <BottomNavigation
-        appearance="noIndicator"
-        selectedIndex={state.index}
-        onSelect={(index) => navigation.navigate(state.routeNames[index])}
-        style={styles.navBarContainer}
+const BottomTabBar = ({ navigation, state, isDarkMode }) => {
+  const currentRoute = state.routeNames[state.index];
+  if (currentRoute === "LibraryScreen") {
+    return null; // Do not render the navbar
+  }
+  return (
+    <View style={styles.navShadowContainer}>
+      <BlurView
+        intensity={24}
+        tint={isDarkMode ? "dark" : "light"} // Adjust BlurView tint
+        style={[
+          styles.navOuterContainer,
+          {
+            backgroundColor: isDarkMode
+              ? colors.apple.black20
+              : colors.apple.glass70,
+          },
+        ]}
       >
-        {/* Home Tab */}
-        <BottomNavigationTab
-          icon={(props) => (
-            <Icon
-              {...props}
-              name={state.index === 0 ? "home" : "home-outline"}
-              style={[
-                styles.icon,
-                {
-                  tintColor: state.index === 0
-                    ? isDarkMode
-                      ? colors.apple.white
-                      : colors.light.blue
-                    : isDarkMode
-                    ? colors.light.blue
-                    : colors.apple.black,
-                },
-              ]}
-            />
-          )}
-        />
-        {/* Search Tab */}
-        <BottomNavigationTab
-          icon={(props) => (
-            <Icon
-              {...props}
-              name={state.index === 1 ? "search" : "search-outline"}
-              style={[
-                styles.icon,
-                {
-                  tintColor: state.index === 1
-                    ? isDarkMode
-                      ? colors.apple.white
-                      : colors.light.blue
-                    : isDarkMode
-                    ? colors.light.blue
-                    : colors.apple.black,
-                },
-              ]}
-            />
-          )}
-        />
-        {/* Book Tab */}
-        <BottomNavigationTab
-          icon={(props) => (
-            <Icon
-              {...props}
-              name={state.index === 2 ? "book" : "book-outline"}
-              style={[
-                styles.icon,
-                {
-                  tintColor: state.index === 2
-                    ? isDarkMode
-                      ? colors.apple.white
-                      : colors.light.blue
-                    : isDarkMode
-                    ? colors.light.blue
-                    : colors.apple.black,
-                },
-              ]}
-            />
-          )}
-        />
-        {/* Profile Tab */}
-        <BottomNavigationTab
-          icon={(props) => (
-            <Icon
-              {...props}
-              name={state.index === 3 ? "person" : "person-outline"}
-              style={[
-                styles.icon,
-                {
-                  tintColor: state.index === 3
-                    ? isDarkMode
-                      ? colors.apple.white
-                      : colors.light.blue
-                    : isDarkMode
-                    ? colors.light.blue
-                    : colors.apple.black,
-                },
-              ]}
-            />
-          )}
-        />
-      </BottomNavigation>
-    </BlurView>
-  </View>
-);
+        <BottomNavigation
+          appearance="noIndicator"
+          selectedIndex={state.index}
+          onSelect={(index) => navigation.navigate(state.routeNames[index])}
+          style={styles.navBarContainer}
+        >
+          {/* Home Tab */}
+          <BottomNavigationTab
+            icon={(props) => (
+              <Icon
+                {...props}
+                name={state.index === 0 ? "home" : "home-outline"}
+                style={[
+                  styles.icon,
+                  {
+                    tintColor:
+                      state.index === 0
+                        ? isDarkMode
+                          ? colors.apple.white
+                          : colors.light.blue
+                        : isDarkMode
+                          ? colors.light.blue
+                          : colors.apple.black,
+                  },
+                ]}
+              />
+            )}
+          />
+          {/* Search Tab */}
+          <BottomNavigationTab
+            icon={(props) => (
+              <Icon
+                {...props}
+                name={state.index === 1 ? "search" : "search-outline"}
+                style={[
+                  styles.icon,
+                  {
+                    tintColor:
+                      state.index === 1
+                        ? isDarkMode
+                          ? colors.apple.white
+                          : colors.light.blue
+                        : isDarkMode
+                          ? colors.light.blue
+                          : colors.apple.black,
+                  },
+                ]}
+              />
+            )}
+          />
+          {/* Book Tab */}
+          <BottomNavigationTab
+            icon={(props) => (
+              <Icon
+                {...props}
+                name={state.index === 2 ? "book" : "book-outline"}
+                style={[
+                  styles.icon,
+                  {
+                    tintColor:
+                      state.index === 2
+                        ? isDarkMode
+                          ? colors.apple.white
+                          : colors.light.blue
+                        : isDarkMode
+                          ? colors.light.blue
+                          : colors.apple.black,
+                  },
+                ]}
+              />
+            )}
+          />
+          {/* Profile Tab */}
+          <BottomNavigationTab
+            icon={(props) => (
+              <Icon
+                {...props}
+                name={state.index === 3 ? "person" : "person-outline"}
+                style={[
+                  styles.icon,
+                  {
+                    tintColor:
+                      state.index === 3
+                        ? isDarkMode
+                          ? colors.apple.white
+                          : colors.light.blue
+                        : isDarkMode
+                          ? colors.light.blue
+                          : colors.apple.black,
+                  },
+                ]}
+              />
+            )}
+          />
+        </BottomNavigation>
+      </BlurView>
+    </View>
+  );
+};
 
 const TabNavigator = () => {
   const { isDarkMode } = useDarkMode(); // Get dark mode status here
 
   return (
     <Navigator
-      screenOptions={{
+      screenOptions={() => ({
         headerShown: false,
-      }}
+      })}
       tabBar={(props) => <BottomTabBar {...props} isDarkMode={isDarkMode} />} // Pass isDarkMode
     >
       <Screen
@@ -149,19 +161,19 @@ const TabNavigator = () => {
         component={HomeScreen}
         options={{ title: "Aether Home" }}
       />
-    <Screen name="FormLibrary" component={FormLibraryScreen} />
-    <Screen name="MyFiles" component={MyFilesScreen} />
-    <Screen name="Account" component={AccountScreen} />
-    <Screen name="LibraryScreen" component={LibraryScreen} />
-    <Screen name="Camera" component={CameraScreen} />
-    <Screen name="PensionPlan" component={AutofilledScreen} />
-    <Screen name="Folder" component={FolderScreen} />
-    <Screen name="SavedProfile" component={SavedProfileScreen} />
-    <Screen name="AddProfile" component={AddProfileScreen} />
-    <Screen name="Scan" component={ScanDocScreen} />
-    <Screen name="Upload" component={UploadDocScreen} />
-    <Screen name="ChangeTextSize" component={ChangeTextSize} />
-  </Navigator>
+      <Screen name="FormLibrary" component={FormLibraryScreen} />
+      <Screen name="MyFiles" component={MyFilesScreen} />
+      <Screen name="Account" component={AccountScreen} />
+      <Screen name="LibraryScreen" component={LibraryScreen} />
+      <Screen name="Camera" component={CameraScreen} />
+      <Screen name="PensionPlan" component={AutofilledScreen} />
+      <Screen name="Folder" component={FolderScreen} />
+      <Screen name="SavedProfile" component={SavedProfileScreen} />
+      <Screen name="AddProfile" component={AddProfileScreen} />
+      <Screen name="Scan" component={ScanDocScreen} />
+      <Screen name="Upload" component={UploadDocScreen} />
+      <Screen name="ChangeTextSize" component={ChangeTextSize} />
+    </Navigator>
   );
 };
 
@@ -171,8 +183,8 @@ const getTintColor = (isDarkMode, isActive) =>
       ? colors.apple.white
       : colors.light.blue
     : isDarkMode
-    ? colors.light.blue
-    : colors.apple.black;
+      ? colors.light.blue
+      : colors.apple.black;
 
 const BottomNavigationTabIcon = ({ state, index, iconName, isDarkMode }) => (
   <Icon
@@ -194,8 +206,7 @@ const BottomNavigationTabIcon = ({ state, index, iconName, isDarkMode }) => (
       isDarkMode={isDarkMode}
     />
   )}
-/>
-
+/>;
 
 const AppNavigator = () => (
   <DarkModeProvider>

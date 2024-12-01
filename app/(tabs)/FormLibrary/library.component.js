@@ -7,7 +7,9 @@ import {
   TouchableOpacity,
   Text,
   ScrollView,
+  Image,
 } from "react-native";
+import { BlurView } from "expo-blur";
 import { Button, Layout, Icon } from "@ui-kitten/components";
 import { useNavigation } from "@react-navigation/native";
 import Header from "@/components/header/Header";
@@ -20,10 +22,9 @@ import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors, typography } from "@/css/globals";
 import { Dropdown } from "react-native-element-dropdown";
-import UserData from './UserData'; 
+import UserData from "./UserData";
 
-
-export default function LibraryScreen({navigation}) {
+export default function LibraryScreen({ navigation, isDarkMode }) {
   const [formData, setFormData] = useState({
     Contract_Number: "",
     Member_ID: "",
@@ -44,46 +45,70 @@ export default function LibraryScreen({navigation}) {
 
   const dropdownData = UserData; // Use imported JSON data
 
+  const handleAutoFill = () => setVisible(true);
+  const handleSimplify = () => setVisible(true);
+  const handleDelete = () => setVisible(true);
+  const handleExport = () => setVisible(true);
 
+  // Utility Bar Icons
+  const utilityBarIcons = [
+    {
+      type: "image",
+      source: require("@/assets/custom_icons/icon_autoFill.png"),
+      label: "Autofill",
+      action: handleAutoFill,
+    },
+    {
+      type: "image",
+      source: require("@/assets/custom_icons/icon_simplify.png"),
+      label: "Simplify",
+      action: handleSimplify,
+    },
+    {
+      type: "icon",
+      name: "external-link-outline",
+      label: "Export",
+      action: handleExport,
+    },
+    {
+      type: "icon",
+      name: "trash-2-outline",
+      label: "Delete",
+      action: handleDelete,
+      iconColor: colors.apple.red,
+      labelColor: colors.apple.red,
+    },
+  ];
 
   const handleDropdownChange = (item) => {
     setValue(item.label); // Store the selected label
   };
 
-const confirmAutofill = () => {
-  if (!value) {
-    alert("Please select a profile from the dropdown first!");
-    return;
-  }
+  const confirmAutofill = () => {
+    if (!value) {
+      alert("Please select a profile from the dropdown first!");
+      return;
+    }
 
-  const selectedProfile = UserData.find((item) => item.label === value);
+    const selectedProfile = UserData.find((item) => item.label === value);
 
-  if (selectedProfile) {
-    setFormData((prevState) => ({
-      ...prevState,
-      ...selectedProfile.value,
-    }));
-    setVisible(false);
-    alert("Form has been autofilled!");
-  } else {
-    alert("No matching profile found!");
-  }
-};
-
-const ArrowIcon = () => (
-  <Icon
-    name="arrow-forward-outline" // Choose an appropriate name
-    style={{ width: 24, height: 24, tintColor: "#000" }} // Customize as needed
-  />
-);
-
-const [imageUri, setImageUri] = useState(null);
+    if (selectedProfile) {
+      setFormData((prevState) => ({
+        ...prevState,
+        ...selectedProfile.value,
+      }));
+      setVisible(false);
+      alert("Form has been autofilled!");
+    } else {
+      alert("No matching profile found!");
+    }
+  };
 
   return (
     <>
       <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
+        {/* Header */}
         <View style={styles.topButtonContainer}>
-
           <TouchableOpacity
             onPress={() => navigation.navigate("MyFiles")}
             style={styles.leftIcons}
@@ -97,6 +122,7 @@ const [imageUri, setImageUri] = useState(null);
             <Icon name="info-outline" style={styles.headerIcon} />
           </View>
         </View>
+
         <Layout style={{ backgroundColor: "none", margin: 10, width: "auto" }}>
           <Dropdown
             data={dropdownData} // Bind dropdown to imported JSON
@@ -118,17 +144,6 @@ const [imageUri, setImageUri] = useState(null);
                 </View>
               </TouchableOpacity>
             </View>
-            {/* <View style={styles.buttons}>
-              <TouchableOpacity
-                style={[styles.formButton, { marginLeft: 15 }]}
-                onPress={analyzeAndParaphrase}
-              >
-                  <View style={styles.viewContainer}>
-                    <Text style={styles.title}>Analyze</Text>
-                    <ArrowIcon />
-                  </View>
-              </TouchableOpacity>
-            </View> */}
           </View>
         </Layout>
 
@@ -137,6 +152,51 @@ const [imageUri, setImageUri] = useState(null);
         </View>
       </SafeAreaView>
 
+      {/* Utility Bar */}
+      <BlurView
+        intensity={24}
+        tint={isDarkMode ? "dark" : "light"} // Adjust BlurView tint
+        style={[
+          styles.utilityBarContainer,
+          {
+            backgroundColor: isDarkMode
+              ? colors.apple.black20
+              : colors.apple.glass70,
+          },
+        ]}
+      >
+        <View style={styles.utilityBar}>
+          {utilityBarIcons.map((icon, index) => (
+            <TouchableOpacity
+              key={index}
+              style={styles.utilityIconContainer}
+              onPress={icon.action}
+            >
+              {icon.type === "image" ? (
+                <Image source={icon.source} style={styles.customIcon} />
+              ) : (
+                <Icon
+                  name={icon.name}
+                  style={[
+                    styles.utilityIcon,
+                    icon.iconColor && { tintColor: icon.iconColor },
+                  ]}
+                />
+              )}
+              <Text
+                style={[
+                  styles.iconLabel,
+                  icon.labelColor && { color: icon.labelColor },
+                ]}
+              >
+                {icon.label}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </BlurView>
+
+      {/* Modal */}
       <Modal
         animationType="slide"
         transparent={true}
@@ -181,7 +241,6 @@ const styles = StyleSheet.create({
     height: 24,
     fill: colors.apple.black,
   },
-
   leftIcons: {
     display: "flex",
     flexDirection: "row",
@@ -192,12 +251,48 @@ const styles = StyleSheet.create({
     ...typography(true).h4Med,
     color: colors.apple.black,
   },
-
   rightIcons: {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    gap: 16,
+    gap: 24,
+  },
+
+  // Utility Bar Styles
+  utilityBarContainer: {
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
+    height: 96,
+    backgroundColor: colors.apple.glass70,
+    borderTopWidth: 1,
+    borderColor: colors.apple.lightStroke,
+  },
+  utilityBar: {
+    backgroundColor: "transparent",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "100%",
+  },
+  utilityIconContainer: {
+    backgroundColor: "transparent",
+    alignItems: "center",
+    paddingTop: 16,
+  },
+  utilityIcon: {
+    width: 24,
+    height: 24,
+    tintColor: colors.apple.black,
+  },
+  customIcon: {
+    width: 25,
+    height: 25,
+    resizeMode: "contain",
+  },
+  iconLabel: {
+    ...typography(true).footnote,
+    color: colors.apple.black,
+    marginTop: 2,
   },
 
   buttonsRow: {
