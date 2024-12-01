@@ -3,7 +3,7 @@ import { TouchableOpacity, StyleSheet, Animated } from "react-native";
 import { Icon } from "@ui-kitten/components";
 import { colors, typography } from "@/css/globals";
 
-const FabOption = ({ iconName, fadeAnim }) => {
+const FabOption = ({ iconName, fadeAnim, onPress }) => {
     return (
       <Animated.View
         style={[
@@ -21,7 +21,7 @@ const FabOption = ({ iconName, fadeAnim }) => {
           },
         ]}
       >
-        <TouchableOpacity style={styles.fab}>
+        <TouchableOpacity onPress={onPress} style={styles.fab}>
           <Icon name={iconName} fill="white" style={styles.fabIcon} />
         </TouchableOpacity>
       </Animated.View>
