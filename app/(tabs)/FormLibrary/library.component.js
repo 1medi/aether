@@ -123,12 +123,12 @@ export default function LibraryScreen() {
           </View>
         </Layout>
 
-        <Layout style={styles.imageContainer}>
+        <View style={styles.imageContainer}>
           <DocView
             formData={formData}
             setFormData={setFormData}
           />
-        </Layout>
+        </View>
 
       </SafeAreaView>
 
@@ -239,9 +239,9 @@ const styles = StyleSheet.create({
   },
 
   imageContainer: {
-    width: "100%",
     alignItems: "center",
     justifyContent: "center",
+    height: 575
   },
 
   modalOverlay: {
