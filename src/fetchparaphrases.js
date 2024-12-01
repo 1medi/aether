@@ -10,21 +10,30 @@ import {
 import { Icon } from "@ui-kitten/components";
 
 const LoadParaphrasesScreen = ({ paraphrasedText }) => {
-  const [paraphrases, setParaphrases] = useState([]); 
-  const [loading, setLoading] = useState(true); 
-
+  const [paraphrases, setParaphrases] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   // Function to fetch paraphrases
   const FetchParaphrases = async () => {
     try {
-      const response = await fetch("http://10.0.0.235:8888/paraphrases"); // Backend endpoint, change ip depending on whos using lmao
-      const data = await response.json(); // Parse response JSON
+      const response = await fetch("http://10.0.0.235:8888/paraphrases");
+
+      if (!response.ok) {
+        // Log the error response for debugging
+        const errorText = await response.text();
+        console.error("Error response from server:", errorText);
+        throw new Error(`Server error: ${response.status}`);
+      }
+
+      const data = await response.json();
       console.log("Fetched Paraphrases:", data);
-      setParaphrases(data); // Set fetched data to state
+
+      setParaphrases(data);
     } catch (error) {
       console.error("Error fetching paraphrases:", error);
     } finally {
-      setLoading(false); // Stop loading spinner
+      setLoading(false);
+      setRefreshing(false); // Stop the refreshing indicator
     }
   };
 
@@ -57,16 +66,29 @@ const LoadParaphrasesScreen = ({ paraphrasedText }) => {
                 </Text>
 
                 {/* Check if paraphrasedText is a valid array */}
-                {Array.isArray(JSON.parse(item.paraphrasedText)) ? (
+                {Array.isArray(
+                  (() => {
+                    try {
+                      const parsed = JSON.parse(item.paraphrasedText);
+                      return parsed; // Return parsed JSON if valid
+                    } catch {
+                      return null; // Return null if parsing fails
+                    }
+                  })()
+                ) ? (
                   JSON.parse(item.paraphrasedText).map((o, i) => (
                     <View style={styles.jsonBlock} key={`para_${index}_${i}`}>
-                      <Text style={styles.subtitle}>{o.Title}</Text>
-                      <Text style={styles.description}>{o.description}</Text>
+                      <Text style={styles.subtitle}>
+                        {o.Title || "No Title"}
+                      </Text>
+                      <Text style={styles.description}>
+                        {o.description || "No Description"}
+                      </Text>
                     </View>
                   ))
                 ) : (
                   <Text style={styles.description}>
-                    No paraphrased text available.
+                    {item.paraphrasedText || "No paraphrased text available."}
                   </Text>
                 )}
               </View>
