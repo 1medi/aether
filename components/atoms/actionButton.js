@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
   },
   buttonTitle: {
-    ...typography(true).h4,
+    ...typography(true).h4Med,
     color: colors.apple.white,
   },
   buttonDesc: {

@@ -20,7 +20,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors, typography } from "@/css/globals";
 import { Dropdown } from "react-native-element-dropdown";
-import UserData from './UserData.json'
+import UserData from "./UserData.json";
 
 export default function LibraryScreen() {
   const [formData, setFormData] = useState({
@@ -85,19 +85,16 @@ export default function LibraryScreen() {
             <Icon name="info-outline" style={styles.headerIcon} />
           </View>
         </View>
-        <Layout
-          style={{ backgroundColor: "none", margin:10, width: "auto", }}
-        >
+        <Layout style={{ backgroundColor: "none", margin: 10, width: "auto" }}>
           <Dropdown
-        data={dropdownData} // Bind dropdown to imported JSON
-        labelField="label"
-        valueField="label"
-        placeholder="Select Profile"
-        value={value}
-        onChange={handleDropdownChange}
-      />
+            data={dropdownData} // Bind dropdown to imported JSON
+            labelField="label"
+            valueField="label"
+            placeholder="Select Profile"
+            value={value}
+            onChange={handleDropdownChange}
+          />
           <View style={styles.buttonsRow}>
-
             <View style={styles.buttons}>
               <TouchableOpacity
                 style={[styles.formButton, { marginLeft: 15 }]}
@@ -105,7 +102,7 @@ export default function LibraryScreen() {
               >
                 <View style={styles.viewContainer}>
                   <Text style={styles.title}>Autofill</Text>
-                  <Icon name='arrow-right-outline'/>
+                  <Icon name="arrow-right-outline" />
                 </View>
               </TouchableOpacity>
             </View>
@@ -124,12 +121,8 @@ export default function LibraryScreen() {
         </Layout>
 
         <View style={styles.imageContainer}>
-          <DocView
-            formData={formData}
-            setFormData={setFormData}
-          />
+          <DocView formData={formData} setFormData={setFormData} />
         </View>
-
       </SafeAreaView>
 
       <Modal
@@ -241,7 +234,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     alignItems: "center",
     justifyContent: "center",
-    height: 575
+    height: 575,
   },
 
   modalOverlay: {
@@ -294,5 +287,4 @@ const styles = StyleSheet.create({
     height: 40,
     fontSize: 16,
   },
-
 });
