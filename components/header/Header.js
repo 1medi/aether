@@ -69,35 +69,35 @@ export default function Header({
         <View style={styles.topSection}>
           {greeting ? (
             <>
-                <View style={styles.profileBorder}>
+              <View style={styles.profileBorder}>
                 <TouchableOpacity
-  onPress={() =>
-    navigation.navigate("SavedProfile", {
-      profile: {
-        personalInfo: {
-          fullName: "John Doe",
-          phoneNumber: "123-456-7890",
-          dateOfBirth: "01/01/1990",
-          gender: "Male",
-          relationshipToUser: "Self",
-          image: require("@/assets/images/lbj.jpg"),
-        },
-        address: {
-          streetAddress: "123 Main St",
-          city: "New York",
-          province: "NY",
-          postalCode: "10001",
-        },
-        emergencyContact: {
-          fullName: "Jane Doe",
-          phoneNumber: "987-654-3210",
-          email: "jane.doe@example.com",
-          relationshipToProfile: "Spouse",
-        },
-      },
-    })
-  }
->
+                  onPress={() =>
+                    navigation.navigate("SavedProfile", {
+                      profile: {
+                        personalInfo: {
+                          fullName: "John Doe",
+                          phoneNumber: "123-456-7890",
+                          dateOfBirth: "01/01/1990",
+                          gender: "Male",
+                          relationshipToUser: "Self",
+                          image: require("@/assets/images/lbj.jpg"),
+                        },
+                        address: {
+                          streetAddress: "123 Main St",
+                          city: "New York",
+                          province: "NY",
+                          postalCode: "10001",
+                        },
+                        emergencyContact: {
+                          fullName: "Jane Doe",
+                          phoneNumber: "987-654-3210",
+                          email: "jane.doe@example.com",
+                          relationshipToProfile: "Spouse",
+                        },
+                      },
+                    })
+                  }
+                >
                   <Image
                     style={styles.profileImage}
                     source={require("@/assets/images/lbj.jpg")}
@@ -177,7 +177,7 @@ const getStyles = (isDarkMode) => ({
     color: isDarkMode ? colors.apple.white : colors.apple.black,
   },
   textSection: {
-    ...typography(true).h1,
+    // ...typography(true).h1,
     width: "100%",
   },
   date: {
@@ -216,7 +216,7 @@ const getStyles = (isDarkMode) => ({
     flex: 1,
     backgroundColor: "transparent",
     borderColor: "transparent",
-    color: isDarkMode ? colors.dark.deepWhite80 : '',
+    color: isDarkMode ? colors.dark.deepWhite80 : "",
   },
   cancelButton: {
     paddingLeft: 8,
