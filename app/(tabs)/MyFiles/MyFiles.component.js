@@ -20,7 +20,7 @@ import ConsoleScreenTwo from "@/components/atoms/ConsoleScreenTwo";
 import ConsoleScreen from "@/components/atoms/ConsoleScreen";
 import { useDarkMode } from "../context/DarkModeContext";
 import PensionPlanModal from "./PensionPlanModal";
-import FetchParaphrases from "@/src/fetchparaphrases"
+import FetchParaphrases from "@/src/fetchparaphrases";
 
 export const MyFilesScreen = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState("Forms");
@@ -45,7 +45,6 @@ export const MyFilesScreen = ({ navigation }) => {
       setFilteredData(data); // Reset to original data
       return;
     } else {
-
     }
 
     const lowerQuery = query.toLowerCase();
@@ -86,9 +85,7 @@ export const MyFilesScreen = ({ navigation }) => {
                 style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
               >
                 <TipsIcon fill={colors.apple.black} style={styles.tipsIcon} />
-                <Text style={styles.suggestionTitle}>
-                  Looking For A Form?
-                </Text>
+                <Text style={styles.suggestionTitle}>Looking For A Form?</Text>
               </View>
               <TouchableOpacity
                 onPress={() => setShowFormsSuggestionBanner(false)}
@@ -213,11 +210,11 @@ export const MyFilesScreen = ({ navigation }) => {
   const renderHistory = () => {
     return (
       <ScrollView style={styles.scrollContainer}>
-        <FetchParaphrases/>
+        <FetchParaphrases />
       </ScrollView>
     );
   };
-  
+
   return (
     <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
       <LinearGradient
@@ -230,16 +227,15 @@ export const MyFilesScreen = ({ navigation }) => {
         start={{ x: 0.5, y: 0.75 }} // Adjust the starting point for visual appeal
         end={{ x: 0.5, y: 1 }} // Adjust the ending point
       >
-
         {activeTab !== "History" && (
-  <Header
-    title="My Files"
-    placeholder="Search my forms and profiles"
-    hasSearchBar
-    onSearch={onSearch}
-    isDarkMode={isDarkMode}
-  />
-)}
+          <Header
+            title="My Files"
+            placeholder="Search my forms and profiles"
+            hasSearchBar
+            onSearch={onSearch}
+            isDarkMode={isDarkMode}
+          />
+        )}
 
         <View style={styles.toggleContainer}>
           {["Forms", "Profiles", "History"].map((tab) => (
