@@ -16,6 +16,7 @@ import AutofilledScreen from "./FormLibrary/autofilled.component";
 import LibraryScreen from "./FormLibrary/library.component";
 import { AccountScreen } from "./Account/Account.component";
 import SavedProfileScreen from "./SavedProfiles/SavedProfile.component";
+import AddProfileScreen from "./SavedProfiles/AddProfile.component";
 import { colors } from "@/css/globals";
 import { DarkModeProvider } from "./context/DarkModeContext";
 import { FolderScreen } from "./FormLibrary/folder.component";
@@ -156,6 +157,7 @@ const TabNavigator = () => {
     <Screen name="PensionPlan" component={AutofilledScreen} />
     <Screen name="Folder" component={FolderScreen} />
     <Screen name="SavedProfile" component={SavedProfileScreen} />
+    <Screen name="AddProfile" component={AddProfileScreen} />
     <Screen name="Scan" component={ScanDocScreen} />
     <Screen name="Upload" component={UploadDocScreen} />
     <Screen name="ChangeTextSize" component={ChangeTextSize} />

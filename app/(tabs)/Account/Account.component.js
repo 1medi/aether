@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { ScrollView, TouchableOpacity } from "react-native";
+import { ScrollView, TouchableOpacity, View } from "react-native";
 import {
   Layout,
   Button,
@@ -59,7 +59,7 @@ export const AccountScreen = ({ navigation }) => {
       <LinearGradient
         colors={
           isDarkMode
-            ? ['transparent', colors.dark.black] // Smooth dark gradient
+            ? ["transparent", colors.dark.black] // Smooth dark gradient
             : [colors.apple.offWhite, "#D8ECFF"] // Smooth light gradient
         }
         style={styles.bgGradient}
@@ -145,18 +145,13 @@ export const AccountScreen = ({ navigation }) => {
           </Layout>
 
           {/* Log Out Button */}
-          <TouchableOpacity style={styles.touchContainer}>
-            <Layout style={styles.logoutSection}>
-              <Button
-                status="danger"
-                appearance="outline"
-                style={styles.logoutButton}
-                onPress={handleLogout}
-              >
-                Log Out
-              </Button>
-            </Layout>
-          </TouchableOpacity>
+          <Layout style={styles.logoutSection}>
+            <TouchableOpacity style={styles.touchContainer}>
+              <View style={styles.logoutButton} onPress={handleLogout}>
+                <Text style={styles.buttonText}>Log Out</Text>
+              </View>
+            </TouchableOpacity>
+          </Layout>
         </ScrollView>
       </LinearGradient>
     </SafeAreaView>
@@ -199,7 +194,7 @@ const getStyles = (isDarkMode) => ({
   sectionItem: {
     backgroundColor: isDarkMode ? "transparent" : colors.apple.white,
     borderRadius: 100,
-    height: 56,
+    height: 52,
     paddingHorizontal: 12,
     flexDirection: "row",
     justifyContent: "space-between",
@@ -245,6 +240,12 @@ const getStyles = (isDarkMode) => ({
     height: 56,
     borderColor: colors.apple.lightStroke,
     backgroundColor: isDarkMode ? colors.dark.darkGrey80 : colors.apple.white,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttonText: {
+    ...typography(true).h4Med,
+    color: isDarkMode ? colors.apple.white : colors.apple.red,
   },
 });
 
