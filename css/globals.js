@@ -50,6 +50,7 @@ export const colors = {
     glass40: "rgba(255, 255, 255, 0.4)",
     glass70: "rgba(255, 255, 255, 0.7)",
     black: "#222222",
+    black05: "rgba(0, 0, 0, 0.05)",
     black20: "rgba(0, 0, 0, 0.2)",
     secondaryText: "rgba(60, 60, 67, 0.6)",
     tertiaryText: "rgba(217, 217, 217, 0.3)",

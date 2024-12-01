@@ -177,7 +177,7 @@ const getStyles = (isDarkMode) => ({
     color: isDarkMode ? colors.apple.white : colors.apple.black,
   },
   textSection: {
-    ...typography(true).h1,
+    // ...typography(true).h1,
     width: "100%",
   },
   date: {
