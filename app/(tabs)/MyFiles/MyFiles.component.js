@@ -367,7 +367,7 @@ const getStyles = (isDarkMode) => ({
   },
 
   divider: {
-    marginHorizontal: 24,
+    marginHorizontal: 12,
     backgroundColor: isDarkMode
       ? colors.apple.glass20
       : colors.apple.lightStroke,

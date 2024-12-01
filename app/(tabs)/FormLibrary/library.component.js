@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   backButton: {
-    ...typography(true).h3Med,
+    ...typography(true).h4Med,
     color: colors.apple.black,
   },
 

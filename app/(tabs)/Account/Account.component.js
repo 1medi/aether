@@ -190,7 +190,7 @@ const getStyles = (isDarkMode) => ({
   sectionItem: {
     backgroundColor: isDarkMode ? "transparent" : colors.apple.white,
     borderRadius: 100,
-    height: 56,
+    height: 52,
     paddingHorizontal: 12,
     flexDirection: "row",
     justifyContent: "space-between",

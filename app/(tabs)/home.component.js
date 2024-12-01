@@ -300,7 +300,7 @@ const getStyles = (isDarkMode) => ({
     tintColor: isDarkMode ? colors.apple.white : colors.light.blue,
   },
   divider: {
-    marginHorizontal: 32,
+    marginHorizontal: 12,
     backgroundColor: isDarkMode
       ? colors.apple.glass20
       : colors.apple.lightStroke,
