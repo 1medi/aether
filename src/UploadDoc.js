@@ -21,6 +21,7 @@ import { color } from "@rneui/base";
 import { ColorSpace } from "react-native-reanimated";
 import UploadAnimation from "../components/atoms/uploadAnimation";
 import BottomSheetModal from "@/components/molecules/BottomSheetModal";
+import FetchParaphrases from "@/src/fetchparaphrases"
 
 const UploadDocScreen = ({ navigation }) => {
   const [imageUri, setImageUri] = useState(null);
@@ -29,6 +30,7 @@ const UploadDocScreen = ({ navigation }) => {
   const sheetRef = useRef(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [isAnalyzed, setIsAnalyzed] = useState(false);
+  const [paraphrases, setParaphrases] = useState([]);
 
   const requestMediaLibraryPermissions = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -60,27 +62,50 @@ const UploadDocScreen = ({ navigation }) => {
     }
   };
 
+  const saveParaphrase = async (inputText, paraphrasedText) => {
+    try {
+      const response = await fetch("http://10.65.96.95:8888/store", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ inputText, paraphrasedText }),
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        console.log("Paraphrase saved successfully:", data);
+        alert("Paraphrase saved!");
+      } else {
+        console.error("Error saving paraphrase:", data.error);
+        alert(`Error: ${data.error}`);
+      }
+    } catch (error) {
+      console.error("Error saving paraphrase:", error);
+      alert("Failed to save paraphrase. Please try again.");
+    }
+  };
+  
   const analyzeAndParaphrase = async () => {
     if (!imageUri) {
       alert("Please upload an image first!");
       return;
     }
-
+  
     setLoading(true);
-
+  
     try {
       const googleAPIKey = process.env.EXPO_PUBLIC_GOOGLE_KEY;
       const apiURL = `https://vision.googleapis.com/v1/images:annotate?key=${googleAPIKey}`;
-
+  
       const base64ImageData = await FileSystem.readAsStringAsync(imageUri, {
         encoding: FileSystem.EncodingType.Base64,
       });
-
+  
       const cleanedBase64ImageData = base64ImageData.replace(
         /^data:image\/\w+;base64,/,
         ""
       );
-
+  
       const requestData = {
         requests: [
           {
@@ -91,11 +116,11 @@ const UploadDocScreen = ({ navigation }) => {
           },
         ],
       };
-
+  
       const apiResponse = await axios.post(apiURL, requestData, {
         headers: { "Content-Type": "application/json" },
       });
-
+  
       let detectedText = "";
       if (apiResponse.data.responses[0].fullTextAnnotation) {
         detectedText = apiResponse.data.responses[0].fullTextAnnotation.text;
@@ -104,11 +129,11 @@ const UploadDocScreen = ({ navigation }) => {
         setLoading(false);
         return;
       }
-
+  
       // Split detected text into smaller chunks if necessary
       const chunks = detectedText.match(/[\s\S]{1,1500}/g) || [];
       let paraphrasedContent = [];
-
+  
       for (const chunk of chunks) {
         const paraphraseResponse = await axios.post(
           "https://api.openai.com/v1/chat/completions",
@@ -150,9 +175,12 @@ const UploadDocScreen = ({ navigation }) => {
         paraphrasedContent = [...paraphrasedContent, ...arr];
       }
       console.log(paraphrasedContent);
-
+  
       setParaphrasedText(paraphrasedContent);
-
+  
+      // Save the paraphrased content to your backend
+      await saveParaphrase(detectedText, JSON.stringify(paraphrasedContent));
+  
       setIsSheetOpen(true);
       setIsAnalyzed(true);
       sheetRef.current?.snapToIndex(0);
@@ -162,7 +190,7 @@ const UploadDocScreen = ({ navigation }) => {
     } finally {
       setLoading(false);
     }
-  };
+  };  
 
   const handleReset = () => {
     setImageUri(null);
@@ -174,6 +202,7 @@ const UploadDocScreen = ({ navigation }) => {
   const { isDarkMode } = useDarkMode();
 
   const styles = useMemo(() => getStyles(isDarkMode), [isDarkMode]);
+
 
   return (
     <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
@@ -222,6 +251,7 @@ const UploadDocScreen = ({ navigation }) => {
         </TouchableOpacity>
       </Layout>
 
+        
       {isSheetOpen && (
         <BottomSheetModal
           sheetRef={sheetRef}
@@ -273,6 +303,7 @@ const getStyles = (isDarkMode) => ({
   buttonText: {
     color: "white",
     fontSize: 18,
+    textAlign: "center",
   },
   disabledButton: {
     backgroundColor: "#d3d3d3",
