@@ -21,8 +21,20 @@ export default function Button({
       <BlurView intensity={16} tint="light" style={styles.buttonContainer}>
         <Layout style={styles.contentContainer}>
           <View style={styles.textContainer}>
-            <Text style={styles.buttonTitle}>{buttonTitle}</Text>
-            <Text style={styles.buttonDesc}>{buttonDesc}</Text>
+            <Text
+              style={styles.buttonTitle}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              {buttonTitle}
+            </Text>
+            <Text
+              style={styles.buttonDesc}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              {buttonDesc}
+            </Text>
           </View>
           <View style={styles.iconContainer}>
             <Accessory
