@@ -101,7 +101,7 @@ const getStyles = (isDarkMode) => ({
   },
   starIcon: {
     position: "absolute",
-    top: -64,
+    top: -68,
     left: -8,
     width: 24,
     height: 24,

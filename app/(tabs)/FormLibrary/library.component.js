@@ -11,12 +11,17 @@ import {
 import { Button, Layout, Icon } from "@ui-kitten/components";
 import { useNavigation } from "@react-navigation/native";
 import Header from "@/components/header/Header";
-import DocView from "@/src/DocView";
+import DocView, {
+  handleNextPage,
+  handlePreviousPage,
+  handleSave,
+} from "@/src/DocView";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors, typography } from "@/css/globals";
 import { Dropdown } from "react-native-element-dropdown";
 import UserData from './UserData'; 
+
 
 export default function LibraryScreen({navigation}) {
   const [formData, setFormData] = useState({
@@ -38,6 +43,8 @@ export default function LibraryScreen({navigation}) {
   const [visible, setVisible] = useState(false);
 
   const dropdownData = UserData; // Use imported JSON data
+
+
 
   const handleDropdownChange = (item) => {
     setValue(item.label); // Store the selected label
@@ -90,19 +97,16 @@ const [imageUri, setImageUri] = useState(null);
             <Icon name="info-outline" style={styles.headerIcon} />
           </View>
         </View>
-        <Layout
-          style={{ backgroundColor: "none", margin:10, width: "auto", }}
-        >
+        <Layout style={{ backgroundColor: "none", margin: 10, width: "auto" }}>
           <Dropdown
-        data={dropdownData} // Bind dropdown to imported JSON
-        labelField="label"
-        valueField="label"
-        placeholder="Select Profile"
-        value={value}
-        onChange={handleDropdownChange}
-      />
+            data={dropdownData} // Bind dropdown to imported JSON
+            labelField="label"
+            valueField="label"
+            placeholder="Select Profile"
+            value={value}
+            onChange={handleDropdownChange}
+          />
           <View style={styles.buttonsRow}>
-
             <View style={styles.buttons}>
               <TouchableOpacity
                 style={[styles.formButton, { marginLeft: 15 }]}
@@ -110,7 +114,7 @@ const [imageUri, setImageUri] = useState(null);
               >
                 <View style={styles.viewContainer}>
                   <Text style={styles.title}>Autofill</Text>
-                  <ArrowIcon />
+                  <Icon name="arrow-right-outline" />
                 </View>
               </TouchableOpacity>
             </View>
@@ -128,13 +132,9 @@ const [imageUri, setImageUri] = useState(null);
           </View>
         </Layout>
 
-        <Layout style={styles.imageContainer}>
-          <DocView
-            formData={formData}
-            setFormData={setFormData}
-            onImageReady={setImageUri}
-          />
-        </Layout>
+        <View style={styles.imageContainer}>
+          <DocView formData={formData} setFormData={setFormData} />
+        </View>
       </SafeAreaView>
 
       <Modal
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   backButton: {
-    ...typography(true).h3Med,
+    ...typography(true).h4Med,
     color: colors.apple.black,
   },
 
@@ -244,10 +244,9 @@ const styles = StyleSheet.create({
   },
 
   imageContainer: {
-    width: "100%",
-    height: 500,
     alignItems: "center",
     justifyContent: "center",
+    height: 575,
   },
 
   modalOverlay: {
