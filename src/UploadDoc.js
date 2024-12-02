@@ -86,7 +86,7 @@ const UploadDocScreen = ({ navigation }) => {
 
   const saveParaphrase = async (inputText, paraphrasedText) => {
     try {
-      const response = await fetch("http://10.0.0.235:8888/store", {
+      const response = await fetch("http://0.0.0.0:8888/store", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ inputText, paraphrasedText }),
