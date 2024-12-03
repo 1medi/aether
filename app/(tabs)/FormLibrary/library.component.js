@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Pressable,
   View,
@@ -23,6 +23,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { colors, typography } from "@/css/globals";
 import { Dropdown } from "react-native-element-dropdown";
 import UserData from "./UserData";
+import { Asset } from "expo-asset";
+import * as FileSystem from "expo-file-system";
+import * as Sharing from "expo-sharing";
 
 export default function LibraryScreen({ navigation, isDarkMode }) {
   const [formData, setFormData] = useState({
@@ -42,13 +45,38 @@ export default function LibraryScreen({ navigation, isDarkMode }) {
 
   const [value, setValue] = useState(null);
   const [visible, setVisible] = useState(false);
+  const [imageUri, setImageUri] = useState("");
+
+  useEffect(() => {
+    const loadAsset = async () => {
+      try {
+        const asset = Asset.fromModule(require("@/assets/files/insurance1.png"));
+        await asset.downloadAsync();
+        setImageUri(asset.localUri || null);
+      } catch (error) {
+        console.error("Error downloading asset:", error);
+      }
+    };    
+    loadAsset();
+  }, []);
+
+  const shareImage = async () => {
+    try {
+      if (imageUri) {
+        await Sharing.shareAsync(imageUri);
+      } else {
+        console.log("Image uri is not set");
+      }
+    } catch (error) {
+      console.error("Oops not working!", error);
+    }
+  };
 
   const dropdownData = UserData; // Use imported JSON data
 
   const handleAutoFill = () => setVisible(true);
   const handleSimplify = () => setVisible(true);
   const handleDelete = () => setVisible(true);
-  const handleExport = () => setVisible(true);
 
   // Utility Bar Icons
   const utilityBarIcons = [
@@ -68,7 +96,7 @@ export default function LibraryScreen({ navigation, isDarkMode }) {
       type: "icon",
       name: "external-link-outline",
       label: "Export",
-      action: handleExport,
+      onPress: shareImage,
     },
     {
       type: "icon",
@@ -160,7 +188,7 @@ export default function LibraryScreen({ navigation, isDarkMode }) {
             <TouchableOpacity
               key={index}
               style={styles.utilityIconContainer}
-              onPress={icon.action}
+              onPress={icon.onPress}
             >
               {icon.type === "image" ? (
                 <Image source={icon.source} style={styles.customIcon} />
