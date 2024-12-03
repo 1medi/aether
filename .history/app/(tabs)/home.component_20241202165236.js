@@ -153,7 +153,7 @@ export const HomeScreen = ({ navigation }) => {
             {/* Recent Forms Section */}
             <Layout style={styles.sectionContainer}>
               <Layout style={styles.subhead}>
-                <AppText style={styles.headline}>Recent</AppText>
+                <Text style={styles.headline}>Recent</Text>
                 <TouchableOpacity
                   onPress={() => navigation.navigate("MyFiles")}
                 >
@@ -292,7 +292,7 @@ const getStyles = (isDarkMode) => ({
   },
   headline: {
     marginBottom: 8,
-   
+    ...typography(true).h4Med,
     color: isDarkMode ? colors.apple.white : colors.apple.black,
   },
   headlineButton: {

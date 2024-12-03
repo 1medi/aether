@@ -3,6 +3,7 @@ import {
   ScrollView,
   View,
   StyleSheet,
+  Text,
   Image,
   ImageBackground,
   TouchableOpacity,
@@ -22,8 +23,6 @@ import {
 } from "react-native-reanimated";
 import Animated from "react-native-reanimated";
 import { useDarkMode } from "./context/DarkModeContext";
-import AppText from "../(tabs)/Account/AppText"; 
-const Text = AppText; 
 
 export const HomeScreen = ({ navigation }) => {
   const [recentForms, setRecentForms] = useState(myFormsData);
@@ -105,18 +104,18 @@ export const HomeScreen = ({ navigation }) => {
                   style={styles.gradientOverlay}
                 >
                   <Layout style={styles.greetingSection}>
-                    <AppText style={styles.greetingText}>
+                    <Text style={styles.greetingText}>
                       Need help
                       {"\n"}
                       <View style={styles.textContainer}>
                         <Animated.View style={animatedStyle}>
-                          <AppText style={styles.greetingTextColored}>
+                          <Text style={styles.greetingTextColored}>
                             {words[currentWordIndex]}
-                          </AppText>
+                          </Text>
                         </Animated.View>
                       </View>
                       {"\n"}a form today?
-                    </AppText>
+                    </Text>
                   </Layout>
 
                   {/* Action Buttons */}
@@ -153,7 +152,7 @@ export const HomeScreen = ({ navigation }) => {
             {/* Recent Forms Section */}
             <Layout style={styles.sectionContainer}>
               <Layout style={styles.subhead}>
-                <AppText style={styles.headline}>Recent</AppText>
+                <Text style={styles.headline}>Recent</Text>
                 <TouchableOpacity
                   onPress={() => navigation.navigate("MyFiles")}
                 >
@@ -292,7 +291,7 @@ const getStyles = (isDarkMode) => ({
   },
   headline: {
     marginBottom: 8,
-   
+    ...typography(true).h4Med,
     color: isDarkMode ? colors.apple.white : colors.apple.black,
   },
   headlineButton: {

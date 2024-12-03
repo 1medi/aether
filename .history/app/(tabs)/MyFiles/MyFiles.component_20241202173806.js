@@ -341,11 +341,11 @@ const getStyles = (isDarkMode) => ({
     height: 24,
   },
   suggestionTitle: {
-    // ...typography(true).bodyMed,
+    ...typography(true).bodyMed,
     color: isDarkMode ? colors.apple.white : colors.apple.black,
   },
   suggestionDescription: {
-    // ...typography(true).footnote,
+    ...typography(true).footnote,
     color: isDarkMode ? colors.dark.deepWhite60 : colors.apple.secondaryText,
   },
 

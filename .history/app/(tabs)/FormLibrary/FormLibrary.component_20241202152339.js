@@ -78,7 +78,7 @@ export const FormLibraryScreen = ({ navigation }) => {
                   title={form.title}
                   description={form.description}
                   image={form.image}
-                  onPress={() => navigation.navigate('LibraryScreen')}
+                  onPress={() => navigation.navigate("LibraryScreen")}
                 />
               </View>
             ))}

@@ -37,7 +37,7 @@ export default function SavedProfileCard({ profile }) {
           style={styles.gradientOverlay}
         >
           <Layout style={styles.textContainer}>
-            <AppText style={styles.name}>{profile.personalInfo.fullName}</AppText>
+            <Text style={styles.name}>{profile.personalInfo.fullName}</Text>
             <Text style={styles.role}>
               {profile.personalInfo.relationshipToUser}
             </Text>
@@ -69,11 +69,11 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
   },
   name: {
-    // ...typography(true).h4Med,
+    ...typography(true).h4Med,
     color: colors.apple.white,
   },
   role: {
-    // ...typography(true).footnote,
+    ...typography(true).footnote,
     color: colors.apple.glass70,
   },
 });
