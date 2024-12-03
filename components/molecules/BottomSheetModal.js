@@ -26,35 +26,33 @@ export default function BottomModal({ paraphrasedText }) {
   const snapPoints = ["30%", "60%", "90%"];
 
   const [data, setData] = useState(
-    Array.isArray(paraphrasedText)
-      ? paraphrasedText.map((item, index) => ({
-          ...item,
-          id: item.id ?? index,
-        }))
-      : [
-          {
-            id: 1,
-            Title: "Sample Title 1",
-            description: "Sample description 1",
-          },
-          {
-            id: 2,
-            Title: "Sample Title 2",
-            description: "Sample description 2",
-          },
-        ]
+    Array.isArray(paraphrasedText) ? paraphrasedText : []
   );
+  
 
   console.log("Initial data:", data);
 
-  const handleDelete = (id) => {
-    console.log("Preparing to delete item with ID:", id);
-    setData((prevData) => {
-      const newData = prevData.filter((item) => item.id !== id);
-      console.log("Updated data after deletion:", newData);
-      return newData;
-    });
+  const handleDelete = async (id) => {
+    console.log("Deleting paraphrase with ID:", id); // Log to debug the ID
+  
+    try {
+      const response = await fetch(`http://0.0.0.0:8888/delete/${id}`, {
+        method: "DELETE",
+      });
+  
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Error response from server:", errorText);
+        throw new Error(`Server error: ${response.status}`);
+      }
+  
+      setData((prevData) => prevData.filter((item) => item._id !== id));
+      console.log("Deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting:", error);
+    }
   };
+  
 
   const ListItem = React.memo(({ item }) => {
     const translateX = useSharedValue(0);
@@ -78,7 +76,7 @@ export default function BottomModal({ paraphrasedText }) {
             -SCREEN_WIDTH,
             { stiffness: 100, damping: 10 },
             () => {
-              runOnJS(handleDelete)(item.id); // Delete item using runOnJS
+              runOnJS(handleDelete)(item._id);
               isDeleting = false;
             }
           );
@@ -101,7 +99,7 @@ export default function BottomModal({ paraphrasedText }) {
         </Animated.View>
       </GestureDetector>
     );
-  });
+  });  
   
 
   return (
@@ -122,9 +120,9 @@ export default function BottomModal({ paraphrasedText }) {
           </View>
         ) : (
           <BottomSheetFlatList
-            data={data}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => <ListItem item={item} />}
+          data={data.filter((item) => item._id)} // Only include items with valid _id
+          keyExtractor={(item) => item._id.toString()}
+          renderItem={({ item }) => <ListItem item={item} />}
           />
         )}
       </BottomSheetView>
