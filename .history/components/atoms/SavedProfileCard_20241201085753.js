@@ -4,13 +4,12 @@ import {
   StyleSheet,
   ImageBackground,
   View,
+  Text,
 } from "react-native";
 import { Layout } from "@ui-kitten/components";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 import { colors, typography } from "@/css/globals";
-import AppText from "@/app/(tabs)/Account/AppText"; 
-const Text = AppText; 
 
 export default function SavedProfileCard({ profile }) {
   const navigation = useNavigation();
@@ -37,7 +36,7 @@ export default function SavedProfileCard({ profile }) {
           style={styles.gradientOverlay}
         >
           <Layout style={styles.textContainer}>
-            <AppText style={styles.name}>{profile.personalInfo.fullName}</AppText>
+            <Text style={styles.name}>{profile.personalInfo.fullName}</Text>
             <Text style={styles.role}>
               {profile.personalInfo.relationshipToUser}
             </Text>
@@ -69,11 +68,11 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
   },
   name: {
-    // ...typography(true).h4Med,
+    ...typography(true).h4Med,
     color: colors.apple.white,
   },
   role: {
-    // ...typography(true).footnote,
+    ...typography(true).footnote,
     color: colors.apple.glass70,
   },
 });

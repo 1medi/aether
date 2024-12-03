@@ -245,7 +245,6 @@ const getStyles = (isDarkMode) => ({
     flexDirection: "column",
   },
   greetingText: {
-    ...typography(true).display,
     color: colors.apple.white,
   },
   greetingTextColored: {
@@ -292,7 +291,7 @@ const getStyles = (isDarkMode) => ({
   },
   headline: {
     marginBottom: 8,
-   
+    ...typography(true).h4Med,
     color: isDarkMode ? colors.apple.white : colors.apple.black,
   },
   headlineButton: {

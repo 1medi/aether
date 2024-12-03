@@ -319,7 +319,7 @@ const getStyles = (isDarkMode) => ({
     alignSelf: "center",
   },
   bottomMessage: {
-    ...typography(true).bodyMed,
+   
     color: isDarkMode ? colors.apple.glass20 : colors.light.deepBlue40,
     textAlign: "center",
   },

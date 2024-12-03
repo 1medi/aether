@@ -54,11 +54,11 @@ export default function MyFormsCard({
             )}
           </View>
           <View style={styles.textContainer}>
-            <AppText style={styles.title} numberOfLines={1} ellipsizeMode="tail">
+            <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">
               {title}
-            </AppText>
-            <AppText style={styles.subheader}>{subheader}</AppText>
-            <AppText style={styles.footnote}>{footnote}</AppText>
+            </Text>
+            <Text style={styles.subheader}>{subheader}</Text>
+            <Text style={styles.footnote}>{footnote}</Text>
           </View>
           <Icon
             name="more-vertical-outline"
@@ -114,7 +114,7 @@ const getStyles = (isDarkMode) => ({
     flex: 1,
   },
   title: {
-    
+    ...typography(true).bodyMed,
     color: isDarkMode ? colors.apple.white : "",
   },
   subheader: {
