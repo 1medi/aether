@@ -292,7 +292,7 @@ const getStyles = (isDarkMode) => ({
   },
   headline: {
     marginBottom: 8,
-   
+    ...typography(true).h4Med,
     color: isDarkMode ? colors.apple.white : colors.apple.black,
   },
   headlineButton: {

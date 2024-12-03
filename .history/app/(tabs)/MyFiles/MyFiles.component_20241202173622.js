@@ -3,6 +3,7 @@ import {
   ScrollView,
   TouchableOpacity,
   View,
+  Text,
   StyleSheet,
   Image,
 } from "react-native";
@@ -156,9 +157,9 @@ export const MyFilesScreen = ({ navigation }) => {
                 style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
               >
                 <TipsIcon fill={colors.apple.black} style={styles.tipsIcon} />
-                <AppText style={styles.suggestionTitle}>
+                <Text style={styles.suggestionTitle}>
                   Save Time, Reduce Stress
-                </AppText>
+                </Text>
               </View>
               <TouchableOpacity
                 onPress={() => setShowProfilesSuggestionBanner(false)}
@@ -247,14 +248,14 @@ export const MyFilesScreen = ({ navigation }) => {
               ]}
               onPress={() => switchTab(tab)}
             >
-              <AppText
+              <Text
                 style={[
                   styles.toggleButtonText,
                   activeTab === tab && styles.activeToggleButtonText,
                 ]}
               >
                 {tab}
-              </AppText>
+              </Text>
             </TouchableOpacity>
           ))}
         </View>
@@ -315,12 +316,12 @@ const getStyles = (isDarkMode) => ({
     // borderColor: colors.apple.lightStroke,
   },
   toggleButtonText: {
-    // ...typography(true).h4,
+    ...typography(true).h4,
     color: isDarkMode ? colors.dark.deepWhite60 : colors.apple.secondaryText,
     paddingHorizontal: 5,
   },
   activeToggleButtonText: {
-    // ...typography(true).h4Med,
+    ...typography(true).h4Med,
     color: isDarkMode ? colors.apple.white : colors.apple.black,
   },
 
@@ -341,11 +342,11 @@ const getStyles = (isDarkMode) => ({
     height: 24,
   },
   suggestionTitle: {
-    // ...typography(true).bodyMed,
+    ...typography(true).bodyMed,
     color: isDarkMode ? colors.apple.white : colors.apple.black,
   },
   suggestionDescription: {
-    // ...typography(true).footnote,
+    ...typography(true).footnote,
     color: isDarkMode ? colors.dark.deepWhite60 : colors.apple.secondaryText,
   },
 
@@ -387,7 +388,7 @@ const getStyles = (isDarkMode) => ({
   },
 
   profileName: {
-    // ...typography(true).h4Med,
+    ...typography(true).h4Med,
     color: isDarkMode ? colors.dark.darkGrey80 : colors.apple.white,
   },
   profileRole: {

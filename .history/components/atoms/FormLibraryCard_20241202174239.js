@@ -59,11 +59,11 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   title: {
-    // ...typography(true).h2Med,
+    ...typography(true).h2Med,
     color: colors.apple.white,
   },
   description: {
-    // ...typography(true).footnote,
+    ...typography(true).footnote,
     color: colors.apple.glass70,
   },
   iconBackground: {
