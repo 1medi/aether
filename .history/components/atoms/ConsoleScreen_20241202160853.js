@@ -30,7 +30,7 @@ export default function ConsoleScreen() {
         {expanded && (
           <>
             <FabOption iconName="upload-outline" fadeAnim={fadeAnim} onPress={() => navigation.navigate('Scan')}/>
-            <FabOption iconName="file-text-outline" fadeAnim={fadeAnim} onPress={() => navigation.navigate('FormLibrary')}/>
+            <FabOption iconName="file-text-outline" fadeAnim={fadeAnim} onPress={() => navigation.navigate('Library')}/>
           </>
         )}
         <MainFab expanded={expanded} onPress={toggleMenu} />

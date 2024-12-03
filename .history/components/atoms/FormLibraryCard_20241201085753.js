@@ -11,11 +11,11 @@ import { colors, typography } from "@/css/globals";
 import { BlurView } from "expo-blur";
 import { LinearGradient } from "expo-linear-gradient";
 
-export default function FormLibraryCard({ image, title, description, onPress }) {
+export default function FormLibraryCard({ image, title, description, onClick }) {
   const ArrowIcon = (props) => <Icon name="arrow-forward-outline" {...props} />;
 
   return (
-    <TouchableOpacity style={styles.touchContainer}  onPress={onPress}>
+    <TouchableOpacity style={styles.touchContainer} >
       <ImageBackground source={image} style={styles.cardBackground}>
         <LinearGradient
           colors={["rgba(0,0,0,0.1)", "rgba(0,0,0,0.8)"]}
