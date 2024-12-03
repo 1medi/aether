@@ -62,7 +62,6 @@ export default function DocumentView({ formData, setFormData }) {
     }
   };
 
-
   // Called after ref.current.readSignature() reads a non-empty base64 string
   const handleOK = (signature) => {
     console.log(signature);
@@ -332,16 +331,13 @@ export default function DocumentView({ formData, setFormData }) {
                       }
                     />
 
-                    <View style={[styles.sigContainer, {top: 259, left: 60,}]}>
+                    <View style={[styles.sigContainer, { top: 259, left: 60 }]}>
                       <View style={styles.signatureRow}>
                         <TouchableOpacity
                           onPress={() => setIsCanvasVisible(!isCanvasVisible)}
                           style={styles.toggleButton}
                         >
-                          <Text>
-                          {signature ? "Edit" : "Sign Here"}
-                          </Text>
-
+                          <Text>{signature ? "Edit" : "Sign Here"}</Text>
                         </TouchableOpacity>
 
                         {/* Signature Preview */}
@@ -783,21 +779,6 @@ export default function DocumentView({ formData, setFormData }) {
           </ScrollView>
         </ScrollView>
 
-        <View style={styles.buttonContainer}>
-        <Button
-          onPress={handlePreviousPage}
-          disabled={currentPage === 1}
-          style={styles.button}
-        >
-          Back
-        </Button>
-        <Button
-          onPress={currentPage === 2 ? handleSave : handleNextPage}
-          style={styles.button}
-        >
-          {currentPage === 2 ? "Save" : "Next"}
-        </Button>
-      </View>
 
         <Modal transparent visible={isModalVisible} animationType="fade">
           <View style={styles.modalOverlay}>
@@ -836,8 +817,21 @@ export default function DocumentView({ formData, setFormData }) {
           </View>
         </Modal>
       </SafeAreaView>
-
-
+      <View style={styles.buttonContainer}>
+          <Button
+            onPress={handlePreviousPage}
+            disabled={currentPage === 1}
+            style={styles.button}
+          >
+            Back
+          </Button>
+          <Button
+            onPress={currentPage === 2 ? handleSave : handleNextPage}
+            style={styles.button}
+          >
+            {currentPage === 2 ? "Save" : "Next"}
+          </Button>
+        </View>
     </View>
   );
 }
