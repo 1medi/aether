@@ -199,15 +199,15 @@ export default function LibraryScreen({ navigation, isDarkMode }) {
               Would you like to autofill the form with your data?
             </Text>
             <View style={styles.modalButtons}>
+              <Button onPress={confirmAutofill} style={styles.modalButton}>
+                Yes
+              </Button>
               <Button
                 onPress={() => setVisible(false)}
                 style={styles.modalButton}
                 appearance="ghost"
               >
                 No
-              </Button>
-              <Button onPress={confirmAutofill} style={styles.modalButton}>
-                Yes
               </Button>
             </View>
           </View>
