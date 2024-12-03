@@ -11,7 +11,7 @@ import { colors, typography } from "@/css/globals";
 import { BlurView } from "expo-blur";
 import { LinearGradient } from "expo-linear-gradient";
 
-export default function FormLibraryCard({ image, title, description, onPress }) {
+export default function FormLibraryCard({ image, title, description, onClick }) {
   const ArrowIcon = (props) => <Icon name="arrow-forward-outline" {...props} />;
 
   return (

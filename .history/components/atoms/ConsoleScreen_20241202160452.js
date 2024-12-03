@@ -5,8 +5,7 @@ import FabOption from "./FabOption";
 import { colors, typography } from "@/css/globals";
 import { useNavigation } from "@react-navigation/native";
 
-export default function ConsoleScreen() {
-  const navigation = useNavigation();
+export default function ConsoleScreen({ navigation }) {
   const [expanded, setExpanded] = useState(false);
   const [fadeAnim] = useState(new Animated.Value(0));
 
@@ -29,8 +28,8 @@ export default function ConsoleScreen() {
       <View style={styles.fabContainer}>
         {expanded && (
           <>
-            <FabOption iconName="upload-outline" fadeAnim={fadeAnim} onPress={() => navigation.navigate('Scan')}/>
-            <FabOption iconName="file-text-outline" fadeAnim={fadeAnim} onPress={() => navigation.navigate('FormLibrary')}/>
+            <FabOption iconName="upload-outline" fadeAnim={fadeAnim} onPress={() => navigation.navigate('LibraryScreen')}/>
+            <FabOption iconName="file-text-outline" fadeAnim={fadeAnim} />
           </>
         )}
         <MainFab expanded={expanded} onPress={toggleMenu} />

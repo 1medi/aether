@@ -107,7 +107,8 @@ export const MyFilesScreen = ({ navigation }) => {
                 subheader={form.subheader}
                 footnote={form.footnote}
                 isImportant={form.isImportant}
-                navigation={navigation} 
+                navigation={navigation} // Pass navigation prop
+                onClick
               />
               {index < filteredData.length - 1 && (
                 <Divider style={styles.divider} />
@@ -131,7 +132,7 @@ export const MyFilesScreen = ({ navigation }) => {
         {/* Spacer */}
         <View style={{ height: 98 }} />
       </ScrollView>
-      <ConsoleScreen />
+  
     </>
   );
 
