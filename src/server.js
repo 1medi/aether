@@ -1,6 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import { connectDB, client } from './db.js'; // Include `.js` extension for ES Modules
+import { connectDB, client } from './db.js';  // Include `.js` extension for ES Modules
 import { ObjectId } from 'mongodb';
 import OpenAI from 'openai';
 import bodyParser from 'body-parser';
@@ -95,6 +95,33 @@ app.delete('/delete/:id', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+app.post('/store', async (req, res) => {
+  const { paraphrasedText } = req.body;
+
+  if (!paraphrasedText) {
+    return res.status(400).json({ error: 'paraphrasedText is required.' });
+  }
+
+  try {
+    const db = client.db('ae_responses'); // Ensure the correct DB name
+    const collection = db.collection('paraphrases');
+
+    const result = await collection.insertOne({
+      paraphrasedText,
+      createdAt: new Date(),
+    });
+
+    res.status(201).json({
+      message: 'Paraphrase saved successfully!',
+      id: result.insertedId,
+    });
+  } catch (err) {
+    console.error('Error saving paraphrase:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 
 
 // Endpoint to generate and save a paraphrase
