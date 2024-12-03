@@ -23,6 +23,8 @@ const LoadParaphrasesScreen = () => {
       }
   
       const data = await response.json();
+
+      data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
   
       // Group paraphrases by `createdAt`
       const groupedParaphrases = {};
