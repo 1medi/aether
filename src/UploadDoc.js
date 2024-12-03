@@ -84,26 +84,32 @@ const UploadDocScreen = ({ navigation }) => {
     }
   };
 
-  const saveParaphrase = async (inputText, paraphrasedText) => {
+  const saveParaphrase = async (paraphrasedContent) => {
     try {
       const response = await fetch("http://0.0.0.0:8888/store", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ inputText, paraphrasedText }),
+        body: JSON.stringify({
+          paraphrasedText: JSON.stringify(paraphrasedContent),
+        }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
         console.log("Paraphrase saved successfully:", data);
-        alert("Paraphrase saved!");
+
+        // Return the saved MongoDB ID
+        return data.id;
       } else {
         console.error("Error saving paraphrase:", data.error);
         alert(`Error: ${data.error}`);
+        return null;
       }
     } catch (error) {
       console.error("Error saving paraphrase:", error);
       alert("Failed to save paraphrase. Please try again.");
+      return null;
     }
   };
 
@@ -112,22 +118,23 @@ const UploadDocScreen = ({ navigation }) => {
       alert("Please upload an image first!");
       return;
     }
-
+  
     setLoading(true);
-
+  
     try {
       const googleAPIKey = process.env.EXPO_PUBLIC_GOOGLE_KEY;
       const apiURL = `https://vision.googleapis.com/v1/images:annotate?key=${googleAPIKey}`;
-
+  
+      // Step 1: Convert image to base64 and clean the data
       const base64ImageData = await FileSystem.readAsStringAsync(imageUri, {
         encoding: FileSystem.EncodingType.Base64,
       });
-
+  
       const cleanedBase64ImageData = base64ImageData.replace(
         /^data:image\/\w+;base64,/,
         ""
       );
-
+  
       const requestData = {
         requests: [
           {
@@ -138,11 +145,12 @@ const UploadDocScreen = ({ navigation }) => {
           },
         ],
       };
-
+  
+      // Step 2: Use Google Vision API to detect text
       const apiResponse = await axios.post(apiURL, requestData, {
         headers: { "Content-Type": "application/json" },
       });
-
+  
       let detectedText = "";
       if (apiResponse.data.responses[0].fullTextAnnotation) {
         detectedText = apiResponse.data.responses[0].fullTextAnnotation.text;
@@ -151,12 +159,13 @@ const UploadDocScreen = ({ navigation }) => {
         setLoading(false);
         return;
       }
-
-      // Split detected text into smaller chunks if necessary
+  
+      // Step 3: Split detected text into smaller chunks
       const chunks = detectedText.match(/[\s\S]{1,1500}/g) || [];
       let paraphrasedContent = [];
-
+  
       for (const chunk of chunks) {
+        // Step 4: Call OpenAI API for paraphrasing each chunk
         const paraphraseResponse = await axios.post(
           "https://api.openai.com/v1/chat/completions",
           {
@@ -191,18 +200,26 @@ const UploadDocScreen = ({ navigation }) => {
             },
           }
         );
-        const arr = JSON.parse(
-          paraphraseResponse.data.choices[0].message.content
-        );
+  
+        const arr = JSON.parse(paraphraseResponse.data.choices[0].message.content);
         paraphrasedContent = [...paraphrasedContent, ...arr];
       }
-      console.log(paraphrasedContent);
-
+  
+      // Step 5: Save each paraphrase to the backend and update with IDs
+      for (let i = 0; i < paraphrasedContent.length; i++) {
+        const savedId = await saveParaphrase(paraphrasedContent[i]); // Use `saveParaphrase`
+  
+        if (savedId) {
+          paraphrasedContent[i]._id = savedId; // Update with MongoDB `_id`
+        }
+      }
+  
+      console.log("Final paraphrased content with IDs:", paraphrasedContent);
+  
+      // Step 6: Update state with the full paraphrased content
       setParaphrasedText(paraphrasedContent);
-
-      // Save the paraphrased content to your backend
-      await saveParaphrase(detectedText, JSON.stringify(paraphrasedContent));
-
+  
+      // Open the bottom sheet to display results
       setIsSheetOpen(true);
       setIsAnalyzed(true);
       sheetRef.current?.snapToIndex(0);
@@ -213,6 +230,7 @@ const UploadDocScreen = ({ navigation }) => {
       setLoading(false);
     }
   };
+  
 
   const handleReset = () => {
     setImageUri(null);
