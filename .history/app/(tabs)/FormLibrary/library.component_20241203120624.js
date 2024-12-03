@@ -133,7 +133,11 @@ export default function LibraryScreen({ navigation, isDarkMode }) {
             onChange={handleDropdownChange}
           />
           <View style={styles.buttonsRow}>
-            
+            <View style={styles.buttons}>
+         
+                
+              </TouchableOpacity>
+            </View>
           </View>
         </Layout>
 
@@ -199,15 +203,15 @@ export default function LibraryScreen({ navigation, isDarkMode }) {
               Would you like to autofill the form with your data?
             </Text>
             <View style={styles.modalButtons}>
+              <Button onPress={confirmAutofill} style={styles.modalButton}>
+                Yes
+              </Button>
               <Button
                 onPress={() => setVisible(false)}
                 style={styles.modalButton}
                 appearance="ghost"
               >
                 No
-              </Button>
-              <Button onPress={confirmAutofill} style={styles.modalButton}>
-                Yes
               </Button>
             </View>
           </View>
