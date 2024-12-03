@@ -69,11 +69,11 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
   },
   name: {
-    // ...typography(true).h4Med,
+    ...typography(true).h4Med,
     color: colors.apple.white,
   },
   role: {
-    // ...typography(true).footnote,
+    ...typography(true).footnote,
     color: colors.apple.glass70,
   },
 });

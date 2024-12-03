@@ -3,6 +3,7 @@ import {
   ScrollView,
   View,
   StyleSheet,
+  Text,
   Image,
   ImageBackground,
   TouchableOpacity,
@@ -110,9 +111,9 @@ export const HomeScreen = ({ navigation }) => {
                       {"\n"}
                       <View style={styles.textContainer}>
                         <Animated.View style={animatedStyle}>
-                          <AppText style={styles.greetingTextColored}>
+                          <Text style={styles.greetingTextColored}>
                             {words[currentWordIndex]}
-                          </AppText>
+                          </Text>
                         </Animated.View>
                       </View>
                       {"\n"}a form today?
@@ -153,7 +154,7 @@ export const HomeScreen = ({ navigation }) => {
             {/* Recent Forms Section */}
             <Layout style={styles.sectionContainer}>
               <Layout style={styles.subhead}>
-                <AppText style={styles.headline}>Recent</AppText>
+                <Text style={styles.headline}>Recent</Text>
                 <TouchableOpacity
                   onPress={() => navigation.navigate("MyFiles")}
                 >
@@ -292,7 +293,7 @@ const getStyles = (isDarkMode) => ({
   },
   headline: {
     marginBottom: 8,
-   
+    ...typography(true).h4Med,
     color: isDarkMode ? colors.apple.white : colors.apple.black,
   },
   headlineButton: {

@@ -29,8 +29,8 @@ export default function ConsoleScreen() {
       <View style={styles.fabContainer}>
         {expanded && (
           <>
-            <FabOption iconName="upload-outline" fadeAnim={fadeAnim} onPress={() => navigation.navigate('Scan')}/>
-            <FabOption iconName="file-text-outline" fadeAnim={fadeAnim} onPress={() => navigation.navigate('FormLibrary')}/>
+            <FabOption iconName="upload-outline" fadeAnim={fadeAnim} onPress={() => navigation.navigate('LibraryScreen')}/>
+            <FabOption iconName="file-text-outline" fadeAnim={fadeAnim} />
           </>
         )}
         <MainFab expanded={expanded} onPress={toggleMenu} />

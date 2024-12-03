@@ -3,7 +3,6 @@ import { Layout } from "@ui-kitten/components";
 import { StyleSheet, Text, ScrollView, View, Image } from "react-native";
 import Header from "@/components/header/Header";
 import { colors, typography } from "@/css/globals";
-
 import formLibraryData from "@/data/FormLibraryData";
 import {
   useFonts,
@@ -40,10 +39,6 @@ export const FormLibraryScreen = ({ navigation }) => {
     DMSans_700Bold,
   });
 
-  const handleNavigation = () => {
-    navigation.navigate("LibraryScreen");
-  };
-
   return (
     <>
       <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
@@ -78,7 +73,7 @@ export const FormLibraryScreen = ({ navigation }) => {
                   title={form.title}
                   description={form.description}
                   image={form.image}
-                  onPress={() => navigation.navigate('LibraryScreen')}
+                  navigation={'LibraryScreen'}
                 />
               </View>
             ))}

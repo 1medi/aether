@@ -254,7 +254,7 @@ const getStyles = (isDarkMode) => ({
     color: colors.apple.white,
   },
   textContainer: {
-    height: 50, // Ensure enough space for the drop-down effect
+  
     justifyContent: "center", // Center the text vertically
     overflow: "hidden", // Prevent overflowing text
   },
@@ -292,7 +292,7 @@ const getStyles = (isDarkMode) => ({
   },
   headline: {
     marginBottom: 8,
-   
+    ...typography(true).h4Med,
     color: isDarkMode ? colors.apple.white : colors.apple.black,
   },
   headlineButton: {

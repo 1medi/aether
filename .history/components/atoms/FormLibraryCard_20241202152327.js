@@ -4,13 +4,12 @@ import {
   StyleSheet,
   ImageBackground,
   View,
+  Text,
 } from "react-native";
 import { Icon, Layout } from "@ui-kitten/components";
 import { colors, typography } from "@/css/globals";
 import { BlurView } from "expo-blur";
 import { LinearGradient } from "expo-linear-gradient";
-import AppText from "@/app/(tabs)/Account/AppText"; 
-const Text = AppText; 
 
 export default function FormLibraryCard({ image, title, description, onPress }) {
   const ArrowIcon = (props) => <Icon name="arrow-forward-outline" {...props} />;
@@ -24,8 +23,8 @@ export default function FormLibraryCard({ image, title, description, onPress }) 
         >
           {/* Centered text container */}
           <Layout style={styles.textContainer}>
-            <AppText style={styles.title}>{title}</AppText>
-            <AppText style={styles.description}>{description}</AppText>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.description}>{description}</Text>
           </Layout>
 
           {/* Bottom-right arrow icon */}
@@ -59,11 +58,11 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   title: {
-    // ...typography(true).h2Med,
+    ...typography(true).h2Med,
     color: colors.apple.white,
   },
   description: {
-    // ...typography(true).footnote,
+    ...typography(true).footnote,
     color: colors.apple.glass70,
   },
   iconBackground: {

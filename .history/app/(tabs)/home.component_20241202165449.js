@@ -296,8 +296,7 @@ const getStyles = (isDarkMode) => ({
     color: isDarkMode ? colors.apple.white : colors.apple.black,
   },
   headlineButton: {
-    width: 24,
-    height: 24,
+   
     tintColor: isDarkMode ? colors.apple.white : colors.light.blue,
   },
   divider: {
