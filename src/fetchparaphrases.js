@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   SafeAreaView,
   ScrollView,
   Text,
   StyleSheet,
   View,
-  ActivityIndicator,
+  RefreshControl,
 } from "react-native";
 
 const LoadParaphrasesScreen = () => {
   const [paraphrases, setParaphrases] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
 
   // Function to fetch paraphrases
   const FetchParaphrases = async () => {
@@ -23,13 +23,17 @@ const LoadParaphrasesScreen = () => {
       }
   
       const data = await response.json();
-
+  
+      // Sort paraphrases by date
       data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
   
-      // Group paraphrases by `createdAt`
+      // Group paraphrases by minute
       const groupedParaphrases = {};
       data.forEach((item) => {
-        const key = new Date(item.createdAt).toLocaleString(); // Group by date string
+        // Truncate to date and time up to the minute
+        const date = new Date(item.createdAt);
+        const key = date.toLocaleDateString() + " " + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  
         if (!groupedParaphrases[key]) {
           groupedParaphrases[key] = [];
         }
@@ -70,11 +74,8 @@ const LoadParaphrasesScreen = () => {
       setParaphrases(groupedParaphrases);
     } catch (error) {
       console.error("Error fetching paraphrases:", error);
-    } finally {
-      setLoading(false);
     }
   };
-  
   
 
   // Fetch paraphrases on component mount
@@ -82,41 +83,47 @@ const LoadParaphrasesScreen = () => {
     FetchParaphrases();
   }, []);
 
+  // Pull-to-refresh handler
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    FetchParaphrases().finally(() => setRefreshing(false));
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
-      {loading ? (
-        <ActivityIndicator size="large" color="#0000ff" />
-      ) : (
-        <ScrollView>
-          {Object.keys(paraphrases).length > 0 ? (
-            Object.entries(paraphrases).map(([uploadTime, items], groupIndex) => (
-              <View key={groupIndex} style={styles.groupContainer}>
-                <Text style={styles.uploadTime}>Uploaded on: {uploadTime}</Text>
-                {items.map((item, index) => (
-                  <View
-                    key={index}
-                    style={[
-                      styles.paraphraseContainer,
-                      index % 2 === 0
-                        ? styles.evenBackground
-                        : styles.oddBackground,
-                    ]}
-                  >
-                    <Text style={styles.title}>
-                      {item.Title || "No Title"}
-                    </Text>
-                    <Text style={styles.description}>
-                      {item.description || "No Description"}
-                    </Text>
-                  </View>
-                ))}
-              </View>
-            ))
-          ) : (
-            <Text style={styles.placeholder}>No paraphrases found.</Text>
-          )}
-        </ScrollView>
-      )}
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+        {Object.keys(paraphrases).length > 0 ? (
+          Object.entries(paraphrases).map(([uploadTime, items], groupIndex) => (
+            <View key={groupIndex} style={styles.groupContainer}>
+              <Text style={styles.uploadTime}>Uploaded on: {uploadTime}</Text>
+              {items.map((item, index) => (
+                <View
+                  key={index}
+                  style={[
+                    styles.paraphraseContainer,
+                    index % 2 === 0
+                      ? styles.evenBackground
+                      : styles.oddBackground,
+                  ]}
+                >
+                  <Text style={styles.title}>
+                    {item.Title || "No Title"}
+                  </Text>
+                  <Text style={styles.description}>
+                    {item.description || "No Description"}
+                  </Text>
+                </View>
+              ))}
+            </View>
+          ))
+        ) : (
+          <Text style={styles.placeholder}>No paraphrases found.</Text>
+        )}
+      </ScrollView>
     </SafeAreaView>
   );
 };
