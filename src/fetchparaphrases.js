@@ -7,8 +7,9 @@ import {
   View,
   RefreshControl,
 } from "react-native";
+import { Icon } from "@ui-kitten/components";
 
-const LoadParaphrasesScreen = () => {
+const LoadParaphrasesScreen = ({ paraphrasedText }) => {
   const [paraphrases, setParaphrases] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -17,11 +18,12 @@ const LoadParaphrasesScreen = () => {
     try {
       const response = await fetch("https://aether-wnq5.onrender.com/paraphrases");
       if (!response.ok) {
+        // Log the error response for debugging
         const errorText = await response.text();
         console.error("Error response from server:", errorText);
         throw new Error(`Server error: ${response.status}`);
       }
-  
+
       const data = await response.json();
   
       // Sort paraphrases by date
@@ -77,8 +79,7 @@ const LoadParaphrasesScreen = () => {
     }
   };
   
-
-  // Fetch paraphrases on component mount
+  // Call FetchParaphrases when the component mounts
   useEffect(() => {
     FetchParaphrases();
   }, []);
@@ -136,18 +137,6 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: "#f5f5f5",
   },
-  groupContainer: {
-    marginBottom: 20,
-    paddingBottom: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ddd",
-  },
-  uploadTime: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#333",
-    marginBottom: 10,
-  },
   paraphraseContainer: {
     marginBottom: 20,
     padding: 16,
@@ -169,16 +158,22 @@ const styles = StyleSheet.create({
     color: "#333",
     marginBottom: 8,
   },
+  subtitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "blue",
+    marginBottom: 4,
+  },
   description: {
     fontSize: 14,
     color: "#555",
     marginBottom: 8,
     paddingLeft: 10,
   },
-  placeholder: {
-    textAlign: "center",
-    fontSize: 16,
-    color: "gray",
-    marginTop: 20,
+  jsonBlock: {
+    marginBottom: 12,
+    borderLeftWidth: 4,
+    borderLeftColor: "#ccc",
+    paddingLeft: 8,
   },
 });

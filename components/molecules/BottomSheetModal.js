@@ -26,9 +26,24 @@ export default function BottomModal({ paraphrasedText }) {
   const snapPoints = ["30%", "60%", "90%"];
 
   const [data, setData] = useState(
-    Array.isArray(paraphrasedText) ? paraphrasedText : []
+    Array.isArray(paraphrasedText)
+      ? paraphrasedText.map((item, index) => ({
+          ...item,
+          id: item.id ?? index,
+        }))
+      : [
+          {
+            id: 1,
+            Title: "Sample Title 1",
+            description: "Sample description 1",
+          },
+          {
+            id: 2,
+            Title: "Sample Title 2",
+            description: "Sample description 2",
+          },
+        ]
   );
-  
 
   console.log("Initial data:", data);
 
@@ -52,7 +67,6 @@ export default function BottomModal({ paraphrasedText }) {
       console.error("Error deleting:", error);
     }
   };
-  
 
   const ListItem = React.memo(({ item }) => {
     const translateX = useSharedValue(0);
@@ -76,7 +90,7 @@ export default function BottomModal({ paraphrasedText }) {
             -SCREEN_WIDTH,
             { stiffness: 100, damping: 10 },
             () => {
-              runOnJS(handleDelete)(item._id);
+              runOnJS(handleDelete)(item.id); // Delete item using runOnJS
               isDeleting = false;
             }
           );
@@ -99,7 +113,7 @@ export default function BottomModal({ paraphrasedText }) {
         </Animated.View>
       </GestureDetector>
     );
-  });  
+  });
   
 
   return (
@@ -120,9 +134,9 @@ export default function BottomModal({ paraphrasedText }) {
           </View>
         ) : (
           <BottomSheetFlatList
-          data={data.filter((item) => item._id)} // Only include items with valid _id
-          keyExtractor={(item) => item._id.toString()}
-          renderItem={({ item }) => <ListItem item={item} />}
+            data={data}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => <ListItem item={item} />}
           />
         )}
       </BottomSheetView>
