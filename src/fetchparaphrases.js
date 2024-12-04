@@ -15,7 +15,7 @@ const LoadParaphrasesScreen = () => {
   // Function to fetch paraphrases
   const FetchParaphrases = async () => {
     try {
-      const response = await fetch("http://0.0.0.0:8888/paraphrases");
+      const response = await fetch("https://aether-wnq5.onrender.com/paraphrases");
       if (!response.ok) {
         const errorText = await response.text();
         console.error("Error response from server:", errorText);

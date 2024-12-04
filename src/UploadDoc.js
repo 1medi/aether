@@ -86,7 +86,7 @@ const UploadDocScreen = ({ navigation }) => {
 
   const saveParaphrase = async (paraphrasedContent) => {
     try {
-      const response = await fetch("http://0.0.0.0:8888/store", {
+      const response = await fetch("https://aether-wnq5.onrender.com/store", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -36,7 +36,7 @@ export default function BottomModal({ paraphrasedText }) {
     console.log("Deleting paraphrase with ID:", id); // Log to debug the ID
   
     try {
-      const response = await fetch(`http://0.0.0.0:8888/delete/${id}`, {
+      const response = await fetch(`https://aether-wnq5.onrender.com/delete/${id}`, {
         method: "DELETE",
       });
   
