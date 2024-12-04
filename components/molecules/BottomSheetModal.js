@@ -48,7 +48,13 @@ export default function BottomModal({ paraphrasedText }) {
   console.log("Initial data:", data);
 
   const handleDelete = async (id) => {
-    console.log("Deleting paraphrase with ID:", id); // Log to debug the ID
+    console.log("Deleting paraphrase with ID:", id); // Log the ID being passed
+  
+    // Validate ID format
+    if (!id || id.length !== 24 || !/^[0-9a-fA-F]{24}$/.test(id)) {
+      console.error("Invalid ID format. Must be a 24-character hex string.");
+      return;
+    }
   
     try {
       const response = await fetch(`https://aether-wnq5.onrender.com/delete/${id}`, {
@@ -67,6 +73,7 @@ export default function BottomModal({ paraphrasedText }) {
       console.error("Error deleting:", error);
     }
   };
+  
 
   const ListItem = React.memo(({ item }) => {
     const translateX = useSharedValue(0);

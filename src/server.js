@@ -70,8 +70,15 @@ app.put('/update/:id', async (req, res) => {
 });
 
 // Endpoint to delete a paraphrase
+const { ObjectId } = require('mongodb');
+
 app.delete('/delete/:id', async (req, res) => {
-  const { id } = req.params;
+  const id = req.params.id;
+
+  // Validate the ID format
+  if (!ObjectId.isValid(id)) {
+    return res.status(400).json({ error: "Invalid ID format" });
+  }
 
   try {
     const db = client.db(dbName);
@@ -80,14 +87,16 @@ app.delete('/delete/:id', async (req, res) => {
     const result = await collection.deleteOne({ _id: new ObjectId(id) });
 
     if (result.deletedCount === 0) {
-      return res.status(404).json({ error: 'Paraphrase not found.' });
+      return res.status(404).json({ error: "Document not found" });
     }
 
-    res.status(200).json({ message: 'Paraphrase deleted successfully!' });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(200).json({ message: "Document deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting document:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
+
 
 // Endpoint to store a new paraphrase
 app.post('/store', async (req, res) => {

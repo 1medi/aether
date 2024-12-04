@@ -85,39 +85,27 @@ const UploadDocScreen = ({ navigation }) => {
   };
 
   const saveParaphrase = async (inputText, paraphrasedText) => {
+    console.log("saveParaphrase called with:", inputText, paraphrasedText); // Debug
+  
     try {
       const response = await fetch("https://aether-wnq5.onrender.com/store", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          paraphrasedText: paraphrasedContent,
+          paraphrasedText: paraphrasedText, // Use the correct variable
         }),
       });
   
-      // Check if response is JSON before parsing
-      const contentType = response.headers.get("content-type");
-  
-      if (!contentType || !contentType.includes("application/json")) {
-        const text = await response.text(); // Read the raw response
-        console.error("Non-JSON response received:", text);
-        throw new Error(`Unexpected response: ${text}`);
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Error response from server:", errorText);
+        throw new Error(`Server error: ${response.status}`);
       }
   
       const data = await response.json();
-  
-      if (response.ok) {
-        console.log("Paraphrase saved successfully:", data);
-        // Return the saved MongoDB ID
-        return data.id;
-        alert("Paraphrase saved!");
-
-      } else {
-        console.error("Error saving paraphrase:", data.error);
-        alert(`Error: ${data.error}`);
-      }
+      console.log("Paraphrase saved successfully:", data);
     } catch (error) {
-      console.error("Error saving paraphrase:", error.message || error);
-      alert("Failed to save paraphrase. Please try again.");
+      console.error("Error in saveParaphrase:", error);
     }
   };
   
@@ -228,6 +216,7 @@ const UploadDocScreen = ({ navigation }) => {
       setLoading(false);
     }
   };
+
 
   const handleReset = () => {
     setImageUri(null);
