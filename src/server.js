@@ -1,7 +1,6 @@
 const express = require('express'); // Use require for express
 const dotenv = require('dotenv'); // Use require for dotenv
 const { connectDB, client } = require('./db'); // Use require for local modules
-const { ObjectId } = require('mongodb'); // Use require for MongoDB
 const OpenAI = require('openai'); // Use require for OpenAI
 const bodyParser = require('body-parser'); // Use require for body-parser
 

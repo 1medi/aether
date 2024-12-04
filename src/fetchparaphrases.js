@@ -138,7 +138,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#f5f5f5",
   },
   paraphraseContainer: {
-    marginBottom: 20,
     padding: 16,
     borderRadius: 8,
     shadowColor: "#000",
@@ -176,4 +175,16 @@ const styles = StyleSheet.create({
     borderLeftColor: "#ccc",
     paddingLeft: 8,
   },
+  uploadTime:{
+    fontSize: 16,
+    fontWeight: "bold",
+    margin: 12,
+    color: "blue"
+  },
+  groupContainer:{
+    borderWidth: 2,
+    borderRadius: 10,
+    margin: 10,
+    padding: 10
+  }
 });

@@ -277,12 +277,10 @@ const UploadDocScreen = ({ navigation }) => {
       </Layout>
 
       {isSheetOpen && (
-        <ErrorBoundary>
           <BottomSheetModal
             sheetRef={sheetRef}
             paraphrasedText={paraphrasedText}
           />
-        </ErrorBoundary>
       )}
     </SafeAreaView>
   );
