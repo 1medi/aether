@@ -29,6 +29,13 @@ const ScanDocScreen = ({ navigation }) => {
   const [isAnalyzed, setIsAnalyzed] = useState(false);
   const [paraphrases, setParaphrases] = useState([]);
 
+  const generateHexId = () => {
+    const hexChars = "abcdef0123456789";
+    return Array.from({ length: 24 }, () =>
+      hexChars.charAt(Math.floor(Math.random() * hexChars.length))
+    ).join("");
+  };
+
   const requestCameraPermissions = async () => {
     const { status } = await ImagePicker.requestCameraPermissionsAsync();
     if (status !== "granted") {
@@ -59,31 +66,33 @@ const ScanDocScreen = ({ navigation }) => {
     }
   };
 
-  const saveParaphrase = async (inputText, paraphrasedText) => {
-    console.log("saveParaphrase called with:", inputText, paraphrasedText); // Debug
-
+  const saveParaphrase = async (inputText, paraphrasedText, documentId, itemId) => {
+    console.log("saveParaphrase called with:", inputText, paraphrasedText);
+  
     try {
       const response = await fetch("https://aether-wnq5.onrender.com/store", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          paraphrasedText: paraphrasedText, // Use the correct variable
+          paraphrasedText: paraphrasedText,
+          documentId,       // Pass the document ID
+          itemId    // Pass the stringified JSON
         }),
       });
-
+  
       if (!response.ok) {
         const errorText = await response.text();
         console.error("Error response from server:", errorText);
         throw new Error(`Server error: ${response.status}`);
       }
-
+  
       const data = await response.json();
       console.log("Paraphrase saved successfully:", data);
     } catch (error) {
       console.error("Error in saveParaphrase:", error);
     }
   };
-
+  
   const analyzeAndParaphrase = async () => {
     if (!imageUri) {
       alert("Please upload an image first!");
@@ -173,6 +182,10 @@ const ScanDocScreen = ({ navigation }) => {
         );
         paraphrasedContent = [...paraphrasedContent, ...arr];
       }
+      paraphrasedContent = paraphrasedContent.map((item) => ({
+        ...item,
+        _id: generateHexId(),
+      }));
       console.log(paraphrasedContent);
 
       setParaphrasedText(paraphrasedContent);
@@ -351,5 +364,11 @@ const getStyles = (isDarkMode) => ({
   },
   disabledButton: {
     backgroundColor: "#d3d3d3",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(255, 255, 255, 0.5)",
   },
 });

@@ -97,6 +97,7 @@ app.delete('/delete/:id', async (req, res) => {
 });
 
 
+
 // Endpoint to store a new paraphrase
 app.post('/store', async (req, res) => {
   const { paraphrasedText } = req.body;
