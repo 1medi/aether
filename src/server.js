@@ -84,7 +84,7 @@ app.delete('/delete/:id', async (req, res) => {
     const db = client.db(dbName);
     const collection = db.collection(collectionName);
 
-    const result = await collection.deleteOne({ _id: new ObjectId(id) });
+    const result = await collection.deleteOne({ _id: ObjectId(id) });
 
     if (result.deletedCount === 0) {
       return res.status(404).json({ error: "Document not found" });

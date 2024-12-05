@@ -103,7 +103,7 @@ const UploadDocScreen = ({ navigation }) => {
         body: JSON.stringify({
           paraphrasedText: paraphrasedText,
           // documentId,       // Pass the document ID
-          itemId    // Pass the stringified JSON
+          // itemId    // Pass the stringified JSON
         }),
       });
   
