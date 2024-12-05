@@ -3,7 +3,6 @@ import {
   ScrollView,
   TouchableOpacity,
   View,
-  Text,
   StyleSheet,
   Image,
 } from "react-native";
@@ -21,6 +20,8 @@ import ConsoleScreen from "@/components/atoms/ConsoleScreen";
 import { useDarkMode } from "../context/DarkModeContext";
 import PensionPlanModal from "./PensionPlanModal";
 import FetchParaphrases from "@/src/fetchparaphrases";
+import AppText from "../Account/AppText";
+const Text = AppText; 
 
 export const MyFilesScreen = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState("Forms");
@@ -107,8 +108,7 @@ export const MyFilesScreen = ({ navigation }) => {
                 subheader={form.subheader}
                 footnote={form.footnote}
                 isImportant={form.isImportant}
-                navigation={navigation} // Pass navigation prop
-                onClick
+                navigation={navigation} 
               />
               {index < filteredData.length - 1 && (
                 <Divider style={styles.divider} />
@@ -156,9 +156,9 @@ export const MyFilesScreen = ({ navigation }) => {
                 style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
               >
                 <TipsIcon fill={colors.apple.black} style={styles.tipsIcon} />
-                <Text style={styles.suggestionTitle}>
+                <AppText style={styles.suggestionTitle}>
                   Save Time, Reduce Stress
-                </Text>
+                </AppText>
               </View>
               <TouchableOpacity
                 onPress={() => setShowProfilesSuggestionBanner(false)}
@@ -186,6 +186,7 @@ export const MyFilesScreen = ({ navigation }) => {
                 // navigation={navigation}
                 // profileData={profile}
                 profile={profile}
+                navigate={"SavedProfile"}
               />
             </View>
           ))}
@@ -247,14 +248,14 @@ export const MyFilesScreen = ({ navigation }) => {
               ]}
               onPress={() => switchTab(tab)}
             >
-              <Text
+              <AppText
                 style={[
                   styles.toggleButtonText,
                   activeTab === tab && styles.activeToggleButtonText,
                 ]}
               >
                 {tab}
-              </Text>
+              </AppText>
             </TouchableOpacity>
           ))}
         </View>
@@ -315,12 +316,12 @@ const getStyles = (isDarkMode) => ({
     // borderColor: colors.apple.lightStroke,
   },
   toggleButtonText: {
-    ...typography(true).h4,
+    // ...typography(true).h4,
     color: isDarkMode ? colors.dark.deepWhite60 : colors.apple.secondaryText,
     paddingHorizontal: 5,
   },
   activeToggleButtonText: {
-    ...typography(true).h4Med,
+    // ...typography(true).h4Med,
     color: isDarkMode ? colors.apple.white : colors.apple.black,
   },
 
@@ -341,11 +342,11 @@ const getStyles = (isDarkMode) => ({
     height: 24,
   },
   suggestionTitle: {
-    ...typography(true).bodyMed,
+    // ...typography(true).bodyMed,
     color: isDarkMode ? colors.apple.white : colors.apple.black,
   },
   suggestionDescription: {
-    ...typography(true).footnote,
+    // ...typography(true).footnote,
     color: isDarkMode ? colors.dark.deepWhite60 : colors.apple.secondaryText,
   },
 
@@ -387,7 +388,7 @@ const getStyles = (isDarkMode) => ({
   },
 
   profileName: {
-    ...typography(true).h4Med,
+    // ...typography(true).h4Med,
     color: isDarkMode ? colors.dark.darkGrey80 : colors.apple.white,
   },
   profileRole: {

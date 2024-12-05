@@ -1,40 +1,160 @@
-import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
-import { View,Text, StyleSheet } from "react-native";
-import React, {useRef,useState} from "react";
-import {colors,typography} from "@/css/globals"
+import React, { useState, useRef } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  Dimensions,
+  Button,
+} from "react-native";
+import BottomSheet, {
+  BottomSheetFlatList,
+  BottomSheetView,
+} from "@gorhom/bottom-sheet";
+import { GestureDetector, Gesture } from "react-native-gesture-handler";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+  runOnJS,
+} from "react-native-reanimated";
+
+const SCREEN_WIDTH = Dimensions.get("window").width;
 
 export default function BottomModal({ paraphrasedText }) {
-
   const sheetRef = useRef(null);
-  const [isOpen, setIsOpen] = useState(true);
   const snapPoints = ["30%", "60%", "90%"];
 
+  const [data, setData] = useState(
+    Array.isArray(paraphrasedText) ? paraphrasedText : []
+  );
+
+  console.log("Initial data:", data);
+
+  const handleDelete = async (documentId, itemId) => {
+    console.log("Deleting item with document ID:", documentId, "and item ID:", itemId);
+  
+    try {
+      const response = await fetch(`https://aether-wnq5.onrender.com/delete-item`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ documentId, itemId }),
+      });
+  
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Error response from server:", errorText);
+        throw new Error(`Server error: ${response.status}`);
+      }
+  
+      setData((prevData) =>
+        prevData.map((doc) => {
+          if (doc._id === documentId) {
+            return {
+              ...doc,
+              paraphrasedText: doc.paraphrasedText.filter((item) => item.id !== itemId),
+            };
+          }
+          return doc;
+        })
+      );
+  
+      console.log("Item deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting item:", error);
+    }
+  };
+  
+
+  const ListItem = React.memo(({ item, documentId }) => {
+    const translateX = useSharedValue(0);
+    let isDeleting = false;
+  
+    const panGesture = Gesture.Pan()
+      .onUpdate((event) => {
+        if (isDeleting) return;
+        translateX.value = Math.max(Math.min(event.translationX, 0), -SCREEN_WIDTH);
+      })
+      .onEnd(() => {
+        if (isDeleting) return;
+  
+        if (translateX.value < -SCREEN_WIDTH * 0.3) {
+          isDeleting = true;
+          translateX.value = withSpring(-SCREEN_WIDTH, {}, () => {
+            runOnJS(handleDelete)(documentId, item.id); // Pass both IDs here
+            isDeleting = false;
+          });
+        } else {
+          translateX.value = withSpring(0);
+        }
+      });
+  
+    const animatedStyle = useAnimatedStyle(() => ({
+      transform: [{ translateX: translateX.value }],
+    }));
+  
+    return (
+      <GestureDetector gesture={panGesture}>
+        <Animated.View style={[styles.promptOutput, animatedStyle]}>
+          <Text style={{ fontWeight: "bold", color: "blue" }}>{item.Title}</Text>
+          <Text>{item.description}</Text>
+        </Animated.View>
+      </GestureDetector>
+    );
+  });
+  
+
   return (
-    <>
-      <BottomSheet 
-      ref={sheetRef} 
-      snapPoints={snapPoints} 
+    <BottomSheet
+      ref={sheetRef}
+      snapPoints={snapPoints}
       enablePanDownToClose={true}
-      >
-        <BottomSheetView style={styles.container}>
-          <Text style={{...typography(true).h1}}>Results</Text>
-          {Array.isArray(paraphrasedText) &&
-            paraphrasedText.map((o, i) => (
-              <View style={styles.promptOutput} key={`para_${i}`}>
-                <Text style={{ fontWeight: "bold", color: "blue" }}>
-                  {o.Title}
-                </Text>
-                <Text>{o.description}</Text>
-              </View>
-            ))}
-        </BottomSheetView>
-      </BottomSheet>
-    </>
+    >
+      <BottomSheetView style={[styles.container, { flex: 1 }]}>
+        <Text style={styles.debug}>Modal is rendering</Text>
+        {data.length === 0 ? (
+          <View style={{ alignItems: "center" }}>
+            <Text style={styles.placeholder}>No items to display</Text>
+            <Button
+              title="Add Sample Items"
+              onPress={() => setData([...sampleItems])}
+            />
+          </View>
+        ) : (
+          <BottomSheetFlatList
+            data={data}
+            keyExtractor={(item) => item._id} // Use `_id`
+            renderItem={({ item }) => <ListItem item={item} />}
+          />
+        )}
+      </BottomSheetView>
+    </BottomSheet>
   );
 }
 
 const styles = StyleSheet.create({
-container: {
-  padding: 30
-}
-})
+  container: {
+    flex: 1,
+    padding: 20,
+  },
+  promptOutput: {
+    backgroundColor: "#f9f9f9",
+    padding: 20,
+    marginVertical: 10,
+    borderRadius: 10,
+    width: SCREEN_WIDTH * 0.9,
+    alignSelf: "center",
+  },
+  debug: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+    color: "green",
+  },
+  placeholder: {
+    textAlign: "center",
+    fontSize: 16,
+    color: "gray",
+    marginTop: 20,
+  },
+});

@@ -3,7 +3,6 @@ import {
   ScrollView,
   View,
   StyleSheet,
-  Text,
   Image,
   ImageBackground,
   TouchableOpacity,
@@ -23,6 +22,8 @@ import {
 } from "react-native-reanimated";
 import Animated from "react-native-reanimated";
 import { useDarkMode } from "./context/DarkModeContext";
+import AppText from "../(tabs)/Account/AppText"; 
+const Text = AppText; 
 
 export const HomeScreen = ({ navigation }) => {
   const [recentForms, setRecentForms] = useState(myFormsData);
@@ -104,18 +105,18 @@ export const HomeScreen = ({ navigation }) => {
                   style={styles.gradientOverlay}
                 >
                   <Layout style={styles.greetingSection}>
-                    <Text style={styles.greetingText}>
+                    <AppText style={styles.greetingText}>
                       Need help
                       {"\n"}
                       <View style={styles.textContainer}>
                         <Animated.View style={animatedStyle}>
-                          <Text style={styles.greetingTextColored}>
+                          <AppText style={styles.greetingTextColored}>
                             {words[currentWordIndex]}
-                          </Text>
+                          </AppText>
                         </Animated.View>
                       </View>
                       {"\n"}a form today?
-                    </Text>
+                    </AppText>
                   </Layout>
 
                   {/* Action Buttons */}
@@ -128,10 +129,10 @@ export const HomeScreen = ({ navigation }) => {
                         destination="FormLibrary"
                       />
                     </Layout>
-                    <Layout style={styles.actionColumn}>
+                    <Layout style={[styles.actionColumn, styles.disabled]}>
                       <ActionButton
-                        buttonTitle="Upload"
-                        buttonDesc="a document"
+                        buttonTitle="Scan"
+                        buttonDesc="Paper to PDF"
                         accessory={UploadIcon}
                         destination="Scan"
                       />
@@ -152,7 +153,7 @@ export const HomeScreen = ({ navigation }) => {
             {/* Recent Forms Section */}
             <Layout style={styles.sectionContainer}>
               <Layout style={styles.subhead}>
-                <Text style={styles.headline}>Recent</Text>
+                <AppText style={styles.headline}>Recent</AppText>
                 <TouchableOpacity
                   onPress={() => navigation.navigate("MyFiles")}
                 >
@@ -291,7 +292,6 @@ const getStyles = (isDarkMode) => ({
   },
   headline: {
     marginBottom: 8,
-    ...typography(true).h4Med,
     color: isDarkMode ? colors.apple.white : colors.apple.black,
   },
   headlineButton: {
@@ -322,4 +322,8 @@ const getStyles = (isDarkMode) => ({
     color: isDarkMode ? colors.apple.glass20 : colors.light.deepBlue40,
     textAlign: "center",
   },
+
+  // disabled: {
+  //   opacity: 0.2,
+  // },
 });

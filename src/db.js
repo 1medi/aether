@@ -1,6 +1,14 @@
-import { MongoClient, ServerApiVersion } from 'mongodb';
+const dotenv = require('dotenv'); // Use require for dotenv
+dotenv.config({ path: '../.env' });
+console.log("All Environment Variables:", process.env);
 
-const uri = "mongodb+srv://1medi:Jairus123@aeresponsecluster.6xntt.mongodb.net/?retryWrites=true&w=majority&appName=aeResponseCluster";
+const { MongoClient, ServerApiVersion } = require('mongodb'); // Use require for MongoDB
+const uri = process.env.MONGO;
+console.log("MONGO_TEST_URL:", uri);
+
+if (!uri) {
+  throw new Error("MONGO_URL is not defined in environment variables");
+}
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -10,7 +18,7 @@ const client = new MongoClient(uri, {
   },
 });
 
-export async function connectDB() {
+async function connectDB() {
   try {
     await client.connect();
     console.log("Connected to MongoDB!");
@@ -21,4 +29,8 @@ export async function connectDB() {
   }
 }
 
-export { client }; // Use ES Modules export
+// Use module.exports for CommonJS exports
+module.exports = {
+  connectDB,
+  client,
+};

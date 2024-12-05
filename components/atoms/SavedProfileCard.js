@@ -4,21 +4,22 @@ import {
   StyleSheet,
   ImageBackground,
   View,
-  Text,
 } from "react-native";
 import { Layout } from "@ui-kitten/components";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 import { colors, typography } from "@/css/globals";
+import AppText from "@/app/(tabs)/Account/AppText"; 
+const Text = AppText; 
 
-export default function SavedProfileCard({ profile }) {
+export default function SavedProfileCard({ profile, onPress, navigate }) {
   const navigation = useNavigation();
 
   const handlePress = () => {
-    if (profile) {
-      navigation.navigate("SavedProfile", { profile });
-    } else {
-      console.error("No profile data provided.");
+    if (onPress) {
+      onPress(profile);
+    } else if (navigate && profile) {
+      navigation.navigate(navigate, { profile });
     }
   };
 
@@ -36,7 +37,7 @@ export default function SavedProfileCard({ profile }) {
           style={styles.gradientOverlay}
         >
           <Layout style={styles.textContainer}>
-            <Text style={styles.name}>{profile.personalInfo.fullName}</Text>
+            <AppText style={styles.name}>{profile.personalInfo.fullName}</AppText>
             <Text style={styles.role}>
               {profile.personalInfo.relationshipToUser}
             </Text>
@@ -68,11 +69,11 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
   },
   name: {
-    ...typography(true).h4Med,
+    // ...typography(true).h4Med,
     color: colors.apple.white,
   },
   role: {
-    ...typography(true).footnote,
+    // ...typography(true).footnote,
     color: colors.apple.glass70,
   },
 });

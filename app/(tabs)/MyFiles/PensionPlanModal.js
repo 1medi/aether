@@ -25,8 +25,6 @@ const PensionPlanModal = ({ visible, onClose }) => {
     onClose(true);
   };
 
-  const CancelIcon = (props) => <Icon {...props} name="close-outline" />;
-
   const [fadeAnim] = useState(new Animated.Value(0)); // Initial opacity of the blur view is 0
 
   React.useEffect(() => {
@@ -39,7 +37,7 @@ const PensionPlanModal = ({ visible, onClose }) => {
     } else {
       Animated.timing(fadeAnim, {
         toValue: 0, // Fade-out when the modal is not visible
-        duration: 0,
+        duration: 600,
         useNativeDriver: true,
       }).start();
     }
@@ -141,9 +139,9 @@ const styles = StyleSheet.create({
     width: "90%",
     // padding: 24,
     backgroundColor: colors.apple.glass70,
-    borderRadius: 32,
-    borderWidth: 1,
-    borderColor: colors.apple.lightStroke,
+    borderRadius: 16,
+    // borderWidth: 1,
+    // borderColor: colors.apple.lightStroke,
     zIndex: 1, // Ensure this stays above the blur view
     overflow: "hidden",
     gap: 24,
@@ -216,7 +214,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   startButtonText: {
-    ...typography(true).body,
+    ...typography(true).bodyBold,
     color: colors.light.blue,
     textAlign: "center",
   },

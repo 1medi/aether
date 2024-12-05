@@ -21,7 +21,9 @@ import { color } from "@rneui/base";
 import { ColorSpace } from "react-native-reanimated";
 import UploadAnimation from "../components/atoms/uploadAnimation";
 import BottomSheetModal from "@/components/molecules/BottomSheetModal";
-import FetchParaphrases from "@/src/fetchparaphrases"
+import { ActivityIndicator } from "react-native";
+import LoadingAnimation from "../components/atoms/loadingAnimation";
+
 
 const UploadDocScreen = ({ navigation }) => {
   const [imageUri, setImageUri] = useState(null);
@@ -32,15 +34,44 @@ const UploadDocScreen = ({ navigation }) => {
   const [isAnalyzed, setIsAnalyzed] = useState(false);
   const [paraphrases, setParaphrases] = useState([]);
 
-  const requestMediaLibraryPermissions = async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== "granted") {
-      alert("Sorry, we need camera roll permissions to make this work!");
-      return false;
-    }
-    return true;
+  const generateHexId = () => {
+    const hexChars = "abcdef0123456789";
+    return Array.from({ length: 24 }, () =>
+      hexChars.charAt(Math.floor(Math.random() * hexChars.length))
+    ).join("");
   };
 
+
+  const requestMediaLibraryPermissions = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (status === "granted") {
+      return true;
+    }
+
+    if (status === "denied") {
+      // Inform the user and provide guidance to enable permissions
+      alert(
+        "Camera roll permissions are required to use this feature. Please enable them in your device settings."
+      );
+    } else if (status === "blocked") {
+      // If the user has permanently denied the permission
+      alert(
+        "Permissions have been permanently denied. Please enable them from your device settings to continue."
+      );
+
+      // Optionally provide a link to app settings
+      const openSettings = () => {
+        Linking.openSettings().catch(() => {
+          alert("Unable to open settings. Please open them manually.");
+        });
+      };
+
+      openSettings();
+    }
+
+    return false;
+  };
   const pickImage = async () => {
     const hasPermission = await requestMediaLibraryPermissions();
     if (!hasPermission) return;
@@ -62,50 +93,54 @@ const UploadDocScreen = ({ navigation }) => {
     }
   };
 
-  const saveParaphrase = async (inputText, paraphrasedText) => {
+  const saveParaphrase = async (inputText, paraphrasedText, documentId, itemId) => {
+    console.log("saveParaphrase called with:", inputText, paraphrasedText);
+  
     try {
-      const response = await fetch("http://10.65.96.95:8888/store", {
+      const response = await fetch("https://aether-wnq5.onrender.com/store", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ inputText, paraphrasedText }),
+        body: JSON.stringify({
+          paraphrasedText: paraphrasedText,
+          documentId,       // Pass the document ID
+          itemId    // Pass the stringified JSON
+        }),
       });
   
-      const data = await response.json();
-  
-      if (response.ok) {
-        console.log("Paraphrase saved successfully:", data);
-        alert("Paraphrase saved!");
-      } else {
-        console.error("Error saving paraphrase:", data.error);
-        alert(`Error: ${data.error}`);
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Error response from server:", errorText);
+        throw new Error(`Server error: ${response.status}`);
       }
+  
+      const data = await response.json();
+      console.log("Paraphrase saved successfully:", data);
     } catch (error) {
-      console.error("Error saving paraphrase:", error);
-      alert("Failed to save paraphrase. Please try again.");
+      console.error("Error in saveParaphrase:", error);
     }
   };
-  
+
   const analyzeAndParaphrase = async () => {
     if (!imageUri) {
       alert("Please upload an image first!");
       return;
     }
-  
+
     setLoading(true);
-  
+
     try {
       const googleAPIKey = process.env.EXPO_PUBLIC_GOOGLE_KEY;
       const apiURL = `https://vision.googleapis.com/v1/images:annotate?key=${googleAPIKey}`;
-  
+
       const base64ImageData = await FileSystem.readAsStringAsync(imageUri, {
         encoding: FileSystem.EncodingType.Base64,
       });
-  
+
       const cleanedBase64ImageData = base64ImageData.replace(
         /^data:image\/\w+;base64,/,
         ""
       );
-  
+
       const requestData = {
         requests: [
           {
@@ -116,11 +151,11 @@ const UploadDocScreen = ({ navigation }) => {
           },
         ],
       };
-  
+
       const apiResponse = await axios.post(apiURL, requestData, {
         headers: { "Content-Type": "application/json" },
       });
-  
+
       let detectedText = "";
       if (apiResponse.data.responses[0].fullTextAnnotation) {
         detectedText = apiResponse.data.responses[0].fullTextAnnotation.text;
@@ -129,11 +164,11 @@ const UploadDocScreen = ({ navigation }) => {
         setLoading(false);
         return;
       }
-  
+
       // Split detected text into smaller chunks if necessary
       const chunks = detectedText.match(/[\s\S]{1,1500}/g) || [];
       let paraphrasedContent = [];
-  
+
       for (const chunk of chunks) {
         const paraphraseResponse = await axios.post(
           "https://api.openai.com/v1/chat/completions",
@@ -174,13 +209,17 @@ const UploadDocScreen = ({ navigation }) => {
         );
         paraphrasedContent = [...paraphrasedContent, ...arr];
       }
+      paraphrasedContent = paraphrasedContent.map((item) => ({
+        ...item,
+        _id: generateHexId(),
+      }));
       console.log(paraphrasedContent);
-  
+
       setParaphrasedText(paraphrasedContent);
-  
+
       // Save the paraphrased content to your backend
       await saveParaphrase(detectedText, JSON.stringify(paraphrasedContent));
-  
+
       setIsSheetOpen(true);
       setIsAnalyzed(true);
       sheetRef.current?.snapToIndex(0);
@@ -190,7 +229,7 @@ const UploadDocScreen = ({ navigation }) => {
     } finally {
       setLoading(false);
     }
-  };  
+  };
 
   const handleReset = () => {
     setImageUri(null);
@@ -202,7 +241,6 @@ const UploadDocScreen = ({ navigation }) => {
   const { isDarkMode } = useDarkMode();
 
   const styles = useMemo(() => getStyles(isDarkMode), [isDarkMode]);
-
 
   return (
     <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
@@ -234,15 +272,14 @@ const UploadDocScreen = ({ navigation }) => {
 
         <TouchableOpacity
           onPress={analyzeAndParaphrase}
-          disabled={!imageUri || isAnalyzed}
+          disabled={!imageUri || isAnalyzed || loading}
           style={[
             styles.analyzeButton,
-            (!imageUri || isAnalyzed) && styles.disabledButton,
+            (!imageUri || isAnalyzed || loading) && styles.disabledButton,
           ]}
         >
           <Text style={styles.buttonText}>Analyze & Paraphrase</Text>
         </TouchableOpacity>
-
         <TouchableOpacity
           onPress={() => navigation.navigate("Scan")}
           style={[styles.button, styles.switchButton]}
@@ -251,7 +288,17 @@ const UploadDocScreen = ({ navigation }) => {
         </TouchableOpacity>
       </Layout>
 
-        
+      <Modal
+        visible={loading}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setLoading(false)}
+      >
+        <View style={styles.modalContainer}>
+          <LoadingAnimation />
+        </View>
+      </Modal>
+
       {isSheetOpen && (
         <BottomSheetModal
           sheetRef={sheetRef}
@@ -307,5 +354,11 @@ const getStyles = (isDarkMode) => ({
   },
   disabledButton: {
     backgroundColor: "#d3d3d3",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(255, 255, 255, 0.5)",
   },
 });

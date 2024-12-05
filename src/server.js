@@ -1,9 +1,8 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import { connectDB, client } from './db.js'; // Include `.js` extension for ES Modules
-import { ObjectId } from 'mongodb';
-import OpenAI from 'openai';
-import bodyParser from 'body-parser';
+const express = require('express'); // Use require for express
+const dotenv = require('dotenv'); // Use require for dotenv
+const { connectDB, client } = require('./db'); // Use require for local modules
+const OpenAI = require('openai'); // Use require for OpenAI
+const bodyParser = require('body-parser'); // Use require for body-parser
 
 dotenv.config();
 
@@ -27,28 +26,6 @@ connectDB()
     console.error('Error connecting to MongoDB:', err);
   });
 
-// Endpoint to store a paraphrase
-app.post('/store', async (req, res) => {
-  const { paraphrasedText } = req.body;
-
-  if (!paraphrasedText) {
-    return res.status(400).json({ error: 'paraphrasedText is required.' });
-  }
-
-  try {
-    const db = client.db(dbName);
-    const collection = db.collection(collectionName);
-
-    const result = await collection.insertOne({
-      paraphrasedText,
-      createdAt: new Date(),
-    });
-
-    res.status(201).json({ message: 'Paraphrase stored successfully!', id: result.insertedId });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
 
 // Endpoint to get all paraphrases
 app.get('/paraphrases', async (req, res) => {
@@ -57,12 +34,12 @@ app.get('/paraphrases', async (req, res) => {
     const collection = db.collection(collectionName);
 
     const paraphrases = await collection.find({}).toArray();
+    res.setHeader("Content-Type", "application/json");
     res.status(200).json(paraphrases);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
-
 // Endpoint to update a paraphrase
 app.put('/update/:id', async (req, res) => {
   const { id } = req.params;
@@ -92,8 +69,15 @@ app.put('/update/:id', async (req, res) => {
 });
 
 // Endpoint to delete a paraphrase
+const { ObjectId } = require('mongodb');
+
 app.delete('/delete/:id', async (req, res) => {
-  const { id } = req.params;
+  const id = req.params.id;
+
+  // Validate the ID format
+  if (!ObjectId.isValid(id)) {
+    return res.status(400).json({ error: "Invalid ID format" });
+  }
 
   try {
     const db = client.db(dbName);
@@ -102,12 +86,42 @@ app.delete('/delete/:id', async (req, res) => {
     const result = await collection.deleteOne({ _id: new ObjectId(id) });
 
     if (result.deletedCount === 0) {
-      return res.status(404).json({ error: 'Paraphrase not found.' });
+      return res.status(404).json({ error: "Document not found" });
     }
 
-    res.status(200).json({ message: 'Paraphrase deleted successfully!' });
+    res.status(200).json({ message: "Document deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting document:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+
+
+// Endpoint to store a new paraphrase
+app.post('/store', async (req, res) => {
+  const { paraphrasedText } = req.body;
+
+  if (!paraphrasedText) {
+    return res.status(400).json({ error: 'paraphrasedText is required.' });
+  }
+
+  try {
+    const db = client.db(dbName);
+    const collection = db.collection(collectionName);
+
+    const result = await collection.insertOne({
+      paraphrasedText,
+      createdAt: new Date(),
+    });
+
+    res.status(201).json({
+      message: 'Paraphrase saved successfully!',
+      id: result.insertedId,
+    });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error('Error saving paraphrase:', err);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
