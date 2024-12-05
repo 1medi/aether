@@ -12,14 +12,14 @@ import { colors, typography } from "@/css/globals";
 import AppText from "@/app/(tabs)/Account/AppText"; 
 const Text = AppText; 
 
-export default function SavedProfileCard({ profile }) {
+export default function SavedProfileCard({ profile, onPress, navigate }) {
   const navigation = useNavigation();
 
   const handlePress = () => {
-    if (profile) {
-      navigation.navigate("SavedProfile", { profile });
-    } else {
-      console.error("No profile data provided.");
+    if (onPress) {
+      onPress(profile);
+    } else if (navigate && profile) {
+      navigation.navigate(navigate, { profile });
     }
   };
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Pressable,
   View,
@@ -8,11 +8,12 @@ import {
   Text,
   ScrollView,
   Image,
+  Animated,
 } from "react-native";
 import { BlurView } from "expo-blur";
 import { Button, Layout, Icon } from "@ui-kitten/components";
 import { useNavigation } from "@react-navigation/native";
-import Header from "@/components/header/Header";
+import SavedProfileCard from "@/components/atoms/SavedProfileCard";
 import DocView, {
   handleNextPage,
   handlePreviousPage,
@@ -23,9 +24,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { colors, typography } from "@/css/globals";
 import { Dropdown } from "react-native-element-dropdown";
 import UserData from "./UserData";
-import { Asset } from "expo-asset";
-import * as FileSystem from "expo-file-system";
-import * as Sharing from "expo-sharing";
+import myFormsData from "@/data/MyFormsData";
+import savedProfilesData from "@/data/SavedProfilesData";
 
 export default function LibraryScreen({ navigation, isDarkMode }) {
   const [formData, setFormData] = useState({
@@ -43,40 +43,37 @@ export default function LibraryScreen({ navigation, isDarkMode }) {
     Postal_Code: "",
   });
 
-  const [value, setValue] = useState(null);
+  const [filteredData, setFilteredData] = useState(savedProfilesData);
   const [visible, setVisible] = useState(false);
-  const [imageUri, setImageUri] = useState("");
+  const [selectedProfile, setSelectedProfile] = useState(null);
+  const [dontShowAgain, setDontShowAgain] = useState(false);
 
-  useEffect(() => {
-    const loadAsset = async () => {
-      try {
-        const asset = Asset.fromModule(require("@/assets/files/insurance1.png"));
-        await asset.downloadAsync();
-        setImageUri(asset.localUri || null);
-      } catch (error) {
-        console.error("Error downloading asset:", error);
-      }
-    };    
-    loadAsset();
-  }, []);
+  const [profileModalVisible, setProfileModalVisible] = useState(false);
+  const [confirmationModalVisible, setConfirmationModalVisible] =
+    useState(false);
 
-  const shareImage = async () => {
-    try {
-      if (imageUri) {
-        await Sharing.shareAsync(imageUri);
-      } else {
-        console.log("Image uri is not set");
-      }
-    } catch (error) {
-      console.error("Oops not working!", error);
-    }
-  };
-
-  const dropdownData = UserData; // Use imported JSON data
-
-  const handleAutoFill = () => setVisible(true);
+  const handleAutoFill = () => setProfileModalVisible(true);
   const handleSimplify = () => setVisible(true);
   const handleDelete = () => setVisible(true);
+  const handleExport = () => setVisible(true);
+
+  const [fadeAnim] = useState(new Animated.Value(0));
+
+  React.useEffect(() => {
+    if (profileModalVisible || confirmationModalVisible) {
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 600,
+        useNativeDriver: true,
+      }).start();
+    } else {
+      Animated.timing(fadeAnim, {
+        toValue: 0,
+        duration: 600,
+        useNativeDriver: true,
+      }).start();
+    }
+  }, [profileModalVisible, confirmationModalVisible]); // Trigger animation when visibility changes
 
   // Utility Bar Icons
   const utilityBarIcons = [
@@ -91,12 +88,13 @@ export default function LibraryScreen({ navigation, isDarkMode }) {
       source: require("@/assets/custom_icons/icon_simplify.png"),
       label: "Simplify",
       action: handleSimplify,
+      disabled: true,
     },
     {
       type: "icon",
       name: "external-link-outline",
       label: "Export",
-      onPress: shareImage,
+      action: handleExport,
     },
     {
       type: "icon",
@@ -108,25 +106,34 @@ export default function LibraryScreen({ navigation, isDarkMode }) {
     },
   ];
 
-  const handleDropdownChange = (item) => {
-    setValue(item.label); // Store the selected label
+  const handleProfileSelect = (profile) => {
+    setConfirmationModalVisible(true);
+    setSelectedProfile(profile);
   };
-
   const confirmAutofill = () => {
-    if (!value) {
-      alert("Please select a profile from the dropdown first!");
+    if (!selectedProfile) {
+      alert("Please select a profile first!");
       return;
     }
 
-    const selectedProfile = UserData.find((item) => item.label === value);
+    const profileData = UserData.find(
+      (item) => item.label === selectedProfile.personalInfo.fullName
+    );
 
-    if (selectedProfile) {
+    if (profileData) {
       setFormData((prevState) => ({
         ...prevState,
-        ...selectedProfile.value,
+        ...profileData.value,
       }));
-      setVisible(false);
-      alert("Form has been autofilled!");
+      setTimeout(() => {
+        setConfirmationModalVisible(false);
+        setTimeout(() => {
+          setProfileModalVisible(false);
+          setTimeout(() => {
+            alert("Form has been autofilled!");
+          }, 300);
+        }, 300);
+      }, 600);
     } else {
       alert("No matching profile found!");
     }
@@ -151,20 +158,6 @@ export default function LibraryScreen({ navigation, isDarkMode }) {
           </View>
         </View>
 
-        <Layout style={{ backgroundColor: "none", margin: 10, width: "auto" }}>
-          <Dropdown
-            data={dropdownData} // Bind dropdown to imported JSON
-            labelField="label"
-            valueField="label"
-            placeholder="Select Profile"
-            value={value}
-            onChange={handleDropdownChange}
-          />
-          <View style={styles.buttonsRow}>
-            
-          </View>
-        </Layout>
-
         <View style={styles.imageContainer}>
           <DocView formData={formData} setFormData={setFormData} />
         </View>
@@ -187,17 +180,27 @@ export default function LibraryScreen({ navigation, isDarkMode }) {
           {utilityBarIcons.map((icon, index) => (
             <TouchableOpacity
               key={index}
-              style={styles.utilityIconContainer}
-              onPress={icon.onPress}
+              style={[
+                styles.utilityIconContainer,
+                icon.disabled && styles.disabledIconContainer,
+              ]}
+              onPress={icon.disabled ? null : icon.action}
             >
               {icon.type === "image" ? (
-                <Image source={icon.source} style={styles.customIcon} />
+                <Image
+                  source={icon.source}
+                  style={[
+                    styles.customIcon,
+                    icon.disabled && styles.disabledIcon,
+                  ]}
+                />
               ) : (
                 <Icon
                   name={icon.name}
                   style={[
                     styles.utilityIcon,
                     icon.iconColor && { tintColor: icon.iconColor },
+                    icon.disabled && styles.disabledIcon,
                   ]}
                 />
               )}
@@ -205,6 +208,7 @@ export default function LibraryScreen({ navigation, isDarkMode }) {
                 style={[
                   styles.iconLabel,
                   icon.labelColor && { color: icon.labelColor },
+                  icon.disabled && styles.disabledLabel,
                 ]}
               >
                 {icon.label}
@@ -214,31 +218,100 @@ export default function LibraryScreen({ navigation, isDarkMode }) {
         </View>
       </BlurView>
 
-      {/* Modal */}
+      {/* Profile Selection Modal */}
       <Modal
         animationType="slide"
         transparent={true}
-        visible={visible}
-        onRequestClose={() => setVisible(false)}
+        visible={profileModalVisible}
+        onRequestClose={() => setProfileModalVisible(false)}
       >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalText}>
-              Would you like to autofill the form with your data?
+        {/* Animated Blur View with fade-in effect */}
+        <Pressable
+          style={styles.blurOverlay}
+          onPressOut={() => setProfileModalVisible(false)}
+        >
+          <Animated.View style={[styles.blurOverlay, { opacity: fadeAnim }]}>
+            <BlurView intensity={32} tint="dark" style={styles.blurOverlay} />
+          </Animated.View>
+        </Pressable>
+        <View style={styles.profileModalOverlay}>
+          <BlurView
+            intensity={32}
+            tint="light"
+            style={styles.profileModalContent}
+          >
+            <Text style={styles.profileModalText}>
+              Select a Profile to Autofill your form with
             </Text>
-            <View style={styles.modalButtons}>
-              <Button
-                onPress={() => setVisible(false)}
-                style={styles.modalButton}
-                appearance="ghost"
+            <ScrollView>
+              <View style={styles.profileContainer}>
+                {filteredData.map((profile, index) => (
+                  <View
+                    key={`${profile.id}-${index}`}
+                    style={styles.profileCardContainer}
+                  >
+                    <SavedProfileCard
+                      name={profile.personalInfo.fullName}
+                      profile={profile}
+                      onPress={() => handleProfileSelect(profile)}
+                    />
+                  </View>
+                ))}
+              </View>
+            </ScrollView>
+          </BlurView>
+        </View>
+      </Modal>
+
+      {/* Autofill Confirmation Modal */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={confirmationModalVisible}
+        onRequestClose={() => setConfirmationModalVisible(false)}
+      >
+        {/* Animated Blur View with fade-in effect */}
+        <Pressable
+          style={styles.blurOverlay}
+          onPressOut={() => setConfirmationModalVisible(false)}
+        >
+          <Animated.View style={[styles.blurOverlay, { opacity: fadeAnim }]}>
+            <BlurView intensity={32} style={styles.blurOverlay} />
+          </Animated.View>
+        </Pressable>
+        <View style={styles.modalOverlay}>
+          <BlurView intensity={32} tint="light" style={styles.modalContent}>
+            <Text style={styles.modalText}>
+              {selectedProfile
+                ? `Autofill form with ${selectedProfile.personalInfo.fullName}'s information?`
+                : "Autofill form with selected profile's data?"}
+            </Text>
+            <Text style={styles.modalTextDescription}>
+              Make sure to review the form for accuracy.
+            </Text>
+            <View style={styles.modalActions}>
+              <TouchableOpacity
+                onPressOut={() => setConfirmationModalVisible(false)}
+                style={styles.cancelButton}
               >
-                No
-              </Button>
-              <Button onPress={confirmAutofill} style={styles.modalButton}>
-                Yes
-              </Button>
+                <Icon
+                  name="close-outline"
+                  style={{
+                    width: 24,
+                    height: 24,
+                    tintColor: colors.apple.black,
+                  }}
+                />
+                <Text style={styles.buttonText}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.startButton}
+                onPress={confirmAutofill}
+              >
+                <Text style={styles.startButtonText}>Autofill</Text>
+              </TouchableOpacity>
             </View>
-          </View>
+          </BlurView>
         </View>
       </Modal>
     </>
@@ -291,6 +364,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     width: "100%",
+    paddingHorizontal: 12,
   },
   utilityIconContainer: {
     backgroundColor: "transparent",
@@ -311,6 +385,9 @@ const styles = StyleSheet.create({
     ...typography(true).footnote,
     color: colors.apple.black,
     marginTop: 2,
+  },
+  disabledIconContainer: {
+    opacity: 0.2,
   },
 
   buttonsRow: {
@@ -362,23 +439,83 @@ const styles = StyleSheet.create({
     height: 575,
   },
 
+  blurOverlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    // backgroundColor: colors.apple.black05,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    height: "100%",
+  },
+
+  // Profile Modal
+  profileModalOverlay: {
+    flex: 1,
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+  },
+  profileModalContent: {
+    position: "absolute",
+    bottom: 0,
+    flexDirection: "column",
+    width: "100%",
+    // padding: 12,
+    paddingTop: 24,
+    backgroundColor: colors.apple.glass70,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+    // alignItems: "center",
+    overflow: "hidden",
+  },
+  profileModalText: {
+    ...typography(true).h2Med,
+    marginBottom: 24,
+    paddingHorizontal: 16,
+    textAlign: "center",
+  },
+  profileContainer: {
+    backgroundColor: "transparent",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    padding: 12,
+  },
+  profileCardContainer: {
+    width: "50%",
+  },
+
+  // Autofill Confirmation Modal
   modalOverlay: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContent: {
     width: "80%",
-    padding: 20,
-    backgroundColor: "white",
-    borderRadius: 10,
-    alignItems: "center",
+    // padding: 16,
+    minHeight: 208,
+    backgroundColor: colors.apple.glass70,
+    borderRadius: 16,
+    // alignItems: "center",
+    justifyContent: "space-between",
+    overflow: "hidden",
   },
   modalText: {
-    fontSize: 18,
-    marginBottom: 20,
+    ...typography(true).h2Med,
+    paddingTop: 16,
+    paddingHorizontal: 16,
+    marginBottom: 8,
     textAlign: "center",
+  },
+  modalTextDescription: {
+    ...typography(true).body,
+    paddingHorizontal: 16,
+    color: colors.apple.secondaryText,
+    textAlign: "center",
+    marginBottom: 16,
   },
   modalButtons: {
     flexDirection: "row",
@@ -389,12 +526,51 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 5,
   },
-  dropdown: {
-    margin: 16,
-    height: 50,
-    borderBottomColor: "gray",
-    borderBottomWidth: 0.5,
+
+  // Modal Actions
+  modalActions: {
+    flexDirection: "row",
+    height: 56,
+    borderTopWidth: 1,
+    borderColor: colors.apple.hardStroke,
   },
+  cancelButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: "50%",
+    flexDirection: "row",
+    gap: 8,
+    borderRightWidth: 1,
+    borderColor: colors.apple.hardStroke,
+  },
+  startButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: "50%",
+  },
+  buttonText: {
+    ...typography(true).bodyMed,
+    color: colors.apple.black,
+    textAlign: "center",
+  },
+  startButtonText: {
+    ...typography(true).bodyBold,
+    color: colors.light.blue,
+    textAlign: "center",
+  },
+
+  dontShowAgainContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 24,
+    gap: 8,
+  },
+  dontShowAgainIcon: {
+    width: 24,
+    height: 24,
+    fill: colors.apple.black,
+  },
+
   icon: {
     marginRight: 5,
   },

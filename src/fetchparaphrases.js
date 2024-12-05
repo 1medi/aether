@@ -1,35 +1,41 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   SafeAreaView,
   ScrollView,
   Text,
   StyleSheet,
   View,
-  ActivityIndicator,
+  RefreshControl,
 } from "react-native";
+import { Icon } from "@ui-kitten/components";
 
-const LoadParaphrasesScreen = () => {
+const LoadParaphrasesScreen = ({ paraphrasedText }) => {
   const [paraphrases, setParaphrases] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
 
   // Function to fetch paraphrases
   const FetchParaphrases = async () => {
     try {
-      const response = await fetch("http://0.0.0.0:8888/paraphrases");
+      const response = await fetch("https://aether-wnq5.onrender.com/paraphrases");
       if (!response.ok) {
+        // Log the error response for debugging
         const errorText = await response.text();
         console.error("Error response from server:", errorText);
         throw new Error(`Server error: ${response.status}`);
       }
-  
-      const data = await response.json();
 
+      const data = await response.json();
+  
+      // Sort paraphrases by date
       data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
   
-      // Group paraphrases by `createdAt`
+      // Group paraphrases by minute
       const groupedParaphrases = {};
       data.forEach((item) => {
-        const key = new Date(item.createdAt).toLocaleString(); // Group by date string
+        // Truncate to date and time up to the minute
+        const date = new Date(item.createdAt);
+        const key = date.toLocaleDateString() + " " + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  
         if (!groupedParaphrases[key]) {
           groupedParaphrases[key] = [];
         }
@@ -70,53 +76,55 @@ const LoadParaphrasesScreen = () => {
       setParaphrases(groupedParaphrases);
     } catch (error) {
       console.error("Error fetching paraphrases:", error);
-    } finally {
-      setLoading(false);
     }
   };
   
-  
-
-  // Fetch paraphrases on component mount
+  // Call FetchParaphrases when the component mounts
   useEffect(() => {
     FetchParaphrases();
   }, []);
 
+  // Pull-to-refresh handler
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    FetchParaphrases().finally(() => setRefreshing(false));
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
-      {loading ? (
-        <ActivityIndicator size="large" color="#0000ff" />
-      ) : (
-        <ScrollView>
-          {Object.keys(paraphrases).length > 0 ? (
-            Object.entries(paraphrases).map(([uploadTime, items], groupIndex) => (
-              <View key={groupIndex} style={styles.groupContainer}>
-                <Text style={styles.uploadTime}>Uploaded on: {uploadTime}</Text>
-                {items.map((item, index) => (
-                  <View
-                    key={index}
-                    style={[
-                      styles.paraphraseContainer,
-                      index % 2 === 0
-                        ? styles.evenBackground
-                        : styles.oddBackground,
-                    ]}
-                  >
-                    <Text style={styles.title}>
-                      {item.Title || "No Title"}
-                    </Text>
-                    <Text style={styles.description}>
-                      {item.description || "No Description"}
-                    </Text>
-                  </View>
-                ))}
-              </View>
-            ))
-          ) : (
-            <Text style={styles.placeholder}>No paraphrases found.</Text>
-          )}
-        </ScrollView>
-      )}
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+        {Object.keys(paraphrases).length > 0 ? (
+          Object.entries(paraphrases).map(([uploadTime, items], groupIndex) => (
+            <View key={groupIndex} style={styles.groupContainer}>
+              <Text style={styles.uploadTime}>Uploaded on: {uploadTime}</Text>
+              {items.map((item, index) => (
+                <View
+                  key={index}
+                  style={[
+                    styles.paraphraseContainer,
+                    index % 2 === 0
+                      ? styles.evenBackground
+                      : styles.oddBackground,
+                  ]}
+                >
+                  <Text style={styles.title}>
+                    {item.Title || "No Title"}
+                  </Text>
+                  <Text style={styles.description}>
+                    {item.description || "No Description"}
+                  </Text>
+                </View>
+              ))}
+            </View>
+          ))
+        ) : (
+          <Text style={styles.placeholder}>No paraphrases found.</Text>
+        )}
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -129,20 +137,7 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: "#f5f5f5",
   },
-  groupContainer: {
-    marginBottom: 20,
-    paddingBottom: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ddd",
-  },
-  uploadTime: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#333",
-    marginBottom: 10,
-  },
   paraphraseContainer: {
-    marginBottom: 20,
     padding: 16,
     borderRadius: 8,
     shadowColor: "#000",
@@ -162,16 +157,34 @@ const styles = StyleSheet.create({
     color: "#333",
     marginBottom: 8,
   },
+  subtitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "blue",
+    marginBottom: 4,
+  },
   description: {
     fontSize: 14,
     color: "#555",
     marginBottom: 8,
     paddingLeft: 10,
   },
-  placeholder: {
-    textAlign: "center",
-    fontSize: 16,
-    color: "gray",
-    marginTop: 20,
+  jsonBlock: {
+    marginBottom: 12,
+    borderLeftWidth: 4,
+    borderLeftColor: "#ccc",
+    paddingLeft: 8,
   },
+  uploadTime:{
+    fontSize: 16,
+    fontWeight: "bold",
+    margin: 12,
+    color: "blue"
+  },
+  groupContainer:{
+    borderWidth: 2,
+    borderRadius: 10,
+    margin: 10,
+    padding: 10
+  }
 });

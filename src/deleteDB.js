@@ -1,7 +1,9 @@
-import { MongoClient } from "mongodb";
+const dotenv = require('dotenv'); // Use require for dotenv
+dotenv.config({ path: '../.env' });
+const {MongoClient} = require("mongodb");
 
 // Replace the URI string with your MongoDB deployment's connection string
-const uri = "mongodb+srv://1medi:Jairus123@aeresponsecluster.6xntt.mongodb.net/?retryWrites=true&w=majority&appName=aeResponseCluster";
+const uri = process.env.MONGO;
 
 const client = new MongoClient(uri);
 

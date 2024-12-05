@@ -16,8 +16,9 @@ import { colors, typography } from "@/css/globals";
 import axios from "axios";
 import Modal from "react-native-modal";
 import { useDarkMode } from "@/app/(tabs)/context/DarkModeContext";
-import ScanAnimation from "@/components/atoms/scanAnimation"
-import BottomSheetModal from "@/components/molecules/BottomSheetModal"
+import ScanAnimation from "@/components/atoms/scanAnimation";
+import BottomSheetModal from "@/components/molecules/BottomSheetModal";
+import LoadingAnimation from "../components/atoms/loadingAnimation";
 
 const ScanDocScreen = ({ navigation }) => {
   const [imageUri, setImageUri] = useState(null);
@@ -26,7 +27,14 @@ const ScanDocScreen = ({ navigation }) => {
   const sheetRef = useRef(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [isAnalyzed, setIsAnalyzed] = useState(false);
+  const [paraphrases, setParaphrases] = useState([]);
 
+  const generateHexId = () => {
+    const hexChars = "abcdef0123456789";
+    return Array.from({ length: 24 }, () =>
+      hexChars.charAt(Math.floor(Math.random() * hexChars.length))
+    ).join("");
+  };
 
   const requestCameraPermissions = async () => {
     const { status } = await ImagePicker.requestCameraPermissionsAsync();
@@ -58,11 +66,40 @@ const ScanDocScreen = ({ navigation }) => {
     }
   };
 
+  const saveParaphrase = async (inputText, paraphrasedText, documentId, itemId) => {
+    console.log("saveParaphrase called with:", inputText, paraphrasedText);
+  
+    try {
+      const response = await fetch("https://aether-wnq5.onrender.com/store", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          paraphrasedText: paraphrasedText,
+          documentId,       // Pass the document ID
+          itemId    // Pass the stringified JSON
+        }),
+      });
+  
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Error response from server:", errorText);
+        throw new Error(`Server error: ${response.status}`);
+      }
+  
+      const data = await response.json();
+      console.log("Paraphrase saved successfully:", data);
+    } catch (error) {
+      console.error("Error in saveParaphrase:", error);
+    }
+  };
+  
   const analyzeAndParaphrase = async () => {
     if (!imageUri) {
       alert("Please upload an image first!");
       return;
     }
+
+    setLoading(true);
 
     try {
       const googleAPIKey = process.env.EXPO_PUBLIC_GOOGLE_KEY;
@@ -97,6 +134,7 @@ const ScanDocScreen = ({ navigation }) => {
         detectedText = apiResponse.data.responses[0].fullTextAnnotation.text;
       } else {
         alert("No text detected in the image.");
+        setLoading(false);
         return;
       }
 
@@ -113,20 +151,21 @@ const ScanDocScreen = ({ navigation }) => {
               {
                 role: "system",
                 content: `
-                You are a paraphraser for professional use. Rewrite the following content according to these guidelines:
+                  You are a paraphraser for professional use. Rewrite the following content according to these guidelines:
                   
-                1. Summarize and Simplify: Explain only what the document says, as if explaining to a 10-year-old. Provide one succinct sentence for each subject.
-                
-                2. Formatting Rules:
-                   - Use **bold** for headers.
-                   - Use *italics* for emphasis.
-                   - Indent each paragraph.
-                   - Avoid any markup or special characters such as "**".
-                
-                Input Content:
-                ${chunk}
-                
-                Return the results in this parsable json form [{"Title":string, "description":string}]`,
+                  1. Summarize and Simplify: Explain only what the document says, as if explaining to a 10-year-old. Provide one succinct sentence for each subject.
+                  
+                  2. Formatting Rules:
+                     - Use **bold** for headers.
+                     - Use *italics* for emphasis.
+                     - Indent each paragraph.
+                     - Avoid any markup or special characters such as "**".
+                  
+                  Input Content:
+                  ${chunk}
+                  
+                  Return the results in this parsable json form [{"Title":string, "description":string}]
+                `,
               },
             ],
             max_tokens: 4096,
@@ -143,9 +182,16 @@ const ScanDocScreen = ({ navigation }) => {
         );
         paraphrasedContent = [...paraphrasedContent, ...arr];
       }
+      paraphrasedContent = paraphrasedContent.map((item) => ({
+        ...item,
+        _id: generateHexId(),
+      }));
       console.log(paraphrasedContent);
 
       setParaphrasedText(paraphrasedContent);
+
+      // Save the paraphrased content to your backend
+      await saveParaphrase(detectedText, JSON.stringify(paraphrasedContent));
 
       setIsSheetOpen(true);
       setIsAnalyzed(true);
@@ -154,7 +200,7 @@ const ScanDocScreen = ({ navigation }) => {
       console.error("Error during analysis or paraphrasing:", error);
       alert("An error occurred. Please try again.");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   };
 
@@ -174,13 +220,13 @@ const ScanDocScreen = ({ navigation }) => {
       <Header title={"Scan A File"} isDarkMode={isDarkMode} />
 
       <Layout style={styles.buttonContainer}>
-      <Text style={styles.greetingMessage}>
+        <Text style={styles.greetingMessage}>
           Scan a document here to detect text and paraphrase it.
-      </Text>
+        </Text>
 
         {!imageUri ? (
           <View style={styles.animationContainer}>
-            <ScanAnimation/>
+            <ScanAnimation />
           </View>
         ) : (
           <Image source={{ uri: imageUri }} style={styles.image} />
@@ -201,15 +247,14 @@ const ScanDocScreen = ({ navigation }) => {
 
         <TouchableOpacity
           onPress={analyzeAndParaphrase}
-          disabled={!imageUri || isAnalyzed}
+          disabled={!imageUri || isAnalyzed || loading}
           style={[
             styles.analyzeButton,
-            (!imageUri || isAnalyzed) && styles.disabledButton,
+            (!imageUri || isAnalyzed || loading) && styles.disabledButton,
           ]}
         >
           <Text style={styles.buttonText}>Analyze & Paraphrase</Text>
         </TouchableOpacity>
-
 
         <TouchableOpacity
           onPress={() => navigation.navigate("Upload")}
@@ -218,6 +263,17 @@ const ScanDocScreen = ({ navigation }) => {
           <Text style={styles.buttonText}>Switch to Upload</Text>
         </TouchableOpacity>
       </Layout>
+
+      <Modal
+        visible={loading}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setLoading(false)}
+      >
+        <View style={styles.modalContainer}>
+          <LoadingAnimation />
+        </View>
+      </Modal>
 
       {isSheetOpen && (
         <BottomSheetModal
@@ -267,8 +323,8 @@ const getStyles = (isDarkMode) => ({
   switchButton: {
     backgroundColor: colors.light.bgBlue,
     width: "100%",
-    margin:"auto",
-    textAlign: "center"
+    margin: "auto",
+    textAlign: "center",
   },
   buttonText: {
     color: "white",
@@ -288,7 +344,6 @@ const getStyles = (isDarkMode) => ({
     padding: 20,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-
   },
   barIcon: {
     width: 50,
@@ -309,5 +364,11 @@ const getStyles = (isDarkMode) => ({
   },
   disabledButton: {
     backgroundColor: "#d3d3d3",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(255, 255, 255, 0.5)",
   },
 });

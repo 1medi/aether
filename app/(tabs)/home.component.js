@@ -129,10 +129,10 @@ export const HomeScreen = ({ navigation }) => {
                         destination="FormLibrary"
                       />
                     </Layout>
-                    <Layout style={styles.actionColumn}>
+                    <Layout style={[styles.actionColumn, styles.disabled]}>
                       <ActionButton
-                        buttonTitle="Upload"
-                        buttonDesc="a document"
+                        buttonTitle="Scan"
+                        buttonDesc="Paper to PDF"
                         accessory={UploadIcon}
                         destination="Scan"
                       />
@@ -292,7 +292,6 @@ const getStyles = (isDarkMode) => ({
   },
   headline: {
     marginBottom: 8,
-   
     color: isDarkMode ? colors.apple.white : colors.apple.black,
   },
   headlineButton: {
@@ -323,4 +322,8 @@ const getStyles = (isDarkMode) => ({
     color: isDarkMode ? colors.apple.glass20 : colors.light.deepBlue40,
     textAlign: "center",
   },
+
+  // disabled: {
+  //   opacity: 0.2,
+  // },
 });

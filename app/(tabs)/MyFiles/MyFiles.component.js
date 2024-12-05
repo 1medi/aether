@@ -186,6 +186,7 @@ export const MyFilesScreen = ({ navigation }) => {
                 // navigation={navigation}
                 // profileData={profile}
                 profile={profile}
+                navigate={"SavedProfile"}
               />
             </View>
           ))}
