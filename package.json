@@ -84,10 +84,12 @@
     "react-native-signature-canvas": "^4.7.2",
     "react-native-svg": "15.8.0",
     "react-native-ui-datepicker": "^2.0.4",
+    "react-native-uuid": "^2.0.3",
     "react-native-view-shot": "4.0.2",
     "react-native-web": "~0.19.13",
     "regex": "^4.4.0",
-    "styled-components": "^6.1.13"
+    "styled-components": "^6.1.13",
+    "uuid": "^11.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",

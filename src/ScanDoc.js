@@ -16,8 +16,9 @@ import { colors, typography } from "@/css/globals";
 import axios from "axios";
 import Modal from "react-native-modal";
 import { useDarkMode } from "@/app/(tabs)/context/DarkModeContext";
-import ScanAnimation from "@/components/atoms/scanAnimation"
-import BottomSheetModal from "@/components/molecules/BottomSheetModal"
+import ScanAnimation from "@/components/atoms/scanAnimation";
+import BottomSheetModal from "@/components/molecules/BottomSheetModal";
+import LoadingAnimation from "../components/atoms/loadingAnimation";
 
 const ScanDocScreen = ({ navigation }) => {
   const [imageUri, setImageUri] = useState(null);
@@ -27,7 +28,6 @@ const ScanDocScreen = ({ navigation }) => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [isAnalyzed, setIsAnalyzed] = useState(false);
   const [paraphrases, setParaphrases] = useState([]);
-
 
   const requestCameraPermissions = async () => {
     const { status } = await ImagePicker.requestCameraPermissionsAsync();
@@ -61,7 +61,7 @@ const ScanDocScreen = ({ navigation }) => {
 
   const saveParaphrase = async (inputText, paraphrasedText) => {
     console.log("saveParaphrase called with:", inputText, paraphrasedText); // Debug
-  
+
     try {
       const response = await fetch("https://aether-wnq5.onrender.com/store", {
         method: "POST",
@@ -70,13 +70,13 @@ const ScanDocScreen = ({ navigation }) => {
           paraphrasedText: paraphrasedText, // Use the correct variable
         }),
       });
-  
+
       if (!response.ok) {
         const errorText = await response.text();
         console.error("Error response from server:", errorText);
         throw new Error(`Server error: ${response.status}`);
       }
-  
+
       const data = await response.json();
       console.log("Paraphrase saved successfully:", data);
     } catch (error) {
@@ -191,7 +191,6 @@ const ScanDocScreen = ({ navigation }) => {
     }
   };
 
-
   const handleReset = () => {
     setImageUri(null);
     setParaphrasedText("");
@@ -208,13 +207,13 @@ const ScanDocScreen = ({ navigation }) => {
       <Header title={"Scan A File"} isDarkMode={isDarkMode} />
 
       <Layout style={styles.buttonContainer}>
-      <Text style={styles.greetingMessage}>
+        <Text style={styles.greetingMessage}>
           Scan a document here to detect text and paraphrase it.
-      </Text>
+        </Text>
 
         {!imageUri ? (
           <View style={styles.animationContainer}>
-            <ScanAnimation/>
+            <ScanAnimation />
           </View>
         ) : (
           <Image source={{ uri: imageUri }} style={styles.image} />
@@ -235,15 +234,14 @@ const ScanDocScreen = ({ navigation }) => {
 
         <TouchableOpacity
           onPress={analyzeAndParaphrase}
-          disabled={!imageUri || isAnalyzed}
+          disabled={!imageUri || isAnalyzed || loading}
           style={[
             styles.analyzeButton,
-            (!imageUri || isAnalyzed) && styles.disabledButton,
+            (!imageUri || isAnalyzed || loading) && styles.disabledButton,
           ]}
         >
           <Text style={styles.buttonText}>Analyze & Paraphrase</Text>
         </TouchableOpacity>
-
 
         <TouchableOpacity
           onPress={() => navigation.navigate("Upload")}
@@ -253,11 +251,22 @@ const ScanDocScreen = ({ navigation }) => {
         </TouchableOpacity>
       </Layout>
 
-      {isSheetOpen && ( 
-          <BottomSheetModal
-            sheetRef={sheetRef}
-            paraphrasedText={paraphrasedText}
-          />
+      <Modal
+        visible={loading}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setLoading(false)}
+      >
+        <View style={styles.modalContainer}>
+          <LoadingAnimation />
+        </View>
+      </Modal>
+
+      {isSheetOpen && (
+        <BottomSheetModal
+          sheetRef={sheetRef}
+          paraphrasedText={paraphrasedText}
+        />
       )}
     </SafeAreaView>
   );
@@ -301,8 +310,8 @@ const getStyles = (isDarkMode) => ({
   switchButton: {
     backgroundColor: colors.light.bgBlue,
     width: "100%",
-    margin:"auto",
-    textAlign: "center"
+    margin: "auto",
+    textAlign: "center",
   },
   buttonText: {
     color: "white",
@@ -322,7 +331,6 @@ const getStyles = (isDarkMode) => ({
     padding: 20,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-
   },
   barIcon: {
     width: 50,

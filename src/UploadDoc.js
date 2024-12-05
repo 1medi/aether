@@ -21,8 +21,8 @@ import { color } from "@rneui/base";
 import { ColorSpace } from "react-native-reanimated";
 import UploadAnimation from "../components/atoms/uploadAnimation";
 import BottomSheetModal from "@/components/molecules/BottomSheetModal";
-import FetchParaphrases from "@/src/fetchparaphrases";
-import ErrorBoundary from "@/components/utils/errorBoundaries";
+import { ActivityIndicator } from "react-native";
+import LoadingAnimation from "../components/atoms/loadingAnimation";
 
 const UploadDocScreen = ({ navigation }) => {
   const [imageUri, setImageUri] = useState(null);
@@ -86,7 +86,7 @@ const UploadDocScreen = ({ navigation }) => {
 
   const saveParaphrase = async (inputText, paraphrasedText) => {
     console.log("saveParaphrase called with:", inputText, paraphrasedText); // Debug
-  
+
     try {
       const response = await fetch("https://aether-wnq5.onrender.com/store", {
         method: "POST",
@@ -95,20 +95,19 @@ const UploadDocScreen = ({ navigation }) => {
           paraphrasedText: paraphrasedText, // Use the correct variable
         }),
       });
-  
+
       if (!response.ok) {
         const errorText = await response.text();
         console.error("Error response from server:", errorText);
         throw new Error(`Server error: ${response.status}`);
       }
-  
+
       const data = await response.json();
       console.log("Paraphrase saved successfully:", data);
     } catch (error) {
       console.error("Error in saveParaphrase:", error);
     }
   };
-  
 
   const analyzeAndParaphrase = async () => {
     if (!imageUri) {
@@ -217,7 +216,6 @@ const UploadDocScreen = ({ navigation }) => {
     }
   };
 
-
   const handleReset = () => {
     setImageUri(null);
     setParaphrasedText("");
@@ -259,15 +257,14 @@ const UploadDocScreen = ({ navigation }) => {
 
         <TouchableOpacity
           onPress={analyzeAndParaphrase}
-          disabled={!imageUri || isAnalyzed}
+          disabled={!imageUri || isAnalyzed || loading}
           style={[
             styles.analyzeButton,
-            (!imageUri || isAnalyzed) && styles.disabledButton,
+            (!imageUri || isAnalyzed || loading) && styles.disabledButton,
           ]}
         >
           <Text style={styles.buttonText}>Analyze & Paraphrase</Text>
         </TouchableOpacity>
-
         <TouchableOpacity
           onPress={() => navigation.navigate("Scan")}
           style={[styles.button, styles.switchButton]}
@@ -276,11 +273,22 @@ const UploadDocScreen = ({ navigation }) => {
         </TouchableOpacity>
       </Layout>
 
+      <Modal
+        visible={loading}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setLoading(false)}
+      >
+        <View style={styles.modalContainer}>
+          <LoadingAnimation />
+        </View>
+      </Modal>
+
       {isSheetOpen && (
-          <BottomSheetModal
-            sheetRef={sheetRef}
-            paraphrasedText={paraphrasedText}
-          />
+        <BottomSheetModal
+          sheetRef={sheetRef}
+          paraphrasedText={paraphrasedText}
+        />
       )}
     </SafeAreaView>
   );
@@ -331,5 +339,11 @@ const getStyles = (isDarkMode) => ({
   },
   disabledButton: {
     backgroundColor: "#d3d3d3",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(255, 255, 255, 0.5)",
   },
 });
