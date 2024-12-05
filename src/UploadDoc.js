@@ -102,7 +102,7 @@ const UploadDocScreen = ({ navigation }) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           paraphrasedText: paraphrasedText,
-          documentId,       // Pass the document ID
+          // documentId,       // Pass the document ID
           itemId    // Pass the stringified JSON
         }),
       });
@@ -152,13 +152,17 @@ const UploadDocScreen = ({ navigation }) => {
         ],
       };
 
-      const apiResponse = await axios.post(apiURL, requestData, {
+      const apiResponse = await fetch(apiURL, {
+        method:"POST",
+        body:JSON.stringify(requestData),
         headers: { "Content-Type": "application/json" },
       });
 
+      const apiJson = await apiResponse.json();
+
       let detectedText = "";
-      if (apiResponse.data.responses[0].fullTextAnnotation) {
-        detectedText = apiResponse.data.responses[0].fullTextAnnotation.text;
+      if (apiJson.responses[0].fullTextAnnotation) {
+        detectedText = apiJson.responses[0].fullTextAnnotation.text;
       } else {
         alert("No text detected in the image.");
         setLoading(false);
@@ -170,8 +174,10 @@ const UploadDocScreen = ({ navigation }) => {
       let paraphrasedContent = [];
 
       for (const chunk of chunks) {
-        const paraphraseResponse = await axios.post(
-          "https://api.openai.com/v1/chat/completions",
+        const paraphraseResponse = await fetch(
+          "https://api.openai.com/v1/chat/completions", {
+          method:"POST",
+          body:JSON.stringify(
           {
             model: "gpt-4o-mini",
             messages: [
@@ -196,16 +202,16 @@ const UploadDocScreen = ({ navigation }) => {
               },
             ],
             max_tokens: 4096,
-          },
-          {
-            headers: {
+          }),
+          headers: {
               Authorization: `Bearer ${process.env.EXPO_PUBLIC_OPENAI_API_KEY}`,
               "Content-Type": "application/json",
             },
           }
         );
+        const paraJson = await paraphraseResponse.json();
         const arr = JSON.parse(
-          paraphraseResponse.data.choices[0].message.content
+          paraJson.choices[0].message.content
         );
         paraphrasedContent = [...paraphrasedContent, ...arr];
       }

@@ -35,10 +35,10 @@ export default function BottomModal({ paraphrasedText }) {
     console.log("Deleting item with document ID:", documentId, "and item ID:", itemId);
   
     try {
-      const response = await fetch(`https://aether-wnq5.onrender.com/delete-item`, {
-        method: "POST",
+      const response = await fetch(`https://aether-wnq5.onrender.com/delete/${itemId}`, {
+        method: "DELETE",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ documentId, itemId }),
+        // body: JSON.stringify({ documentId, itemId }), 
       });
   
       if (!response.ok) {
@@ -76,12 +76,15 @@ export default function BottomModal({ paraphrasedText }) {
         translateX.value = Math.max(Math.min(event.translationX, 0), -SCREEN_WIDTH);
       })
       .onEnd(() => {
+        console.log("ending gesture");
         if (isDeleting) return;
   
         if (translateX.value < -SCREEN_WIDTH * 0.3) {
           isDeleting = true;
           translateX.value = withSpring(-SCREEN_WIDTH, {}, () => {
-            runOnJS(handleDelete)(documentId, item.id); // Pass both IDs here
+            // handleDelete(documentId, item.id)
+            console.log("what is documentId",documentId, item);
+            runOnJS(handleDelete)(documentId, item._id); // Pass both IDs here
             isDeleting = false;
           });
         } else {
@@ -124,7 +127,7 @@ export default function BottomModal({ paraphrasedText }) {
           <BottomSheetFlatList
             data={data}
             keyExtractor={(item) => item._id} // Use `_id`
-            renderItem={({ item }) => <ListItem item={item} />}
+            renderItem={({ item }) => <ListItem  documentId={1} item={item} />}
           />
         )}
       </BottomSheetView>
