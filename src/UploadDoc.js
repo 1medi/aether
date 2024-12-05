@@ -24,6 +24,7 @@ import BottomSheetModal from "@/components/molecules/BottomSheetModal";
 import { ActivityIndicator } from "react-native";
 import LoadingAnimation from "../components/atoms/loadingAnimation";
 
+
 const UploadDocScreen = ({ navigation }) => {
   const [imageUri, setImageUri] = useState(null);
   const [paraphrasedText, setParaphrasedText] = useState("");
@@ -32,6 +33,14 @@ const UploadDocScreen = ({ navigation }) => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [isAnalyzed, setIsAnalyzed] = useState(false);
   const [paraphrases, setParaphrases] = useState([]);
+
+  const generateHexId = () => {
+    const hexChars = "abcdef0123456789";
+    return Array.from({ length: 24 }, () =>
+      hexChars.charAt(Math.floor(Math.random() * hexChars.length))
+    ).join("");
+  };
+
 
   const requestMediaLibraryPermissions = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -84,24 +93,26 @@ const UploadDocScreen = ({ navigation }) => {
     }
   };
 
-  const saveParaphrase = async (inputText, paraphrasedText) => {
-    console.log("saveParaphrase called with:", inputText, paraphrasedText); // Debug
-
+  const saveParaphrase = async (inputText, paraphrasedText, documentId, itemId) => {
+    console.log("saveParaphrase called with:", inputText, paraphrasedText);
+  
     try {
       const response = await fetch("https://aether-wnq5.onrender.com/store", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          paraphrasedText: paraphrasedText, // Use the correct variable
+          paraphrasedText: paraphrasedText,
+          documentId,       // Pass the document ID
+          itemId    // Pass the stringified JSON
         }),
       });
-
+  
       if (!response.ok) {
         const errorText = await response.text();
         console.error("Error response from server:", errorText);
         throw new Error(`Server error: ${response.status}`);
       }
-
+  
       const data = await response.json();
       console.log("Paraphrase saved successfully:", data);
     } catch (error) {
@@ -198,6 +209,10 @@ const UploadDocScreen = ({ navigation }) => {
         );
         paraphrasedContent = [...paraphrasedContent, ...arr];
       }
+      paraphrasedContent = paraphrasedContent.map((item) => ({
+        ...item,
+        _id: generateHexId(),
+      }));
       console.log(paraphrasedContent);
 
       setParaphrasedText(paraphrasedContent);

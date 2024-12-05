@@ -16,7 +16,7 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
-  runOnJS
+  runOnJS,
 } from "react-native-reanimated";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -26,39 +26,19 @@ export default function BottomModal({ paraphrasedText }) {
   const snapPoints = ["30%", "60%", "90%"];
 
   const [data, setData] = useState(
-    Array.isArray(paraphrasedText)
-      ? paraphrasedText.map((item, index) => ({
-          ...item,
-          id: item.id ?? index,
-        }))
-      : [
-          {
-            id: 1,
-            Title: "Sample Title 1",
-            description: "Sample description 1",
-          },
-          {
-            id: 2,
-            Title: "Sample Title 2",
-            description: "Sample description 2",
-          },
-        ]
+    Array.isArray(paraphrasedText) ? paraphrasedText : []
   );
 
   console.log("Initial data:", data);
 
-  const handleDelete = async (id) => {
-    console.log("Deleting paraphrase with ID:", id); // Log the ID being passed
-  
-    // Validate ID format
-    if (!id || id.length !== 24 || !/^[0-9a-fA-F]{24}$/.test(id)) {
-      console.error("Invalid ID format. Must be a 24-character hex string.");
-      return;
-    }
+  const handleDelete = async (documentId, itemId) => {
+    console.log("Deleting item with document ID:", documentId, "and item ID:", itemId);
   
     try {
-      const response = await fetch(`https://aether-wnq5.onrender.com/delete/${id}`, {
-        method: "DELETE",
+      const response = await fetch(`https://aether-wnq5.onrender.com/delete-item`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ documentId, itemId }),
       });
   
       if (!response.ok) {
@@ -67,47 +47,48 @@ export default function BottomModal({ paraphrasedText }) {
         throw new Error(`Server error: ${response.status}`);
       }
   
-      setData((prevData) => prevData.filter((item) => item._id !== id));
-      console.log("Deleted successfully!");
+      setData((prevData) =>
+        prevData.map((doc) => {
+          if (doc._id === documentId) {
+            return {
+              ...doc,
+              paraphrasedText: doc.paraphrasedText.filter((item) => item.id !== itemId),
+            };
+          }
+          return doc;
+        })
+      );
+  
+      console.log("Item deleted successfully!");
     } catch (error) {
-      console.error("Error deleting:", error);
+      console.error("Error deleting item:", error);
     }
   };
   
 
-  const ListItem = React.memo(({ item }) => {
+  const ListItem = React.memo(({ item, documentId }) => {
     const translateX = useSharedValue(0);
     let isDeleting = false;
   
-    // Define Pan Gesture
     const panGesture = Gesture.Pan()
       .onUpdate((event) => {
         if (isDeleting) return;
-  
-        // Update translation value, bounded to SCREEN_WIDTH
         translateX.value = Math.max(Math.min(event.translationX, 0), -SCREEN_WIDTH);
       })
       .onEnd(() => {
         if (isDeleting) return;
   
-        // Check if swipe is past threshold
         if (translateX.value < -SCREEN_WIDTH * 0.3) {
           isDeleting = true;
-          translateX.value = withSpring(
-            -SCREEN_WIDTH,
-            { stiffness: 100, damping: 10 },
-            () => {
-              runOnJS(handleDelete)(item.id); // Delete item using runOnJS
-              isDeleting = false;
-            }
-          );
+          translateX.value = withSpring(-SCREEN_WIDTH, {}, () => {
+            runOnJS(handleDelete)(documentId, item.id); // Pass both IDs here
+            isDeleting = false;
+          });
         } else {
-          // Reset position if not swiped far enough
           translateX.value = withSpring(0);
         }
       });
   
-    // Animated Styles
     const animatedStyle = useAnimatedStyle(() => ({
       transform: [{ translateX: translateX.value }],
     }));
@@ -142,7 +123,7 @@ export default function BottomModal({ paraphrasedText }) {
         ) : (
           <BottomSheetFlatList
             data={data}
-            keyExtractor={(item) => item.id.toString()}
+            keyExtractor={(item) => item._id} // Use `_id`
             renderItem={({ item }) => <ListItem item={item} />}
           />
         )}
