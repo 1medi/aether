@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Layout, Text, Select, SelectItem, IndexPath } from "@ui-kitten/components";
 import { useTextSize } from "./TextSizeContext";
 
-const fontSizeOptions = [ 14, 16, 18, 20, ]; // Define font size options
+const fontSizeOptions = [12, 14, 16, 18, 20, 24]; // Define font size options
 const defaultTextSize = 16; // Default size
 
 const ChangeTextSize = () => {
