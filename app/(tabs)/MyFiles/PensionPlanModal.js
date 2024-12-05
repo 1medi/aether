@@ -37,7 +37,7 @@ const PensionPlanModal = ({ visible, onClose }) => {
     } else {
       Animated.timing(fadeAnim, {
         toValue: 0, // Fade-out when the modal is not visible
-        duration: 0,
+        duration: 600,
         useNativeDriver: true,
       }).start();
     }
@@ -140,8 +140,8 @@ const styles = StyleSheet.create({
     // padding: 24,
     backgroundColor: colors.apple.glass70,
     borderRadius: 16,
-    borderWidth: 1,
-    borderColor: colors.apple.lightStroke,
+    // borderWidth: 1,
+    // borderColor: colors.apple.lightStroke,
     zIndex: 1, // Ensure this stays above the blur view
     overflow: "hidden",
     gap: 24,

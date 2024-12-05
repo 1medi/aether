@@ -69,7 +69,7 @@ export default function LibraryScreen({ navigation, isDarkMode }) {
     } else {
       Animated.timing(fadeAnim, {
         toValue: 0,
-        duration: 0,
+        duration: 600,
         useNativeDriver: true,
       }).start();
     }
@@ -88,6 +88,7 @@ export default function LibraryScreen({ navigation, isDarkMode }) {
       source: require("@/assets/custom_icons/icon_simplify.png"),
       label: "Simplify",
       action: handleSimplify,
+      disabled: true,
     },
     {
       type: "icon",
@@ -104,7 +105,7 @@ export default function LibraryScreen({ navigation, isDarkMode }) {
       labelColor: colors.apple.red,
     },
   ];
-  
+
   const handleProfileSelect = (profile) => {
     setConfirmationModalVisible(true);
     setSelectedProfile(profile);
@@ -114,9 +115,11 @@ export default function LibraryScreen({ navigation, isDarkMode }) {
       alert("Please select a profile first!");
       return;
     }
-    
-    const profileData = UserData.find((item) => item.label === selectedProfile.personalInfo.fullName);
-    
+
+    const profileData = UserData.find(
+      (item) => item.label === selectedProfile.personalInfo.fullName
+    );
+
     if (profileData) {
       setFormData((prevState) => ({
         ...prevState,
@@ -130,14 +133,12 @@ export default function LibraryScreen({ navigation, isDarkMode }) {
             alert("Form has been autofilled!");
           }, 300);
         }, 300);
-      }, 1000);
+      }, 600);
     } else {
       alert("No matching profile found!");
     }
   };
-  
-  
-  
+
   return (
     <>
       <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
@@ -179,17 +180,27 @@ export default function LibraryScreen({ navigation, isDarkMode }) {
           {utilityBarIcons.map((icon, index) => (
             <TouchableOpacity
               key={index}
-              style={styles.utilityIconContainer}
-              onPress={icon.action}
+              style={[
+                styles.utilityIconContainer,
+                icon.disabled && styles.disabledIconContainer,
+              ]}
+              onPress={icon.disabled ? null : icon.action}
             >
               {icon.type === "image" ? (
-                <Image source={icon.source} style={styles.customIcon} />
+                <Image
+                  source={icon.source}
+                  style={[
+                    styles.customIcon,
+                    icon.disabled && styles.disabledIcon,
+                  ]}
+                />
               ) : (
                 <Icon
                   name={icon.name}
                   style={[
                     styles.utilityIcon,
                     icon.iconColor && { tintColor: icon.iconColor },
+                    icon.disabled && styles.disabledIcon,
                   ]}
                 />
               )}
@@ -197,6 +208,7 @@ export default function LibraryScreen({ navigation, isDarkMode }) {
                 style={[
                   styles.iconLabel,
                   icon.labelColor && { color: icon.labelColor },
+                  icon.disabled && styles.disabledLabel,
                 ]}
               >
                 {icon.label}
@@ -223,7 +235,11 @@ export default function LibraryScreen({ navigation, isDarkMode }) {
           </Animated.View>
         </Pressable>
         <View style={styles.profileModalOverlay}>
-          <View style={styles.profileModalContent}>
+          <BlurView
+            intensity={32}
+            tint="light"
+            style={styles.profileModalContent}
+          >
             <Text style={styles.profileModalText}>
               Select a Profile to Autofill your form with
             </Text>
@@ -243,7 +259,7 @@ export default function LibraryScreen({ navigation, isDarkMode }) {
                 ))}
               </View>
             </ScrollView>
-          </View>
+          </BlurView>
         </View>
       </Modal>
 
@@ -260,11 +276,11 @@ export default function LibraryScreen({ navigation, isDarkMode }) {
           onPressOut={() => setConfirmationModalVisible(false)}
         >
           <Animated.View style={[styles.blurOverlay, { opacity: fadeAnim }]}>
-            <BlurView intensity={32} tint="dark" style={styles.blurOverlay} />
+            <BlurView intensity={32} style={styles.blurOverlay} />
           </Animated.View>
         </Pressable>
         <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
+          <BlurView intensity={32} tint="light" style={styles.modalContent}>
             <Text style={styles.modalText}>
               {selectedProfile
                 ? `Autofill form with ${selectedProfile.personalInfo.fullName}'s information?`
@@ -295,7 +311,7 @@ export default function LibraryScreen({ navigation, isDarkMode }) {
                 <Text style={styles.startButtonText}>Autofill</Text>
               </TouchableOpacity>
             </View>
-          </View>
+          </BlurView>
         </View>
       </Modal>
     </>
@@ -369,6 +385,9 @@ const styles = StyleSheet.create({
     ...typography(true).footnote,
     color: colors.apple.black,
     marginTop: 2,
+  },
+  disabledIconContainer: {
+    opacity: 0.2,
   },
 
   buttonsRow: {
@@ -446,10 +465,11 @@ const styles = StyleSheet.create({
     width: "100%",
     // padding: 12,
     paddingTop: 24,
-    backgroundColor: colors.apple.white,
+    backgroundColor: colors.apple.glass70,
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
     // alignItems: "center",
+    overflow: "hidden",
   },
   profileModalText: {
     ...typography(true).h2Med,
@@ -477,10 +497,11 @@ const styles = StyleSheet.create({
     width: "80%",
     // padding: 16,
     minHeight: 208,
-    backgroundColor: colors.apple.white,
+    backgroundColor: colors.apple.glass70,
     borderRadius: 16,
     // alignItems: "center",
     justifyContent: "space-between",
+    overflow: "hidden",
   },
   modalText: {
     ...typography(true).h2Med,
@@ -511,22 +532,20 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     height: 56,
     borderTopWidth: 1,
-    borderColor: colors.apple.lightStroke,
+    borderColor: colors.apple.hardStroke,
   },
   cancelButton: {
     alignItems: "center",
     justifyContent: "center",
-    borderBottomLeftRadius: 32,
     width: "50%",
     flexDirection: "row",
     gap: 8,
     borderRightWidth: 1,
-    borderColor: colors.apple.lightStroke,
+    borderColor: colors.apple.hardStroke,
   },
   startButton: {
     alignItems: "center",
     justifyContent: "center",
-    borderBottomRightRadius: 32,
     width: "50%",
   },
   buttonText: {
