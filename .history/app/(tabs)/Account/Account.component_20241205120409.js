@@ -81,7 +81,7 @@ export const AccountScreen = ({ navigation }) => {
     }
     setSelectedIndex(index); // Update selectedIndex
   };
-
+  
   return (
     <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
       <LinearGradient
@@ -118,29 +118,18 @@ export const AccountScreen = ({ navigation }) => {
               accessoryRight={ArrowIcon}
             />
             <Divider style={styles.divider} />
+            {/* <SectionItem
+              label="Set Language"
+              onPress={() => {}}
+              accessoryLeft="globe-2-outline"
+              accessoryRight={ArrowIcon}
+            /> */}
             <SectionItem
               label="Change Text Size"
-              accessoryLeft="maximize-outline"
-              
+              onPress={() => navigation.navigate("ChangeTextSize")}
+              accessoryLeft="globe-2-outline"
+              accessoryRight={ArrowIcon}
             />
-      <Select
-        selectedIndex={selectedIndex} // Pass the IndexPath object here
-        onSelect={handleSelect} // Handle selection
-        value={
-          selectedIndex.row === 0
-            ? "Reset to Default"
-            : `${fontSizeOptions[selectedIndex.row - 1]}px`
-        }
-      >
-        {extendedFontSizeOptions.map((size, index) =>
-          typeof size === "string" ? (
-            <SelectItem key={index} title={size} />
-          ) : (
-            <SelectItem key={size} title={`${size}px`} />
-          )
-        )}
-      </Select>
-
             <Divider style={styles.divider} />
             <Layout style={styles.sectionItem}>
               <Layout style={styles.leftSide}>

@@ -118,11 +118,15 @@ export const AccountScreen = ({ navigation }) => {
               accessoryRight={ArrowIcon}
             />
             <Divider style={styles.divider} />
-            <SectionItem
+            {/* <SectionItem
               label="Change Text Size"
-              accessoryLeft="maximize-outline"
-              
-            />
+              onPress={() => navigation.navigate("ChangeTextSize")}
+              accessoryLeft="globe-2-outline"
+              accessoryRight={ArrowIcon}
+            /> */}
+            <Text category="h6" style={{ marginBottom: 16 }}>
+        Change Text Size
+      </Text>
       <Select
         selectedIndex={selectedIndex} // Pass the IndexPath object here
         onSelect={handleSelect} // Handle selection
@@ -140,7 +144,7 @@ export const AccountScreen = ({ navigation }) => {
           )
         )}
       </Select>
-
+      <Text style={{ marginTop: 16 }}>Current Text Size: {textSize}px</Text>
             <Divider style={styles.divider} />
             <Layout style={styles.sectionItem}>
               <Layout style={styles.leftSide}>

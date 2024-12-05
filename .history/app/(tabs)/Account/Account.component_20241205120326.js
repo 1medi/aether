@@ -61,27 +61,6 @@ export const AccountScreen = ({ navigation }) => {
     console.log("User logged out");
   };
 
-  const { textSize, setTextSize } = useTextSize();
-
-  // Include "Reset to Default" in fontSizeOptions and initialize selectedIndex
-  const extendedFontSizeOptions = ["Reset to Default", ...fontSizeOptions];
-  const initialIndex = fontSizeOptions.indexOf(textSize);
-  const [selectedIndex, setSelectedIndex] = useState(
-    new IndexPath(initialIndex !== -1 ? initialIndex + 1 : 0)
-  );
-
-  const handleSelect = (index) => {
-    if (index.row === 0) {
-      // Reset to default size
-      setTextSize(defaultTextSize);
-    } else {
-      // Update text size to the selected option
-      const selectedSize = fontSizeOptions[index.row - 1];
-      setTextSize(selectedSize);
-    }
-    setSelectedIndex(index); // Update selectedIndex
-  };
-
   return (
     <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
       <LinearGradient
@@ -118,29 +97,18 @@ export const AccountScreen = ({ navigation }) => {
               accessoryRight={ArrowIcon}
             />
             <Divider style={styles.divider} />
+            {/* <SectionItem
+              label="Set Language"
+              onPress={() => {}}
+              accessoryLeft="globe-2-outline"
+              accessoryRight={ArrowIcon}
+            /> */}
             <SectionItem
               label="Change Text Size"
-              accessoryLeft="maximize-outline"
-              
+              onPress={() => navigation.navigate("ChangeTextSize")}
+              accessoryLeft="globe-2-outline"
+              accessoryRight={ArrowIcon}
             />
-      <Select
-        selectedIndex={selectedIndex} // Pass the IndexPath object here
-        onSelect={handleSelect} // Handle selection
-        value={
-          selectedIndex.row === 0
-            ? "Reset to Default"
-            : `${fontSizeOptions[selectedIndex.row - 1]}px`
-        }
-      >
-        {extendedFontSizeOptions.map((size, index) =>
-          typeof size === "string" ? (
-            <SelectItem key={index} title={size} />
-          ) : (
-            <SelectItem key={size} title={`${size}px`} />
-          )
-        )}
-      </Select>
-
             <Divider style={styles.divider} />
             <Layout style={styles.sectionItem}>
               <Layout style={styles.leftSide}>

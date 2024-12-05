@@ -121,7 +121,7 @@ export const AccountScreen = ({ navigation }) => {
             <SectionItem
               label="Change Text Size"
               accessoryLeft="maximize-outline"
-              
+              accessoryRight={ArrowIcon}
             />
       <Select
         selectedIndex={selectedIndex} // Pass the IndexPath object here
