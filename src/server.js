@@ -72,8 +72,8 @@ app.put('/update/:id', async (req, res) => {
 const { ObjectId } = require('mongodb');
 
 app.delete('/delete/:id', async (req, res) => {
-  console.log("test delete new item");
   const id = req.params.id;
+  console.log("test delete new item", id, req.params);
 
   // Validate the ID format
   if (!ObjectId.isValid(id)) {
