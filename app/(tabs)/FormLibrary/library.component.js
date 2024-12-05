@@ -8,6 +8,7 @@ import {
   Text,
   ScrollView,
   Image,
+  Animated,
 } from "react-native";
 import { BlurView } from "expo-blur";
 import { Button, Layout, Icon } from "@ui-kitten/components";
@@ -27,7 +28,6 @@ import myFormsData from "@/data/MyFormsData";
 import savedProfilesData from "@/data/SavedProfilesData";
 
 export default function LibraryScreen({ navigation, isDarkMode }) {
-  
   const [formData, setFormData] = useState({
     Contract_Number: "",
     Member_ID: "",
@@ -42,22 +42,41 @@ export default function LibraryScreen({ navigation, isDarkMode }) {
     Province: "",
     Postal_Code: "",
   });
-  
+
   const [filteredData, setFilteredData] = useState(savedProfilesData);
 
   const [value, setValue] = useState(null);
   const [visible, setVisible] = useState(false);
-  
+
   const [profileModalVisible, setProfileModalVisible] = useState(false);
-  const [confirmationModalVisible, setConfirmationModalVisible] = useState(false);
+  const [confirmationModalVisible, setConfirmationModalVisible] =
+    useState(false);
   const [selectedProfile, setSelectedProfile] = useState(null);
   const [dontShowAgain, setDontShowAgain] = useState(false);
-  
+
   const handleAutoFill = () => setProfileModalVisible(true);
   const handleSimplify = () => setVisible(true);
   const handleDelete = () => setVisible(true);
   const handleExport = () => setVisible(true);
-  
+
+  const [fadeAnim] = useState(new Animated.Value(0));
+
+  React.useEffect(() => {
+    if (profileModalVisible || confirmationModalVisible) {
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 600,
+        useNativeDriver: true,
+      }).start();
+    } else {
+      Animated.timing(fadeAnim, {
+        toValue: 0,
+        duration: 0,
+        useNativeDriver: true,
+      }).start();
+    }
+  }, [profileModalVisible, confirmationModalVisible]); // Trigger animation when visibility changes
+
   // Utility Bar Icons
   const utilityBarIcons = [
     {
@@ -87,15 +106,15 @@ export default function LibraryScreen({ navigation, isDarkMode }) {
       labelColor: colors.apple.red,
     },
   ];
-  
+
   const confirmAutofill = () => {
     if (!selectedProfile) {
       alert("Please select a profile first!");
       return;
     }
-    
+
     const profileData = UserData.find((item) => item.label === selectedProfile);
-    
+
     if (profileData) {
       setFormData((prevState) => ({
         ...prevState,
@@ -108,11 +127,10 @@ export default function LibraryScreen({ navigation, isDarkMode }) {
       alert("No matching profile found!");
     }
   };
-  
+
   const handleProfileSelect = (profile) => {
     setSelectedProfile(profile);
     setConfirmationModalVisible(true);
-    setProfileModalVisible(false);
   };
 
   return (
@@ -190,11 +208,16 @@ export default function LibraryScreen({ navigation, isDarkMode }) {
         visible={profileModalVisible}
         onRequestClose={() => setProfileModalVisible(false)}
       >
-        <TouchableOpacity
-          style={styles.profileModalOverlay}
-          activeOpacity={1}
+        {/* Animated Blur View with fade-in effect */}
+        <Pressable
+          style={styles.blurOverlay}
           onPressOut={() => setProfileModalVisible(false)}
         >
+          <Animated.View style={[styles.blurOverlay, { opacity: fadeAnim }]}>
+            <BlurView intensity={32} tint="dark" style={styles.blurOverlay} />
+          </Animated.View>
+        </Pressable>
+        <View style={styles.profileModalOverlay}>
           <View style={styles.profileModalContent}>
             <Text style={styles.profileModalText}>
               Select a Profile to Autofill your form with
@@ -216,7 +239,7 @@ export default function LibraryScreen({ navigation, isDarkMode }) {
               </View>
             </ScrollView>
           </View>
-        </TouchableOpacity>
+        </View>
       </Modal>
 
       {/* Autofill Confirmation Modal */}
@@ -226,39 +249,49 @@ export default function LibraryScreen({ navigation, isDarkMode }) {
         visible={confirmationModalVisible}
         onRequestClose={() => setConfirmationModalVisible(false)}
       >
-        <TouchableOpacity
-          style={styles.modalOverlay}
-          activeOpacity={1}
+        {/* Animated Blur View with fade-in effect */}
+        <Pressable
+          style={styles.blurOverlay}
           onPressOut={() => setConfirmationModalVisible(false)}
         >
+          <Animated.View style={[styles.blurOverlay, { opacity: fadeAnim }]}>
+            <BlurView intensity={32} tint="dark" style={styles.blurOverlay} />
+          </Animated.View>
+        </Pressable>
+        <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <Text style={styles.modalText}>
-              Would you like to autofill the form with the selected profile's data?
+              {selectedProfile
+                ? `Autofill form with ${selectedProfile.personalInfo.fullName}'s information?`
+                : "Autofill form with selected profile's data?"}
             </Text>
-            <View style={styles.modalButtons}>
-              <Button onPress={confirmAutofill} style={styles.modalButton}>
-                Yes
-              </Button>
-              <Button
-                onPress={() => setConfirmationModalVisible(false)}
-                style={styles.modalButton}
-                appearance="ghost"
+            <Text style={styles.modalTextDescription}>
+              Make sure to review the form for accuracy.
+            </Text>
+            <View style={styles.modalActions}>
+              <TouchableOpacity
+                onPressOut={() => setConfirmationModalVisible(false)}
+                style={styles.cancelButton}
               >
-                No
-              </Button>
+                <Icon
+                  name="close-outline"
+                  style={{
+                    width: 24,
+                    height: 24,
+                    tintColor: colors.apple.black,
+                  }}
+                />
+                <Text style={styles.buttonText}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.startButton}
+                onPress={confirmAutofill}
+              >
+                <Text style={styles.startButtonText}>Autofill</Text>
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity
-              style={styles.dontShowAgainContainer}
-              onPress={() => setDontShowAgain(!dontShowAgain)}
-            >
-              <Icon
-                name={dontShowAgain ? "checkmark-square-2" : "square-outline"}
-                style={styles.dontShowAgainIcon}
-              />
-              <Text style={styles.dontShowAgainText}>Don't show again</Text>
-            </TouchableOpacity>
           </View>
-        </TouchableOpacity>
+        </View>
       </Modal>
     </>
   );
@@ -382,34 +415,48 @@ const styles = StyleSheet.create({
     height: 575,
   },
 
+  blurOverlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    // backgroundColor: colors.apple.black05,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    height: "100%",
+  },
+
   // Profile Modal
   profileModalOverlay: {
     flex: 1,
     justifyContent: "flex-end",
     alignItems: "flex-end",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   profileModalContent: {
     position: "absolute",
     bottom: 0,
     flexDirection: "column",
     width: "100%",
-    padding: 12,
+    // padding: 12,
     paddingTop: 24,
     backgroundColor: colors.apple.white,
-    borderTopLeftRadius: 32,
-    borderTopRightRadius: 32,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
     // alignItems: "center",
   },
   profileModalText: {
     ...typography(true).h2Med,
     marginBottom: 24,
-    textAlign: "center",
+    paddingHorizontal: 16,
+    // textAlign: "center",
   },
   profileContainer: {
     backgroundColor: "transparent",
     flexDirection: "row",
     flexWrap: "wrap",
+    padding: 12,
   },
   profileCardContainer: {
     width: "50%",
@@ -420,22 +467,29 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContent: {
     width: "80%",
-    padding: 20,
-    height: 200,
-    backgroundColor: colors.apple.black,
-    borderRadius: 10,
-    alignItems: "center",
-    justifyContent: "center",
-    alignSelf: "center",
+    // padding: 16,
+    minHeight: 208,
+    backgroundColor: colors.apple.white,
+    borderRadius: 16,
+    // alignItems: "center",
+    justifyContent: "space-between",
   },
   modalText: {
-    fontSize: 18,
-    marginBottom: 20,
-    textAlign: "center",
+    ...typography(true).h2Med,
+    paddingTop: 16,
+    paddingHorizontal: 16,
+    marginBottom: 8,
+    // textAlign: "center",
+  },
+  modalTextDescription: {
+    ...typography(true).body,
+    paddingHorizontal: 16,
+    color: colors.apple.secondaryText,
+    // textAlign: "center",
+    marginBottom: 16,
   },
   modalButtons: {
     flexDirection: "row",
@@ -445,6 +499,52 @@ const styles = StyleSheet.create({
   modalButton: {
     flex: 1,
     marginHorizontal: 5,
+  },
+
+  // Modal Actions
+  modalActions: {
+    flexDirection: "row",
+    height: 56,
+    borderTopWidth: 1,
+    borderColor: colors.apple.lightStroke,
+  },
+  cancelButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    borderBottomLeftRadius: 32,
+    width: "50%",
+    flexDirection: "row",
+    gap: 8,
+    borderRightWidth: 1,
+    borderColor: colors.apple.lightStroke,
+  },
+  startButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    borderBottomRightRadius: 32,
+    width: "50%",
+  },
+  buttonText: {
+    ...typography(true).bodyMed,
+    color: colors.apple.black,
+    textAlign: "center",
+  },
+  startButtonText: {
+    ...typography(true).bodyBold,
+    color: colors.light.blue,
+    textAlign: "center",
+  },
+
+  dontShowAgainContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 24,
+    gap: 8,
+  },
+  dontShowAgainIcon: {
+    width: 24,
+    height: 24,
+    fill: colors.apple.black,
   },
 
   icon: {
