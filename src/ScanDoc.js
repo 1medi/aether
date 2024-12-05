@@ -26,6 +26,7 @@ const ScanDocScreen = ({ navigation }) => {
   const sheetRef = useRef(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [isAnalyzed, setIsAnalyzed] = useState(false);
+  const [paraphrases, setParaphrases] = useState([]);
 
 
   const requestCameraPermissions = async () => {
@@ -58,11 +59,38 @@ const ScanDocScreen = ({ navigation }) => {
     }
   };
 
+  const saveParaphrase = async (inputText, paraphrasedText) => {
+    console.log("saveParaphrase called with:", inputText, paraphrasedText); // Debug
+  
+    try {
+      const response = await fetch("https://aether-wnq5.onrender.com/store", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          paraphrasedText: paraphrasedText, // Use the correct variable
+        }),
+      });
+  
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Error response from server:", errorText);
+        throw new Error(`Server error: ${response.status}`);
+      }
+  
+      const data = await response.json();
+      console.log("Paraphrase saved successfully:", data);
+    } catch (error) {
+      console.error("Error in saveParaphrase:", error);
+    }
+  };
+
   const analyzeAndParaphrase = async () => {
     if (!imageUri) {
       alert("Please upload an image first!");
       return;
     }
+
+    setLoading(true);
 
     try {
       const googleAPIKey = process.env.EXPO_PUBLIC_GOOGLE_KEY;
@@ -97,6 +125,7 @@ const ScanDocScreen = ({ navigation }) => {
         detectedText = apiResponse.data.responses[0].fullTextAnnotation.text;
       } else {
         alert("No text detected in the image.");
+        setLoading(false);
         return;
       }
 
@@ -113,20 +142,21 @@ const ScanDocScreen = ({ navigation }) => {
               {
                 role: "system",
                 content: `
-                You are a paraphraser for professional use. Rewrite the following content according to these guidelines:
+                  You are a paraphraser for professional use. Rewrite the following content according to these guidelines:
                   
-                1. Summarize and Simplify: Explain only what the document says, as if explaining to a 10-year-old. Provide one succinct sentence for each subject.
-                
-                2. Formatting Rules:
-                   - Use **bold** for headers.
-                   - Use *italics* for emphasis.
-                   - Indent each paragraph.
-                   - Avoid any markup or special characters such as "**".
-                
-                Input Content:
-                ${chunk}
-                
-                Return the results in this parsable json form [{"Title":string, "description":string}]`,
+                  1. Summarize and Simplify: Explain only what the document says, as if explaining to a 10-year-old. Provide one succinct sentence for each subject.
+                  
+                  2. Formatting Rules:
+                     - Use **bold** for headers.
+                     - Use *italics* for emphasis.
+                     - Indent each paragraph.
+                     - Avoid any markup or special characters such as "**".
+                  
+                  Input Content:
+                  ${chunk}
+                  
+                  Return the results in this parsable json form [{"Title":string, "description":string}]
+                `,
               },
             ],
             max_tokens: 4096,
@@ -147,6 +177,9 @@ const ScanDocScreen = ({ navigation }) => {
 
       setParaphrasedText(paraphrasedContent);
 
+      // Save the paraphrased content to your backend
+      await saveParaphrase(detectedText, JSON.stringify(paraphrasedContent));
+
       setIsSheetOpen(true);
       setIsAnalyzed(true);
       sheetRef.current?.snapToIndex(0);
@@ -154,9 +187,10 @@ const ScanDocScreen = ({ navigation }) => {
       console.error("Error during analysis or paraphrasing:", error);
       alert("An error occurred. Please try again.");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   };
+
 
   const handleReset = () => {
     setImageUri(null);
@@ -219,11 +253,11 @@ const ScanDocScreen = ({ navigation }) => {
         </TouchableOpacity>
       </Layout>
 
-      {isSheetOpen && (
-        <BottomSheetModal
-          sheetRef={sheetRef}
-          paraphrasedText={paraphrasedText}
-        />
+      {isSheetOpen && ( 
+          <BottomSheetModal
+            sheetRef={sheetRef}
+            paraphrasedText={paraphrasedText}
+          />
       )}
     </SafeAreaView>
   );

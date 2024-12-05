@@ -85,27 +85,30 @@ const UploadDocScreen = ({ navigation }) => {
   };
 
   const saveParaphrase = async (inputText, paraphrasedText) => {
+    console.log("saveParaphrase called with:", inputText, paraphrasedText); // Debug
+  
     try {
-      const response = await fetch("http://0.0.0.0:8888/store", {
+      const response = await fetch("https://aether-wnq5.onrender.com/store", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ inputText, paraphrasedText }),
+        body: JSON.stringify({
+          paraphrasedText: paraphrasedText, // Use the correct variable
+        }),
       });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        console.log("Paraphrase saved successfully:", data);
-        alert("Paraphrase saved!");
-      } else {
-        console.error("Error saving paraphrase:", data.error);
-        alert(`Error: ${data.error}`);
+  
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Error response from server:", errorText);
+        throw new Error(`Server error: ${response.status}`);
       }
+  
+      const data = await response.json();
+      console.log("Paraphrase saved successfully:", data);
     } catch (error) {
-      console.error("Error saving paraphrase:", error);
-      alert("Failed to save paraphrase. Please try again.");
+      console.error("Error in saveParaphrase:", error);
     }
   };
+  
 
   const analyzeAndParaphrase = async () => {
     if (!imageUri) {
@@ -214,6 +217,7 @@ const UploadDocScreen = ({ navigation }) => {
     }
   };
 
+
   const handleReset = () => {
     setImageUri(null);
     setParaphrasedText("");
@@ -273,12 +277,10 @@ const UploadDocScreen = ({ navigation }) => {
       </Layout>
 
       {isSheetOpen && (
-        <ErrorBoundary>
           <BottomSheetModal
             sheetRef={sheetRef}
             paraphrasedText={paraphrasedText}
           />
-        </ErrorBoundary>
       )}
     </SafeAreaView>
   );

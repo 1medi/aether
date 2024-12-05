@@ -47,14 +47,33 @@ export default function BottomModal({ paraphrasedText }) {
 
   console.log("Initial data:", data);
 
-  const handleDelete = (id) => {
-    console.log("Preparing to delete item with ID:", id);
-    setData((prevData) => {
-      const newData = prevData.filter((item) => item.id !== id);
-      console.log("Updated data after deletion:", newData);
-      return newData;
-    });
+  const handleDelete = async (id) => {
+    console.log("Deleting paraphrase with ID:", id); // Log the ID being passed
+  
+    // Validate ID format
+    if (!id || id.length !== 24 || !/^[0-9a-fA-F]{24}$/.test(id)) {
+      console.error("Invalid ID format. Must be a 24-character hex string.");
+      return;
+    }
+  
+    try {
+      const response = await fetch(`https://aether-wnq5.onrender.com/delete/${id}`, {
+        method: "DELETE",
+      });
+  
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Error response from server:", errorText);
+        throw new Error(`Server error: ${response.status}`);
+      }
+  
+      setData((prevData) => prevData.filter((item) => item._id !== id));
+      console.log("Deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting:", error);
+    }
   };
+  
 
   const ListItem = React.memo(({ item }) => {
     const translateX = useSharedValue(0);
