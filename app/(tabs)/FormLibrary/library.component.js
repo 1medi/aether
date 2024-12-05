@@ -44,15 +44,13 @@ export default function LibraryScreen({ navigation, isDarkMode }) {
   });
 
   const [filteredData, setFilteredData] = useState(savedProfilesData);
-
-  const [value, setValue] = useState(null);
   const [visible, setVisible] = useState(false);
+  const [selectedProfile, setSelectedProfile] = useState(null);
+  const [dontShowAgain, setDontShowAgain] = useState(false);
 
   const [profileModalVisible, setProfileModalVisible] = useState(false);
   const [confirmationModalVisible, setConfirmationModalVisible] =
     useState(false);
-  const [selectedProfile, setSelectedProfile] = useState(null);
-  const [dontShowAgain, setDontShowAgain] = useState(false);
 
   const handleAutoFill = () => setProfileModalVisible(true);
   const handleSimplify = () => setVisible(true);
@@ -106,33 +104,40 @@ export default function LibraryScreen({ navigation, isDarkMode }) {
       labelColor: colors.apple.red,
     },
   ];
-
+  
+  const handleProfileSelect = (profile) => {
+    setConfirmationModalVisible(true);
+    setSelectedProfile(profile);
+  };
   const confirmAutofill = () => {
     if (!selectedProfile) {
       alert("Please select a profile first!");
       return;
     }
-
-    const profileData = UserData.find((item) => item.label === selectedProfile);
-
+    
+    const profileData = UserData.find((item) => item.label === selectedProfile.personalInfo.fullName);
+    
     if (profileData) {
       setFormData((prevState) => ({
         ...prevState,
         ...profileData.value,
       }));
-      setConfirmationModalVisible(false);
-      setProfileModalVisible(false);
-      alert("Form has been autofilled!");
+      setTimeout(() => {
+        setConfirmationModalVisible(false);
+        setTimeout(() => {
+          setProfileModalVisible(false);
+          setTimeout(() => {
+            alert("Form has been autofilled!");
+          }, 300);
+        }, 300);
+      }, 1000);
     } else {
       alert("No matching profile found!");
     }
   };
-
-  const handleProfileSelect = (profile) => {
-    setSelectedProfile(profile);
-    setConfirmationModalVisible(true);
-  };
-
+  
+  
+  
   return (
     <>
       <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
@@ -450,7 +455,7 @@ const styles = StyleSheet.create({
     ...typography(true).h2Med,
     marginBottom: 24,
     paddingHorizontal: 16,
-    // textAlign: "center",
+    textAlign: "center",
   },
   profileContainer: {
     backgroundColor: "transparent",
@@ -482,13 +487,13 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingHorizontal: 16,
     marginBottom: 8,
-    // textAlign: "center",
+    textAlign: "center",
   },
   modalTextDescription: {
     ...typography(true).body,
     paddingHorizontal: 16,
     color: colors.apple.secondaryText,
-    // textAlign: "center",
+    textAlign: "center",
     marginBottom: 16,
   },
   modalButtons: {
