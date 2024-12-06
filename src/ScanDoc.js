@@ -401,6 +401,7 @@ const getStyles = (isDarkMode) => ({
     backgroundColor: "rgba(255, 255, 255, 0.5)",
   },
 
+  // Scan Container
   scanContainer: {
     justifyContent: "center",
     alignItems: "center",
@@ -409,8 +410,7 @@ const getStyles = (isDarkMode) => ({
     borderRadius: 16,
     borderColor: colors.apple.hardStroke,
     height: 200,
-    marginTop: 24,
-    marginBottom: 48,
+    marginVertical: 24,
   },
   scanDescription: {
     ...typography(true).footnote,
