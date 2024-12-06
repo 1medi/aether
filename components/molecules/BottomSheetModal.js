@@ -95,7 +95,7 @@ export default function BottomModal({ paraphrasedText }) {
     return (
       <GestureDetector gesture={panGesture}>
         <Animated.View style={[styles.promptOutput, animatedStyle]}>
-          <Text style={{ fontWeight: "bold", color: "blue" }}>{item.Title}</Text>
+          <Text style={{ fontWeight: "bold", color: "blue", fontSize: 28 }}>{item.Title}</Text>
           <Text>{item.description}</Text>
         </Animated.View>
       </GestureDetector>
@@ -110,7 +110,7 @@ export default function BottomModal({ paraphrasedText }) {
       enablePanDownToClose={true}
     >
       <BottomSheetView style={[styles.container, { flex: 1 }]}>
-        <Text style={styles.debug}>Modal is rendering</Text>
+        <Text style={styles.debug}>Results</Text>
         {data.length === 0 ? (
           <View style={{ alignItems: "center" }}>
             <Text style={styles.placeholder}>No items to display</Text>
@@ -135,6 +135,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    borderColor: "red",
+    borderWidth: 20
   },
   promptOutput: {
     backgroundColor: "#f9f9f9",
@@ -145,7 +147,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   debug: {
-    fontSize: 18,
+    fontSize: 32,
     fontWeight: "bold",
     marginBottom: 10,
     color: "green",
