@@ -26,8 +26,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'none',
     alignItems: 'center',
     justifyContent: 'center',
-    width: 50,
-    height: 50,
+    width: 75,
+    height: 75,
   },
   buttonContainer: {
     paddingTop: 20,

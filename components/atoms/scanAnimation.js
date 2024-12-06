@@ -11,8 +11,8 @@ export default function ScanAnimation () {
         autoPlay
         ref={animation}
         style={{
-          width: 50,
-          height: 50,
+          width: 75,
+          height: 75,
           backgroundColor: 'none',
         }}
         source={require("@/assets/animations/scanAnimation.json")}
