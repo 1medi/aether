@@ -145,6 +145,7 @@ const UploadDocScreen = ({ navigation }) => {
           },
         ],
       };
+  
       // Step 2: Use Google Vision API to detect text
       const apiResponse = await axios.post(apiURL, requestData, {
         headers: { "Content-Type": "application/json" },
@@ -168,13 +169,11 @@ const UploadDocScreen = ({ navigation }) => {
         const paraphraseResponse = await axios.post(
           "https://api.openai.com/v1/chat/completions",
           {
-            method: "POST",
-            body: JSON.stringify({
-              model: "gpt-4o-mini",
-              messages: [
-                {
-                  role: "system",
-                  content: `
+            model: "gpt-4o-mini",
+            messages: [
+              {
+                role: "system",
+                content: `
                   You are a paraphraser for professional use. Rewrite the following content according to these guidelines:
                   
                   1. Summarize and Simplify: Explain only what the document says, as if explaining to a 10-year-old. Provide one succinct sentence for each subject.
