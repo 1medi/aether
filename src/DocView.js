@@ -331,7 +331,7 @@ export default function DocumentView({ formData, setFormData, }) {
                     <TextInput
                       style={[
                         styles.textInput,
-                        { top: 340, left: 19, width: 96, height: 15 },
+                        { top: 367, left: 19, width: 96, height: 15 },
                       ]}
                       value={formData.Claim_First_Name}
                       onChangeText={(text) =>
@@ -341,7 +341,7 @@ export default function DocumentView({ formData, setFormData, }) {
                     <TextInput
                       style={[
                         styles.textInput,
-                        { top: 340, left: 115, width: 74, height: 15 },
+                        { top: 367, left: 114, width: 75, height: 15 },
                       ]}
                       value={formData.Claim_Last_Name}
                       onChangeText={(text) =>
@@ -351,7 +351,7 @@ export default function DocumentView({ formData, setFormData, }) {
                     <TextInput
                       style={[
                         styles.textInput,
-                        { top: 340, left: 189, width: 46, height: 15 },
+                        { top: 367, left: 189, width: 46, height: 15 },
                       ]}
                       value={formData.Claim_DOB}
                       onChangeText={(text) =>
@@ -361,23 +361,23 @@ export default function DocumentView({ formData, setFormData, }) {
                     <TextInput
                       style={[
                         styles.textInput,
-                        { top: 340, left: 234, width: 46, height: 15 },
+                        { top: 367, left: 234, width: 46, height: 15 },
                       ]}
                       value={formData.Claim_Relationship}
                       onChangeText={(text) =>
                         setFormData({ ...formData, Claim_Relationship: text })
                       }
                     />
-                    <View style={{ position: "absolute", top: 340, left: 271 }}>
+                    <View style={{ position: "absolute", top: 367, left: 271 }}>
                       <StatusRadio />
                     </View>
-                    <View style={{ position: "absolute", top: 340, left: 291 }}>
+                    <View style={{ position: "absolute", top: 367, left: 291 }}>
                       <StatusRadio />
                     </View>
                     <TextInput
                       style={[
                         styles.textInput,
-                        { top: 340, left: 318, width: 56, height: 15 },
+                        { top: 367, left: 318, width: 56, height: 15 },
                       ]}
                       value={formData.Claim_Amount}
                       onChangeText={(text) =>
@@ -390,7 +390,7 @@ export default function DocumentView({ formData, setFormData, }) {
                     <TextInput
                       style={[
                         styles.textInput,
-                        { top: 354, left: 19, width: 96, height: 15 },
+                        { top: 381, left: 19, width: 96, height: 15 },
                       ]}
                       value={formData.Claim_First_Name2}
                       onChangeText={(text) =>
@@ -400,7 +400,7 @@ export default function DocumentView({ formData, setFormData, }) {
                     <TextInput
                       style={[
                         styles.textInput,
-                        { top: 354, left: 114, width: 75, height: 15 },
+                        { top: 381, left: 114, width: 75, height: 15 },
                       ]}
                       value={formData.Claim_Last_Name2}
                       onChangeText={(text) =>
@@ -410,7 +410,7 @@ export default function DocumentView({ formData, setFormData, }) {
                     <TextInput
                       style={[
                         styles.textInput,
-                        { top: 354, left: 189, width: 46, height: 15 },
+                        { top: 381, left: 189, width: 46, height: 15 },
                       ]}
                       value={formData.Claim_DOB2}
                       onChangeText={(text) =>
@@ -420,7 +420,7 @@ export default function DocumentView({ formData, setFormData, }) {
                     <TextInput
                       style={[
                         styles.textInput,
-                        { top: 354, left: 234, width: 46, height: 15 },
+                        { top: 381, left: 234, width: 46, height: 15 },
                       ]}
                       value={formData.Claim_Relationship2}
                       onChangeText={(text) =>
@@ -430,16 +430,16 @@ export default function DocumentView({ formData, setFormData, }) {
                         })
                       }
                     />
-                    <View style={{ position: "absolute", top: 354, left: 271 }}>
+                    <View style={{ position: "absolute", top: 381, left: 271 }}>
                       <StatusRadio />
                     </View>
-                    <View style={{ position: "absolute", top: 354, left: 291 }}>
+                    <View style={{ position: "absolute", top: 381, left: 291 }}>
                       <StatusRadio />
                     </View>
                     <TextInput
                       style={[
                         styles.textInput,
-                        { top: 354, left: 318, width: 56, height: 15 },
+                        { top: 381, left: 318, width: 56, height: 15 },
                       ]}
                       value={formData.Claim_Amount2}
                       onChangeText={(text) =>
@@ -452,7 +452,7 @@ export default function DocumentView({ formData, setFormData, }) {
                     <TextInput
                       style={[
                         styles.textInput,
-                        { top: 368, left: 19, width: 96, height: 15 },
+                        { top: 395, left: 19, width: 96, height: 15 },
                       ]}
                       value={formData.Claim_First_Name3}
                       onChangeText={(text) =>
@@ -462,7 +462,7 @@ export default function DocumentView({ formData, setFormData, }) {
                     <TextInput
                       style={[
                         styles.textInput,
-                        { top: 368, left: 114, width: 76, height: 15 },
+                        { top: 395, left: 114, width: 76, height: 15 },
                       ]}
                       value={formData.Claim_Last_Name3}
                       onChangeText={(text) =>
@@ -472,7 +472,7 @@ export default function DocumentView({ formData, setFormData, }) {
                     <TextInput
                       style={[
                         styles.textInput,
-                        { top: 368, left: 189, width: 46, height: 15 },
+                        { top: 395, left: 189, width: 46, height: 15 },
                       ]}
                       value={formData.Claim_DOB3}
                       onChangeText={(text) =>
@@ -482,7 +482,7 @@ export default function DocumentView({ formData, setFormData, }) {
                     <TextInput
                       style={[
                         styles.textInput,
-                        { top: 368, left: 234, width: 46, height: 15 },
+                        { top: 395, left: 234, width: 46, height: 15 },
                       ]}
                       value={formData.Claim_Relationship3}
                       onChangeText={(text) =>
@@ -492,16 +492,16 @@ export default function DocumentView({ formData, setFormData, }) {
                         })
                       }
                     />
-                    <View style={{ position: "absolute", top: 368, left: 271 }}>
+                    <View style={{ position: "absolute", top: 395, left: 271 }}>
                       <StatusRadio />
                     </View>
-                    <View style={{ position: "absolute", top: 368, left: 291 }}>
+                    <View style={{ position: "absolute", top: 395, left: 291 }}>
                       <StatusRadio />
                     </View>
                     <TextInput
                       style={[
                         styles.textInput,
-                        { top: 368, left: 318, width: 56, height: 15 },
+                        { top: 395, left: 318, width: 56, height: 15 },
                       ]}
                       value={formData.Claim_Amount3}
                       onChangeText={(text) =>
@@ -514,7 +514,7 @@ export default function DocumentView({ formData, setFormData, }) {
                     <TextInput
                       style={[
                         styles.textInput,
-                        { top: 382, left: 19, width: 96, height: 15 },
+                        { top: 409, left: 19, width: 96, height: 15 },
                       ]}
                       value={formData.Claim_First_Name4}
                       onChangeText={(text) =>
@@ -524,7 +524,7 @@ export default function DocumentView({ formData, setFormData, }) {
                     <TextInput
                       style={[
                         styles.textInput,
-                        { top: 382, left: 114, width: 76, height: 15 },
+                        { top: 409, left: 114, width: 76, height: 15 },
                       ]}
                       value={formData.Claim_Last_Name4}
                       onChangeText={(text) =>
@@ -534,7 +534,7 @@ export default function DocumentView({ formData, setFormData, }) {
                     <TextInput
                       style={[
                         styles.textInput,
-                        { top: 382, left: 189, width: 46, height: 15 },
+                        { top: 409, left: 189, width: 46, height: 15 },
                       ]}
                       value={formData.Claim_DOB4}
                       onChangeText={(text) =>
@@ -544,7 +544,7 @@ export default function DocumentView({ formData, setFormData, }) {
                     <TextInput
                       style={[
                         styles.textInput,
-                        { top: 382, left: 234, width: 46, height: 15 },
+                        { top: 409, left: 234, width: 46, height: 15 },
                       ]}
                       value={formData.Claim_Relationship4}
                       onChangeText={(text) =>
@@ -554,16 +554,16 @@ export default function DocumentView({ formData, setFormData, }) {
                         })
                       }
                     />
-                    <View style={{ position: "absolute", top: 382, left: 271 }}>
+                    <View style={{ position: "absolute", top: 409, left: 271 }}>
                       <StatusRadio />
                     </View>
-                    <View style={{ position: "absolute", top: 382, left: 291 }}>
+                    <View style={{ position: "absolute", top: 409, left: 291 }}>
                       <StatusRadio />
                     </View>
                     <TextInput
                       style={[
                         styles.textInput,
-                        { top: 382, left: 318, width: 56, height: 15 },
+                        { top: 409, left: 318, width: 56, height: 15 },
                       ]}
                       value={formData.Claim_Amount4}
                       onChangeText={(text) =>
@@ -573,7 +573,7 @@ export default function DocumentView({ formData, setFormData, }) {
                     <TextInput
                       style={[
                         styles.textInput,
-                        { top: 382, left: 318, width: 56, height: 15 },
+                        { top: 423, left: 318, width: 56, height: 15 },
                       ]}
                       value={formData.Total_Claim}
                       onChangeText={(text) =>
@@ -583,13 +583,13 @@ export default function DocumentView({ formData, setFormData, }) {
                   </View>
 
                   <View>
-                    <View style={{ position: "absolute", top: 415, left: 143 }}>
+                    <View style={{ position: "absolute", top: 442, left: 143 }}>
                       <AdditionalMember />
                     </View>
                     <TextInput
                       style={[
                         styles.textInput,
-                        { top: 416, left: 231, width: 58, height: 15 },
+                        { top: 443, left: 231, width: 58, height: 15 },
                       ]}
                       value={formData.Claim_Date}
                       onChangeText={(text) =>
@@ -599,23 +599,23 @@ export default function DocumentView({ formData, setFormData, }) {
                     <TextInput
                       style={[
                         styles.textInput,
-                        { top: 416, left: 288, width: 86, height: 15 },
+                        { top: 443, left: 289, width: 85, height: 15 },
                       ]}
                       value={formData.Itnl_Expense}
                       onChangeText={(text) =>
                         setFormData({ ...formData, Itnl_Expense: text })
                       }
                     />
-                    <View style={{ position: "absolute", top: 443, left: 268 }}>
+                    <View style={{ position: "absolute", top: 470, left: 268 }}>
                       <AdditionalMember />
                     </View>
-                    <View style={{ position: "absolute", top: 450, left: 268 }}>
+                    <View style={{ position: "absolute", top: 477, left: 268 }}>
                       <AdditionalMember />
                     </View>
-                    <View style={{ position: "absolute", top: 458, left: 268 }}>
+                    <View style={{ position: "absolute", top: 485, left: 268 }}>
                       <AdditionalMember />
                     </View>
-                    <View style={{ position: "absolute", top: 465, left: 268 }}>
+                    <View style={{ position: "absolute", top: 491, left: 268 }}>
                       <AdditionalMember />
                     </View>
                   </View>
@@ -631,7 +631,7 @@ export default function DocumentView({ formData, setFormData, }) {
                   <TextInput
                     style={[
                       styles.textInput,
-                      { top: 389, left: 20, width: 279, height: 18 },
+                      { top: 238, left: 20, width: 279, height: 17 },
                     ]}
                     value={formData.Signature}
                     onChangeText={(text) =>
@@ -641,7 +641,7 @@ export default function DocumentView({ formData, setFormData, }) {
                   <TextInput
                     style={[
                       styles.textInput,
-                      { top: 389, left: 298, width: 75, height: 18 },
+                      { top: 238, left: 298, width: 75, height: 17 },
                     ]}
                     value={formData.Signature_Date}
                     onChangeText={(text) =>

@@ -182,7 +182,7 @@ const ScanDocScreen = ({ navigation }) => {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              model: "gpt-4o",
+              model: "gpt-4o-mini",
               messages: [
                 {
                   role: "system",
@@ -199,6 +199,7 @@ const ScanDocScreen = ({ navigation }) => {
                     ${chunk}
                     
                     Return the results in this parsable json form [{"Title":string, "description":string}]
+                    
                   `,
                 },
               ],
