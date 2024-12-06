@@ -18,6 +18,7 @@ import Animated, {
   withSpring,
   runOnJS
 } from "react-native-reanimated";
+import { colors } from "@/css/globals";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
@@ -95,7 +96,7 @@ export default function BottomModal({ paraphrasedText }) {
     return (
       <GestureDetector gesture={panGesture}>
         <Animated.View style={[styles.promptOutput, animatedStyle]}>
-          <Text style={{ fontWeight: "bold", color: "blue", fontSize: 28 }}>{item.Title}</Text>
+          <Text style={{ fontWeight: "bold", color: colors.light.blue, fontSize: 28 }}>{item.Title}</Text>
           <Text>{item.description}</Text>
         </Animated.View>
       </GestureDetector>
@@ -135,11 +136,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    borderColor: "red",
-    borderWidth: 20
   },
   promptOutput: {
-    backgroundColor: "#f9f9f9",
+    backgroundColor: colors.light.lightStroke,
     padding: 20,
     marginVertical: 10,
     borderRadius: 10,
@@ -150,7 +149,7 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: "bold",
     marginBottom: 10,
-    color: "green",
+    color: colors.apple.green,
   },
   placeholder: {
     textAlign: "center",

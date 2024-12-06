@@ -1,7 +1,7 @@
 const savedProfilesData = [
   {
     personalInfo: {
-      fullName: "Chris Topher",
+      fullName: "Madi Tabon",
       phoneNumber: "123-456-7890",
       dateOfBirth: "1990-01-15",
       gender: "Male",

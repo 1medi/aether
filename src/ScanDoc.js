@@ -7,6 +7,7 @@ import {
   ScrollView,
   TouchableOpacity,
   View,
+  Modal
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
@@ -14,7 +15,6 @@ import { Button, Layout, Icon } from "@ui-kitten/components";
 import Header from "@/components/header/Header";
 import { colors, typography } from "@/css/globals";
 import axios from "axios";
-import Modal from "react-native-modal";
 import { useDarkMode } from "@/app/(tabs)/context/DarkModeContext";
 import ScanAnimation from "@/components/atoms/scanAnimation";
 import BottomSheetModal from "@/components/molecules/BottomSheetModal";
@@ -67,6 +67,13 @@ const ScanDocScreen = ({ navigation }) => {
   };
 
   const saveParaphrase = async (paraphrasedContent) => {
+    const controller = new AbortController();
+    const timeout = 20000; // Timeout in milliseconds
+
+    const timeoutId = setTimeout(() => {
+      controller.abort();
+    }, timeout);
+
     try {
       const response = await fetch("https://aether-wnq5.onrender.com/store", {
         method: "POST",
@@ -74,7 +81,10 @@ const ScanDocScreen = ({ navigation }) => {
         body: JSON.stringify({
           paraphrasedText: JSON.stringify(paraphrasedContent),
         }),
+        signal: controller.signal, // Attach the AbortController signal
       });
+
+      clearTimeout(timeoutId); // Clear the timeout once the request completes
 
       const data = await response.json();
 
@@ -89,8 +99,15 @@ const ScanDocScreen = ({ navigation }) => {
         return null;
       }
     } catch (error) {
-      console.error("Error saving paraphrase:", error);
-      alert("Failed to save paraphrase. Please try again.");
+      clearTimeout(timeoutId); // Ensure timeout is cleared even if an error occurs
+
+      if (error.name === "AbortError") {
+        console.error("Request timed out");
+        alert("Request timed out. Please try again.");
+      } else {
+        console.error("Error saving paraphrase:", error);
+        alert("Failed to save paraphrase. Please try again.");
+      }
       return null;
     }
   };
@@ -100,23 +117,23 @@ const ScanDocScreen = ({ navigation }) => {
       alert("Please upload an image first!");
       return;
     }
-  
+
     setLoading(true);
-  
+
     try {
       const googleAPIKey = process.env.EXPO_PUBLIC_GOOGLE_KEY;
       const apiURL = `https://vision.googleapis.com/v1/images:annotate?key=${googleAPIKey}`;
-  
+
       // Step 1: Convert image to base64 and clean the data
       const base64ImageData = await FileSystem.readAsStringAsync(imageUri, {
         encoding: FileSystem.EncodingType.Base64,
       });
-  
+
       const cleanedBase64ImageData = base64ImageData.replace(
         /^data:image\/\w+;base64,/,
         ""
       );
-  
+
       const requestData = {
         requests: [
           {
@@ -127,80 +144,94 @@ const ScanDocScreen = ({ navigation }) => {
           },
         ],
       };
-  
+
       // Step 2: Use Google Vision API to detect text
-      const apiResponse = await axios.post(apiURL, requestData, {
+      const apiResponse = await fetch(apiURL, {
+        method: "POST",
         headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(requestData),
       });
-  
+
+      if (!apiResponse.ok) {
+        throw new Error("Failed to fetch data from Google Vision API");
+      }
+
+      const apiResponseData = await apiResponse.json();
+
       let detectedText = "";
-      if (apiResponse.data.responses[0].fullTextAnnotation) {
-        detectedText = apiResponse.data.responses[0].fullTextAnnotation.text;
+      if (apiResponseData.responses[0].fullTextAnnotation) {
+        detectedText = apiResponseData.responses[0].fullTextAnnotation.text;
       } else {
         alert("No text detected in the image.");
         setLoading(false);
         return;
       }
-  
+
       // Step 3: Split detected text into smaller chunks
       const chunks = detectedText.match(/[\s\S]{1,1500}/g) || [];
       let paraphrasedContent = [];
-  
+
       for (const chunk of chunks) {
         // Step 4: Call OpenAI API for paraphrasing each chunk
-        const paraphraseResponse = await axios.post(
+        const paraphraseResponse = await fetch(
           "https://api.openai.com/v1/chat/completions",
           {
-            model: "gpt-4o-mini",
-            messages: [
-              {
-                role: "system",
-                content: `
-                  You are a paraphraser for professional use. Rewrite the following content according to these guidelines:
-                  
-                  1. Summarize and Simplify: Explain only what the document says, as if explaining to a 10-year-old. Provide one succinct sentence for each subject.
-                  
-                  2. Formatting Rules:
-                     - Use **bold** for headers.
-                     - Use *italics* for emphasis.
-                     - Indent each paragraph.
-                     - Avoid any markup or special characters such as "**".
-                  
-                  Input Content:
-                  ${chunk}
-                  
-                  Return the results in this parsable json form [{"Title":string, "description":string}]
-                `,
-              },
-            ],
-            max_tokens: 4096,
-          },
-          {
+            method: "POST",
             headers: {
               Authorization: `Bearer ${process.env.EXPO_PUBLIC_OPENAI_API_KEY}`,
               "Content-Type": "application/json",
             },
+            body: JSON.stringify({
+              model: "gpt-4o-mini",
+              messages: [
+                {
+                  role: "system",
+                  content: `
+                    You are a paraphraser for professional use. Rewrite the following content according to these guidelines:
+                    
+                    1. Summarize and Simplify: Explain only what the document says, as if explaining to a 10-year-old. Provide one succinct sentence for each subject.
+                    
+                    2. Formatting Rules:
+  
+                       - Avoid any markup or special characters such as "**".
+                    
+                    Input Content:
+                    ${chunk}
+                    
+                    Return the results in this parsable json form [{"Title":string, "description":string}]
+                  `,
+                },
+              ],
+              max_tokens: 4096,
+            }),
           }
         );
-  
-        const arr = JSON.parse(paraphraseResponse.data.choices[0].message.content);
+
+        if (!paraphraseResponse.ok) {
+          throw new Error("Failed to fetch data from OpenAI API");
+        }
+
+        const paraphraseResponseData = await paraphraseResponse.json();
+        const arr = JSON.parse(
+          paraphraseResponseData.choices[0].message.content
+        );
         paraphrasedContent = [...paraphrasedContent, ...arr];
       }
-  
+
       // Step 5: Save each paraphrase to the backend and update with IDs
       for (let i = 0; i < paraphrasedContent.length; i++) {
         const savedId = await saveParaphrase(paraphrasedContent[i]); // Use `saveParaphrase`
-  
+
         if (savedId) {
           paraphrasedContent[i]._id = savedId; // Update with MongoDB `_id`
         }
       }
-  
+
       console.log("Final paraphrased content with IDs:", paraphrasedContent);
-  
+
       // Step 6: Update state with the full paraphrased content
       setParaphrasedText(paraphrasedContent);
-  
+
       // Open the bottom sheet to display results
       setIsSheetOpen(true);
       setIsAnalyzed(true);
@@ -212,6 +243,7 @@ const ScanDocScreen = ({ navigation }) => {
       setLoading(false);
     }
   };
+
   const handleReset = () => {
     setImageUri(null);
     setParaphrasedText("");
@@ -227,81 +259,83 @@ const ScanDocScreen = ({ navigation }) => {
     <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
       <Header title={"Scan A Form"} isDarkMode={isDarkMode} />
       <ScrollView
-          contentContainerStyle={styles.scrollContainer}
-          showsVerticalScrollIndicator={false}
-        >
-      <Layout style={styles.buttonContainer}>
-        <Text style={styles.greetingMessage}>
-          Take a photo of a form here to detect text and clarify it
-        </Text>
-
-        {!imageUri ? (
-          <View style={styles.scanContainer}>
-            <ScanAnimation/>
-            <Text style={styles.scanDescription}>
-              <Text style={styles.boldText}>Tip:</Text> Clearer photos help
-              speed up the analysis process!
-            </Text>
-          </View>
-        ) : (
-          <Image source={{ uri: imageUri }} style={styles.image} />
-        )}
-
-        <TouchableOpacity
-          onPress={analyzeAndParaphrase}
-          disabled={!imageUri || isAnalyzed || loading}
-          style={[
-            styles.analyzeButton,
-            (!imageUri || isAnalyzed || loading) && styles.disabledButton,
-          ]}
-        >
-          <Text style={styles.buttonText}>Analyze & Clarify</Text>
-        </TouchableOpacity>
-
-        {!isAnalyzed ? (
-          <TouchableOpacity onPress={takePhoto} style={styles.button}>
-            <Text style={styles.buttonText}>Take a Photo</Text>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            onPress={handleReset}
-            style={[styles.button, styles.resetButton]}
-          >
-            <Text style={styles.buttonText}>Generate Another File</Text>
-          </TouchableOpacity>
-        )}
-
-        <TouchableOpacity
-          onPress={() => navigation.navigate("Upload")}
-          style={[styles.button, styles.switchButton]}
-        >
-          <Text style={[styles.buttonText, styles.switchText]}>Switch to Upload</Text>
-          <Icon
-            name="flip-2-outline"
-            width="24"
-            height="24"
-            fill={colors.apple.black}
-          />
-        </TouchableOpacity>
-      </Layout>
-
-      <Modal
-        visible={loading}
-        transparent={true}
-        animationType="fade"
-        onRequestClose={() => setLoading(false)}
+        contentContainerStyle={styles.scrollContainer}
+        showsVerticalScrollIndicator={false}
       >
-        <View style={styles.modalContainer}>
-          <LoadingAnimation />
-        </View>
-      </Modal>
+        <Layout style={styles.buttonContainer}>
+          <Text style={styles.greetingMessage}>
+            Take a photo of a form here to detect text and clarify it
+          </Text>
 
-      {isSheetOpen && (
-        <BottomSheetModal
-          sheetRef={sheetRef}
-          paraphrasedText={paraphrasedText}
-        />
-      )}
+          {!imageUri ? (
+            <View style={styles.scanContainer}>
+              <ScanAnimation />
+              <Text style={styles.scanDescription}>
+                <Text style={styles.boldText}>Tip:</Text> Clearer photos help
+                speed up the analysis process!
+              </Text>
+            </View>
+          ) : (
+            <Image source={{ uri: imageUri }} style={styles.image} />
+          )}
+
+          <TouchableOpacity
+            onPress={analyzeAndParaphrase}
+            disabled={!imageUri || isAnalyzed || loading}
+            style={[
+              styles.analyzeButton,
+              (!imageUri || isAnalyzed || loading) && styles.disabledButton,
+            ]}
+          >
+            <Text style={styles.buttonText}>Analyze & Clarify</Text>
+          </TouchableOpacity>
+
+          {!isAnalyzed ? (
+            <TouchableOpacity onPress={takePhoto} style={styles.button}>
+              <Text style={styles.buttonText}>Take a Photo</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              onPress={handleReset}
+              style={[styles.button, styles.resetButton]}
+            >
+              <Text style={styles.buttonText}>Generate Another File</Text>
+            </TouchableOpacity>
+          )}
+
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Upload")}
+            style={[styles.button, styles.switchButton]}
+          >
+            <Text style={[styles.buttonText, styles.switchText]}>
+              Switch to Upload
+            </Text>
+            <Icon
+              name="flip-2-outline"
+              width="24"
+              height="24"
+              fill={colors.apple.black}
+            />
+          </TouchableOpacity>
+        </Layout>
+
+        <Modal
+          visible={loading}
+          transparent={true}
+          animationType="fade"
+          onRequestClose={() => setLoading(false)}
+        >
+          <View style={styles.modalContainer}>
+            <LoadingAnimation />
+          </View>
+        </Modal>
+
+        {isSheetOpen && (
+          <BottomSheetModal
+            sheetRef={sheetRef}
+            paraphrasedText={paraphrasedText}
+          />
+        )}
       </ScrollView>
     </SafeAreaView>
   );
@@ -329,7 +363,7 @@ const getStyles = (isDarkMode) => ({
     color: isDarkMode ? colors.apple.white : colors.apple.black,
     textAlign: "center",
   },
-  
+
   image: {
     width: "100%",
     height: 300,
@@ -360,7 +394,7 @@ const getStyles = (isDarkMode) => ({
     ...typography(true).footnoteBold,
     color: colors.apple.black,
   },
-  
+
   // Buttons
   button: {
     flexDirection: "row",
@@ -391,22 +425,6 @@ const getStyles = (isDarkMode) => ({
     color: colors.apple.white,
     textAlign: "center",
   },
-
-  // Modal
-  modal: {
-    justifyContent: "flex-end",
-    margin: 0,
-  },
-  modalOverlay: {
-    flex: 1,
-    justifyContent: "flex-end",
-  },
-  modalContent: {
-    backgroundColor: colors.light.bgBlue,
-    padding: 20,
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-  },
   barIcon: {
     width: 50,
     height: 5,
@@ -415,23 +433,13 @@ const getStyles = (isDarkMode) => ({
     alignSelf: "center",
     marginBottom: 10,
   },
-  modalHeader: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
-  modalText: {
-    fontSize: 16,
-    padding: 30,
-  },
   disabledButton: {
     backgroundColor: "#d3d3d3",
   },
   modalContainer: {
-    flex: 1,
+    flex:1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(255, 255, 255, 0.5)",
   },
-
 });

@@ -21,7 +21,7 @@ import { useDarkMode } from "../context/DarkModeContext";
 import PensionPlanModal from "./PensionPlanModal";
 import FetchParaphrases from "@/src/fetchparaphrases";
 import AppText from "../Account/AppText";
-const Text = AppText; 
+const Text = AppText;
 
 export const MyFilesScreen = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState("Forms");
@@ -108,7 +108,7 @@ export const MyFilesScreen = ({ navigation }) => {
                 subheader={form.subheader}
                 footnote={form.footnote}
                 isImportant={form.isImportant}
-                navigation={navigation} 
+                navigation={navigation}
               />
               {index < filteredData.length - 1 && (
                 <Divider style={styles.divider} />
@@ -210,9 +210,11 @@ export const MyFilesScreen = ({ navigation }) => {
 
   const renderHistory = () => {
     return (
-      <ScrollView style={styles.scrollContainer}>
-        <FetchParaphrases />
-      </ScrollView>
+      <>
+        <ScrollView style={styles.scrollContainer}>
+          <FetchParaphrases />
+        </ScrollView>
+      </>
     );
   };
 
@@ -228,16 +230,25 @@ export const MyFilesScreen = ({ navigation }) => {
         start={{ x: 0.5, y: 0.75 }} // Adjust the starting point for visual appeal
         end={{ x: 0.5, y: 1 }} // Adjust the ending point
       >
-        {activeTab !== "History" && (
-          <Header
-            title="My Files"
-            placeholder="Search my forms and profiles"
-            hasSearchBar
-            onSearch={onSearch}
-            isDarkMode={isDarkMode}
-          />
-        )}
-
+        <Header
+          title={
+            activeTab === "Forms"
+              ? "My Forms"
+              : activeTab === "Profiles"
+                ? "My Profiles"
+                : "My History"
+          }
+          placeholder={
+            activeTab === "Forms"
+              ? "Search my forms"
+              : activeTab === "Profiles"
+                ? "Search my profiles"
+                : "Search history"
+          }
+          hasSearchBar
+          onSearch={onSearch}
+          isDarkMode={isDarkMode}
+        />
         <View style={styles.toggleContainer}>
           {["Forms", "Profiles", "History"].map((tab) => (
             <TouchableOpacity

@@ -8,6 +8,7 @@ import {
   RefreshControl,
 } from "react-native";
 import { Icon } from "@ui-kitten/components";
+import { colors,typography} from "@/css/globals"
 
 const LoadParaphrasesScreen = ({ paraphrasedText }) => {
   const [paraphrases, setParaphrases] = useState([]);
@@ -100,7 +101,7 @@ const LoadParaphrasesScreen = ({ paraphrasedText }) => {
         {Object.keys(paraphrases).length > 0 ? (
           Object.entries(paraphrases).map(([uploadTime, items], groupIndex) => (
             <View key={groupIndex} style={styles.groupContainer}>
-              <Text style={styles.uploadTime}>Uploaded on: {uploadTime}</Text>
+              <Text style={styles.uploadTime}>Date Paraphrased: {uploadTime}</Text>
               {items.map((item, index) => (
                 <View
                   key={index}
@@ -179,12 +180,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     margin: 12,
-    color: "blue"
+    color: colors.light.blue
   },
   groupContainer:{
-    borderWidth: 2,
-    borderRadius: 10,
+    borderWidth: 3,
+    borderRadius: 16,
     margin: 10,
-    padding: 10
+    padding: 10,
+    borderColor: colors.apple.lightStroke
   }
 });

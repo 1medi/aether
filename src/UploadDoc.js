@@ -85,6 +85,13 @@ const UploadDocScreen = ({ navigation }) => {
   };
 
   const saveParaphrase = async (paraphrasedContent) => {
+    const controller = new AbortController();
+    const timeout = 20000; // Timeout in milliseconds 
+  
+    const timeoutId = setTimeout(() => {
+      controller.abort();
+    }, timeout);
+  
     try {
       const response = await fetch("https://aether-wnq5.onrender.com/store", {
         method: "POST",
@@ -92,13 +99,16 @@ const UploadDocScreen = ({ navigation }) => {
         body: JSON.stringify({
           paraphrasedText: JSON.stringify(paraphrasedContent),
         }),
+        signal: controller.signal, // Attach the AbortController signal
       });
-
+  
+      clearTimeout(timeoutId); // Clear the timeout once the request completes
+  
       const data = await response.json();
-
+  
       if (response.ok) {
         console.log("Paraphrase saved successfully:", data);
-
+  
         // Return the saved MongoDB ID
         return data.id;
       } else {
@@ -107,12 +117,18 @@ const UploadDocScreen = ({ navigation }) => {
         return null;
       }
     } catch (error) {
-      console.error("Error saving paraphrase:", error);
-      alert("Failed to save paraphrase. Please try again.");
+      clearTimeout(timeoutId); // Ensure timeout is cleared even if an error occurs
+  
+      if (error.name === "AbortError") {
+        console.error("Request timed out");
+        alert("Request timed out. Please try again.");
+      } else {
+        console.error("Error saving paraphrase:", error);
+        alert("Failed to save paraphrase. Please try again.");
+      }
       return null;
     }
   };
-
   const analyzeAndParaphrase = async () => {
     if (!imageUri) {
       alert("Please upload an image first!");
@@ -147,13 +163,21 @@ const UploadDocScreen = ({ navigation }) => {
       };
   
       // Step 2: Use Google Vision API to detect text
-      const apiResponse = await axios.post(apiURL, requestData, {
+      const apiResponse = await fetch(apiURL, {
+        method: "POST",
         headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(requestData),
       });
   
+      if (!apiResponse.ok) {
+        throw new Error("Failed to fetch data from Google Vision API");
+      }
+  
+      const apiResponseData = await apiResponse.json();
+  
       let detectedText = "";
-      if (apiResponse.data.responses[0].fullTextAnnotation) {
-        detectedText = apiResponse.data.responses[0].fullTextAnnotation.text;
+      if (apiResponseData.responses[0].fullTextAnnotation) {
+        detectedText = apiResponseData.responses[0].fullTextAnnotation.text;
       } else {
         alert("No text detected in the image.");
         setLoading(false);
@@ -166,42 +190,46 @@ const UploadDocScreen = ({ navigation }) => {
   
       for (const chunk of chunks) {
         // Step 4: Call OpenAI API for paraphrasing each chunk
-        const paraphraseResponse = await axios.post(
+        const paraphraseResponse = await fetch(
           "https://api.openai.com/v1/chat/completions",
           {
-            model: "gpt-4o-mini",
-            messages: [
-              {
-                role: "system",
-                content: `
-                  You are a paraphraser for professional use. Rewrite the following content according to these guidelines:
-                  
-                  1. Summarize and Simplify: Explain only what the document says, as if explaining to a 10-year-old. Provide one succinct sentence for each subject.
-                  
-                  2. Formatting Rules:
-                     - Use **bold** for headers.
-                     - Use *italics* for emphasis.
-                     - Indent each paragraph.
-                     - Avoid any markup or special characters such as "**".
-                  
-                  Input Content:
-                  ${chunk}
-                  
-                  Return the results in this parsable json form [{"Title":string, "description":string}]
-                `,
-              },
-            ],
-            max_tokens: 4096,
-          },
-          {
+            method: "POST",
             headers: {
               Authorization: `Bearer ${process.env.EXPO_PUBLIC_OPENAI_API_KEY}`,
               "Content-Type": "application/json",
             },
+            body: JSON.stringify({
+              model: "gpt-4o-mini",
+              messages: [
+                {
+                  role: "system",
+                  content: `
+                    You are a paraphraser for professional use. Rewrite the following content according to these guidelines:
+                    
+                    1. Summarize and Simplify: Explain only what the document says, as if explaining to a 10-year-old. Provide one succinct sentence for each subject.
+                    
+                    2. Formatting Rules:
+  
+                       - Avoid any markup or special characters such as "**".
+                    
+                    Input Content:
+                    ${chunk}
+                    
+                    Return the results in this parsable json form [{"Title":string, "description":string}]
+                  `,
+                },
+              ],
+              max_tokens: 4096,
+            }),
           }
         );
   
-        const arr = JSON.parse(paraphraseResponse.data.choices[0].message.content);
+        if (!paraphraseResponse.ok) {
+          throw new Error("Failed to fetch data from OpenAI API");
+        }
+  
+        const paraphraseResponseData = await paraphraseResponse.json();
+        const arr = JSON.parse(paraphraseResponseData.choices[0].message.content);
         paraphrasedContent = [...paraphrasedContent, ...arr];
       }
   
@@ -230,6 +258,7 @@ const UploadDocScreen = ({ navigation }) => {
       setLoading(false);
     }
   };
+  
   
   const handleReset = () => {
     setImageUri(null);
