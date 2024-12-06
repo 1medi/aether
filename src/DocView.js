@@ -25,46 +25,18 @@ import EmploymentRadio from "@/components/molecules/pdfRadios-2/employmentRadio"
 import StatusRadio from "@/components/molecules/pdfRadios-3/statusRadio";
 import { captureRef } from "react-native-view-shot";
 import { useNavigation } from "@react-navigation/native";
-import SignatureModal from "@/components/molecules/signatureModal";
-import Signature from "react-native-signature-canvas";
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 
-export default function DocumentView({ formData, setFormData }) {
+export default function DocumentView({ formData, setFormData, }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [signature, setSignature] = useState(null); // State for signature
   const [isCanvasVisible, setIsCanvasVisible] = useState(false);
   const viewToSnapshotRef = useRef();
   const sigref = useRef();
   const [snapshotImg, setSnapshotImg] = useState();
 
   const navigation = useNavigation();
-  // Called after ref.current.readSignature() reads a non-empty base64 string
-  const handleOK = (signature) => {
-    console.log(signature);
-    setSignature(signature); // Callback from Component props
-  };
-
-  // Called after ref.current.readSignature() reads an empty string
-  const handleEmpty = () => {
-    console.log("Empty");
-  };
-
-  // Called after ref.current.clearSignature()
-  const handleClear = () => {
-    console.log("clear success!");
-  };
-
-  // Called after end of stroke
-  const handleEnd = () => {
-    sigref.current.readSignature();
-  };
-
-  // Called after ref.current.getData()
-  const handleData = (data) => {
-    console.log(data);
-  };
 
   const handleNavigation = () => {
     setIsModalVisible(false);
@@ -303,48 +275,6 @@ export default function DocumentView({ formData, setFormData }) {
                       setFormData({ ...formData, Spouse_Member_ID: text })
                     }
                   />
-
-                  <View style={[styles.sigContainer, { top: 259, left: 60 }]}>
-                    <View style={styles.signatureRow}>
-                      <TouchableOpacity
-                        onPress={() => setIsCanvasVisible(!isCanvasVisible)}
-                        style={styles.toggleButton}
-                      >
-                        <Text>{signature ? "Edit" : "Sign Here"}</Text>
-                      </TouchableOpacity>
-
-                      {/* Signature Preview */}
-                      {signature ? (
-                        <Image
-                          source={{ uri: signature }}
-                          style={styles.signaturePreview}
-                          resizeMode="contain"
-                        />
-                      ) : (
-                        <Text style={styles.placeholderText}>
-                          No signature yet
-                        </Text>
-                      )}
-                    </View>
-
-                    {/* Render Canvas */}
-                    {isCanvasVisible && (
-                      <View style={styles.signatureCanvasContainer}>
-                        <Signature
-                          ref={sigref}
-                          onEnd={handleEnd}
-                          onOK={handleOK}
-                          onEmpty={handleEmpty}
-                          onClear={handleClear}
-                          onGetData={handleData}
-                          autoClear={true}
-                          descriptionText="Sign here"
-                          clearText="Clear"
-                          webStyle={styles.signaturePad}
-                        />
-                      </View>
-                    )}
-                  </View>
 
                   <TextInput
                     style={[

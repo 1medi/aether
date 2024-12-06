@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState,} from "react";
 import {
   Pressable,
   View,
@@ -19,13 +19,15 @@ import DocView, {
   handlePreviousPage,
   handleSave,
 } from "@/src/DocView";
-import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors, typography } from "@/css/globals";
 import { Dropdown } from "react-native-element-dropdown";
 import UserData from "./UserData";
 import myFormsData from "@/data/MyFormsData";
 import savedProfilesData from "@/data/SavedProfilesData";
+import * as Sharing from 'expo-sharing'
+import * as FileSystem from "expo-file-system"
+import { Asset } from 'expo-asset'
 
 export default function LibraryScreen({ navigation, isDarkMode }) {
   const [formData, setFormData] = useState({
@@ -47,15 +49,40 @@ export default function LibraryScreen({ navigation, isDarkMode }) {
   const [visible, setVisible] = useState(false);
   const [selectedProfile, setSelectedProfile] = useState(null);
   const [dontShowAgain, setDontShowAgain] = useState(false);
-
+  const [imageUri, setImageUri] = useState("")
   const [profileModalVisible, setProfileModalVisible] = useState(false);
   const [confirmationModalVisible, setConfirmationModalVisible] =
     useState(false);
 
+  useEffect(() => {
+    const loadAsset = async () => {
+      const asset = Asset.fromModule(require("@/assets/files/insurance1.png"));
+      await asset.downloadAsync();
+      setImageUri(asset.localUri || null);
+    };
+    loadAsset();
+  }, []);
+
+  const shareImage = async () => {
+    try{
+      if(imageUri) {
+        await Sharing.shareAsync(imageUri)
+      } else {
+        console.log("Image uri is not set")
+      }
+    } catch (error) {
+      console.error("oops", error)
+    }
+  }
+
   const handleAutoFill = () => setProfileModalVisible(true);
   const handleSimplify = () => setVisible(true);
   const handleDelete = () => setVisible(true);
-  const handleExport = () => setVisible(true);
+  const handleExport = () => {
+    shareImage();
+  }
+  
+
 
   const [fadeAnim] = useState(new Animated.Value(0));
 
