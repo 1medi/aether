@@ -3,7 +3,6 @@ import {
   StyleSheet,
   Text,
   View,
-  FlatList,
   Dimensions,
   Button,
   TouchableOpacity
@@ -21,7 +20,10 @@ import Animated, {
   runOnJS,
 } from "react-native-reanimated";
 import { colors } from "@/css/globals";
-import { color } from "@rneui/base";
+import { LogBox } from "react-native";
+
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
@@ -120,7 +122,7 @@ export default function BottomModal({ paraphrasedText }) {
       <BottomSheetView style={[styles.container, { flex: 1 }]}>
         <Text style={styles.debug}>Results</Text>
 
-          <View style={styles.suggestionBanner}>
+        <View style={styles.suggestionBanner}>
             <TipsIcon/>
             <Text style={{fontSize: 24, color: colors.apple.black, padding: 6}}>Tip: Swipe Right To Delete!</Text>
           </View>
