@@ -16,7 +16,7 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
-  runOnJS,
+  runOnJS
 } from "react-native-reanimated";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -28,17 +28,17 @@ export default function BottomModal({ paraphrasedText }) {
   const [data, setData] = useState(
     Array.isArray(paraphrasedText) ? paraphrasedText : []
   );
+  
 
   console.log("Initial data:", data);
 
-  const handleDelete = async (documentId, itemId) => {
-    console.log("Deleting item with document ID:", documentId, "and item ID:", itemId);
+  const handleDelete = async (id) => {
+    console.log("Deleting paraphrase with ID:", id); // Log to debug the ID
   
     try {
-      const response = await fetch(`https://aether-wnq5.onrender.com/delete-item`, {
-        method: "POST",
+      const response = await fetch(`https://aether-wnq5.onrender.com/delete/${id}`, {
+        method: "DELETE",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ documentId, itemId }),
       });
   
       if (!response.ok) {
@@ -47,48 +47,47 @@ export default function BottomModal({ paraphrasedText }) {
         throw new Error(`Server error: ${response.status}`);
       }
   
-      setData((prevData) =>
-        prevData.map((doc) => {
-          if (doc._id === documentId) {
-            return {
-              ...doc,
-              paraphrasedText: doc.paraphrasedText.filter((item) => item.id !== itemId),
-            };
-          }
-          return doc;
-        })
-      );
-  
-      console.log("Item deleted successfully!");
+      setData((prevData) => prevData.filter((item) => item._id !== id));
+      console.log("Deleted successfully!");
     } catch (error) {
-      console.error("Error deleting item:", error);
+      console.error("Error deleting:", error);
     }
   };
   
 
-  const ListItem = React.memo(({ item, documentId }) => {
+  const ListItem = React.memo(({ item }) => {
     const translateX = useSharedValue(0);
     let isDeleting = false;
   
+    // Define Pan Gesture
     const panGesture = Gesture.Pan()
       .onUpdate((event) => {
         if (isDeleting) return;
+  
+        // Update translation value, bounded to SCREEN_WIDTH
         translateX.value = Math.max(Math.min(event.translationX, 0), -SCREEN_WIDTH);
       })
       .onEnd(() => {
         if (isDeleting) return;
   
+        // Check if swipe is past threshold
         if (translateX.value < -SCREEN_WIDTH * 0.3) {
           isDeleting = true;
-          translateX.value = withSpring(-SCREEN_WIDTH, {}, () => {
-            runOnJS(handleDelete)(documentId, item.id); // Pass both IDs here
-            isDeleting = false;
-          });
+          translateX.value = withSpring(
+            -SCREEN_WIDTH,
+            { stiffness: 100, damping: 10 },
+            () => {
+              runOnJS(handleDelete)(item._id);
+              isDeleting = false;
+            }
+          );
         } else {
+          // Reset position if not swiped far enough
           translateX.value = withSpring(0);
         }
       });
   
+    // Animated Styles
     const animatedStyle = useAnimatedStyle(() => ({
       transform: [{ translateX: translateX.value }],
     }));
@@ -101,7 +100,7 @@ export default function BottomModal({ paraphrasedText }) {
         </Animated.View>
       </GestureDetector>
     );
-  });
+  });  
   
 
   return (
@@ -122,9 +121,9 @@ export default function BottomModal({ paraphrasedText }) {
           </View>
         ) : (
           <BottomSheetFlatList
-            data={data}
-            keyExtractor={(item) => item._id} // Use `_id`
-            renderItem={({ item }) => <ListItem item={item} />}
+          data={data.filter((item) => item._id)} // Only include items with valid _id
+          keyExtractor={(item) => item._id.toString()}
+          renderItem={({ item }) => <ListItem item={item} />}
           />
         )}
       </BottomSheetView>

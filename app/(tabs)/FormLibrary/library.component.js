@@ -325,7 +325,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginHorizontal: 16,
     marginTop: 20,
-    marginBottom: 8,
   },
   headerIcon: {
     width: 24,
@@ -436,7 +435,8 @@ const styles = StyleSheet.create({
   imageContainer: {
     alignItems: "center",
     justifyContent: "center",
-    height: 575,
+    height: "100%",
+    paddingTop: 20
   },
 
   blurOverlay: {
