@@ -6,7 +6,9 @@ import {
   FlatList,
   Dimensions,
   Button,
+  TouchableOpacity
 } from "react-native";
+import { Layout, Icon } from "@ui-kitten/components";
 import BottomSheet, {
   BottomSheetFlatList,
   BottomSheetView,
@@ -16,20 +18,25 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
-  runOnJS
+  runOnJS,
 } from "react-native-reanimated";
 import { colors } from "@/css/globals";
+import { color } from "@rneui/base";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 export default function BottomModal({ paraphrasedText }) {
   const sheetRef = useRef(null);
   const snapPoints = ["30%", "60%", "90%"];
+  const [showFormsSuggestionBanner, setShowFormsSuggestionBanner] =
+  useState(true);
 
   const [data, setData] = useState(
     Array.isArray(paraphrasedText) ? paraphrasedText : []
   );
   
+  const ArrowIcon = (props) => <Icon style={{width:32, height:32, margin: "auto"}} name="arrow-back-outline" {...props} />;
+  const TipsIcon = (props) => <Icon style={{width:24, height:24, margin: "auto", marginRight: 5}} name="bulb-outline" {...props} />;
 
   console.log("Initial data:", data);
 
@@ -112,6 +119,11 @@ export default function BottomModal({ paraphrasedText }) {
     >
       <BottomSheetView style={[styles.container, { flex: 1 }]}>
         <Text style={styles.debug}>Results</Text>
+
+          <View style={styles.suggestionBanner}>
+            <TipsIcon/>
+            <Text style={{fontSize: 24, color: colors.apple.black, padding: 6}}>Tip: Swipe Right To Delete!</Text>
+          </View>
         {data.length === 0 ? (
           <View style={{ alignItems: "center" }}>
             <Text style={styles.placeholder}>No items to display</Text>
@@ -157,4 +169,9 @@ const styles = StyleSheet.create({
     color: "gray",
     marginTop: 20,
   },
+  suggestionBanner: {
+    display:"flex",
+    flexDirection: "row",
+    justifyContent: 'center'
+  }
 });
