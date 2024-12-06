@@ -1,9 +1,9 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import { connectDB, client } from './db.js'; // Include `.js` extension for ES Modules
-import { ObjectId } from 'mongodb';
-import OpenAI from 'openai';
-import bodyParser from 'body-parser';
+const express = require('express');
+const dotenv = require('dotenv');
+const { connectDB, client } = require('./db.js'); // Include `.js` extension for ES Modules
+const { ObjectId } = require('mongodb');
+const OpenAI = require('openai');
+const bodyParser = require('body-parser');
 
 dotenv.config();
 
@@ -27,9 +27,8 @@ connectDB()
     console.error('Error connecting to MongoDB:', err);
   });
 
-
 // Endpoint to get all paraphrases
-app.get("/paraphrases", async (req, res) => {
+app.get('/paraphrases', async (req, res) => {
   try {
     const db = client.db(dbName);
     const collection = db.collection(collectionName);
@@ -40,8 +39,6 @@ app.get("/paraphrases", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-
-
 
 // Endpoint to update a paraphrase
 app.put('/update/:id', async (req, res) => {
@@ -96,7 +93,6 @@ app.delete('/delete/:id', async (req, res) => {
   }
 });
 
-
 // Endpoint to generate and save a paraphrase
 app.post('/generate-and-save', async (req, res) => {
   const { inputText } = req.body;
@@ -134,7 +130,6 @@ app.post('/generate-and-save', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-
 
 const PORT = 8888;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
