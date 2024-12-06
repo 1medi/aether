@@ -34,6 +34,14 @@ const UploadDocScreen = ({ navigation }) => {
   const [isAnalyzed, setIsAnalyzed] = useState(false);
   const [paraphrases, setParaphrases] = useState([]);
 
+  const generateHexId = () => {
+    const hexChars = "abcdef0123456789";
+    return Array.from({ length: 24 }, () =>
+      hexChars.charAt(Math.floor(Math.random() * hexChars.length))
+    ).join("");
+  };
+
+
   const requestMediaLibraryPermissions = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
@@ -85,32 +93,30 @@ const UploadDocScreen = ({ navigation }) => {
     }
   };
 
-  const saveParaphrase = async (paraphrasedContent) => {
+  const saveParaphrase = async (inputText, paraphrasedText, documentId, itemId) => {
+    console.log("saveParaphrase called with:", inputText, paraphrasedText);
+  
     try {
-      const response = await fetch("https://aether-wnq5.onrender.com/generate-and-save", {
+      const response = await fetch("https://aether-wnq5.onrender.com/store", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          paraphrasedText: JSON.stringify(paraphrasedContent),
+          paraphrasedText: paraphrasedText,
+          // documentId,       // Pass the document ID
+          // itemId    // Pass the stringified JSON
         }),
       });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        console.log("Paraphrase saved successfully:", data);
-
-        // Return the saved MongoDB ID
-        return data.id;
-      } else {
-        console.error("Error saving paraphrase:", data.error);
-        alert(`Error: ${data.error}`);
-        return null;
+  
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Error response from server:", errorText);
+        throw new Error(`Server error: ${response.status}`);
       }
+  
+      const data = await response.json();
+      console.log("Paraphrase saved successfully:", data);
     } catch (error) {
-      console.error("Error saving paraphrase:", error);
-      alert("Failed to save paraphrase. Please try again.");
-      return null;
+      console.error("Error in saveParaphrase:", error);
     }
   };
 
@@ -119,23 +125,22 @@ const UploadDocScreen = ({ navigation }) => {
       alert("Please upload an image first!");
       return;
     }
-  
+
     setLoading(true);
-  
+
     try {
       const googleAPIKey = process.env.EXPO_PUBLIC_GOOGLE_KEY;
       const apiURL = `https://vision.googleapis.com/v1/images:annotate?key=${googleAPIKey}`;
-  
-      // Step 1: Convert image to base64 and clean the data
+
       const base64ImageData = await FileSystem.readAsStringAsync(imageUri, {
         encoding: FileSystem.EncodingType.Base64,
       });
-  
+
       const cleanedBase64ImageData = base64ImageData.replace(
         /^data:image\/\w+;base64,/,
         ""
       );
-  
+
       const requestData = {
         requests: [
           {
@@ -146,29 +151,33 @@ const UploadDocScreen = ({ navigation }) => {
           },
         ],
       };
-  
-      // Step 2: Use Google Vision API to detect text
-      const apiResponse = await axios.post(apiURL, requestData, {
+
+      const apiResponse = await fetch(apiURL, {
+        method:"POST",
+        body:JSON.stringify(requestData),
         headers: { "Content-Type": "application/json" },
       });
-  
+
+      const apiJson = await apiResponse.json();
+
       let detectedText = "";
-      if (apiResponse.data.responses[0].fullTextAnnotation) {
-        detectedText = apiResponse.data.responses[0].fullTextAnnotation.text;
+      if (apiJson.responses[0].fullTextAnnotation) {
+        detectedText = apiJson.responses[0].fullTextAnnotation.text;
       } else {
         alert("No text detected in the image.");
         setLoading(false);
         return;
       }
-  
-      // Step 3: Split detected text into smaller chunks
+
+      // Split detected text into smaller chunks if necessary
       const chunks = detectedText.match(/[\s\S]{1,1500}/g) || [];
       let paraphrasedContent = [];
-  
+
       for (const chunk of chunks) {
-        // Step 4: Call OpenAI API for paraphrasing each chunk
-        const paraphraseResponse = await axios.post(
-          "https://api.openai.com/v1/chat/completions",
+        const paraphraseResponse = await fetch(
+          "https://api.openai.com/v1/chat/completions", {
+          method:"POST",
+          body:JSON.stringify(
           {
             model: "gpt-4o-mini",
             messages: [
@@ -193,34 +202,30 @@ const UploadDocScreen = ({ navigation }) => {
               },
             ],
             max_tokens: 4096,
-          },
-          {
-            headers: {
+          }),
+          headers: {
               Authorization: `Bearer ${process.env.EXPO_PUBLIC_OPENAI_API_KEY}`,
               "Content-Type": "application/json",
             },
           }
         );
-  
-        const arr = JSON.parse(paraphraseResponse.data.choices[0].message.content);
+        const paraJson = await paraphraseResponse.json();
+        const arr = JSON.parse(
+          paraJson.choices[0].message.content
+        );
         paraphrasedContent = [...paraphrasedContent, ...arr];
       }
-  
-      // Step 5: Save each paraphrase to the backend and update with IDs
-      for (let i = 0; i < paraphrasedContent.length; i++) {
-        const savedId = await saveParaphrase(paraphrasedContent[i]); // Use `saveParaphrase`
-  
-        if (savedId) {
-          paraphrasedContent[i]._id = savedId; // Update with MongoDB `_id`
-        }
-      }
-  
-      console.log("Final paraphrased content with IDs:", paraphrasedContent);
-  
-      // Step 6: Update state with the full paraphrased content
+      paraphrasedContent = paraphrasedContent.map((item) => ({
+        ...item,
+        _id: generateHexId(),
+      }));
+      console.log(paraphrasedContent);
+
       setParaphrasedText(paraphrasedContent);
-  
-      // Open the bottom sheet to display results
+
+      // Save the paraphrased content to your backend
+      await saveParaphrase(detectedText, JSON.stringify(paraphrasedContent));
+
       setIsSheetOpen(true);
       setIsAnalyzed(true);
       sheetRef.current?.snapToIndex(0);
@@ -231,14 +236,13 @@ const UploadDocScreen = ({ navigation }) => {
       setLoading(false);
     }
   };
-  
+
   const handleReset = () => {
     setImageUri(null);
     setParaphrasedText("");
     setIsSheetOpen(false);
     setIsAnalyzed(false);
   };
-
 
   const { isDarkMode } = useDarkMode();
 
