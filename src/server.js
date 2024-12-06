@@ -1,8 +1,9 @@
-const express = require('express'); // Use require for express
-const dotenv = require('dotenv'); // Use require for dotenv
-const { connectDB, client } = require('./db'); // Use require for local modules
-const OpenAI = require('openai'); // Use require for OpenAI
-const bodyParser = require('body-parser'); // Use require for body-parser
+const express = require('express');
+const dotenv = require('dotenv');
+const { connectDB, client } = require('./db.js'); // Include `.js` extension for ES Modules
+const { ObjectId } = require('mongodb');
+const OpenAI = require('openai');
+const bodyParser = require('body-parser');
 
 dotenv.config();
 
@@ -26,20 +27,19 @@ connectDB()
     console.error('Error connecting to MongoDB:', err);
   });
 
-
 // Endpoint to get all paraphrases
 app.get('/paraphrases', async (req, res) => {
   try {
     const db = client.db(dbName);
     const collection = db.collection(collectionName);
 
-    const paraphrases = await collection.find({}).toArray();
-    res.setHeader("Content-Type", "application/json");
+    const paraphrases = await collection.find({}).toArray(); // _id is included by default
     res.status(200).json(paraphrases);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
+
 // Endpoint to update a paraphrase
 app.put('/update/:id', async (req, res) => {
   const { id } = req.params;
@@ -68,38 +68,6 @@ app.put('/update/:id', async (req, res) => {
   }
 });
 
-// Endpoint to delete a paraphrase
-const { ObjectId } = require('mongodb');
-
-app.delete('/delete/:id', async (req, res) => {
-  const id = req.params.id;
-  console.log("test delete new item", id, req.params);
-
-  // Validate the ID format
-  if (!ObjectId.isValid(id)) {
-    return res.status(400).json({ error: "Invalid ID format" });
-  }
-
-  try {
-    const db = client.db(dbName);
-    const collection = db.collection(collectionName);
-
-    const result = await collection.deleteOne({ _id: ObjectId(id) });
-
-    if (result.deletedCount === 0) {
-      return res.status(404).json({ error: "Document not found" });
-    }
-
-    res.status(200).json({ message: "Document deleted successfully" });
-  } catch (error) {
-    console.error("Error deleting document:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-
-
-// Endpoint to store a new paraphrase
 app.post('/store', async (req, res) => {
   const { paraphrasedText } = req.body;
 
@@ -116,13 +84,34 @@ app.post('/store', async (req, res) => {
       createdAt: new Date(),
     });
 
-    res.status(201).json({
-      message: 'Paraphrase saved successfully!',
-      id: result.insertedId,
-    });
+    res.status(201).json({ message: 'Paraphrase stored successfully!', id: result.insertedId });
   } catch (err) {
-    console.error('Error saving paraphrase:', err);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Endpoint to delete a paraphrase
+app.delete('/delete/:id', async (req, res) => {
+  const { id } = req.params;
+
+  // Validate the ID format
+  if (!ObjectId.isValid(id)) {
+    return res.status(400).json({ error: 'Invalid ID format.' });
+  }
+
+  try {
+    const db = client.db(dbName);
+    const collection = db.collection(collectionName);
+
+    const result = await collection.deleteOne({ _id: new ObjectId(id) });
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ error: 'Paraphrase not found.' });
+    }
+
+    res.status(200).json({ message: 'Paraphrase deleted successfully!' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
@@ -135,16 +124,16 @@ app.post('/generate-and-save', async (req, res) => {
   }
 
   try {
-    // Call OpenAI API
+    // Call OpenAI API to generate paraphrase
     const response = await openai.createCompletion({
-      model: 'text-davinci-003', // Replace with the desired model
+      model: 'text-davinci-003', // Replace with your desired model
       prompt: `Paraphrase the following text in a simpler form:\n\n${inputText}`,
       max_tokens: 200,
     });
 
     const paraphrasedText = response.data.choices[0].text.trim();
 
-    // Save the paraphrased text to MongoDB
+    // Save generated paraphrase to MongoDB
     const db = client.db(dbName);
     const collection = db.collection(collectionName);
 
@@ -159,7 +148,7 @@ app.post('/generate-and-save', async (req, res) => {
       id: result.insertedId,
     });
   } catch (err) {
-    console.error('Error with OpenAI API:', err);
+    console.error('Error generating or saving paraphrase:', err);
     res.status(500).json({ error: err.message });
   }
 });

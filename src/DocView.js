@@ -40,28 +40,6 @@ export default function DocumentView({ formData, setFormData }) {
   const [snapshotImg, setSnapshotImg] = useState();
 
   const navigation = useNavigation();
-  const handleNextPage = () => {
-    if (currentPage < 2) setCurrentPage(currentPage + 1);
-  };
-
-  const handlePreviousPage = () => {
-    if (currentPage > 1) setCurrentPage(currentPage - 1);
-  };
-
-  const handleSave = async () => {
-    try {
-      const result = await captureRef(viewToSnapshotRef, {
-        format: "png", // or "jpg"
-        quality: 0.8, // Adjust quality as needed
-      });
-      console.log("Form saved! Path:", result);
-      setSnapshotImg(result);
-      setIsModalVisible(true);
-    } catch (error) {
-      console.error("Failed to capture view:", error);
-    }
-  };
-
   // Called after ref.current.readSignature() reads a non-empty base64 string
   const handleOK = (signature) => {
     console.log(signature);
@@ -785,11 +763,7 @@ export default function DocumentView({ formData, setFormData }) {
           </View>
         </Modal>
       </SafeAreaView>
-      <View style={styles.buttonContainer}>
-          <Button onPress={handleSave} style={styles.button}>
-            Save
-          </Button>
-        </View>
+
     </View>
   );
 }
@@ -798,7 +772,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    maxHeight: 500,
   },
   innerScrollView: {
     alignItems: "center",
