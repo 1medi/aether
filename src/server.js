@@ -68,6 +68,28 @@ app.put('/update/:id', async (req, res) => {
   }
 });
 
+app.post('/store', async (req, res) => {
+  const { paraphrasedText } = req.body;
+
+  if (!paraphrasedText) {
+    return res.status(400).json({ error: 'paraphrasedText is required.' });
+  }
+
+  try {
+    const db = client.db(dbName);
+    const collection = db.collection(collectionName);
+
+    const result = await collection.insertOne({
+      paraphrasedText,
+      createdAt: new Date(),
+    });
+
+    res.status(201).json({ message: 'Paraphrase stored successfully!', id: result.insertedId });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // Endpoint to delete a paraphrase
 app.delete('/delete/:id', async (req, res) => {
   const { id } = req.params;
