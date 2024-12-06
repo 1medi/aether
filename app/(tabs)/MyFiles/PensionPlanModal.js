@@ -62,7 +62,7 @@ const PensionPlanModal = ({ visible, onClose }) => {
           <BlurView intensity={32} tint="light" style={styles.modalContent}>
             <View style={styles.topText}>
               <Text style={styles.title}>Extended Health Care Form</Text>
-              <Text style={styles.subtitle}>Sunlife Financial</Text>
+              <Text style={styles.subtitle}>Sun Life Financial</Text>
             </View>
             <ScrollView
               style={styles.modalImageScroll}
@@ -77,13 +77,13 @@ const PensionPlanModal = ({ visible, onClose }) => {
             <View style={styles.modalDescription}>
               <Text style={styles.descriptionTitle}>Description:</Text>
               <Text style={styles.description}>
-                This form helps you apply for pension benefits based on your
-                injury history.
+                A Sun Life Financial form used to manage personal insurance,
+                investments, or benefits information.
               </Text>
               <Text style={styles.descriptionTitle}>Purpose:</Text>
               <Text style={styles.description}>
-                To ensure you receive your entitled benefits by providing the
-                necessary application details.
+                To update, request, or manage financial and insurance details
+                with Sun Life.
               </Text>
             </View>
             <View style={styles.modalActions}>

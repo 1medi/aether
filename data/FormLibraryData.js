@@ -1,7 +1,7 @@
 const formLibraryData = [
   {
-    title: "Canadian Pension Plan",
-    description: "Apply for monthly retirement income from CPP.",
+    title: "Sun Life Extended Health Care",
+    description: "Manage health care and insurance details with Sun Life.",
     image: require("@/assets/images/FormCovers/previewPension.png"),
   },
   {
