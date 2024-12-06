@@ -1,5 +1,6 @@
 const savedProfilesData = [
   {
+    id: "1",
     personalInfo: {
       fullName: "Madi Tabon",
       phoneNumber: "123-456-7890",
@@ -22,6 +23,7 @@ const savedProfilesData = [
     },
   },
   {
+    id: "2",
     personalInfo: {
       fullName: "Sarah O'Neil",
       phoneNumber: "234-567-8901",
@@ -44,6 +46,7 @@ const savedProfilesData = [
     },
   },
   {
+    id: "3",
     personalInfo: {
       fullName: "Pat Rick",
       phoneNumber: "345-678-9012",

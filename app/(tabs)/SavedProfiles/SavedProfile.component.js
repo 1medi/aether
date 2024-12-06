@@ -17,9 +17,16 @@ import { colors, typography } from "@/css/globals";
 import { useDarkMode } from "../context/DarkModeContext";
 import { Dropdown } from "react-native-element-dropdown";
 
-export default function SavedProfile({ route, navigation }) {
+export default function SavedProfileScreen({ route, navigation }) {
   const { isDarkMode } = useDarkMode();
   const { profile } = route.params;
+
+  // Update state when profile changes
+  useEffect(() => {
+    setPersonalInfo(profile.personalInfo);
+    setAddress(profile.address);
+    setEmergencyContact(profile.emergencyContact);
+  }, [profile]); // Re-run when the profile prop changes
 
   const [personalInfo, setPersonalInfo] = useState(profile.personalInfo);
   const [address, setAddress] = useState(profile.address);

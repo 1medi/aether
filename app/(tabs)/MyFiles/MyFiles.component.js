@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import {
   ScrollView,
   TouchableOpacity,
@@ -23,16 +23,14 @@ import FetchParaphrases from "@/src/fetchparaphrases";
 import AppText from "../Account/AppText";
 const Text = AppText;
 
-export const MyFilesScreen = ({ navigation }) => {
+export const MyFilesScreen = ({ navigation, }) => {
   const [activeTab, setActiveTab] = useState("Forms");
   const [filteredData, setFilteredData] = useState(myFormsData);
   const [showFormsSuggestionBanner, setShowFormsSuggestionBanner] =
     useState(true);
   const [showProfilesSuggestionBanner, setShowProfilesSuggestionBanner] =
     useState(true);
-
   const { isDarkMode } = useDarkMode();
-
   const styles = getStyles(isDarkMode);
 
   const TipsIcon = (props) => <Icon name="bulb-outline" {...props} />;
@@ -173,11 +171,8 @@ export const MyFilesScreen = ({ navigation }) => {
           </Layout>
         )}
         <View style={styles.profileContainer}>
-          {filteredData.map((profile, index) => (
-            <View
-              key={`${profile.id}-${index}`}
-              style={styles.profileCardContainer}
-            >
+          {filteredData.map((profile) => (
+            <View key={profile.id} style={styles.profileCardContainer}>
               <SavedProfileCard
                 // key={profile.id}
                 name={profile.personalInfo.fullName}
@@ -186,7 +181,7 @@ export const MyFilesScreen = ({ navigation }) => {
                 // navigation={navigation}
                 // profileData={profile}
                 profile={profile}
-                navigate={"SavedProfile"}
+                navigate="SavedProfile"
               />
             </View>
           ))}
