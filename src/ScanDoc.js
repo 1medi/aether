@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
-import { Button, Layout } from "@ui-kitten/components";
+import { Button, Layout, Icon } from "@ui-kitten/components";
 import Header from "@/components/header/Header";
 import { colors, typography } from "@/css/globals";
 import axios from "axios";
@@ -28,6 +28,9 @@ const ScanDocScreen = ({ navigation }) => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [isAnalyzed, setIsAnalyzed] = useState(false);
   const [paraphrases, setParaphrases] = useState([]);
+  const [showSuggestionBanner, setShowSuggestionBanner] = useState(true);
+  const TipsIcon = (props) => <Icon name="bulb-outline" {...props} />;
+  const CloseIcon = (props) => <Icon name="close-outline" {...props} />;
 
   const generateHexId = () => {
     const hexChars = "abcdef0123456789";
@@ -66,33 +69,38 @@ const ScanDocScreen = ({ navigation }) => {
     }
   };
 
-  const saveParaphrase = async (inputText, paraphrasedText, documentId, itemId) => {
+  const saveParaphrase = async (
+    inputText,
+    paraphrasedText,
+    documentId,
+    itemId
+  ) => {
     console.log("saveParaphrase called with:", inputText, paraphrasedText);
-  
+
     try {
       const response = await fetch("https://aether-wnq5.onrender.com/store", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           paraphrasedText: paraphrasedText,
-          documentId,       // Pass the document ID
-          itemId    // Pass the stringified JSON
+          documentId, // Pass the document ID
+          itemId, // Pass the stringified JSON
         }),
       });
-  
+
       if (!response.ok) {
         const errorText = await response.text();
         console.error("Error response from server:", errorText);
         throw new Error(`Server error: ${response.status}`);
       }
-  
+
       const data = await response.json();
       console.log("Paraphrase saved successfully:", data);
     } catch (error) {
       console.error("Error in saveParaphrase:", error);
     }
   };
-  
+
   const analyzeAndParaphrase = async () => {
     if (!imageUri) {
       alert("Please upload an image first!");
@@ -217,32 +225,26 @@ const ScanDocScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
-      <Header title={"Scan A File"} isDarkMode={isDarkMode} />
+      <Header title={"Scan a Form"} isDarkMode={isDarkMode} />
 
       <Layout style={styles.buttonContainer}>
         <Text style={styles.greetingMessage}>
-          Scan a document here to detect text and paraphrase it.
+          Take a photo of a form here to detect text and clarify it
         </Text>
 
         {!imageUri ? (
-          <View style={styles.animationContainer}>
+          // <View style={styles.animationContainer}>
+          //   <ScanAnimation />
+          // </View>
+          <View style={styles.scanContainer}>
             <ScanAnimation />
+            <Text style={styles.scanDescription}>
+              <Text style={styles.boldText}>Tip:</Text> Clearer photos help
+              speed up the analysis process!
+            </Text>
           </View>
         ) : (
           <Image source={{ uri: imageUri }} style={styles.image} />
-        )}
-
-        {!isAnalyzed ? (
-          <TouchableOpacity onPress={takePhoto} style={styles.button}>
-            <Text style={styles.buttonText}>Choose a File</Text>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            onPress={handleReset}
-            style={[styles.button, styles.resetButton]}
-          >
-            <Text style={styles.buttonText}>Generate Another File</Text>
-          </TouchableOpacity>
         )}
 
         <TouchableOpacity
@@ -256,11 +258,30 @@ const ScanDocScreen = ({ navigation }) => {
           <Text style={styles.buttonText}>Analyze & Paraphrase</Text>
         </TouchableOpacity>
 
+        {!isAnalyzed ? (
+          <TouchableOpacity onPress={takePhoto} style={styles.button}>
+            <Text style={styles.buttonText}>Take a Photo</Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            onPress={handleReset}
+            style={[styles.button, styles.resetButton]}
+          >
+            <Text style={styles.buttonText}>Generate Another File</Text>
+          </TouchableOpacity>
+        )}
+
         <TouchableOpacity
           onPress={() => navigation.navigate("Upload")}
           style={[styles.button, styles.switchButton]}
         >
           <Text style={styles.buttonText}>Switch to Upload</Text>
+          <Icon
+            name="flip-2-outline"
+            width="24"
+            height="24"
+            fill={colors.apple.white}
+          />
         </TouchableOpacity>
       </Layout>
 
@@ -293,31 +314,37 @@ const getStyles = (isDarkMode) => ({
     backgroundColor: isDarkMode ? colors.dark.black : colors.apple.offWhite,
   },
   buttonContainer: {
-    margin: 20,
+    marginHorizontal: 16,
     backgroundColor: "transparent",
   },
   greetingMessage: {
-    ...typography(true).h1Med,
-    fontSize: 24,
-    marginBottom: 20,
+    marginTop: 24,
+    ...typography(true).h2Med,
     color: isDarkMode ? colors.apple.white : colors.apple.black,
+    textAlign: "center",
   },
+
   image: {
     width: 300,
     height: 300,
-    borderRadius: 20,
+    borderRadius: 16,
     margin: "auto",
   },
+
+  // Buttons
   button: {
+    flexDirection: "row",
     backgroundColor: colors.light.deepBlue80,
-    padding: 15,
-    borderRadius: 10,
+    padding: 16,
+    borderRadius: 100,
     marginVertical: 8,
+    justifyContent: "center",
+    gap: 8,
   },
   analyzeButton: {
     backgroundColor: colors.apple.green,
-    padding: 15,
-    borderRadius: 10,
+    padding: 16,
+    borderRadius: 100,
     marginVertical: 8,
   },
   switchButton: {
@@ -327,10 +354,12 @@ const getStyles = (isDarkMode) => ({
     textAlign: "center",
   },
   buttonText: {
-    color: "white",
-    fontSize: 18,
+    ...typography(true).h4Med,
+    color: colors.apple.white,
     textAlign: "center",
   },
+
+  // Modal
   modal: {
     justifyContent: "flex-end",
     margin: 0,
@@ -370,5 +399,29 @@ const getStyles = (isDarkMode) => ({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(255, 255, 255, 0.5)",
+  },
+
+  scanContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 2,
+    borderStyle: "dashed",
+    borderRadius: 16,
+    borderColor: colors.apple.hardStroke,
+    height: 200,
+    marginTop: 24,
+    marginBottom: 48,
+  },
+  scanDescription: {
+    ...typography(true).footnote,
+    marginTop: 16,
+    textAlign: "center",
+    color: isDarkMode ? colors.apple.white : colors.apple.black,
+    paddingHorizontal: "20%",
+    color: colors.apple.secondaryText,
+  },
+  boldText: {
+    ...typography(true).footnoteBold,
+    color: colors.apple.black,
   },
 });

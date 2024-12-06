@@ -167,6 +167,11 @@ export const typography = (fontsLoaded) => ({
     fontFamily: "DMSans_400Regular",
     color: colors.other.black,
   },
+  footnoteBold: {
+    fontSize: 14,
+    fontFamily: "DMSans_700Bold",
+    color: colors.other.black,
+  },
   footnoteItalic: {
     fontSize: 14,
     fontFamily: "DMSans_400Regular",

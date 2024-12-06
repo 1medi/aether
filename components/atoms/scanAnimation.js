@@ -11,8 +11,8 @@ export default function ScanAnimation () {
         autoPlay
         ref={animation}
         style={{
-          width: 200,
-          height: 200,
+          width: 80,
+          height: 80,
           backgroundColor: 'none',
         }}
         source={require("@/assets/animations/scanAnimation.json")}
@@ -26,13 +26,5 @@ const styles = StyleSheet.create({
     backgroundColor: 'none',
     alignItems: 'center',
     justifyContent: 'center',
-    flex: 1,
-    width: 300,
-    height: 300,
-    margin: "auto",
-    padding: 100
-  },
-  buttonContainer: {
-    paddingTop: 20,
   },
 });
