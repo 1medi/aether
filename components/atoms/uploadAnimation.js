@@ -11,8 +11,8 @@ export default function Animation () {
         autoPlay
         ref={animation}
         style={{
-          width: 200,
-          height: 200,
+          width: 100,
+          height: 100,
           backgroundColor: 'none',
         }}
         source={require("@/assets/animations/uploadAnimation.json")}
@@ -26,11 +26,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'none',
     alignItems: 'center',
     justifyContent: 'center',
-    flex: 1,
-    width: 300,
-    height: 300,
-    margin: "auto",
-    padding: 100
+    width: 50,
+    height: 50,
   },
   buttonContainer: {
     paddingTop: 20,

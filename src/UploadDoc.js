@@ -257,7 +257,7 @@ const UploadDocScreen = ({ navigation }) => {
 
           {!imageUri ? (
             <View style={styles.scanContainer}>
-              <Icon name="cloud-upload-outline" width="64" height="64" fill={colors.apple.black} />
+              <UploadAnimation/>
               <Text style={styles.scanDescription}>
                 <Text style={styles.boldText}>Tip:</Text> Clearer photos help
                 speed up the analysis process!
