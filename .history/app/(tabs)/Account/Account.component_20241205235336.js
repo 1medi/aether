@@ -115,24 +115,21 @@ export const AccountScreen = ({ navigation }) => {
               accessoryLeft="globe-2-outline"
               onPress={() => navigation.navigate("test")}
             />
-<Select
-  selectedIndex={selectedIndex}
-  onSelect={handleSelect}
-  value={
-    selectedIndex.row === 0
-      ? "Reset to Default"
-      : `${fontSizeOptions[selectedIndex.row - 1]}px`
-  }
-  
->
-{extendedFontSizeOptions.map((size, index) => (
-  <SelectItem
-    key={index}
-    title={typeof size === "string" ? size : `${size}px`}
-  />
-))}
-
-</Select>
+<Picker
+    selectedValue={String(textSize)} // Ensure selectedValue is a string
+    onValueChange={(value) =>
+      setTextSize(value === "default" ? defaultTextSize : Number(value))
+    } // Convert back to number
+    style={{
+      color: isDarkMode ? colors.apple.white : colors.apple.black,
+      marginHorizontal: 12,
+    }}
+  >
+    <Picker.Item label="Reset to Default" value="default" />
+    {fontSizeOptions.map((size, index) => (
+      <Picker.Item key={index} label={`${size}px`} value={String(size)} />
+    ))}
+  </Picker>
 
 
             <Divider style={styles.divider} />

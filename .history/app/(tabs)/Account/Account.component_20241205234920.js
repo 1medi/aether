@@ -10,7 +10,6 @@ import {
   SelectItem,
   IndexPath,
 } from "@ui-kitten/components";
-import { Picker } from "@react-native-picker/picker";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "@/components/header/Header";
 import { colors, typography } from "@/css/globals";

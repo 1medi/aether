@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { ScrollView, TouchableOpacity, View, StyleSheet } from "react-native";
+import { ScrollView, TouchableOpacity, View } from "react-native";
 import {
   Layout,
   Button,
@@ -10,7 +10,7 @@ import {
   SelectItem,
   IndexPath,
 } from "@ui-kitten/components";
-import { Picker } from "@react-native-picker/picker";
+
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "@/components/header/Header";
 import { colors, typography } from "@/css/globals";
@@ -34,9 +34,13 @@ export const AccountScreen = ({ navigation }) => {
   const [selectedIndex, setSelectedIndex] = useState(new IndexPath(initialIndex));
 
   const handleSelect = (index) => {
-    setSelectedIndex(index); 
+    setSelectedIndex(index); // Update the selectedIndex immediately
     const newTextSize = index.row === 0 ? defaultTextSize : fontSizeOptions[index.row - 1];
-    setTextSize(newTextSize);
+
+    // Delay updating textSize to avoid React warnings
+    setTimeout(() => {
+      setTextSize(newTextSize);
+    }, 0);
   };
 
  const styles = useMemo(() => getStyles(isDarkMode), [isDarkMode]);
@@ -112,29 +116,25 @@ export const AccountScreen = ({ navigation }) => {
             /> */}
             <SectionItem
               label="Change Text Size"
+              onPress={() => navigation.navigate("ChangeTextSize")}
               accessoryLeft="globe-2-outline"
-              onPress={() => navigation.navigate("test")}
             />
-<Select
-  selectedIndex={selectedIndex}
-  onSelect={handleSelect}
-  value={
-    selectedIndex.row === 0
-      ? "Reset to Default"
-      : `${fontSizeOptions[selectedIndex.row - 1]}px`
-  }
-  
->
-{extendedFontSizeOptions.map((size, index) => (
-  <SelectItem
-    key={index}
-    title={typeof size === "string" ? size : `${size}px`}
-  />
-))}
-
-</Select>
-
-
+            <Select
+              selectedIndex={selectedIndex}
+              onSelect={handleSelect}
+              value={
+                selectedIndex.row === 0
+                  ? "Reset to Default"
+                  : `${fontSizeOptions[selectedIndex.row - 1]}px`
+              }
+            >
+              {extendedFontSizeOptions.map((size, index) => (
+                <SelectItem
+                  key={index}
+                  title={typeof size === "string" ? size : `${size}px`}
+                />
+              ))}
+            </Select>
             <Divider style={styles.divider} />
             <Layout style={styles.sectionItem}>
               <Layout style={styles.leftSide}>

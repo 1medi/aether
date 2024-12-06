@@ -10,7 +10,7 @@ import {
   SelectItem,
   IndexPath,
 } from "@ui-kitten/components";
-import { Picker } from "@react-native-picker/picker";
+
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "@/components/header/Header";
 import { colors, typography } from "@/css/globals";
@@ -113,7 +113,6 @@ export const AccountScreen = ({ navigation }) => {
             <SectionItem
               label="Change Text Size"
               accessoryLeft="globe-2-outline"
-              onPress={() => navigation.navigate("test")}
             />
 <Select
   selectedIndex={selectedIndex}
@@ -123,15 +122,13 @@ export const AccountScreen = ({ navigation }) => {
       ? "Reset to Default"
       : `${fontSizeOptions[selectedIndex.row - 1]}px`
   }
-  
 >
-{extendedFontSizeOptions.map((size, index) => (
-  <SelectItem
-    key={index}
-    title={typeof size === "string" ? size : `${size}px`}
-  />
-))}
-
+  {extendedFontSizeOptions.map((size, index) => (
+    <SelectItem
+      key={index}
+      title={`${size}${typeof size === "number" ? "px" : ""}`} // Ensures consistent string format
+    />
+  ))}
 </Select>
 
 

@@ -1,73 +1,33 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { ScrollView, TouchableOpacity, View, StyleSheet } from "react-native";
+import { ScrollView, TouchableOpacity, View,  } from "react-native";
 import {
   Layout,
   Button,
   Icon,
   Toggle,
   Divider,
-  Select,
-  SelectItem,
-  IndexPath,
+  IndexPath, 
+  SelectItem, 
+  Select
 } from "@ui-kitten/components";
-import { Picker } from "@react-native-picker/picker";
+
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "@/components/header/Header";
 import { colors, typography } from "@/css/globals";
 import { LinearGradient } from "expo-linear-gradient";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDarkMode } from "../context/DarkModeContext";
-import AppText from "./AppText";
-const Text = AppText;
+import AppText from "./AppText"; 
+const Text = AppText; 
 import { useTextSize } from "./TextSizeContext";
 
-const fontSizeOptions = [14, 16, 18, 20]; // Define font size options
+const fontSizeOptions = [ 14, 16, 18, 20, ]; // Define font size options
 const defaultTextSize = 16; // Default size
 
+
+
 export const AccountScreen = ({ navigation }) => {
-  const { textSize, setTextSize } = useTextSize();
-  const { isDarkMode, toggleDarkMode } = useDarkMode();
-
-  // Include "Reset to Default" in fontSizeOptions and initialize selectedIndex
-  const extendedFontSizeOptions = ["Reset to Default", ...fontSizeOptions];
-  const initialIndex = fontSizeOptions.indexOf(textSize) + 1;
-  const [selectedIndex, setSelectedIndex] = useState(new IndexPath(initialIndex));
-
-  const handleSelect = (index) => {
-    setSelectedIndex(index); 
-    const newTextSize = index.row === 0 ? defaultTextSize : fontSizeOptions[index.row - 1];
-    setTextSize(newTextSize);
-  };
-
- const styles = useMemo(() => getStyles(isDarkMode), [isDarkMode]);
-
-  const ArrowIcon = (props) => (
-    <Icon name="arrow-ios-forward-outline" {...props} style={styles.icon} />
-  );
-
-  const MoonIcon = (props) => (
-    <Icon name="moon-outline" {...props} style={styles.icon} />
-  );
-
-  const SectionItem = ({ label, onPress, accessoryLeft, accessoryRight }) => (
-    <TouchableOpacity onPress={onPress}>
-      <Layout style={styles.sectionItem}>
-        <Layout style={styles.leftSide}>
-          {accessoryLeft && <Icon name={accessoryLeft} style={styles.icon} />}
-          <Text style={styles.sectionItemText}>{label}</Text>
-        </Layout>
-        <Layout style={styles.rightSide}>
-          {accessoryRight && accessoryRight()}
-        </Layout>
-      </Layout>
-    </TouchableOpacity>
-  );
-
-  const handleLogout = () => {
-    // Add your logout logic here
-    console.log("User logged out");
-  };
-
+  
   return (
     <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
       <LinearGradient
@@ -104,36 +64,28 @@ export const AccountScreen = ({ navigation }) => {
               accessoryRight={ArrowIcon}
             />
             <Divider style={styles.divider} />
-            {/* <SectionItem
-              label="Set Language"
-              onPress={() => {}}
-              accessoryLeft="globe-2-outline"
-              accessoryRight={ArrowIcon}
-            /> */}
             <SectionItem
               label="Change Text Size"
-              accessoryLeft="globe-2-outline"
-              onPress={() => navigation.navigate("test")}
+              accessoryLeft="maximize-outline"
+              
             />
-<Select
-  selectedIndex={selectedIndex}
-  onSelect={handleSelect}
-  value={
-    selectedIndex.row === 0
-      ? "Reset to Default"
-      : `${fontSizeOptions[selectedIndex.row - 1]}px`
-  }
-  
->
-{extendedFontSizeOptions.map((size, index) => (
-  <SelectItem
-    key={index}
-    title={typeof size === "string" ? size : `${size}px`}
-  />
-))}
-
-</Select>
-
+      <Select
+        selectedIndex={selectedIndex} // Pass the IndexPath object here
+        onSelect={handleSelect} // Handle selection
+        value={
+          selectedIndex.row === 0
+            ? "Reset to Default"
+            : `${fontSizeOptions[selectedIndex.row - 1]}px`
+        }
+      >
+        {extendedFontSizeOptions.map((size, index) =>
+          typeof size === "string" ? (
+            <SelectItem key={index} title={size} />
+          ) : (
+            <SelectItem key={size} title={`${size}px`} />
+          )
+        )}
+      </Select>
 
             <Divider style={styles.divider} />
             <Layout style={styles.sectionItem}>

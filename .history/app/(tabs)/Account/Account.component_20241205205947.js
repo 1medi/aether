@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { ScrollView, TouchableOpacity, View, StyleSheet } from "react-native";
+import { ScrollView, TouchableOpacity, View } from "react-native";
 import {
   Layout,
   Button,
@@ -10,7 +10,7 @@ import {
   SelectItem,
   IndexPath,
 } from "@ui-kitten/components";
-import { Picker } from "@react-native-picker/picker";
+
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "@/components/header/Header";
 import { colors, typography } from "@/css/globals";
@@ -26,20 +26,32 @@ const defaultTextSize = 16; // Default size
 
 export const AccountScreen = ({ navigation }) => {
   const { textSize, setTextSize } = useTextSize();
-  const { isDarkMode, toggleDarkMode } = useDarkMode();
 
   // Include "Reset to Default" in fontSizeOptions and initialize selectedIndex
   const extendedFontSizeOptions = ["Reset to Default", ...fontSizeOptions];
-  const initialIndex = fontSizeOptions.indexOf(textSize) + 1;
-  const [selectedIndex, setSelectedIndex] = useState(new IndexPath(initialIndex));
+  const initialIndex = fontSizeOptions.indexOf(textSize);
+  const [selectedIndex, setSelectedIndex] = useState(
+    new IndexPath(initialIndex !== -1 ? initialIndex + 1 : 0)
+  );
 
   const handleSelect = (index) => {
-    setSelectedIndex(index); 
-    const newTextSize = index.row === 0 ? defaultTextSize : fontSizeOptions[index.row - 1];
-    setTextSize(newTextSize);
+    if (index.row === 0) {
+      // Reset to default size
+      setTextSize(defaultTextSize);
+    } else {
+      // Update text size to the selected option
+      const selectedSize = fontSizeOptions[index.row - 1];
+      setTextSize(selectedSize);
+    }
+    setSelectedIndex(index); // Update selectedIndex
   };
 
- const styles = useMemo(() => getStyles(isDarkMode), [isDarkMode]);
+  const { isDarkMode, toggleDarkMode } = useDarkMode();
+
+  const styles = useMemo(() => {
+    console.log("Recalculating styles for dark mode:", isDarkMode);
+    return getStyles(isDarkMode);
+  }, [isDarkMode]);
 
   const ArrowIcon = (props) => (
     <Icon name="arrow-ios-forward-outline" {...props} style={styles.icon} />
@@ -113,28 +125,24 @@ export const AccountScreen = ({ navigation }) => {
             <SectionItem
               label="Change Text Size"
               accessoryLeft="globe-2-outline"
-              onPress={() => navigation.navigate("test")}
             />
-<Select
-  selectedIndex={selectedIndex}
-  onSelect={handleSelect}
-  value={
-    selectedIndex.row === 0
-      ? "Reset to Default"
-      : `${fontSizeOptions[selectedIndex.row - 1]}px`
-  }
-  
->
-{extendedFontSizeOptions.map((size, index) => (
-  <SelectItem
-    key={index}
-    title={typeof size === "string" ? size : `${size}px`}
-  />
-))}
-
-</Select>
-
-
+            <Select
+              selectedIndex={selectedIndex} // Pass the IndexPath object here
+              onSelect={handleSelect} // Handle selection
+              value={
+                selectedIndex.row === 0
+                  ? "Reset to Default"
+                  : `${fontSizeOptions[selectedIndex.row - 1]}px`
+              }
+            >
+              {extendedFontSizeOptions.map((size, index) =>
+                typeof size === "string" ? (
+                  <SelectItem key={index} title={size} />
+                ) : (
+                  <SelectItem key={size} title={`${size}px`} />
+                )
+              )}
+            </Select>
             <Divider style={styles.divider} />
             <Layout style={styles.sectionItem}>
               <Layout style={styles.leftSide}>

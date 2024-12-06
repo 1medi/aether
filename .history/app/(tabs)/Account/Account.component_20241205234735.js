@@ -10,7 +10,7 @@ import {
   SelectItem,
   IndexPath,
 } from "@ui-kitten/components";
-import { Picker } from "@react-native-picker/picker";
+import { DropDownPicker } from "react-native-dropdown-picker";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "@/components/header/Header";
 import { colors, typography } from "@/css/globals";
@@ -115,24 +115,21 @@ export const AccountScreen = ({ navigation }) => {
               accessoryLeft="globe-2-outline"
               onPress={() => navigation.navigate("test")}
             />
-<Select
-  selectedIndex={selectedIndex}
-  onSelect={handleSelect}
-  value={
-    selectedIndex.row === 0
-      ? "Reset to Default"
-      : `${fontSizeOptions[selectedIndex.row - 1]}px`
-  }
-  
->
-{extendedFontSizeOptions.map((size, index) => (
-  <SelectItem
-    key={index}
-    title={typeof size === "string" ? size : `${size}px`}
-  />
-))}
-
-</Select>
+<Picker
+    selectedValue={textSize}
+    onValueChange={(value) => setTextSize(value)}
+    style={{
+      color: isDarkMode ? colors.apple.white : colors.apple.black,
+      marginHorizontal: 12,
+    }}
+  >
+    {/* "Reset to Default" Option */}
+    <Picker.Item label="Reset to Default" value={defaultTextSize} />
+    {/* Font Size Options */}
+    {fontSizeOptions.map((size, index) => (
+      <Picker.Item key={index} label={`${size}px`} value={size} />
+    ))}
+  </Picker>
 
 
             <Divider style={styles.divider} />
