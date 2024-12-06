@@ -68,8 +68,8 @@ export const HomeScreen = ({ navigation }) => {
   });
 
   const SearchIcon = (props) => <Icon name="search-outline" {...props} />;
-  const UploadIcon = (props) => <Icon name="upload-outline" {...props} />;
-  const FileIcon = (props) => <Icon name="file-text-outline" {...props} />;
+  const UploadIcon = (props) => <Icon name="file-text-outline" {...props} />;
+  const FileIcon = (props) => <Icon name="sun-outline" {...props} />;
 
   return (
     <>

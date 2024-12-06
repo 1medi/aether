@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
-import { Button, Layout } from "@ui-kitten/components";
+import { Button, Layout, Icon } from "@ui-kitten/components";
 import Header from "@/components/header/Header";
 import { colors, typography } from "@/css/globals";
 import axios from "axios";
@@ -225,24 +225,42 @@ const ScanDocScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
-      <Header title={"Scan A File"} isDarkMode={isDarkMode} />
-
+      <Header title={"Scan A Form"} isDarkMode={isDarkMode} />
+      <ScrollView
+          contentContainerStyle={styles.scrollContainer}
+          showsVerticalScrollIndicator={false}
+        >
       <Layout style={styles.buttonContainer}>
         <Text style={styles.greetingMessage}>
-          Scan a document here to detect text and paraphrase it.
+          Take a photo of a form here to detect text and clarify it
         </Text>
 
         {!imageUri ? (
-          <View style={styles.animationContainer}>
-            <ScanAnimation />
+          <View style={styles.scanContainer}>
+            <Icon name="camera-outline" width="64" height="64" fill={colors.apple.black} />
+            <Text style={styles.scanDescription}>
+              <Text style={styles.boldText}>Tip:</Text> Clearer photos help
+              speed up the analysis process!
+            </Text>
           </View>
         ) : (
           <Image source={{ uri: imageUri }} style={styles.image} />
         )}
 
+        <TouchableOpacity
+          onPress={analyzeAndParaphrase}
+          disabled={!imageUri || isAnalyzed || loading}
+          style={[
+            styles.analyzeButton,
+            (!imageUri || isAnalyzed || loading) && styles.disabledButton,
+          ]}
+        >
+          <Text style={styles.buttonText}>Analyze & Clarify</Text>
+        </TouchableOpacity>
+
         {!isAnalyzed ? (
           <TouchableOpacity onPress={takePhoto} style={styles.button}>
-            <Text style={styles.buttonText}>Choose a File</Text>
+            <Text style={styles.buttonText}>Take a Photo</Text>
           </TouchableOpacity>
         ) : (
           <TouchableOpacity
@@ -254,21 +272,16 @@ const ScanDocScreen = ({ navigation }) => {
         )}
 
         <TouchableOpacity
-          onPress={analyzeAndParaphrase}
-          disabled={!imageUri || isAnalyzed || loading}
-          style={[
-            styles.analyzeButton,
-            (!imageUri || isAnalyzed || loading) && styles.disabledButton,
-          ]}
-        >
-          <Text style={styles.buttonText}>Analyze & Paraphrase</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
           onPress={() => navigation.navigate("Upload")}
           style={[styles.button, styles.switchButton]}
         >
-          <Text style={styles.buttonText}>Switch to Upload</Text>
+          <Text style={[styles.buttonText, styles.switchText]}>Switch to Upload</Text>
+          <Icon
+            name="flip-2-outline"
+            width="24"
+            height="24"
+            fill={colors.apple.black}
+          />
         </TouchableOpacity>
       </Layout>
 
@@ -289,6 +302,7 @@ const ScanDocScreen = ({ navigation }) => {
           paraphrasedText={paraphrasedText}
         />
       )}
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -300,45 +314,85 @@ const getStyles = (isDarkMode) => ({
     flex: 1,
     backgroundColor: isDarkMode ? colors.dark.black : colors.apple.offWhite,
   },
+  scrollContainer: {
+    paddingTop: 8,
+    paddingBottom: 132,
+    gap: 16,
+  },
+
   buttonContainer: {
-    margin: 20,
+    marginHorizontal: 16,
     backgroundColor: "transparent",
   },
   greetingMessage: {
-    ...typography(true).h1Med,
-    fontSize: 24,
-    marginBottom: 20,
+    ...typography(true).h2Med,
     color: isDarkMode ? colors.apple.white : colors.apple.black,
+    textAlign: "center",
   },
+  
   image: {
-    width: 300,
+    width: "100%",
     height: 300,
-    borderRadius: 20,
-    margin: "auto",
+    borderRadius: 32,
+    marginVertical: 24,
   },
+
+  // Scan Container
+  scanContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 2,
+    borderStyle: "dashed",
+    borderRadius: 16,
+    borderColor: colors.apple.hardStroke,
+    height: 200,
+    marginVertical: 24,
+  },
+  scanDescription: {
+    ...typography(true).footnote,
+    marginTop: 16,
+    textAlign: "center",
+    color: isDarkMode ? colors.apple.white : colors.apple.black,
+    paddingHorizontal: "20%",
+    color: colors.apple.secondaryText,
+  },
+  boldText: {
+    ...typography(true).footnoteBold,
+    color: colors.apple.black,
+  },
+  
+  // Buttons
   button: {
-    backgroundColor: colors.light.deepBlue80,
-    padding: 15,
-    borderRadius: 10,
+    flexDirection: "row",
+    backgroundColor: colors.light.blue,
+    padding: 16,
+    borderRadius: 100,
     marginVertical: 8,
+    justifyContent: "center",
+    gap: 8,
   },
   analyzeButton: {
     backgroundColor: colors.apple.green,
-    padding: 15,
-    borderRadius: 10,
+    padding: 16,
+    borderRadius: 100,
     marginVertical: 8,
   },
   switchButton: {
-    backgroundColor: colors.light.bgBlue,
-    width: "100%",
-    margin: "auto",
+    backgroundColor: colors.apple.white,
     textAlign: "center",
+    borderWidth: 1,
+    borderColor: colors.apple.lightStroke,
+  },
+  switchText: {
+    color: colors.apple.black,
   },
   buttonText: {
-    color: "white",
-    fontSize: 18,
+    ...typography(true).h4Med,
+    color: colors.apple.white,
     textAlign: "center",
   },
+
+  // Modal
   modal: {
     justifyContent: "flex-end",
     margin: 0,
@@ -379,4 +433,5 @@ const getStyles = (isDarkMode) => ({
     alignItems: "center",
     backgroundColor: "rgba(255, 255, 255, 0.5)",
   },
+
 });
