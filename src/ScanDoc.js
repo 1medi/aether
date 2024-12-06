@@ -28,9 +28,6 @@ const ScanDocScreen = ({ navigation }) => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [isAnalyzed, setIsAnalyzed] = useState(false);
   const [paraphrases, setParaphrases] = useState([]);
-  const [showSuggestionBanner, setShowSuggestionBanner] = useState(true);
-  const TipsIcon = (props) => <Icon name="bulb-outline" {...props} />;
-  const CloseIcon = (props) => <Icon name="close-outline" {...props} />;
 
   const generateHexId = () => {
     const hexChars = "abcdef0123456789";
@@ -225,19 +222,19 @@ const ScanDocScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.fullPage} edges={["top", "left", "right"]}>
-      <Header title={"Scan a Form"} isDarkMode={isDarkMode} />
-
+      <Header title={"Scan A Form"} isDarkMode={isDarkMode} />
+      <ScrollView
+          contentContainerStyle={styles.scrollContainer}
+          showsVerticalScrollIndicator={false}
+        >
       <Layout style={styles.buttonContainer}>
         <Text style={styles.greetingMessage}>
           Take a photo of a form here to detect text and clarify it
         </Text>
 
         {!imageUri ? (
-          // <View style={styles.animationContainer}>
-          //   <ScanAnimation />
-          // </View>
           <View style={styles.scanContainer}>
-            <ScanAnimation />
+            <Icon name="camera-outline" width="64" height="64" fill={colors.apple.black} />
             <Text style={styles.scanDescription}>
               <Text style={styles.boldText}>Tip:</Text> Clearer photos help
               speed up the analysis process!
@@ -255,7 +252,7 @@ const ScanDocScreen = ({ navigation }) => {
             (!imageUri || isAnalyzed || loading) && styles.disabledButton,
           ]}
         >
-          <Text style={styles.buttonText}>Analyze & Paraphrase</Text>
+          <Text style={styles.buttonText}>Analyze & Clarify</Text>
         </TouchableOpacity>
 
         {!isAnalyzed ? (
@@ -275,12 +272,12 @@ const ScanDocScreen = ({ navigation }) => {
           onPress={() => navigation.navigate("Upload")}
           style={[styles.button, styles.switchButton]}
         >
-          <Text style={styles.buttonText}>Switch to Upload</Text>
+          <Text style={[styles.buttonText, styles.switchText]}>Switch to Upload</Text>
           <Icon
             name="flip-2-outline"
             width="24"
             height="24"
-            fill={colors.apple.white}
+            fill={colors.apple.black}
           />
         </TouchableOpacity>
       </Layout>
@@ -302,6 +299,7 @@ const ScanDocScreen = ({ navigation }) => {
           paraphrasedText={paraphrasedText}
         />
       )}
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -313,28 +311,57 @@ const getStyles = (isDarkMode) => ({
     flex: 1,
     backgroundColor: isDarkMode ? colors.dark.black : colors.apple.offWhite,
   },
+  scrollContainer: {
+    paddingTop: 8,
+    paddingBottom: 132,
+    gap: 16,
+  },
+
   buttonContainer: {
     marginHorizontal: 16,
     backgroundColor: "transparent",
   },
   greetingMessage: {
-    marginTop: 24,
     ...typography(true).h2Med,
     color: isDarkMode ? colors.apple.white : colors.apple.black,
     textAlign: "center",
   },
-
+  
   image: {
-    width: 300,
+    width: "100%",
     height: 300,
-    borderRadius: 16,
-    margin: "auto",
+    borderRadius: 32,
+    marginVertical: 24,
   },
 
+  // Scan Container
+  scanContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 2,
+    borderStyle: "dashed",
+    borderRadius: 16,
+    borderColor: colors.apple.hardStroke,
+    height: 200,
+    marginVertical: 24,
+  },
+  scanDescription: {
+    ...typography(true).footnote,
+    marginTop: 16,
+    textAlign: "center",
+    color: isDarkMode ? colors.apple.white : colors.apple.black,
+    paddingHorizontal: "20%",
+    color: colors.apple.secondaryText,
+  },
+  boldText: {
+    ...typography(true).footnoteBold,
+    color: colors.apple.black,
+  },
+  
   // Buttons
   button: {
     flexDirection: "row",
-    backgroundColor: colors.light.deepBlue80,
+    backgroundColor: colors.light.blue,
     padding: 16,
     borderRadius: 100,
     marginVertical: 8,
@@ -348,10 +375,13 @@ const getStyles = (isDarkMode) => ({
     marginVertical: 8,
   },
   switchButton: {
-    backgroundColor: colors.light.bgBlue,
-    width: "100%",
-    margin: "auto",
+    backgroundColor: colors.apple.white,
     textAlign: "center",
+    borderWidth: 1,
+    borderColor: colors.apple.lightStroke,
+  },
+  switchText: {
+    color: colors.apple.black,
   },
   buttonText: {
     ...typography(true).h4Med,
@@ -401,27 +431,4 @@ const getStyles = (isDarkMode) => ({
     backgroundColor: "rgba(255, 255, 255, 0.5)",
   },
 
-  // Scan Container
-  scanContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    borderWidth: 2,
-    borderStyle: "dashed",
-    borderRadius: 16,
-    borderColor: colors.apple.hardStroke,
-    height: 200,
-    marginVertical: 24,
-  },
-  scanDescription: {
-    ...typography(true).footnote,
-    marginTop: 16,
-    textAlign: "center",
-    color: isDarkMode ? colors.apple.white : colors.apple.black,
-    paddingHorizontal: "20%",
-    color: colors.apple.secondaryText,
-  },
-  boldText: {
-    ...typography(true).footnoteBold,
-    color: colors.apple.black,
-  },
 });
