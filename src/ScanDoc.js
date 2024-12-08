@@ -100,15 +100,6 @@ const ScanDocScreen = ({ navigation }) => {
       }
     } catch (error) {
       clearTimeout(timeoutId); // Ensure timeout is cleared even if an error occurs
-
-      if (error.name === "AbortError") {
-        console.error("Request timed out");
-        alert("Request timed out. Please try again.");
-      } else {
-        console.error("Error saving paraphrase:", error);
-        alert("Failed to save paraphrase. Please try again.");
-      }
-      return null;
     }
   };
 

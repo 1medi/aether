@@ -10,7 +10,7 @@ import {
 import { Layout, Icon } from "@ui-kitten/components";
 import BottomSheet, {
   BottomSheetFlatList,
-  BottomSheetView,
+  BottomSheetScrollView,
 } from "@gorhom/bottom-sheet";
 import { GestureDetector, Gesture } from "react-native-gesture-handler";
 import Animated, {
@@ -119,12 +119,12 @@ export default function BottomModal({ paraphrasedText }) {
       snapPoints={snapPoints}
       enablePanDownToClose={true}
     >
-      <BottomSheetView style={[styles.container, { flex: 1 }]}>
+      <BottomSheetScrollView style={[styles.container, { flex: 1 }]}>
         <Text style={styles.debug}>Results</Text>
 
         <View style={styles.suggestionBanner}>
             <TipsIcon/>
-            <Text style={{fontSize: 24, color: colors.apple.black, padding: 6}}>Tip: Swipe Right To Delete!</Text>
+            <Text style={{fontSize: 24, color: colors.apple.black, padding: 6}}>Tip: Swipe Left To Delete!</Text>
           </View>
         {data.length === 0 ? (
           <View style={{ alignItems: "center" }}>
@@ -141,7 +141,7 @@ export default function BottomModal({ paraphrasedText }) {
           renderItem={({ item }) => <ListItem item={item} />}
           />
         )}
-      </BottomSheetView>
+      </BottomSheetScrollView>
     </BottomSheet>
   );
 }
